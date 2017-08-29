@@ -1,0 +1,52 @@
+ <html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Demo</title>
+
+<script>
+function getSelectedBaseline(){
+	var e = document.getElementById("dropBaseline");
+	var idbaseline = e.options[e.selectedIndex].value;
+	return idbaseline;
+}
+
+</script>
+
+</head>
+
+
+<body>
+<h1>Welcome to SPL Custom Analysis Web App </h1>
+
+<p>Select a Git repository to analyze: </p>
+
+<div class="form-group blu-margin">
+    
+    <select class="form-control"  id="dropBaseline">
+    <option value="one" text="select baseline">https://github.com/letimome/WeatherStationSPL</option>
+    </select>
+	</div>
+
+
+<p>Select a baseline to analyze: </p>
+    <a href="/baselines">Load baselines</a>
+    <div class="form-group blu-margin">
+    
+    <select class="form-control"  id="dropBaseline">
+    <option value="0" text="select" >Select baseline</option>
+    <option th:each="baseline : ${baselines}" 
+    th:value="${baseline.getIdBaseline()}" 
+    th:text="${baseline.getIdBaseline()}"></option>
+    </select>
+	</div>
+
+<p>Go here to view Alluvial Diagram <a href="/alluvialView?idbaseline=Baseline-v1.0"> here</a></p>
+<p>Go here to view Tree 1 map Diagram <a href="/treemap1">here</a></p>
+<p>Go here to view Tree 2 map Diagram <a href="/treemap2">here</a></p>
+</body>
+</html>

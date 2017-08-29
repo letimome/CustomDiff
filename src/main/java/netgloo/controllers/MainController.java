@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
-@RequestMapping(value="html", method = RequestMethod.GET )
-
+//@RequestMapping(value="html", method = RequestMethod.GET )
+@RequestMapping("/")
 public String index() {
-    return "/static/AlluvialCSV.html";//index.html
+    return "index";//index.html
   }
 }

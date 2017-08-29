@@ -9,18 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "customizaiongbproductfeature")
+@Table(name = "customizationgbproductfeature")
 public class AlluvialFeatureView implements Serializable{
-
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 */
 	
 	String idbaseline;
-	 int idproduct;
+	int idproduct;
 	@Id String featuremodified;
-	
 	String name;
 	String idrelease;
 	int churn;
