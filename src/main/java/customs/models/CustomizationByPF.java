@@ -1,4 +1,4 @@
-package netgloo.models;
+package customs.models;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "customizationgbproductfeature")
-public class AlluvialFeatureView implements Serializable{
+public class CustomizationByPF implements Serializable{
 	/**
 	 * 
 	 */
@@ -26,11 +26,11 @@ public class AlluvialFeatureView implements Serializable{
 	String idrelease;
 	int churn;
 	
-	public AlluvialFeatureView() {
+	public CustomizationByPF() {
 		
 	}
 
-	public AlluvialFeatureView( String idBaseline, String featureModified, int idProduct, String name,
+	public CustomizationByPF( String idBaseline, String featureModified, int idProduct, String name,
 			String idRelease, int churn) {
 		this.idbaseline = idBaseline;
 		this.featuremodified = featureModified;
