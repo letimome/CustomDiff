@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "customizationgbproductfeature")
-public class CustomizationByPF implements Serializable{
+public class Alluvial implements Serializable{
 	/**
 	 * 
 	 */
@@ -18,19 +18,19 @@ public class CustomizationByPF implements Serializable{
 	/**
 	 * 
 	 */
-	
+	@Id  String id;
 	String idbaseline;
 	int idproduct;
-	@Id String featuremodified;
+	String featuremodified;
 	String name;
 	String idrelease;
 	int churn;
 	
-	public CustomizationByPF() {
+	public Alluvial() {
 		
 	}
 
-	public CustomizationByPF( String idBaseline, String featureModified, int idProduct, String name,
+	public Alluvial( String idBaseline, String featureModified, int idProduct, String name,
 			String idRelease, int churn) {
 		this.idbaseline = idBaseline;
 		this.featuremodified = featureModified;

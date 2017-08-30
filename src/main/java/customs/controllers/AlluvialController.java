@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import customs.models.CustomizationByPF;
-import customs.models.CustomizationByPFDao;
+import customs.models.Alluvial;
+import customs.models.AlluvialDao;
 
 
 @Controller
-public class AlluvialFeatureController {
+public class AlluvialController {
 	   
 	   @RequestMapping("alluvials")
-	 	public @ResponseBody Iterable<CustomizationByPF> getAllCustoms() {
+	 	public @ResponseBody Iterable<Alluvial> getAllCustoms() {
 	 		// This returns a JSON or XML with the users
 	 		
 		   //write to local path
-		   Iterable<CustomizationByPF> customs = alluvialDao.findAll();
-		   Iterator<CustomizationByPF> it = customs.iterator();
+		   Iterable<Alluvial> customs = alluvialDao.findAll();
+		   Iterator<Alluvial> it = customs.iterator();
 		   String csvCustoms= "source,target,value";
-		   CustomizationByPF custo;
+		   Alluvial custo;
 		   while (it.hasNext()) {
 			   custo= it.next();
 			   csvCustoms = csvCustoms.concat("\n"+custo.getName()+","+custo.getFeatureModified()+","+custo.getChurn());
@@ -39,10 +39,10 @@ public class AlluvialFeatureController {
 	   		(@RequestParam(value="idbaseline", required=false) String idbaseline, Model model){
 		   System.out.println("THIS IS idBbSeline: "+idbaseline);
 		   
-		   Iterable<CustomizationByPF> customs = alluvialDao.findAll();
-		   Iterator<CustomizationByPF> it = customs.iterator();
+		   Iterable<Alluvial> customs = alluvialDao.findAll();
+		   Iterator<Alluvial> it = customs.iterator();
 		   String csvCustoms= "source,target,value";
-		   CustomizationByPF custo;
+		   Alluvial custo;
 		   while (it.hasNext()) {
 			   custo= it.next();
 			   if(custo.getIdbaseline().equals(idbaseline))
@@ -61,6 +61,6 @@ public class AlluvialFeatureController {
 	   
 	   
 	   @Autowired
-	   private CustomizationByPFDao alluvialDao;
+	   private AlluvialDao alluvialDao;
 	   private String pathToResource = "./src/main/resources/public/";
 }
