@@ -88,7 +88,7 @@ var treemap = d3.treemap()
     .padding(1)
     .round(true);
 
-d3.csv("treemapLights.csv", type, function(error, data) {
+d3.csv("treemapLights2.csv", type, function(error, data) {
   if (error) throw error;
 
   var root = stratify(data)

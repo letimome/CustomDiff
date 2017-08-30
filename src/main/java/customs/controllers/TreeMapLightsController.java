@@ -21,7 +21,7 @@ public class TreeMapLightsController {
 	
 	
 	  @RequestMapping("treemapLightsView")
-	   public String getCustomsByBaselineId (
+	   public String getTreeMapTrafficLight(
 	   				@RequestParam(value="base", required=false) String idbaseline,
 	   				@RequestParam(value="fname", required=false) String featurenamemodified,
 	   				Model model){
@@ -30,7 +30,7 @@ public class TreeMapLightsController {
 		   Iterable<TreeMapLights> customs = treemapLightDao.getCustomsByIdbaseline(idbaseline);
 		   Iterator<TreeMapLights> it = customs.iterator();
 		   
-		   String csvContent="id,value";//id,value,Freq.\ninput,
+		   String csvContent="id,value,frequency";//id,value,Freq.\ninput,
 		   ArrayList<String> paths = new ArrayList<>();
 		   TreeMapLights custo;
 		   String csvCustoms= "";
@@ -55,6 +55,29 @@ public class TreeMapLightsController {
 		   onekin.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
 		   
 		  return "treemapLights"; 
+	 	}
+
+	  @RequestMapping("treemapLightsView2")
+	   public String getTreeMapTrafficLight2 (
+	   				@RequestParam(value="base", required=false) String idbaseline,
+	   				@RequestParam(value="fname", required=false) String featurenamemodified,
+	   				Model model){
+		   System.out.println("THIS IS featurenamemodified: "+featurenamemodified);
+		   
+		   Iterable<TreeMapLights> customs = treemapLightDao.getCustomsByIdbaseline(idbaseline);
+		   Iterator<TreeMapLights> it = customs.iterator();
+		   
+		   String csvContent="id,value";//id,value,Freq.\ninput,
+		   ArrayList<String> paths = new ArrayList<>();
+		   TreeMapLights custo;
+		 
+		   while (it.hasNext()) {
+			  custo= it.next();
+		   }
+		 
+		   onekin.utils.FileUtils.writeToFile(pathToResource+"treemapLights2.csv",csvContent);//path and test
+		   
+		  return "treemapLights2"; 
 	 	}
 
 
