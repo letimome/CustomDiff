@@ -27,7 +27,14 @@
 </style>
 </head>
 <body>
-<h1>Which are the features that each product is customizing? </h1>
+<h1>Which are the features that each product is customizing? How much are they being customized?  </h1>
+<h2>diff(core asset baseline , product portfolio)</h2>
+
+<select>
+  <option value="select baseline">Select baseline</option>
+  <option value="Baseline1">Baseline-v1.0</option>
+  <option value="Baseline0">Baseline-v2.0</option>
+</select>
 
 <select>
   <option value="all">All products</option>
@@ -53,12 +60,11 @@
 <script src="draw.js"></script>
   <script>
  
- 
   /*<![CDATA[*/
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 10},
-	    width = 700 - margin.left - margin.right,
-	    height = 300 - margin.top - margin.bottom;
+	    width = 900 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();

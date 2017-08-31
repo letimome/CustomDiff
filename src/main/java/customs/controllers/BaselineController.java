@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import customs.models.BaselineDao;
 import customs.models.Coreassetbaseline;
-import customs.models.User;
 
 @Controller
 public class BaselineController {

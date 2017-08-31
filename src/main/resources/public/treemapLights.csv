@@ -1,6 +1,2 @@
-id,value,frequency
-input,
-input/js,
-input/js/settings.js,4,1
-input/js/scale.js,4,1
-input/js/sensors.js,4,1
+id,value,operation
+input,input/css,input/images,input/js,

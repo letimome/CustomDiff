@@ -18,7 +18,7 @@ public class FileUtils {
 		
 		try {
 			out = new PrintWriter(path);
-			out.println(text);
+			out.print(text);
 			out.close();
 			
 		} catch (Exception e) {

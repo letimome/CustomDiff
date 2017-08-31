@@ -44,7 +44,9 @@ public class TreeMapLightsController {
 			  	// System.out.println(custo.getPath()+","+custo.getFeaturemodified()+","+custo.getChurn());
 			  	 }
 		   }
-		   ArrayList<String>  paths2 = extractMiniPaths(paths);
+		   
+		   
+		   ArrayList<String>  paths2 = onekin.utils.Formatting.extractMiniPaths(paths);
 		   for (int i=0; i< paths2.size();i++) {
 			   if(!paths2.get(i).equals(""))
 			     csvContent=csvContent.concat("\n"+paths2.get(i)+",");
@@ -57,48 +59,8 @@ public class TreeMapLightsController {
 		  return "treemapLights"; 
 	 	}
 
-	  @RequestMapping("treemapLightsView2")
-	   public String getTreeMapTrafficLight2 (
-	   				@RequestParam(value="base", required=false) String idbaseline,
-	   				@RequestParam(value="fname", required=false) String featurenamemodified,
-	   				Model model){
-		   System.out.println("THIS IS featurenamemodified: "+featurenamemodified);
-		   
-		   Iterable<TreeMapLights> customs = treemapLightDao.getCustomsByIdbaseline(idbaseline);
-		   Iterator<TreeMapLights> it = customs.iterator();
-		   
-		   String csvContent="id,value";//id,value,Freq.\ninput,
-		   ArrayList<String> paths = new ArrayList<>();
-		   TreeMapLights custo;
-		 
-		   while (it.hasNext()) {
-			  custo= it.next();
-		   }
-		 
-		   onekin.utils.FileUtils.writeToFile(pathToResource+"treemapLights2.csv",csvContent);//path and test
-		   
-		  return "treemapLights2"; 
-	 	}
+	
 
 
-
-	private ArrayList<String> extractMiniPaths(ArrayList<String> longPath) {
-		ArrayList<String> splittedPaths = new ArrayList<>();
-		Iterator<String> it = longPath.iterator();
-		String filePath;
-		String[] folders;
-		while(it.hasNext()) {
-			filePath = it.next();
-			 folders = filePath.split("/");
-			 for (int i=0; i < folders.length-1;i++) {
-				 if ((i<=0) && (!splittedPaths.contains(folders[i])))
-				   splittedPaths.add(folders[i]);
-				 else 
-					 if ((i>0) && (!splittedPaths.contains(folders[i-1]+"/"+folders[i])))
-					   splittedPaths.add(folders[i-1]+"/"+folders[i]);
-				} 
-			 }
-	   return splittedPaths;
-	} 
 }
 //treemapLights.html

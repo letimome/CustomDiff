@@ -46,7 +46,8 @@ public class AlluvialController {
 		   while (it.hasNext()) {
 			   custo= it.next();
 			   if(custo.getIdbaseline().equals(idbaseline))
-			     csvCustoms = csvCustoms.concat("\n"+custo.getName()+","+custo.getFeatureModified()+","+custo.getChurn());
+			     if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null") && !custo.getFeatureModified().equals("undefined"))
+				   csvCustoms = csvCustoms.concat("\n"+custo.getName()+","+custo.getFeatureModified()+","+custo.getChurn()+"");
 		   }
 		   onekin.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		   

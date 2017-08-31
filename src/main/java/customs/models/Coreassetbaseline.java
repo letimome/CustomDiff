@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 
 @Entity
-@Table(name = "Coreassetbaseline")
+@Table(name = "coreassetbaseline")
 public class Coreassetbaseline {
 	@Id
 	String idbaseline;

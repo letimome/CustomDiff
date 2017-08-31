@@ -4,7 +4,10 @@ import org.springframework.data.repository.CrudRepository;
 import javax.transaction.Transactional;
 
 
+
 @Transactional
-public interface SPLdao extends CrudRepository <SPL, Long>{
+public interface ReuseLevelDao extends CrudRepository<ReuseLevel, Long>{
+
+	Iterable<ReuseLevel> getCustomsByIdrelease(String productrelease);
 
 }

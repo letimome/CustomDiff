@@ -5,12 +5,12 @@
 
 <head>
 <meta charset="utf-8"/>
-<title>Treemap</title>
+<title>Treemap for product reuse</title>
 
 <style>
 
 body {
-  font: 20px sans-serif;
+  font: 11px sans-serif;
   position: relative;
 }
 
@@ -28,51 +28,43 @@ body {
 
 .node-value {
   color: rgba(0,0,0,0.8);
-  font-size: 18px;
+  font-size: 10px;
   margin-top: 9px;
 }
 
 </style>
 </head>
 <body>
-<h1> diff (feature,ProductPortfolio)  </h1>
+<h1> Which are the core assets most customized by products? </h1>
 
 <select>
   <option value="select baseline">Select baseline</option>
   <option value="Baseline1">Baseline-v1.0</option>
   <option value="Baseline0">Baseline-v2.0</option>
-
 </select>
 
 <select>
-  <option value="feature">Select feature</option>
-  <option value="WindSpeed">WindSpeed</option>
-  <option value="AirPreassure">AirPreassure</option>
-  <option value="Gale">Gale</option>
-  <option value="AirPreassure">AirPreassure</option>
-  <option value="English">English</option>
-  <option value="German">German</option>
-</select>
-
-
-<select>
-  <option value="granularity">Granularity</option>
-  <option value="file">File</option>
-  <option value="file">Feature</option>
+  <option value="product">Select product</option>
+  <option value="productDonosti">ProductDonosti</option>
+  <option value="ProductBerlin">ProductBerlin</option>
+  <option value="ProductNewYork">ProductNewYork</option>
 </select>
 
 <select>
-  <option value="churn">Select Metric</option>
-  <option value="churn">Churn</option>
-  <option value="delta">Delta</option>
+  <option value="product">Select product release</option>
+  <option value="ProductDonostiv1.0">ProductDonostiv1.0</option>
+  <option value="ProductDonostiv2.0">ProductDonostiv2.0</option>
+ 
 </select>
 
 <p id="chart">
 <script src="http://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var width = 960,
-    height = 1060;
+
+var margin = {top: 70, right: 10, bottom: 10, left: 25},
+width = 3000 - margin.left - margin.right,
+height = 1000 - margin.top - margin.bottom;
 
 var format = d3.format(",d");
 
@@ -85,10 +77,10 @@ var stratify = d3.stratify()
 
 var treemap = d3.treemap()
     .size([width, height])
-    .padding(1)
+    .padding(3)
     .round(true);
 
-d3.csv("treemapLights2.csv", type, function(error, data) {
+d3.csv("reuseLevel.csv", type, function(error, data) {
   if (error) throw error;
 
   var root = stratify(data)
@@ -97,30 +89,33 @@ d3.csv("treemapLights2.csv", type, function(error, data) {
 
   treemap(root);
 
-  d3.select("#chart")
+  d3.select('#chart')
     .selectAll(".node")
     .data(root.leaves())
     .enter().append("div")
       .attr("class", "node")
       .attr("title", function(d) { return d.id + "\n" + format(d.value); })
       .style("left", function(d) { return d.x0 + "px"; })
-      .style("top", function(d) { return d.y0 + "px"; })
+      .style("top", function(d) { return d.y0 + margin.top+ "px"; })
       .style("width", function(d) { return d.x1 - d.x0 + "px"; })
       .style("height", function(d) { return d.y1 - d.y0 + "px"; })
-      .style("background", function(d) { while (d.depth > 1) d = d.parent; return color(d.id); })
+      .style("background",function(d) {
+    	  	var operation = d.data.operation;
+    	  	if (operation ==("reused")) return "#cccccc";
+    	  	else if (operation==("added")) return "#3fac54";
+    	  	else if (operation==("removed")) return "#e6323d";})
     .append("div")
       .attr("class", "node-label")
       .text(function(d) { return d.id.substring(d.id.lastIndexOf("/") + 1).split(/(?=[A-Z][^A-Z])/g).join("\n"); })
     .append("div")
       .attr("class", "node-value")
-      .text(function(d) { return format(d.value); });
+      .text(function(d) { return format(d.value); })
 });
 
 function type(d) {
   d.value = +d.value;
   return d;
 }
-
 </script>
 </p>
 
