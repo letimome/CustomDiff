@@ -2,7 +2,6 @@ package customs.controllers;
 
 import java.util.Iterator;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,16 +21,16 @@ public class AlluvialController {
 	 		// This returns a JSON or XML with the users
 	 		
 		   //write to local path
-		   Iterable<Alluvial> customs = alluvialDao.findAll();
-		   Iterator<Alluvial> it = customs.iterator();
+		   Iterable<Alluvial> customsOb = alluvialDao.findAll();
+		   Iterator<Alluvial> it = customsOb.iterator();
 		   String csvCustoms= "source,target,value";
 		   Alluvial custo;
 		   while (it.hasNext()) {
 			   custo= it.next();
 			   csvCustoms = csvCustoms.concat("\n"+custo.getName()+","+custo.getFeatureModified()+","+custo.getChurn());
 		   }
-		   onekin.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
-		   return customs;
+		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
+		   return customsOb;
 	 	}
 	   
 	   @RequestMapping("alluvialView")
@@ -39,8 +38,8 @@ public class AlluvialController {
 	   		(@RequestParam(value="idbaseline", required=false) String idbaseline, Model model){
 		   System.out.println("THIS IS idBbSeline: "+idbaseline);
 		   
-		   Iterable<Alluvial> customs = alluvialDao.findAll();
-		   Iterator<Alluvial> it = customs.iterator();
+		   Iterable<Alluvial> customsOb = alluvialDao.findAll();
+		   Iterator<Alluvial> it = customsOb.iterator();
 		   String csvCustoms= "source,target,value";
 		   Alluvial custo;
 		   while (it.hasNext()) {
@@ -49,7 +48,7 @@ public class AlluvialController {
 			     if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null") && !custo.getFeatureModified().equals("undefined"))
 				   csvCustoms = csvCustoms.concat("\n"+custo.getName()+","+custo.getFeatureModified()+","+custo.getChurn()+"");
 		   }
-		   onekin.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
+		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		   
 		  return "alluvial";
 		  

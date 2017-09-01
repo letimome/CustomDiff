@@ -53,7 +53,7 @@ public class ReuseLevelController {
 		   aux.addAll(customPaths);
 		   
 		   
-		   paths = onekin.utils.Formatting.extractMiniPaths(aux);
+		   paths = customs.utils.Formatting.extractMiniPaths(aux);
 		   String csvContent="id,value,operation";
 		   Iterator<String> ite = paths.iterator();
 		   while (ite.hasNext()) {
@@ -83,7 +83,7 @@ public class ReuseLevelController {
 		   
 		   System.out.println(paths);
 		   System.out.println(csvContent);
-		   onekin.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvContent);//path and test
+		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvContent);//path and test
 		   
 		   return "reuseLevel"; 
 	 	}

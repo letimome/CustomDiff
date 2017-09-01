@@ -27,8 +27,8 @@ public class TreeMapLightsController {
 	   				Model model){
 		   System.out.println("THIS IS featurenamemodified: "+featurenamemodified);
 		   
-		   Iterable<TreeMapLights> customs = treemapLightDao.getCustomsByIdbaseline(idbaseline);
-		   Iterator<TreeMapLights> it = customs.iterator();
+		   Iterable<TreeMapLights> customsObj = treemapLightDao.getCustomsByIdbaseline(idbaseline);
+		   Iterator<TreeMapLights> it = customsObj.iterator();
 		   
 		   String csvContent="id,value,frequency";//id,value,Freq.\ninput,
 		   ArrayList<String> paths = new ArrayList<>();
@@ -46,7 +46,7 @@ public class TreeMapLightsController {
 		   }
 		   
 		   
-		   ArrayList<String>  paths2 = onekin.utils.Formatting.extractMiniPaths(paths);
+		   ArrayList<String>  paths2 = customs.utils.Formatting.extractMiniPaths(paths);
 		   for (int i=0; i< paths2.size();i++) {
 			   if(!paths2.get(i).equals(""))
 			     csvContent=csvContent.concat("\n"+paths2.get(i)+",");
@@ -54,7 +54,7 @@ public class TreeMapLightsController {
 		   csvContent=csvContent.concat(csvCustoms);
 		   System.out.println(paths2+"\n\n");
 		 
-		   onekin.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
+		   customs.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
 		   
 		  return "treemapLights"; 
 	 	}
