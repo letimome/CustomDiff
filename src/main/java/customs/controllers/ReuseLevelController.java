@@ -25,13 +25,14 @@ public class ReuseLevelController {
 	 @Autowired private ReuseLevelDao reuseLevelDao;
 	 @Autowired private NotCustomizedProductAssetsDao notCustAssetsDao;
 	 
-	 private String pathToResource = "./src/main/resources/public/";
+	 private String pathToResource = "./src/main/resources/static/";
 
 	 
 	 @RequestMapping("reuseLevelView")
 	   public String getTreeMapTrafficLight(
 	   				//@RequestParam(value="base", required=false) String idbaseline,
-	   				@RequestParam(value="pr", required=false) String productrelease,
+			   		@RequestParam(value="zoom", required=false) String zoom,
+			   		@RequestParam(value="pr", required=false) String productrelease,
 	   				Model model){
 		 
 		   System.out.println("The productrelease to analyze is: "+productrelease);
@@ -60,19 +61,9 @@ public class ReuseLevelController {
 			   csvContent= csvContent.concat("\n"+ite.next()+",");
 		   }
 		   
-		   it  = unCustomizedPAs.iterator();
-		   NotCustomizedProductAssets notCust;
-		
-		  while(it.hasNext()) { //getting lines for not customized ones;
-		       notCust = it.next();
-		       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+
-		       ","+notCust.getSize()+",reused");
-		       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added");
-		       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed");
-		   }
-		   
 		   itCust  = customizedAssets.iterator();
 		   ReuseLevel custo ;
+		   
 		   while(itCust.hasNext()) {//getting lines for Customized Assets
 			   custo = itCust.next();
 			   csvContent = csvContent.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+","+
@@ -81,6 +72,16 @@ public class ReuseLevelController {
 					   Math.abs(custo.getPa_size()-custo.getCa_size())+",reused");
 		   }
 		   
+		   it  = unCustomizedPAs.iterator();
+		   NotCustomizedProductAssets notCust;
+			  while(it.hasNext()) { //getting lines for not customized ones;
+			       notCust = it.next();
+			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+
+			       ","+notCust.getSize()+",reused");
+			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added");
+			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed");
+			  }		   
+		  
 		   System.out.println(paths);
 		   System.out.println(csvContent);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvContent);//path and test

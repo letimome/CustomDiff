@@ -16,7 +16,7 @@ import customs.models.Coreassetbaseline;
 public class BaselineController {
 	
 	  
-	  @RequestMapping("/baselines")
+	  @RequestMapping("/baselines--")
 		public  String getAllCoreAssetBselines( Model model) {
 			// This returns a JSON or XML with the users
 		  Iterable<Coreassetbaseline> baselines =  baselineDao.findAll();

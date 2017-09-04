@@ -3,6 +3,18 @@ input,
 input/css,
 input/images,
 input/js,
+input/js/settings.js,3,removed
+input/js/settings.js,0,reused
+input/Weather Station User Manual.xml,17,removed
+input/Weather Station User Manual.xml,9,reused
+input/js/sensors.js,1,added
+input/js/sensors.js,0,reused
+input/js/settings.js,3,added
+input/js/settings.js,0,reused
+input/Weather Station User Manual.xml,8,added
+input/Weather Station User Manual.xml,9,reused
+input/js/sensors.js,1,removed
+input/js/sensors.js,0,reused
 input/.project,25,reused
 input/.project,0,added
 input/.project,0,removed
@@ -87,12 +99,3 @@ input/index.html,0,removed
 input/js/scale.js,60,reused
 input/js/scale.js,0,added
 input/js/scale.js,0,removed
-input/Weather Station User Manual.xml,45,reused
-input/Weather Station User Manual.xml,0,added
-input/Weather Station User Manual.xml,0,removed
-input/js/sensors.js,3,added
-input/js/sensors.js,3,reused
-input/js/settings.js,1,removed
-input/js/settings.js,9,reused
-input/js/settings.js,10,added
-input/js/settings.js,9,reused

@@ -17,7 +17,7 @@ public class TreeMapLightsController {
 	   private TreeMapLightsDao treemapLightDao;
 	  @Autowired
 	  private SPLdao SPLdao;
-	   private String pathToResource = "./src/main/resources/public/";
+	   private String pathToResource = "./src/main/resources/static/";
 	
 	
 	  @RequestMapping("treemapLightsView")

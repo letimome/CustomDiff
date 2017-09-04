@@ -35,6 +35,10 @@ body {
 </style>
 </head>
 <body>
+<script>
+
+</script>
+
 <h1> Which are the core assets most customized by products? </h1>
 
 <select>
@@ -57,12 +61,32 @@ body {
  
 </select>
 
+
+
+<a href="/reuseLevelView?zoom=true&amp;pr=productBerlin-v2.0" onclick='zoomIn(900,500)'>Zoom-in</a>
+<a href="/reuseLevelView?zoom=false&amp;pr=productBerlin-v2.0" onclick='zoomOut()'>Zoom-out</a>
+    	
+
+
 <p id="chart">
 <script src="http://d3js.org/d3.v4.min.js"></script>
 <script>
 
+var margin,width,height; 
 
-var margin = {top: 70, right: 10, bottom: 10, left: 25},
+function zoomIn(){
+	this.margin = {top: 70, right: 10, bottom: 10, left: 25},
+	width = 900 - margin.left - margin.right,
+	height = 500 - margin.top - margin.bottom;
+}
+
+function zoomOut(){
+	margin = {top: 70, right: 10, bottom: 10, left: 25},
+	width = 3000 - margin.left - margin.right,
+	height = 1000 - margin.top - margin.bottom;
+}
+
+var margin= {top: 70, right: 10, bottom: 10, left: 25},
 width = 3000 - margin.left - margin.right,
 height = 1000 - margin.top - margin.bottom;
 

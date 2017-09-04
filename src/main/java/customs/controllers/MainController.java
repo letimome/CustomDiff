@@ -12,4 +12,18 @@ public class MainController {
 public String index() {
     return "index";//index.html
   }
+
+@RequestMapping("/index")
+public String index2() {
+    return "index";//index.html
+  }
+
+@RequestMapping("/settings")
+public String settings() {
+    return "settings";//index.html
+  }
+@RequestMapping("/customs")
+public String customs() {
+    return "customs";//index.html
+  }
 }
