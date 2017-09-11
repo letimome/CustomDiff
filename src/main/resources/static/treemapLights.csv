@@ -1,5 +1,4 @@
 id,value,frequency
-input,
-input/js,
-input/js/sensors.js,4,1
-input/js/settings.js,2,1
+src,
+src/onekin,
+src/onekin/Asset.java,8,1

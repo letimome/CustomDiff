@@ -6,6 +6,7 @@
 <head>
 <meta charset="utf-8"/>
 <title>Alluvial Diagram </title>
+
 <style>
 .node rect {
   cursor: move;
@@ -24,7 +25,10 @@
 .link:hover {
   stroke-opacity: .5;
 }
+<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
+
 </style>
+
 </head>
 
 	<script>
@@ -36,6 +40,12 @@
 	}
 	</script>
 <body>
+
+
+<!-- Javascripts -->
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+
 <h1>Which are the features that each product is customizing? How much are they being customized?  </h1>
 <h2>diff(core asset baseline , product portfolio)</h2>
 
@@ -132,7 +142,11 @@
 	      .attr("class", "link")
 	      .attr("d", path)
 	      .style("stroke-width", function(d) { return Math.max(1, d.dy); })
-	      .sort(function(a, b) { return b.dy - a.dy; });
+	      .sort(function(a, b) { return b.dy - a.dy; })
+	      .on("click",function(d, a , b){
+        if (d3.event.defaultPrevented) return;
+           goToDiffView(a ,b);
+    		});
 	// add the link titles
 	  link.append("title")
 	        .text(function(d) {
@@ -145,24 +159,32 @@
 	      .attr("class", "node")
 	      .attr("transform", function(d) { 
 			  return "translate(" + d.x + "," + d.y + ")"; })
-	    .call(d3.behavior.drag()
+			   .on("click",function(d){
+        if (d3.event.defaultPrevented) return;
+           console.log("clicked on product:"+d.name);
+           if (d.name.includes("product"))
+             goToProductview(d);
+           else goToFeatureView(d);
+    		})
+	  /*  .call(d3.behavior.drag()
 	      .origin(function(d) { return d; })
 	      .on("dragstart", function() { 
 			  this.parentNode.appendChild(this); })
-	      .on("drag", dragmove));
+	      .on("drag", dragmove))*/
+	      ;
+	
 	// add the rectangles for the nodes
-	  node.append("rect")
-	      .attr("height", function(d) { return d.dy; })
+	  node.append("rect").attr("height", function(d) { return d.dy; })
 	      .attr("width", sankey.nodeWidth())
 	      .style("fill", function(d) { 
 			  return d.color = color(d.name.replace(/ .*/, "")); })
 	      .style("stroke", function(d) { 
 			  return d3.rgb(d.color).darker(2); })
-	    .append("title")
-	      .text(function(d) { 
+	    .append("title").text(function(d) { 
 			  return d.name + "\n" + format(d.value); });
 	// add in the title for the nodes
-	  node.append("text")
+	
+	node.append("text")
 	      .attr("x", -6)
 	      .attr("y", function(d) { return d.dy / 2; })
 	      .attr("dy", ".35em")
@@ -172,6 +194,7 @@
 	   	    .filter(function(d) { return d.x < width / 2; })
 	      .attr("x", 6 + sankey.nodeWidth())
 	      .attr("text-anchor", "start");
+	
 	// the function for moving the nodes
 	  function dragmove(d) {
 	    d3.select(this).attr("transform", 
@@ -181,6 +204,92 @@
 	    sankey.relayout();
 	    link.attr("d", path);
 	  }
+	function goToProductview(d){
+	    window.location.href = "http://localhost:8080/reuseLevelView?pr=" + d.name+"-v1.0";
+	}
+	
+	function goToFeatureView(d){
+	    window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname=" + d.name;
+	}
+	function goToDiffView(product,feature){
+		console.log(product);
+		console.log(feature);
+		  window.open = "https://diffy.org/diff/gxlss1024u6wd5av6sm0r7ldi";
+		  //
+		/*****A post method 
+		** https://diffy.org/new
+		 request payload
+		------WebKitFormBoundaryHQpfFFnvZHbAAOUO
+		Content-Disposition: form-data; name="udiff"
+		****/
+		  var url = "https://diffy.org/new";
+		  var method = "POST";
+		 
+		  var async = true;
+
+		  var request = new XMLHttpRequest();
+
+		  // Before we send anything, we first have to say what we will do when the
+		  // server responds. This seems backwards (say how we'll respond before we send
+		  // the request? huh?), but that's how Javascript works.
+		  // This function attached to the XMLHttpRequest "onload" property specifies how
+		  // the HTTP response will be handled. 
+		  request.onload = function () {
+
+		     // Because of javascript's fabulous closure concept, the XMLHttpRequest "request"
+		     // object declared above is available in this function even though this function
+		     // executes long after the request is sent and long after this function is
+		     // instantiated. This fact is CRUCIAL to the workings of XHR in ordinary
+		     // applications.
+
+		     // You can get all kinds of information about the HTTP response.
+		     var status = request.status; // HTTP response status, e.g., 200 for "200 OK"
+		     var data = request.responseText; // Returned data, e.g., an HTML document.
+		  }
+
+		  request.open(method, url, async);
+
+		  request.setRequestHeader("Content-Type", 
+				  "multipart/form-data; boundary=---------------------------14691159841812853529131278267");
+		  request.setRequestHeader("Content-Lengh" , "1002");
+		  request.setRequestHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+		  //request.setRequestHeader("Origin" , "https://diffy.org");
+		 // request.setRequestHeader("Referer" , "https://diffy.org");
+		  //request.setRequestHeader("Connection" , "keep-alive");
+		 
+		  request.setRequestHeader("Access-Control-Allow-Origin" , "*");
+		  //request.setRequestHeader("" , "");
+		  //request.setRequestHeader("" , "");
+		  
+	
+
+		  var diff = 
+			 
+			  "--- lao	2002-02-21 23:30:39.942229878 -0800"+
+					" +++ tzu	2002-02-21 23:30:50.442260588 -0800"
+					+"\n"+"  @@ -1,7 +1,6 @@"
+					+"\n"+"  -The Way that can be told of is not the eternal Way;"
+					+"\n"+"  -The name that can be named is not the eternal name."
+					+"\n"+"   The Nameless is the origin of Heaven and Earth;"
+					+"\n"+"  -The Named is the mother of all things."
+					+"\n"+"  +The named is the mother of all things."
+					+"\n"+"  +"
+					+"\n"+"   Therefore let there always be non-being,"
+					+"\n"+"     so we may see their subtlety,"
+					+"\n"+"   And let there always be being,"
+					+"\n"+"  @@ -9,3 +8,6 @@"
+					+"\n"+"   The two are the same,"
+					+"\n"+"   But after they are produced,"
+					+"\n"+"     they have different names."
+					+"\n"+"  +They both may be called deep and profound."
+					+"\n"+"  +Deeper and more profound,"
+					+"\n"+"  +The door of all subtleties!+"
+					+"-----------------------------14691159841812853529131278267";
+		  // Actually sends the request to the server.
+		 
+		  request.send("diff="+diff);
+	}
+	
 	});
     /*]]>*/     
     /*<![CDATA[*/
@@ -188,5 +297,16 @@
     	 /*]]>*/  
   </script>
 </p>
+
+<p>Diff view...</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script>
+
+
+
+</script>
 </body>
 </html>
