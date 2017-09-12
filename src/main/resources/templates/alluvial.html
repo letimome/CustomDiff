@@ -315,48 +315,77 @@
 </select>
 <p></p>
 
-<div id="diffview"/>
-	
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script>
-<script type="text/javascript" src="/dist/diff2html-ui.js"></script>
-
-<!-- CSS -->
-
+<p id="diffview">
+</p>
 
 <!-- Javascripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script> 
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 <script>
 
-var diffString = 
-	 
-	  "--- hola	2002-02-21 23:30:39.942229878 -0800 \n  +++ hola	2002-02-21 23:30:50.442260588 -0800"
-			+"\n"+"  @@ -1,7 +1,6 @@"
-			+"\n"+"  -The Way that can be told of is not the eternal Way;"
-			+"\n"+"  -The name that can be named is not the eternal name."
-			+"\n"+"   The Nameless is the origin of Heaven and Earth;"
-			+"\n"+"  -The Named is the mother of all things."
-			+"\n"+"  +The named is the mother of all things."
-			+"\n"+"  +"
-			+"\n"+"   Therefore let there always be non-being,"
-			+"\n"+"     so we may see their subtlety,"
-			+"\n"+"   And let there always be being,";
+var diffString =  "diff --git a/bin/onekin/Asset.class b/bin/onekin/Asset.class"+
+"\nindex 8e469cb..f0def14 100644"+
+"\nBinary files a/bin/onekin/Asset.class and b/bin/onekin/Asset.class differ"+
+"\ndiff --git a/src/onekin/Asset.java b/src/onekin/Asset.java"+
+"\nindex f84b5c1..2fbd46e 100644"+
+"\n--- a/src/onekin/Asset.java"+
+"\n+++ b/src/onekin/Asset.java"+
+"\n@@ -10,23 +10,23 @@ public class Asset {"+
+	"\n 	"+
+"\n 	public void method1 (){"+
+"\n 	//PV:IFCOND (pv:hasFeature('FA') and (not (pv:hasFeature('FB'))))"+
+"\n-	System.out.println('FA selected and not Feature B');"+
+"\n+	System.out.println('FA is selected and  Feature B is not');"+
+"\n 	 	//PV:IFCOND(pv:hasFeature('FC'))"+
+"\n-		System.out.println('FC selected. Nested');"+
+"\n+		System.out.println('FC is selected. It is Nested');"+
+"\n 		// PV:ENDCOND"+
+"\n 	// PV:ENDCOND"+
+"\n-	System.out.println('in between');"+
+"\n+	System.out.println('This does not belong to any feature');"+
+"\n "+
+"\n 	//PV:IFCOND(pv:hasFeature:('FB'))"+
+"\n-	System.out.println('FC selected. Nested');"+
+"\n+	System.out.println('FB is selected');"+
+"\n 	//PV:ENDCOND"+
+"\n 	"+
+"\n 	//PV:IFCOND(pv:hasFeature('FA') and pv:hasFeature('FB'))"+
+"\n-	System.out.println('FA and FB is selected.');"+
+"\n+	System.out.println('Both FA and FB are selected.');"+
+"\n 	//PV:ENDCOND"+
+ "\n		"+
+"\n 	//PV:IFCOND(pv:hasFeature('FA') or pv:hasFeature('FC'))"+
+"\n-	System.out.println('FA or Fc are selected.');"+
+"\n+	System.out.println('Either FA or Fc is selected.');"+
+"\n 	//PV:ENDCOND"+
+"\n 	}"+
+"\n }" ;
 		
-
-
+			
 $(document).ready(function() {
 	console.log(diffString);
+	
 	var diff2htmlUi = new Diff2HtmlUI({diff: diffString});
 	console.log(diff2htmlUi);
 	diff2htmlUi.draw('diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
     diff2htmlUi.highlightCode('diffview');
 });
+
 </script>
 
+
+	
+<p id="23">
+</p>
+
+
+<!--
 <iframe src="https://diffy.org/diff/h3aywd2wao7uo8zfjgw6x0f6r"  width="1200" height="600">
 	alternative content for browsers which do not
-	</iframe>
+	</iframe>  
+	-->
 </body>
 </html>

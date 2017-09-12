@@ -5,5 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface ProductAssetDao extends CrudRepository<ProductAsset, Long>{
+	
+	ProductAsset getProductAssetByIdproductasset(int id);
 
 }

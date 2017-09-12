@@ -12,7 +12,7 @@ public class CustomizationsByVPandPR {
 	String inproduct;
 	int filechanged;
 	String name;
-	String featureImpacted;
+	//String featureimpacted;
 	int churn;
 	int idvariationpoint;
 	String expression;
@@ -64,15 +64,15 @@ public class CustomizationsByVPandPR {
 	}
 
 
-	public String getFeatureImpacted() {
-		return featureImpacted;
+/*	public String getFeatureImpacted() {
+		return featureimpacted;
 	}
 
 
 	public void setFeatureImpacted(String featureImpacted) {
-		this.featureImpacted = featureImpacted;
+		this.featureimpacted = featureImpacted;
 	}
-
+*/
 
 	public int getChurn() {
 		return churn;

@@ -1,0 +1,9 @@
+id,value,size
+src,
+src/onekin,
+src/onekin/Asset.java,
+src/onekin/Asset.java/PV:IFCOND (pv:hasFeature('FA') and (not (pv:hasFeature('FB')))),8
+src/onekin/Asset.java/PV:IFCOND(pv:hasFeature('FC')),2
+src/onekin/Asset.java/PV:IFCOND(pv:hasFeature:('FB')),2
+src/onekin/Asset.java/PV:IFCOND(pv:hasFeature('FA') and pv:hasFeature('FB')),4
+src/onekin/Asset.java/PV:IFCOND(pv:hasFeature('FA') or pv:hasFeature('FC')),4

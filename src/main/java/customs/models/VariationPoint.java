@@ -12,9 +12,9 @@ public class VariationPoint {
 	String expression;
 	int line_init;
 	int line_end;
-	int idcoreasset;
+	String idcoreasset;
 	int idproductasset;
-	int greatest_parent_id;
+	String greatest_parent_id;
 	
 	public int getIdvariationpoint() {
 		return idvariationpoint;
@@ -46,10 +46,10 @@ public class VariationPoint {
 	public void setLine_end(int line_end) {
 		this.line_end = line_end;
 	}
-	public int getIdcoreasset() {
+	public String getIdcoreasset() {
 		return idcoreasset;
 	}
-	public void setIdcoreasset(int idcoreasset) {
+	public void setIdcoreasset(String idcoreasset) {
 		this.idcoreasset = idcoreasset;
 	}
 	public int getIdproductasset() {
@@ -58,14 +58,12 @@ public class VariationPoint {
 	public void setIdproductasset(int idproductasset) {
 		this.idproductasset = idproductasset;
 	}
-	public int getGreatest_parent_id() {
+	public String getGreatest_parent_id() {
 		return greatest_parent_id;
 	}
-	public void setGreatest_parent_id(int greatest_parent_id) {
+	public void setGreatest_parent_id(String greatest_parent_id) {
 		this.greatest_parent_id = greatest_parent_id;
 	}
-	
-	
-	
+
 
 }
