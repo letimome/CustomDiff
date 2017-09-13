@@ -145,9 +145,9 @@
 	      .attr("d", path)
 	      .style("stroke-width", function(d) { return Math.max(1, d.dy); })
 	      .sort(function(a, b) { return b.dy - a.dy; })
-	      .on("click",function(d, a , b){
+	      .on("click",function(d, a , b,link){
         if (d3.event.defaultPrevented) return;
-           goToDiffView(a ,b);
+           goToDiffView(a ,b,d,link);
     		});
 	// add the link titles
 	  link.append("title")
@@ -197,8 +197,6 @@
 	      .attr("x", 6 + sankey.nodeWidth())
 	      .attr("text-anchor", "start");
 	
-	node.append("iframe").attr("id", "diffview");
-	
 	// the function for moving the nodes
 	  function dragmove(d) {
 	    d3.select(this).attr("transform", 
@@ -215,12 +213,13 @@
 	function goToFeatureView(d){
 	    window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname=" + d.name;
 	}
-	function goToDiffView(product,feature){
-		console.log(product);
-		console.log(feature);
-	 
+	function goToDiffView(d,p,f){
+		//console.log("d");console.log(d);
+		//console.log("p");console.log(p);
+		//console.log("f");console.log(f);
+		console.log(link);
+		window.location.href = "http://localhost:8080/product_structure?pr=productBerline-v1.0";//" + d.source.name+"-v1.0";
 		
-		window.open = "https://diffy.org/diff/gxlss1024u6wd5av6sm0r7ldi";
 		  //
 		/*****A post method 
 		** https://diffy.org/new
