@@ -91,9 +91,9 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="sankey.js"></script>
 <script src="draw.js"></script>
-  <script>
+ <script>
  
-  /*<![CDATA[*/
+//<![CDATA[
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 10},
 	    width = 900 - margin.left - margin.right,
@@ -153,7 +153,7 @@
 	      .sort(function(a, b) { return b.dy - a.dy; })
 	      .on("click",function(d, a , b,link){
         if (d3.event.defaultPrevented) return;
-           goToDiffView(a ,b,d,link);
+           goToVPsView(a ,b,d,link);
     		});
 	// add the link titles
 	  link.append("title")
@@ -169,9 +169,9 @@
 			  return "translate(" + d.x + "," + d.y + ")"; })
 			   .on("click",function(d){
         if (d3.event.defaultPrevented) return;
-           console.log("clicked on product:"+d.name);
-           if (d.name.includes("product"))
-             goToProductview(d);
+           window.console.log("clicked on product:"+d.name);
+           if (d.name.includes("product") || d.name.includes("Product"))
+             goToReuseLevelView(d);
            else goToFeatureView(d);
     		})
 	  /*  .call(d3.behavior.drag()
@@ -212,188 +212,28 @@
 	    sankey.relayout();
 	    link.attr("d", path);
 	  }
-	function goToProductview(d){
-	    window.location.href = "http://localhost:8080/reuseLevelView?pr=" + d.name+"-v1.0";
+	function goToReuseLevelView(d){
+		if (d.name=="ProductBerlin")
+			window.location.href = "http://localhost:8080/reuseLevelView?pr=productBerline-v1.0";
+		else window.location.href = "http://localhost:8080/reuseLevelView?pr=" + d.name+"-v1.0";
 	}
 	
 	function goToFeatureView(d){
 	    window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname=" + d.name;
 	}
-	function goToDiffView(d,p,f){
-		//console.log("d");console.log(d);
-		//console.log("p");console.log(p);
-		//console.log("f");console.log(f);
+	function goToVPsView(d,p,link,l){
+	   
 		console.log(link);
-		window.location.href = "http://localhost:8080/product_structure?pr=productBerline-v1.0";//" + d.source.name+"-v1.0";
-		
-		  //
-		/*****A post method 
-		** https://diffy.org/new
-		 request payload
-		------WebKitFormBoundaryHQpfFFnvZHbAAOUO
-		Content-Disposition: form-data; name="udiff"
-		
-		  var url = "https://diffy.org/new";
-		  var method = "POST";
-		 
-		  var async = true;
-
-		  var request = new XMLHttpRequest();
-
-		  // Before we send anything, we first have to say what we will do when the
-		  // server responds. This seems backwards (say how we'll respond before we send
-		  // the request? huh?), but that's how Javascript works.
-		  // This function attached to the XMLHttpRequest "onload" property specifies how
-		  // the HTTP response will be handled. 
-		  request.onload = function () {
-
-		     // Because of javascript's fabulous closure concept, the XMLHttpRequest "request"
-		     // object declared above is available in this function even though this function
-		     // executes long after the request is sent and long after this function is
-		     // instantiated. This fact is CRUCIAL to the workings of XHR in ordinary
-		     // applications.
-
-		     // You can get all kinds of information about the HTTP response.
-		     var status = request.status; // HTTP response status, e.g., 200 for "200 OK"
-		     var data = request.responseText; // Returned data, e.g., an HTML document.
-		  }
-
-		  request.open(method, url, async);
-
-		  request.setRequestHeader("Content-Type", 
-				  "multipart/form-data; boundary=---------------------------14691159841812853529131278267");
-		  request.setRequestHeader("Content-Lengh" , "1002");
-		  request.setRequestHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/
-		  /*;q=0.8");
-		  //request.setRequestHeader("Origin" , "https://diffy.org");
-		 // request.setRequestHeader("Referer" , "https://diffy.org");
-		  //request.setRequestHeader("Connection" , "keep-alive");
-		 
-		//  request.setRequestHeader("Access-Control-Allow-Origin" , "*");
-		  //request.setRequestHeader("" , "");
-		  //request.setRequestHeader("" , "");
-		  
-	
-/**
-		  var diff = 
-			 
-			  "--- lao	2002-02-21 23:30:39.942229878 -0800"+
-					" +++ tzu	2002-02-21 23:30:50.442260588 -0800"
-					+"\n"+"  @@ -1,7 +1,6 @@"
-					+"\n"+"  -The Way that can be told of is not the eternal Way;"
-					+"\n"+"  -The name that can be named is not the eternal name."
-					+"\n"+"   The Nameless is the origin of Heaven and Earth;"
-					+"\n"+"  -The Named is the mother of all things."
-					+"\n"+"  +The named is the mother of all things."
-					+"\n"+"  +"
-					+"\n"+"   Therefore let there always be non-being,"
-					+"\n"+"     so we may see their subtlety,"
-					+"\n"+"   And let there always be being,"
-					+"\n"+"  @@ -9,3 +8,6 @@"
-					+"\n"+"   The two are the same,"
-					+"\n"+"   But after they are produced,"
-					+"\n"+"     they have different names."
-					+"\n"+"  +They both may be called deep and profound."
-					+"\n"+"  +Deeper and more profound,"
-					+"\n"+"  +The door of all subtleties!+"
-					+"-----------------------------14691159841812853529131278267";
-
-		  request.send("diff="+diff);
-		  ****/
+		console.log(link.name);
+		console.log(link.source);
+		if (link.source.name.includes("ProductBerlin"))
+				window.location.href = "http://localhost:8080/product_structure?pr=productBerline-v1.0&file=0";//" + d.source.name+"-v1.0";
+		else window.location.href = "http://localhost:8080/product_structure?pr="+link.source.name+"-v1.0&file=0";//" + d.source.name+"-v1.0"; 
 	}
-	
-	});
-    /*]]>*/     
-    /*<![CDATA[*/
-    	
-    	 /*]]>*/  
-  </script>
-</p>
-
-<h3> Diff view at file level</h3>
-<div id="diffview"  >
-</div>
-
-<!-- Javascripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script> 
-<script type="text/javascript" src="dist/diff2html.js"></script>
-<script type="text/javascript" src="dist/diff2html-ui.js"></script>
-<script type="text/javascript" src="/dist/diff2html.js"></script>
-<script type="text/javascript" src="/dist/diff2html-ui.js"></script>
-<script type="text/javascript" src="dist/diff2html.min.js"></script>
-
-
-
-<script>
-
-//this diff is the result of a diff between 
-//Product asset in the final version of the release, and the core asset it was derived from
-function getMetaContentByName(name,content){
-   var content = (content==null)?'content':content;
-   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
-}
-
-/*
-var diffString
-
-	 = "diff --git a/bin/onekin/Asset.class b/bin/onekin/Asset.class"+
-"\nindex 8e469cb..f0def14 100644"+
-"\nBinary files a/bin/onekin/Asset.class and b/bin/onekin/Asset.class differ"+
-"\ndiff --git a/src/onekin/Asset.java b/src/onekin/Asset.java"+
-"\nindex f84b5c1..2fbd46e 100644"+
-"\n--- a/src/onekin/Asset.java"+
-"\n+++ b/src/onekin/Asset.java"+
-"\n@@ -10,23 +10,23 @@ public class Asset {"+
-	"\n 	"+
-"\n 	public void method1 (){"+
-"\n 	//PV:IFCOND (pv:hasFeature('FA') and (not (pv:hasFeature('FB'))))"+
-"\n-	System.out.println('FA selected and not Feature B');"+
-"\n+	System.out.println('FA is selected and  Feature B is not');"+
-"\n 	 	//PV:IFCOND(pv:hasFeature('FC'))"+
-"\n-		System.out.println('FC selected. Nested');"+
-"\n+		System.out.println('FC is selected. It is Nested');"+
-"\n 		// PV:ENDCOND"+
-"\n 	// PV:ENDCOND"+
-"\n-	System.out.println('in between');"+
-"\n+	System.out.println('This does not belong to any feature');"+
-"\n "+
-"\n 	//PV:IFCOND(pv:hasFeature:('FB'))"+
-"\n-	System.out.println('FC selected. Nested');"+
-"\n+	System.out.println('FB is selected');"+
-"\n 	//PV:ENDCOND"+
-"\n 	"+
-"\n 	//PV:IFCOND(pv:hasFeature('FA') and pv:hasFeature('FB'))"+
-"\n-	System.out.println('FA and FB is selected.');"+
-"\n+	System.out.println('Both FA and FB are selected.');"+
-"\n 	//PV:ENDCOND"+
- "\n		"+
-"\n 	//PV:IFCOND(pv:hasFeature('FA') or pv:hasFeature('FC'))"+
-"\n-	System.out.println('FA or Fc are selected.');"+
-"\n+	System.out.print
-ln('Either FA or Fc is selected.');"+
-"\n 	//PV:ENDCOND"+
-"\n 	}"+
-"\n }" ;*/
-					
-$(document).ready(function(){
-	//console.log(diffString); //diffString should be the value of diffview value
-	//get select("#diffvalue"). metadata
-	var diffvalue = getMetaContentByName("diffvalue");
-	
-	if (diffvalue==null) return
-	
-	console.log("diffvalue:\n" + diffvalue);
-	
-	var diff2htmlUi = new Diff2HtmlUI({diff: diffvalue});
-	console.log(diff2htmlUi);
-	diff2htmlUi.draw('#diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
-    diff2htmlUi.highlightCode('#diffview');
-});
+	//]]>
 
 </script>
-
+</p>
 
 </body>
 </html>

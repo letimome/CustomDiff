@@ -45,10 +45,10 @@ public class AlluvialController {
 	   @RequestMapping("alluvialView")
 	   public String getCustomsByBaselineId
 	   		(@RequestParam(value="idbaseline", required=false) String idbaseline, 
-	   		@RequestParam(value="id_product_asset", required=false) int idProductAsset,
+	   	//	@RequestParam(value="id_product_asset", required=false) int idProductAsset,
 	   				Model model){
 		   System.out.println("THIS IS idBbSeline: "+idbaseline);
-		   System.out.println("THIS IS idProductAsset: "+idProductAsset);
+		//   System.out.println("THIS IS idProductAsset: "+idProductAsset);
 		   
 		   Iterable<Alluvial> customsObj = alluvialDao.findAll();
 		   Iterator<Alluvial> it = customsObj.iterator();
@@ -60,16 +60,18 @@ public class AlluvialController {
 			     if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null") && !custo.getFeatureModified().equals("undefined"))
 				   csvCustoms = csvCustoms.concat("\n"+custo.getName()+","+custo.getFeatureModified()+","+custo.getChurn()+"");
 		   }
-		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		   
-		   ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(idProductAsset);
+		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
+		   System.out.println(csvCustoms);
+		   
+		/*   ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(idProductAsset);
 		   String diffvalue;
 		   if(pa!=null) {
 			   	diffvalue =  customs.utils.Formatting.decodeFromBase64(pa.getRelative_diff());
 	    			//process here the content of the relative diff
 			   	model.addAttribute("diffvalue",diffvalue);
 			   	System.out.println(diffvalue);
-		   }
+		   }*/
 		  return "alluvial";
 		  
 	 	}
