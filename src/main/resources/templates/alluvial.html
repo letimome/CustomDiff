@@ -5,7 +5,14 @@
 
 <head>
 <meta charset="utf-8"/>
+<meta name="diffvalue" th:content="${diffvalue}"></meta>
+
 <title>Alluvial Diagram </title>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
+<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
+<link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
 
 <style>
 .node rect {
@@ -25,9 +32,8 @@
 .link:hover {
   stroke-opacity: .5;
 }
-<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
-<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
+
+
 
 </style>
 
@@ -304,18 +310,9 @@
   </script>
 </p>
 
-<p>Code Level - Diff view</p>
-
-<select>
-  <option value="all">Product1</option>
-</select>
-<select>
-  <option value="all">FA</option>
-</select>
-<p></p>
-
-<p id="diffview">
-</p>
+<h3> Diff view at file level</h3>
+<div id="diffview"  >
+</div>
 
 <!-- Javascripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
@@ -323,9 +320,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script> 
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script type="text/javascript" src="/dist/diff2html.js"></script>
+<script type="text/javascript" src="/dist/diff2html-ui.js"></script>
+<script type="text/javascript" src="dist/diff2html.min.js"></script>
+
+
+
 <script>
 
-var diffString =  "diff --git a/bin/onekin/Asset.class b/bin/onekin/Asset.class"+
+//this diff is the result of a diff between 
+//Product asset in the final version of the release, and the core asset it was derived from
+function getMetaContentByName(name,content){
+   var content = (content==null)?'content':content;
+   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+}
+
+/*
+var diffString
+
+	 = "diff --git a/bin/onekin/Asset.class b/bin/onekin/Asset.class"+
 "\nindex 8e469cb..f0def14 100644"+
 "\nBinary files a/bin/onekin/Asset.class and b/bin/onekin/Asset.class differ"+
 "\ndiff --git a/src/onekin/Asset.java b/src/onekin/Asset.java"+
@@ -358,33 +371,29 @@ var diffString =  "diff --git a/bin/onekin/Asset.class b/bin/onekin/Asset.class"
  "\n		"+
 "\n 	//PV:IFCOND(pv:hasFeature('FA') or pv:hasFeature('FC'))"+
 "\n-	System.out.println('FA or Fc are selected.');"+
-"\n+	System.out.println('Either FA or Fc is selected.');"+
+"\n+	System.out.print
+ln('Either FA or Fc is selected.');"+
 "\n 	//PV:ENDCOND"+
 "\n 	}"+
-"\n }" ;
-		
-			
-$(document).ready(function() {
-	console.log(diffString);
+"\n }" ;*/
+					
+$(document).ready(function(){
+	//console.log(diffString); //diffString should be the value of diffview value
+	//get select("#diffvalue"). metadata
+	var diffvalue = getMetaContentByName("diffvalue");
 	
-	var diff2htmlUi = new Diff2HtmlUI({diff: diffString});
+	if (diffvalue==null) return
+	
+	console.log("diffvalue:\n" + diffvalue);
+	
+	var diff2htmlUi = new Diff2HtmlUI({diff: diffvalue});
 	console.log(diff2htmlUi);
-	diff2htmlUi.draw('diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
-    diff2htmlUi.highlightCode('diffview');
+	diff2htmlUi.draw('#diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
+    diff2htmlUi.highlightCode('#diffview');
 });
 
 </script>
 
 
-	
-<p id="23">
-</p>
-
-
-<!--
-<iframe src="https://diffy.org/diff/h3aywd2wao7uo8zfjgw6x0f6r"  width="1200" height="600">
-	alternative content for browsers which do not
-	</iframe>  
-	-->
 </body>
 </html>

@@ -1,9 +1,9 @@
-id,value,size
-src,
-src/onekin,
-src/onekin/Asset.java,
-src/onekin/Asset.java/PV:IFCOND (pv:hasFeature('FA') and (not (pv:hasFeature('FB')))),8
-src/onekin/Asset.java/PV:IFCOND(pv:hasFeature('FC')),2
-src/onekin/Asset.java/PV:IFCOND(pv:hasFeature:('FB')),2
-src/onekin/Asset.java/PV:IFCOND(pv:hasFeature('FA') and pv:hasFeature('FB')),4
-src/onekin/Asset.java/PV:IFCOND(pv:hasFeature('FA') or pv:hasFeature('FC')),4
+id,value,id_asset,p_release
+input,
+input/js,
+input/js/settings.js,
+input/js/settings.js/PV:IFCOND(pv:hasFeature('AirPressure')),2,61,productBerline-v1.0
+input/js/sensors.js,
+input/js/sensors.js/ PV:IFCOND(pv:hasFeature('English')),2,60,productBerline-v1.0
+input/js/settings.js/ PV:IFCOND(pv:hasFeature('German')),2,61,productBerline-v1.0
+input/js/settings.js/PV:IFCOND(pv:hasFeature('WindSpeed')),2,61,productBerline-v1.0

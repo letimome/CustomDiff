@@ -8,4 +8,8 @@ public interface ProductAssetDao extends CrudRepository<ProductAsset, Long>{
 	
 	ProductAsset getProductAssetByIdproductasset(int id);
 
+	ProductAsset getProductAssetByPath(String path);
+
+	ProductAsset getProductAssetByName(String name);
+
 }

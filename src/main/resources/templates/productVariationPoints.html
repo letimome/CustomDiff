@@ -5,7 +5,12 @@
 
 <head>
 <meta charset="utf-8"/>
+<meta name="diffvalue" th:content="${diffvalue}"></meta>
+
 <title>Treemap product structure VPs</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
+<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
+<link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
 <style>
 
 text {
@@ -29,6 +34,11 @@ tspan:last-child {
 </head>
 
 <body>
+
+<!-- Javascripts -->
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+
 <h1> Treemap for product structure with its VPs</h1>
 <svg width="960" height="1060"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -69,14 +79,22 @@ d3.csv("productstructure.csv", function(error, data) {
     .selectAll(".node")
     .data(root.descendants())
     .enter().append("g")
-      .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
+       .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
       .attr("class", "node")
       .each(function(d) { d.node = this; })
       .on("mouseover", hovered(true))
-      .on("mouseout", hovered(false));
+      .on("mouseout", hovered(false))
+      .on("click", function(d){
+	    console.log("clicked id_asset"+d.data.id_asset);
+	    /*<![CDATA[*/
+	    window.location.href = "http://localhost:8080/product_structure?pr=" +d.data.p_release+"&file="+ d.data.id_asset+"#diffview";
+	    /*]]>*/
+	 	 });
 
   cell.append("rect")
       .attr("id", function(d) { return "rect-" + d.id; })
+      .attr("id_asset", function(d) { console.log (d); return d.data.id_asset;})
+      .attr("p_release", function(d) { console.log (d); return d.data.pr_release;})
       .attr("width", function(d) { return d.x1 - d.x0; })
       .attr("height", function(d) { return d.y1 - d.y0; })
       .style("fill", function(d) { return color(d.depth); });
@@ -111,6 +129,11 @@ d3.csv("productstructure.csv", function(error, data) {
       .text(function(d) { return d.id + "\n" + format(d.value); });
 });
 
+d3.selectAll("rect").on("click", function(){
+	  var title = this.parentNode.parentNode.getElementsByTagName("title")[0].childNodes[0];
+	  console.log(title);
+	});
+
 function hovered(hover) {
   return function(d) {
     d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
@@ -119,24 +142,50 @@ function hovered(hover) {
         .attr("width", function(d) { return d.x1 - d.x0 - hover; })
         .attr("height", function(d) { return d.y1 - d.y0 - hover; });
   };
+  
+  function clicked(click){
+	  console.log("clicked");
+	  console.log(d.data.id_asset);
+	  window.location.href("htttps://localhost:8080");
+  };
 }
+
 </script>
 
-<iframe src="https://diffy.org/diff/4yxf7655i1nuwylm9wmkhp8pvi"  width="1200" height="600">
-	
-</iframe>  
-<br/>
-<table width="97%" border="1" bordercolor="#0000FF" cellspacing="10" cellpadding="10">
-	<th>Line number</th>
-	<th>Variation point</th>
-	<tr>
-		<td>104</td>
-		<td>// PV:IFCOND(pv:hasFeature('English'))</td>
-	</tr>
-	
-</table>
+<h2> Code Level diff view</h2>
+<div id="diffview"></div>
+<!-- Javascripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script> 
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script type="text/javascript" src="/dist/diff2html.js"></script>
+<script type="text/javascript" src="/dist/diff2html-ui.js"></script>
+<script type="text/javascript" src="dist/diff2html.min.js"></script>
 
+		
+<script>
+	function getMetaContentByName(name,content){
+	   var content = (content==null)?'content':content;
+	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+	}
+	
+	$(document).ready(function(){
+		//console.log(diffString); //diffString should be the value of diffview value
+		//get select("#diffvalue"). metadata
+		var diffvalue = getMetaContentByName("diffvalue");
+		
+		if (diffvalue==null) return
+		
+		console.log("diffvalue:\n" + diffvalue);
+		
+		var diff2htmlUi = new Diff2HtmlUI({diff: diffvalue});
+		console.log(diff2htmlUi);
+		diff2htmlUi.draw('#diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
+	    diff2htmlUi.highlightCode('#diffview');
+	});
+</script>
 
 </body>
-
 </html>

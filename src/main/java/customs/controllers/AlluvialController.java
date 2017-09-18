@@ -15,7 +15,11 @@ import customs.models.AlluvialDao;
 import customs.models.BaselineDao;
 import customs.models.Coreassetbaseline;
 import customs.models.Product;
+import customs.models.ProductAsset;
+import customs.models.ProductAssetDao;
 import customs.models.ProductDao;
+import customs.models.SPLdao;
+import customs.models.VariationPointDao;
 
 
 @Controller
@@ -40,8 +44,11 @@ public class AlluvialController {
 	   
 	   @RequestMapping("alluvialView")
 	   public String getCustomsByBaselineId
-	   		(@RequestParam(value="idbaseline", required=false) String idbaseline, Model model){
+	   		(@RequestParam(value="idbaseline", required=false) String idbaseline, 
+	   		@RequestParam(value="id_product_asset", required=false) int idProductAsset,
+	   				Model model){
 		   System.out.println("THIS IS idBbSeline: "+idbaseline);
+		   System.out.println("THIS IS idProductAsset: "+idProductAsset);
 		   
 		   Iterable<Alluvial> customsObj = alluvialDao.findAll();
 		   Iterator<Alluvial> it = customsObj.iterator();
@@ -55,6 +62,14 @@ public class AlluvialController {
 		   }
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		   
+		   ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(idProductAsset);
+		   String diffvalue;
+		   if(pa!=null) {
+			   	diffvalue =  customs.utils.Formatting.decodeFromBase64(pa.getRelative_diff());
+	    			//process here the content of the relative diff
+			   	model.addAttribute("diffvalue",diffvalue);
+			   	System.out.println(diffvalue);
+		   }
 		  return "alluvial";
 		  
 	 	}
@@ -80,8 +95,6 @@ public class AlluvialController {
 		  return "alluvial2";
 		  
 	 	}
-	  
-
 
 	   @RequestMapping("alluvial/baselines")
 	 		public   String getAllCoreAssetBselines( Model model) {
@@ -91,6 +104,23 @@ public class AlluvialController {
 	 			model.addAttribute("baselines", baselines);
 	 			return "alluvial"; //baselines html
 	 	}
+	   
+	   @RequestMapping("alluvialView/absolutediff")
+		public   String getDiffForProductFile( 
+				@RequestParam(value="id_product_asset", required=false) int idProductAsset,
+				//@RequestParam(value="pr", required=false) String productRelease,
+				Model model) {
+		   System.out.println("absolutediffabsolutediffabsolutediff");
+		// This returns a JSON or XML with the users
+		  //Iterable<Coreassetbaseline> baselines =  baselineDao.findAll();
+		    ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(idProductAsset);
+		    String diffvalue =  customs.utils.Formatting.decodeFromBase64(pa.getRelative_diff());
+		    //process here the content of the relative diff
+			model.addAttribute("diffvalue",diffvalue);
+			System.out.println(diffvalue);
+			return "alluvial"; //baselines html
+	}
+	   
 	   
 	   @RequestMapping("alluvial/products")
 		public   String getAllProductsByBaseline( Model model) {
@@ -108,4 +138,7 @@ public class AlluvialController {
 	   private ProductDao productDao;
 	   @Autowired private BaselineDao baselineDao;
 	   private String pathToResource = "./src/main/resources/static/";
+	   @Autowired private VariationPointDao variationPointDao;
+		 @Autowired private ProductAssetDao productAssetDao;
+		 @Autowired private SPLdao SPLdao;
 }

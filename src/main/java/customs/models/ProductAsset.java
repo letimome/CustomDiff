@@ -13,12 +13,14 @@ public class ProductAsset {
 	String content;
 	int size;
 	String productrelease_idrelease;
+	String relative_diff;
+	String absolute_diff;
 	
 	public ProductAsset() {
 		
 	}
 
-	public int getProductasset() {
+	public int getIdProductasset() {
 		return idproductasset;
 	}
 
@@ -40,6 +42,24 @@ public class ProductAsset {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+	
+	
+
+	public String getRelative_diff() {
+		return relative_diff;
+	}
+
+	public void setRelative_diff(String relative_diff) {
+		this.relative_diff = relative_diff;
+	}
+
+	public String getAbsolute_diff() {
+		return absolute_diff;
+	}
+
+	public void setAbsolute_diff(String absolute_diff) {
+		this.absolute_diff = absolute_diff;
 	}
 
 	public String getContent() {
