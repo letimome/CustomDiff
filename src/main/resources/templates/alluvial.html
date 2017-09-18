@@ -87,7 +87,7 @@
   <option value="delta">Delta</option>
 </select>
 
-<p id="chart">
+<p id="chart" />
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="sankey.js"></script>
 <script src="draw.js"></script>
@@ -173,14 +173,15 @@
            if (d.name.includes("product") || d.name.includes("Product"))
              goToReuseLevelView(d);
            else goToFeatureView(d);
-    		})
+    		});
 	  /*  .call(d3.behavior.drag()
 	      .origin(function(d) { return d; })
 	      .on("dragstart", function() { 
 			  this.parentNode.appendChild(this); })
-	      .on("drag", dragmove))*/
-	      ;
-	
+	      .on("drag", dragmove));*/
+	      
+
+		
 	// add the rectangles for the nodes
 	  node.append("rect").attr("height", function(d) { return d.dy; })
 	      .attr("width", sankey.nodeWidth())
@@ -202,7 +203,7 @@
 	   	    .filter(function(d) { return d.x < width / 2; })
 	      .attr("x", 6 + sankey.nodeWidth())
 	      .attr("text-anchor", "start");
-	
+
 	// the function for moving the nodes
 	  function dragmove(d) {
 	    d3.select(this).attr("transform", 
@@ -230,10 +231,10 @@
 				window.location.href = "http://localhost:8080/product_structure?pr=productBerline-v1.0&file=0";//" + d.source.name+"-v1.0";
 		else window.location.href = "http://localhost:8080/product_structure?pr="+link.source.name+"-v1.0&file=0";//" + d.source.name+"-v1.0"; 
 	}
+	
+	});//end
 	//]]>
 
 </script>
-</p>
-
 </body>
 </html>

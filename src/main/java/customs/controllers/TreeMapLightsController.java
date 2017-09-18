@@ -24,13 +24,31 @@ public class TreeMapLightsController {
 	   public String getTreeMapTrafficLight(
 	   				@RequestParam(value="base", required=false) String idbaseline,
 	   				@RequestParam(value="fname", required=false) String featurenamemodified,
+	   				@RequestParam(value="idfile", required=false) String idfile,
 	   				Model model){
+		  
 		   System.out.println("THIS IS featurenamemodified: "+featurenamemodified);
+		   String csvContent = extractCSVForTreeMapLights(idbaseline, featurenamemodified);
+		   customs.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
 		   
-		   Iterable<TreeMapLights> customsObj = treemapLightDao.getCustomsByIdbaseline(idbaseline);
+		   //ahora viene lo del diff view.
+		   addDiffViewForCoreAssetId(model,idfile);
+		   
+		  return "treemapLights2"; 
+	 	}
+
+
+	private void addDiffViewForCoreAssetId(Model model, String idfile) {
+		// add the diff view for the core-asset file.
+		
+	}
+
+
+	private String extractCSVForTreeMapLights(String idbaseline, String featurenamemodified) {
+		Iterable<TreeMapLights> customsObj = treemapLightDao.getCustomsByIdbaseline(idbaseline);
 		   Iterator<TreeMapLights> it = customsObj.iterator();
 		   
-		   String csvContent="id,value,frequency";//id,value,Freq.\ninput,
+		   String csvContent="id,value,frequency,id_core_asset,fname";//id,value,Freq.\ninput,
 		   ArrayList<String> paths = new ArrayList<>();
 		   TreeMapLights custo;
 		   String csvCustoms= "";
@@ -39,13 +57,15 @@ public class TreeMapLightsController {
 			  if(custo.getFeaturemodified().equals(featurenamemodified) )
 					  //||  custo.getFeaturemodified().equals("undefined")) 
 			  {
-			     csvCustoms = csvCustoms.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","")+","+custo.getChurn()+","+custo.getNumberofproductscustomizing());
+			     csvCustoms = csvCustoms.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","")+","
+			  +custo.getChurn()+","
+			    		 +custo.getNumberofproductscustomizing()+","
+			    		 +custo.getIdcoreasset()+","+featurenamemodified
+			    		 );
 			     paths.add(custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
 			  	// System.out.println(custo.getPath()+","+custo.getFeaturemodified()+","+custo.getChurn());
 			  	 }
 		   }
-		   
-		   
 		   ArrayList<String>  paths2 = customs.utils.Formatting.extractMiniPaths(paths);
 		   for (int i=0; i< paths2.size();i++) {
 			   if(!paths2.get(i).equals(""))
@@ -53,14 +73,6 @@ public class TreeMapLightsController {
 		   }
 		   csvContent=csvContent.concat(csvCustoms);
 		   System.out.println(paths2+"\n\n");
-		 
-		   customs.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
-		   
-		  return "treemapLights"; 
-	 	}
-
-	
-
-
+		return csvContent;
+	}
 }
-//treemapLights.html
