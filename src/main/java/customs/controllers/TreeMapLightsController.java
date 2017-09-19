@@ -56,7 +56,8 @@ public class TreeMapLightsController {
 		   String csvContent = extractCSVForTreeMapLightsByProductRelease(idfile, featurenamemodified);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
 		   
-		   addDiffViewForCoreAssetId(model,idfile,pr, featurenamemodified);
+		   if(idfile!=0 && pr!=null)
+		     addDiffViewForCoreAssetId(model,idfile,pr, featurenamemodified);
 		   
 		  return "treemapLights2"; 
 	 	}
