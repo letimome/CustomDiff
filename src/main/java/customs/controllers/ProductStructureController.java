@@ -43,6 +43,7 @@ public class ProductStructureController {
 		   
 		   computeDiffForSelectedReleaseFile(idrelease, id_asset, model);
 		   
+		
 		  return "productVariationPoints"; 
 	 	}
 
@@ -100,7 +101,12 @@ public class ProductStructureController {
 			 }
 		 }
 		 System.out.println(enhancedDiffValue);
-		 model.addAttribute("diffvalue",enhancedDiffValue); 
+		 
+		model.addAttribute("maintitle", "How is product' "+ idrelease + "' customizing  core-asset "
+			   		+ pa.getName()+"'? ");
+		model.addAttribute("difftitle", "diff (CoreAsset: "+pa.getName()+", ProductAsset: " + pa.getName()+")");
+			   
+	    model.addAttribute("diffvalue",enhancedDiffValue); 
 	}
 
 /*

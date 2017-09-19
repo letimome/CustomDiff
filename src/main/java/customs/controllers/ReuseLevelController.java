@@ -85,6 +85,9 @@ public class ReuseLevelController {
 		   System.out.println(paths);
 		   System.out.println(csvContent);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvContent);//path and test
+
+		  model.addAttribute("maintitle", "Which assets is '"+productrelease+"' customizing?");
+		  model.addAttribute("difftitle", "diff(Baseline-v1.0, '"+productrelease+"')");
 		   
 		   return "reuseLevel"; 
 	 	}

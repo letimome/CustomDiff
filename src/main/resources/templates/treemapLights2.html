@@ -6,8 +6,23 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
-<title>Treemap View for Core Assets</title>
+<meta name="pr" th:content="${pr}"></meta>
+<meta name="fname" th:content="${fname}"></meta>
+<meta name="cavalue" th:content="${cavalue}"></meta>
+<meta name="diffHeader" th:content="${diffHeader}"></meta>
 
+<meta name="maintitle" th:content="${maintitle}"></meta>
+<meta name="difftitle" th:content="${difftitle}"></meta>
+
+ <div class="right">
+<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
+Go Back to alluvial diagram</a>
+</div>
+
+<h1 align="center" th:text="${maintitle}"> How is feature customized in products? </h1>
+<h2 align="center" th:text="${difftitle}"> diff(feature, product portfolio)</h2>
+<br />
+<br />
 <style>
 
 body {
@@ -36,37 +51,6 @@ body {
 </style>
 </head>
 
-<h1> How much are a features' core assets being customized by products? </h1>
-<h3>Color tag: Green ("less than %33"), orange (between 33% 60%), Red (more than 60%)</h3>
-
-<select>
-  <option value="select baseline">Select baseline</option>
-  <option value="Baseline1">Baseline-v1.0</option>
-  <option value="Baseline0">Baseline-v2.0</option>
-</select>
-
-<select>
-  <option value="feature">Select feature</option>
-  <option value="WindSpeed">WindSpeed</option>
-  <option value="AirPreassure">AirPreassure</option>
-  <option value="Gale">Gale</option>
-  <option value="AirPreassure">AirPreassure</option>
-  <option value="English">English</option>
-  <option value="German">German</option>
-</select>
-
-
-<select>
-  <option value="granularity">Granularity</option>
-  <option value="file">File</option>
-  <option value="file">Feature</option>
-</select>
-
-<select>
-  <option value="churn">Select Metric</option>
-  <option value="churn">Churn</option>
-  <option value="delta">Delta</option>
-</select>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
 <link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
@@ -101,7 +85,6 @@ tspan:last-child {
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 
-<h1> Treemap for Feature Core Assets</h1>
 <svg width="960" height="1060"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
@@ -112,9 +95,16 @@ var svg = d3.select("svg"),
     height = +svg.attr("height");
 
 var format = d3.format(",d");
+/*
+green "#00CC00";
+orange "#FF9933";
+red "#E84646";*/
 
-var color = d3.scaleMagma()
-    .domain([-4, 4]);
+var color = d3.scaleLinear()
+	.domain([1, 6])
+	.range(['#00b700','#ff9a00','#E84646"']); 
+/*= d3.scaleOranges()
+    .domain([0, 10]);//values*/
 
 var stratify = d3.stratify()
     .parentId(function(d) { return d.id.substring(0, d.id.lastIndexOf("/")); });
@@ -147,7 +137,7 @@ d3.csv("treemapLights.csv", function(error, data) {
       .on("click", function(d){
 	    console.log("clicked id_core_asset"+d.data.id_core_asset);
 	    /*<![CDATA[*/
-	    window.location.href = "http://localhost:8080/treemapLights?base=Baseline-1.0&fname="+d.data.fname+"&file="+ d.data.id_core_asset+"#diffview";
+	    window.location.href = "http://localhost:8080/treemapLightsView?fname="+d.data.fname+"&idfile="+ d.data.id_core_asset+"&pr="+d.data.product_release+"#diffview";
 	    /*]]>*/
 	 	 });
 
@@ -155,17 +145,20 @@ d3.csv("treemapLights.csv", function(error, data) {
       .attr("id", function(d) { return "rect-" + d.id; })
       .attr("id_core_asset", function(d) { console.log (d); return d.data.id_core_asset;})
       .attr("fname", function(d) { console.log (d); return d.data.fname;})
-      
+      .attr("pr", function(d) { console.log (d); return d.data.product_release;})
       .attr("width", function(d) { return d.x1 - d.x0; })
       .attr("height", function(d) { return d.y1 - d.y0; })
       .style("fill", function(d) { 
     	  
-    	  var freqScale = d.data.frequency;
+    	  /*var freqScale = d.data.frequency;
     	  	console.log("Freq:"+d.data);
     	  	if (freqScale==1) return "#00CC00";
     	  	if (freqScale==2) return "#FF9933";
     	  	if (freqScale ==3) return "#E84646";
-    	  return "#808080"; 
+    	  return "#808080"; */
+    	  console.log("in color");
+    	  console.log(d);
+    	 return color(d.value);//the value - churn - of the customization
     	  });
 
   cell.append("clipPath")
@@ -221,7 +214,9 @@ function hovered(hover) {
 
 </script>
 
-<h2> Code Level diff view</h2>
+<br />
+<br />
+ <h2 th:text="${diffHeader}"></h2>
 <div id="diffview"></div>
 <!-- Javascripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>

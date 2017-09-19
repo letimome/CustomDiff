@@ -6,6 +6,18 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
+<meta name="maintitle" th:content="${maintitle}"></meta>
+<meta name="difftitle" th:content="${difftitle}"></meta>
+
+ <div class="right">
+<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
+Go Back to Alluvial view</a>
+</div>
+
+<h1 align="center" th:text="${maintitle}"> Which Variation points is product customizing? </h1>
+<h2 align="center" th:text="${difftitle}"> diff (CoreAssetBaseline, products-VPs)</h2>
+<br />
+<br />
 
 <title>Treemap product structure VPs</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
@@ -35,18 +47,20 @@ tspan:last-child {
 
 <body>
 
-<h2>Product Releases for Baseline-v1.0</h2>
+
+
+
+
+
 <a href="http://localhost:8080/product_structure?pr=productBerline-v1.0&amp;file=0">Product Berline-v1.0</a>
-<br/>
 <a href="http://localhost:8080/product_structure?pr=productDonosti-v1.0&amp;file=0">ProductDonosti-v1.0</a>
-<br/>
 <a href="http://localhost:8080/product_structure?pr=productNewYork-v1.0&amp;file=0">ProductNewYork-v1.0</a>
-<br/>
+<br />
+
 <!-- Javascripts -->
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 
-<h1> Treemap for product structure with its VPs</h1>
 <svg width="960" height="1060"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>

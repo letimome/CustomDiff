@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table (name="customizationbgfile")
-public class TreeMapLights {
+public class CustomizationsGByFile {
 	
 	 @Id String id;
 	 int idcoreasset;
@@ -16,7 +16,7 @@ public class TreeMapLights {
 	 String cafilename;
 	 String idbaseline;
 	
-	 String featuremodified;
+	// String featuremodified;
 	 int churn;
 	 int numberofproductscustomizing;
 	
@@ -45,12 +45,12 @@ public class TreeMapLights {
 	public void setIdbaseline(String idbaseline) {
 		this.idbaseline = idbaseline;
 	}
-	public String getFeaturemodified() {
+	/*public String getFeaturemodified() {
 		return featuremodified;
 	}
 	public void setFeaturemodified(String featuremodified) {
 		this.featuremodified = featuremodified;
-	}
+	}*/
 	public int getChurn() {
 		return churn;
 	}

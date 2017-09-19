@@ -8,4 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 @Transactional
 public interface CoreAssetDao extends CrudRepository <CoreAsset, Long>{
 
+	CoreAsset getCoreAssetByIdcoreasset(int idcoreasset);
 }

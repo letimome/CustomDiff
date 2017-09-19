@@ -12,7 +12,7 @@ public class ProductRelease {
 
 	@Id int idrelease;
 	Date releaseDate;
-	int roduct_idproduct;
+	int product_idproduct;
 	
 	public ProductRelease() {}
 
@@ -20,7 +20,7 @@ public class ProductRelease {
 		super();
 		this.idrelease = idrelease;
 		this.releaseDate = releaseDate;
-		this.roduct_idproduct = roduct_idproduct;
+		this.product_idproduct = roduct_idproduct;
 	}
 
 	public int getIdrelease() {
@@ -40,11 +40,11 @@ public class ProductRelease {
 	}
 
 	public int getRoduct_idproduct() {
-		return roduct_idproduct;
+		return product_idproduct;
 	}
 
 	public void setRoduct_idproduct(int roduct_idproduct) {
-		this.roduct_idproduct = roduct_idproduct;
+		this.product_idproduct = roduct_idproduct;
 	}
 	
 }

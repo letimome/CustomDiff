@@ -6,6 +6,16 @@
 <head>
 <meta charset="utf-8"/>
 <title>Treemap for product reuse</title>
+<meta name="maintitle" th:content="${maintitle}"></meta>
+<meta name="difftitle" th:content="${difftitle}"></meta>
+
+ <div class="right">
+<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
+Go Back to Alluvial view</a>
+</div>
+
+<h1 align="center" th:text="${maintitle}"> Which assets is product A customizing?  </h1>
+<h2 align="center" th:text="${difftitle}"> diff(CoreAssetBaseline, product)</h2>
 
 <style>
 
@@ -39,29 +49,6 @@ body {
 
 </script>
 
-<h1> Which are the core assets most customized by products? </h1>
-
-<select>
-  <option value="select baseline">Select baseline</option>
-  <option value="Baseline1">Baseline-v1.0</option>
-  <option value="Baseline0">Baseline-v2.0</option>
-</select>
-
-<select>
-  <option value="product">Select product</option>
-  <option value="productDonosti">ProductDonosti</option>
-  <option value="ProductBerlin">ProductBerlin</option>
-  <option value="ProductNewYork">ProductNewYork</option>
-</select>
-
-<select>
-  <option value="product">Select product release</option>
-  <option value="ProductDonostiv1.0">ProductDonostiv1.0</option>
-  <option value="ProductDonostiv2.0">ProductDonostiv2.0</option>
- 
-</select>
-
-
 
 <a href="/reuseLevelView?zoom=true&amp;pr=productBerlin-v2.0" onclick='zoomIn(900,500)'>Zoom-in</a>
 <a href="/reuseLevelView?zoom=false&amp;pr=productBerlin-v2.0" onclick='zoomOut()'>Zoom-out</a>
@@ -86,7 +73,7 @@ function zoomOut(){
 	height = 1000 - margin.top - margin.bottom;
 }
 
-var margin= {top: 70, right: 10, bottom: 10, left: 25},
+var margin= {top: 120, right: 10, bottom: 10, left: 25},
 width = 1300 - margin.left - margin.right,
 height = 700 - margin.top - margin.bottom;
 

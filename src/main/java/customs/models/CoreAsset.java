@@ -16,7 +16,7 @@ public class CoreAsset {
 		String path;
 		String content;
 		int size;
-		int coreassetbaseline_idbaseline;
+		String coreassetbaseline_idbaseline;
 		
 		public CoreAsset() {}
 
@@ -60,11 +60,11 @@ public class CoreAsset {
 			this.size = size;
 		}
 
-		public int getCoreassetbaseline_idbaseline() {
+		public String getCoreassetbaseline_idbaseline() {
 			return coreassetbaseline_idbaseline;
 		}
 
-		public void setCoreassetbaseline_idbaseline(int coreassetbaseline_idbaseline) {
+		public void setCoreassetbaseline_idbaseline(String coreassetbaseline_idbaseline) {
 			this.coreassetbaseline_idbaseline = coreassetbaseline_idbaseline;
 		}
 		

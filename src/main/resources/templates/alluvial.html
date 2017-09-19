@@ -54,38 +54,11 @@
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 
-<h1>Which are the features that each product is customizing? How much are they being customized?  </h1>
-<h2>diff(core asset baseline , product portfolio)</h2>
 
-
-<p>Select a baseline to analyze: </p>
-    <a href="/alluvial/baselines">Load baselines</a>
-	    <select onchange="" class="form-control"  id="dropBaseline">
-		    <option value="0" text="select" >Select baseline</option>
-		    <option th:each="baseline : ${baselines}" 
-		    th:value="${baseline.getIdBaseline()}" 
-		    th:text="${baseline.getIdBaseline()}"></option>
-	    </select>
-	
-
-
-<select>
-  <option value="all">All products</option>
-  <option value="ProductDonosti">ProductDonosti</option>
-  <option value="ProductBerlin">ProductBerlin</option>
-  <option value="ProductNewYork">ProductNewYork</option>
-</select>
-
-<select>
-  <option value="feature">Feature</option>
-  <option value="file">File</option>
-</select>
-
-
-<select>
-  <option value="churn">Churn</option>
-  <option value="delta">Delta</option>
-</select>
+<h1 align="center">What features is each product customizing? </h1>
+<h2 align="center">diff(Baseline-v1.0 , product portfolio)</h2>
+<br />
+<br />
 
 <p id="chart" />
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -214,20 +187,20 @@
 	    link.attr("d", path);
 	  }
 	function goToReuseLevelView(d){
-		if (d.name=="ProductBerlin")
+		if (d.name==="productBerlin")
 			window.location.href = "http://localhost:8080/reuseLevelView?pr=productBerline-v1.0";
 		else window.location.href = "http://localhost:8080/reuseLevelView?pr=" + d.name+"-v1.0";
 	}
 	
 	function goToFeatureView(d){
-	    window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname=" + d.name;
+	    window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname=" + d.name+"&idfile=0";
 	}
 	function goToVPsView(d,p,link,l){
 	   
 		console.log(link);
 		console.log(link.name);
 		console.log(link.source);
-		if (link.source.name.includes("ProductBerlin"))
+		if (link.source.name.includes("productBerlin"))
 				window.location.href = "http://localhost:8080/product_structure?pr=productBerline-v1.0&file=0";//" + d.source.name+"-v1.0";
 		else window.location.href = "http://localhost:8080/product_structure?pr="+link.source.name+"-v1.0&file=0";//" + d.source.name+"-v1.0"; 
 	}
