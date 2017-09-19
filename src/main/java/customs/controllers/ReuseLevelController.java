@@ -73,19 +73,23 @@ public class ReuseLevelController {
 		   }
 		   
 		   it  = unCustomizedPAs.iterator();
-		   NotCustomizedProductAssets notCust;
-			  while(it.hasNext()) { //getting lines for not customized ones;
-			       notCust = it.next();
-			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+
-			       ","+notCust.getSize()+",reused");
-			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added");
-			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed");
-			  }		   
+		   System.out.println(zoom);
+		   //if(zoom.equals("true")) {
+			    NotCustomizedProductAssets notCust;
+				  while(it.hasNext()) { //getting lines for not customized ones;
+				       notCust = it.next();
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+
+				       ","+notCust.getSize()+",reused");
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added");
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed");
+			//	  }	
+		   }
 		  
 		   System.out.println(paths);
 		   System.out.println(csvContent);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvContent);//path and test
-
+		   
+		   model.addAttribute("pr",productrelease);
 		  model.addAttribute("maintitle", "Which assets is '"+productrelease+"' customizing?");
 		  model.addAttribute("difftitle", "diff(Baseline-v1.0, '"+productrelease+"')");
 		   

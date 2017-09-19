@@ -8,6 +8,7 @@
 <title>Treemap for product reuse</title>
 <meta name="maintitle" th:content="${maintitle}"></meta>
 <meta name="difftitle" th:content="${difftitle}"></meta>
+<meta name="pr" th:content="${pr}"></meta>
 
  <div class="right">
 <a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
@@ -50,7 +51,7 @@ body {
 </script>
 
 
-<a href="/reuseLevelView?zoom=true&amp;pr=productBerlin-v2.0" onclick='zoomIn(900,500)'>Zoom-in</a>
+<a href="/reuseLevelView?zoom=true&amp;pr=productBerlin-v2.0"  onclick='zoomIn(900,500)'>Zoom-in</a>
 <a href="/reuseLevelView?zoom=false&amp;pr=productBerlin-v2.0" onclick='zoomOut()'>Zoom-out</a>
     	
 
@@ -60,7 +61,11 @@ body {
 <script>
 
 var margin,width,height; 
-
+function getMetaContentByName(name,content){
+	   var content = (content==null)?'content':content;
+	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+	}
+	
 function zoomIn(){
 	this.margin = {top: 70, right: 10, bottom: 10, left: 25},
 	width = 1200 - margin.left - margin.right,
@@ -68,9 +73,7 @@ function zoomIn(){
 }
 
 function zoomOut(){
-	margin = {top: 70, right: 10, bottom: 10, left: 25},
-	width = 3000 - margin.left - margin.right,
-	height = 1000 - margin.top - margin.bottom;
+ 
 }
 
 var margin= {top: 120, right: 10, bottom: 10, left: 25},
