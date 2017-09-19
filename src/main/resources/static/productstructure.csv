@@ -2,8 +2,8 @@ id,value,id_asset,p_release
 input,
 input/js,
 input/js/settings.js,
-input/js/settings.js/PV:IFCOND(pv:hasFeature('AirPressure')),2,61,productBerline-v1.0
+input/js/settings.js/PV:IFCOND(pv:hasFeature('AirPressure')),2,92,productBerline-v1.0
 input/js/sensors.js,
-input/js/sensors.js/ PV:IFCOND(pv:hasFeature('English')),2,60,productBerline-v1.0
-input/js/settings.js/ PV:IFCOND(pv:hasFeature('German')),2,61,productBerline-v1.0
-input/js/settings.js/PV:IFCOND(pv:hasFeature('WindSpeed')),2,61,productBerline-v1.0
+input/js/sensors.js/ PV:IFCOND(pv:hasFeature('English')),2,91,productBerline-v1.0
+input/js/settings.js/ PV:IFCOND(pv:hasFeature('German')),2,92,productBerline-v1.0
+input/js/settings.js/PV:IFCOND(pv:hasFeature('WindSpeed')),2,92,productBerline-v1.0

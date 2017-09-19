@@ -71,16 +71,23 @@ public class ReuseLevelController {
 			   csvContent = csvContent.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+","+
 					   Math.abs(custo.getPa_size()-custo.getCa_size())+",reused");
 		   }
-		   
-		   it  = unCustomizedPAs.iterator();
-		   NotCustomizedProductAssets notCust;
-			  while(it.hasNext()) { //getting lines for not customized ones;
-			       notCust = it.next();
-			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+
-			       ","+notCust.getSize()+",reused");
-			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added");
-			       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed");
-			  }		   
+		   boolean zoomy=false;
+		   if(zoom==null) zoomy=true;
+		   else 
+			   if (zoom.equals("false"))
+				   zoomy=true;
+		   if(zoomy) {
+			   it  = unCustomizedPAs.iterator();
+			   NotCustomizedProductAssets notCust;
+				  while(it.hasNext()) { //getting lines for not customized ones;
+				       notCust = it.next();
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+
+				       ","+notCust.getSize()+",reused");
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added");
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed");
+				  }	
+		   }
+		   	   
 		  
 		   System.out.println(paths);
 		   System.out.println(csvContent);

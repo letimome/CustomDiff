@@ -1,1 +1,7 @@
-id,value,frequency
+id,value,frequency,id_core_asset,fname,product_release
+input,
+input/js,
+input/js/settings.js,
+input/js/settings.js/productNewYork-v1.0,2,2,30,WindSpeed,productNewYork-v1.0
+input/js/settings.js/productBerline-v1.0,2,2,30,WindSpeed,productBerline-v1.0
+input/js/settings.js/productBerlin-v2.0,2,2,30,WindSpeed,productBerlin-v2.0
