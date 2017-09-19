@@ -41,34 +41,20 @@ tspan:last-child {
 .node--hover rect {
   stroke: #001;
 }
-
 </style>
 </head>
-
 <body>
-
-
-
-
-
-
-<a href="http://localhost:8080/product_structure?pr=productBerline-v1.0&amp;file=0">Product Berline-v1.0</a>
-<a href="http://localhost:8080/product_structure?pr=productDonosti-v1.0&amp;file=0">ProductDonosti-v1.0</a>
-<a href="http://localhost:8080/product_structure?pr=productNewYork-v1.0&amp;file=0">ProductNewYork-v1.0</a>
-<br />
 
 <!-- Javascripts -->
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 
-<svg width="960" height="1060"></svg>
+<svg align="center" width="900" height="400"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
 
 
-
 <script>
-
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
@@ -174,7 +160,7 @@ function hovered(hover) {
 
 </script>
 
-<h2> Code Level diff view</h2>
+<h2 th:text="${diffHeader}"></h2>
 <div id="diffview"></div>
 <!-- Javascripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
