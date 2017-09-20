@@ -36,9 +36,8 @@ public class TreeMapLightsController {
 	  @Autowired private SPLdao SPLdao;
 	  @Autowired private ProductAssetDao paDao;
 	  @Autowired private VariationPointDao variationPointDao;
-	  @Autowired private CustomizationsByVPandPRDao prsAndVps;
 	  @Autowired private CoreAssetDao caDao;
-	@Autowired private ProductAssetDao productAssetDao;
+
 		 
 	   private String pathToResource = "./src/main/resources/static/";
 	
@@ -54,7 +53,7 @@ public class TreeMapLightsController {
 		   System.out.println("THIS IS featurenamemodified: "+featurenamemodified);
 		   System.out.println("THIS IS idfile: "+idfile);
 		   
-		   String csvContent = extractCSVForTreeMapLightsByProductRelease(idfile, featurenamemodified);
+		   String csvContent = extractCSVForTreeMapLightsByFeature(idfile, featurenamemodified);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
 		   
 		   if( pr!=null)
@@ -123,9 +122,10 @@ public class TreeMapLightsController {
 	}
 
 	//this is for the "diagram part" of the view
-	private String extractCSVForTreeMapLightsByProductRelease(int idcoreasset, String featureid) {
+	private String extractCSVForTreeMapLightsByFeature(int idcoreasset, String featureid) {
 		//idcoreasset   
 		 System.out.println("Id file ="+ idcoreasset);
+		 //get all core-assets by featureid
 		 
 		 CustomizationsGByFile treemap = treemapLightDao.getCustomsByIdcoreasset(idcoreasset);
 		
