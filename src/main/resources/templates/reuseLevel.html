@@ -43,23 +43,7 @@ body {
   color: rgba(0,0,0,0.8);
   font-size: 10px;
   margin-top: 9px;
-}
 
-text {
-  font: 10px sans-serif;
-}
-
-tspan:last-child {
-  font-size: 10px;
-  fill-opacity: 0.9;
-}
-
-.node  node{
-  shape-rendering: crispEdges;
-}
-
-.node--hover node {
-  stroke: #001;
 }
 </style>
 </head>
@@ -141,14 +125,30 @@ d3.csv("reuseLevel.csv", type, function(error, data) {
 	    	  	else if (operation==("added")) return "#3fac54";
 	    	  	else if (operation==("removed")) return "#e6323d";
     	  	})
-    	.on("mouseover", hovered(true))
-    .on("mouseout", hovered(false))
+    	.on("mouseover",function(d) {
+    		
+    		d3.select(this).style("background", "#6495ed");
+    		//d3.select(this).style("width", function(d) { return d.x1 - d.x0 +10+"px"; })
+    	      //.style("height", function(d) { return d.y1 - d.y0 + 10+ "px"; });
+    	})
+    .on("mouseout", function(d){
+   		 	d3.select(this).style("background",function(d) {
+  	    	  var operation = d.data.operation;
+	    	  	if (operation ==("reused")) return "#cccccc";
+	    	  	else if (operation==("added")) return "#3fac54";
+	    	  	else if (operation==("removed")) return "#e6323d";
+  	  	});
+   		 	//.style("width", function(d) { return d.x1 - d.x0 +"px"; })
+	      //.style("height", function(d) { return d.y1 - d.y0 + "px"; });
+    })
     .on("click", function(d){
-	    console.log("clicked id_asset"+d.data.p_asset_id);
-	    /*<![CDATA[*/
-	    window.location.href = "http://localhost:8080/file_vp_structure?pr=" +d.data.pr+"&file="+ d.data.p_asset_id;
-	    /*]]>*/
-	 	 })
+    	    if(d.data.operation==="reused") window.alert("This asset does not have any Diff associated!\n Select another asset");
+    	    else{
+    	    	console.log("clicked id_asset"+d.data.p_asset_id);
+    		    /*<![CDATA[*/
+    		    window.location.href = "http://localhost:8080/file_vp_structure?pr=" +d.data.pr+"&file="+ d.data.p_asset_id;
+    		    /*]]>*/	
+    	    }  })
     .append("div")
       .attr("class", "node-label")
       .text(function(d) { return d.id.substring(d.id.lastIndexOf("/") + 1).split(/(?=[A-Z][^A-Z])/g).join("\n"); })
@@ -164,11 +164,6 @@ function type(d) {
   return d;
 }
 
-function hovered(hover) {
-	  return function(d) {
-		
-	}
-}
 
 </script>
 </p>

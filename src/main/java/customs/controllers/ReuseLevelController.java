@@ -95,7 +95,7 @@ public class ReuseLevelController {
 		   
 		   model.addAttribute("pr",productrelease);
 		  model.addAttribute("maintitle", "Which assets is '"+productrelease+"' customizing?");
-		  model.addAttribute("difftitle", "diff(Baseline-v1.0, '"+productrelease+"')");
+		  model.addAttribute("difftitle", "diff(Baseline-v1.0.getAllAssets(), "+productrelease+".getAllAssets())");
 		   
 		   return "reuseLevel"; 
 	 	}

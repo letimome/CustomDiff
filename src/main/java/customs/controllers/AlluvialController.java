@@ -58,7 +58,11 @@ public class AlluvialController {
 			   custo= it.next();
 			   if(custo.getIdbaseline().equals(idbaseline))
 			     if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null") && !custo.getFeatureModified().equals("undefined"))
-				   csvCustoms = csvCustoms.concat("\n"+custo.getName()+","+custo.getFeatureModified()+","+custo.getChurn()+"");
+				   csvCustoms = csvCustoms.concat
+				   ("\n"
+				   +custo.getFeatureModified()
+				   +","+custo.getIdRelease()
+				   +","+custo.getChurn()+"");
 		   }
 		   
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test

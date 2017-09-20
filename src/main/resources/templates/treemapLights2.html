@@ -73,7 +73,7 @@ tspan:last-child {
 }
 
 .node--hover rect {
-  stroke: #001;
+  stroke: #005;
 }
 
 </style>
@@ -92,6 +92,12 @@ tspan:last-child {
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
 
 <script>
+
+function getMetaContentByName(name,content){
+	   var content = (content==null)?'content':content;
+	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+	}
+
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
@@ -150,17 +156,19 @@ d3.csv("treemapLights.csv", function(error, data) {
       .attr("pr", function(d) { console.log (d); return d.data.product_release;})
       .attr("width", function(d) { return d.x1 - d.x0; })
       .attr("height", function(d) { return d.y1 - d.y0; })
-      .style("fill", function(d) { 
-    	  
-    	  /*var freqScale = d.data.frequency;
-    	  	console.log("Freq:"+d.data);
-    	  	if (freqScale==1) return "#00CC00";
-    	  	if (freqScale==2) return "#FF9933";
-    	  	if (freqScale ==3) return "#E84646";
-    	  return "#808080"; */
-    	  console.log("in color");
-    	  console.log(d);
-    	 return color(d.value);//the value - churn - of the customization
+     .style("stroke","black")
+     .style("fill", function(d) { 
+	    	  console.log("in color");		
+	    	  console.log(d);
+	    	  console.log(getMetaContentByName("pr"));
+	    	  if (d.data.product_release!=null)
+	    		  if (d.data.product_release!="undefined") 
+	    			  if (getMetaContentByName("pr") == d.data.product_release)
+	    		 		{
+	    				  d3.select(d.node).attr("selected","true");
+	    				  return "#6495ed";
+	    		 		}	
+	    	return color(d.value);//the value - churn - of the customization
     	  });
 
   cell.append("clipPath")
@@ -193,19 +201,29 @@ d3.csv("treemapLights.csv", function(error, data) {
       .text(function(d) { return d.id + "\n" + format(d.value); });
 });
 
-d3.selectAll("rect").on("click", function(){
+d3.selectAll("rect").on("click", function(d){
 	  var title = this.parentNode.parentNode.getElementsByTagName("title")[0].childNodes[0];
+	  
 	  console.log(title);
 	});
 
 function hovered(hover) {
-  return function(d) {
-    d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
-        .classed("node--hover", hover)
-      .select("rect")
-        .attr("width", function(d) { return d.x1 - d.x0 - hover; })
-        .attr("height", function(d) { return d.y1 - d.y0 - hover; });
-  };
+	  return function(d) {
+	    d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
+	        .classed("node--hover", hover)
+	      .	select("rect")
+	      .style("boder-color","black")
+	       .style("stroke","black")
+	        .attr("width", function(d) { return d.x1 - d.x0 - hover; })
+	        .attr("height", function(d) { return d.y1 - d.y0 - hover; });
+	    
+	    if(hover==false)
+	    	d3.select(d.node)
+	    	      .classed("node--hover", hover).select("rect").
+	    	      style("fill", function(d) { return color(d.depth); });
+	    else d3.select(d.node).classed("node--hover", hover).
+	    select("rect").style("fill","#6495ed");
+	  };
   
   function clicked(click){
 	  console.log("clicked");
@@ -218,7 +236,7 @@ function hovered(hover) {
 
 <br />
 <br />
- <h2 th:text="${diffHeader}"></h2>
+ <h4 th:text="${diffHeader}"></h4>
 <div id="diffview"></div>
 <!-- Javascripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>

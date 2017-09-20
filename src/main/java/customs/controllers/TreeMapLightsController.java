@@ -57,32 +57,47 @@ public class TreeMapLightsController {
 		   String csvContent = extractCSVForTreeMapLightsByProductRelease(idfile, featurenamemodified);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
 		   
-		   if(idfile!=0 && pr!=null)
+		   if( pr!=null)
 		     addDiffViewForCoreAssetId(model,idfile,pr, featurenamemodified);
 		   
 		   model.addAttribute("pr",pr);
 		   model.addAttribute("fname",featurenamemodified);
 			 
 		   model.addAttribute("maintitle", "How is feature '"+featurenamemodified+"' being customized in products?");
-		   model.addAttribute("difftitle", "diff(feature '" +featurenamemodified+"', product-portfolio)");
+		   model.addAttribute("difftitle", "diff(Feature: '" +featurenamemodified+"', Product-Portfolio)");
 		   
 		  return "treemapLights2"; 
 	 	}
 
 
 	private void addDiffViewForCoreAssetId(Model model, int idcoreasset,String pr, String featureid) {
+		
 		if(pr==null) return;
 		//I need to get the absolute diff  that modifies the idcoreasset in release pr
 		 System.out.println("diff for idcoreasset: "+idcoreasset); System.out.println("diff for pr: "+pr);
 		 ProductAsset pa=null;
+		 CoreAsset ca=null;
 		 
-		 CoreAsset ca = caDao.getCoreAssetByIdcoreasset(idcoreasset);
+		 if(idcoreasset==0) {//then select the first one
+			 Iterator<CustomizationsByFeature>  it= featureCustomsDao.getCustomsByFeatureid(featureid).iterator();
+			 CustomizationsByFeature aux;
+			 while(it.hasNext()) {
+				 aux= it.next();
+				 if(aux.getPr().equals(pr)) {
+					 ca =  caDao.getCoreAssetByIdcoreasset(aux.getCoreassetid());
+					 break;
+				 }
+			 }
+		 }
+		 else ca = caDao.getCoreAssetByIdcoreasset(idcoreasset);
+		 
 		 Iterator <ProductAsset> ite = paDao.findAll().iterator();
 		 while(ite.hasNext()) {
 			 pa=ite.next();
 			 if(pa.getProductrelease_idrelease().equals(pr) && ca.getPath().equals(pa.getPath()))
 				 break;
 		 }
+		 
 		 System.out.println("pa: "+pa);
 		 System.out.println("pa: "+pa.getPath());
 		 String diffvalue =  customs.utils.Formatting.decodeFromBase64(pa.getRelative_diff());
@@ -98,11 +113,13 @@ public class TreeMapLightsController {
 		 model.addAttribute("diffvalue",filteredDiff); 
 		 model.addAttribute("pr",pr);
 		 model.addAttribute("fname",featureid);
-		 model.addAttribute("cavalue",ca.getName());
-		 String header= "Differences between product '"+pr+"' for core-asset '"+ca.getName()+"' and feature '"+featureid+"'";
+		 model.addAttribute("cavalue",ca.getIdcoreasset());
+// model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.getVPExpression('"+expression+")]");
+		 String header= "diff( Baseline-v1.0.getAsset('"+ca.getName()+"'),  "+pr+".getAsset('"+ca.getName()+"') [VP.expression.contains('"+featureid+"')]";
+		 		
 		 model.addAttribute("diffHeader", header);
 		 model.addAttribute("maintitle", "How is feature '"+featureid+"' being customized in products?");
-		 model.addAttribute("difftitle", "diff(feature '" +featureid+"', product-portfolio)");
+		 model.addAttribute("difftitle", "diff(Feature: '" +featureid+"', Product-Portfolio)");
 	}
 
 	//this is for the "diagram part" of the view

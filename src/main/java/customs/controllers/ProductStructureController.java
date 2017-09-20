@@ -69,12 +69,12 @@ public class ProductStructureController {
 		
 		  if(expression==null) {
 			  computeDiffForSelectedReleaseFile(idrelease, id_asset, model);
-			  model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.VP.getAll()]");
+			  model.addAttribute("diffHeader", "diff (Baseline-v1.0.getAsset('"+pa.getName()+"') ,"+idrelease+".getAsset('"+pa.getName()+"') [VP.Expression.contains('Features.all()')]");
 		  } 
 		  else {
 			  String diffvalue =addDiffViewForProductAssetId(idrelease, id_asset, expression);
 			  model.addAttribute("diffvalue", diffvalue);
-			  model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.getVPExpression('"+expression+")]");
+			  model.addAttribute("diffHeader", "diff (Baseline-v1.0.getAsset('"+pa.getName()+"') ,"+idrelease+".getAsset('"+pa.getName()+"') [VP.expression='"+expression+"']");
 		  } 
 	
 		   model.addAttribute("maintitle", "How is product '"+ idrelease + "' customizing core-asset '"+pa.getName()+"'?");
