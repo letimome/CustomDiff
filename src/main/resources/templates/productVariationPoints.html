@@ -9,16 +9,26 @@
 <meta name="maintitle" th:content="${maintitle}"></meta>
 <meta name="difftitle" th:content="${difftitle}"></meta>
 
+<table style="width:100%">
 
- <div class="right">
-<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
+    <tr>
+        <td align="right"> 
+        <div>
+		<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
+			<img src="customDiff.png" alt="Back to alluvial view" style="width:80px;height:80px;"/>
+		</a>
+		</div>
+		</td>
+		        <td align="right">
+	
+	<h1 align="center" th:text="${maintitle}"> Which Variation points is product customizing? </h1>
+	<h2 align="center" th:text="${difftitle}"> diff (CoreAssetBaseline, products-VPs)</h2>
+		    </td></tr>
+</table>
 
-<img src="customDiff.png" alt="Back to alluvial view" style="width:80px;height:80px;"/>
-</a>
-</div>
 
-<h1 align="center" th:text="${maintitle}"> Which Variation points is product customizing? </h1>
-<h2 align="center" th:text="${difftitle}"> diff (CoreAssetBaseline, products-VPs)</h2>
+
+
 <br />
 <br />
 
@@ -29,11 +39,11 @@
 <style>
 
 text {
-  font: 10px sans-serif;
+  font: 14px sans-serif;
 }
 
 tspan:last-child {
-  font-size: 10px;
+  font-size: 14px;
   fill-opacity: 0.9;
 }
 
@@ -51,8 +61,8 @@ tspan:last-child {
 <!-- Javascripts -->
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
-
-<svg align="center" width="900" height="400"></svg>
+<p align="center">
+<svg align="center" width="900" height="400"></svg></p>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
 

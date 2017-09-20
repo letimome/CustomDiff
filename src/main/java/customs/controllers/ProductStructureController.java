@@ -74,7 +74,7 @@ public class ProductStructureController {
 		  else {
 			  String diffvalue =addDiffViewForProductAssetId(idrelease, id_asset, expression);
 			  model.addAttribute("diffvalue", diffvalue);
-			  model.addAttribute("diffHeader", "diff (Baseline-v1.0.getAsset('"+pa.getName()+"') ,"+idrelease+".getAsset('"+pa.getName()+"') [VP.expression='"+expression+"']");
+			  model.addAttribute("diffHeader", "diff (Baseline-v1.0.'"+pa.getName()+"' ,"+idrelease+".'"+pa.getName()+"' ["+expression+"]");
 		  } 
 	
 		   model.addAttribute("maintitle", "How is product '"+ idrelease + "' customizing core-asset '"+pa.getName()+"'?");
@@ -99,6 +99,7 @@ public class ProductStructureController {
 	private String extractVPsCSVForSingleProductAsset(String idrelease, int id_asset) {
 		   Iterable<CustomizationsByVPandPR> customsObj = prsAndVps.getCustomizationByInproduct(idrelease);
 		   Iterator<CustomizationsByVPandPR> it = customsObj.iterator();
+		   
 		   
 		   String csvContent="id,value,id_asset,p_release,expression"; //id,value,size
 		   ArrayList<String> paths = new ArrayList<>();

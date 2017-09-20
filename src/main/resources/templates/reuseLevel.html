@@ -10,15 +10,24 @@
 <meta name="difftitle" th:content="${difftitle}"></meta>
 <meta name="pr" th:content="${pr}"></meta>
 
- <div class="right">
-<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
 
-<img src="customDiff.png" alt="Back to alluvial view" style="width:80px;height:80px;"/>
-</a>
-</div>
+<table style="width:100%">
 
-<h1 align="center" th:text="${maintitle}"> Which assets is product A customizing?  </h1>
-<h2 align="center" th:text="${difftitle}"> diff(CoreAssetBaseline, product)</h2>
+    <tr>
+        <td align="right"> 
+        <div>
+		<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
+		<img src="customDiff.png" alt="Back to alluvial view" style="width:80px;height:80px;"/>
+		</a>
+		</div></td>
+		        <td align="right"><h1 align="center" th:text="${maintitle}"> Which assets is product A customizing?  </h1>
+		<h2 align="center" th:text="${difftitle}"> diff(CoreAssetBaseline, product)</h2></td>
+		    </tr>
+</table>
+
+
+
+
 
 <style>
 
@@ -51,15 +60,17 @@ body {
 <script>
 
 </script>
-
-
+<br />
+<br />
+<br />
+<div align ="left">
 <a href="/reuseLevelView?zoom=false&amp;pr=productBerlin-v2.0" onclick='zoomOut()'>Zoom-in</a>
 <a href="/reuseLevelView?zoom=true&amp;pr=productBerlin-v2.0"  onclick='zoomIn(900,500)'>Zoom-Out</a>
-
+</div>
     	
 
-
-<p id="chart">
+<div align="center">
+<p id="chart" align="center">
 <script src="http://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
@@ -72,16 +83,16 @@ function getMetaContentByName(name,content){
 	
 function zoomIn(){
 	this.margin = {top: 70, right: 10, bottom: 10, left: 25},
-	width = 5000 - margin.left - margin.right,
-	height = 2000 - margin.top - margin.bottom;
+	width = 900 - margin.left - margin.right,
+	height = 500 - margin.top - margin.bottom;
 }
 
 function zoomOut(){
  
 }
 
-var margin= {top: 200, right: 10, bottom: 10, left: 25},
-width = 1300 - margin.left - margin.right,
+var margin= {top: 170, right: 10, bottom: 10, left: 25},
+width = 1500 - margin.left - margin.right,
 height = 900 - margin.top - margin.bottom;
 
 var format = d3.format(",d");
@@ -167,6 +178,7 @@ function type(d) {
 
 </script>
 </p>
+</div>
 
 </body>
 </html>
