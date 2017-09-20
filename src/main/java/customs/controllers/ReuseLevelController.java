@@ -55,7 +55,7 @@ public class ReuseLevelController {
 		   
 		   
 		   paths = customs.utils.Formatting.extractMiniPaths(aux);
-		   String csvContent="id,value,operation";
+		   String csvContent="id,value,operation,pr,p_asset_id";
 		   Iterator<String> ite = paths.iterator();
 		   while (ite.hasNext()) {
 			   csvContent= csvContent.concat("\n"+ite.next()+",");
@@ -67,26 +67,30 @@ public class ReuseLevelController {
 		   while(itCust.hasNext()) {//getting lines for Customized Assets
 			   custo = itCust.next();
 			   csvContent = csvContent.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+","+
-			   custo.getLocs()+","+custo.getOperation().toLowerCase());
+			   custo.getLocs()+","+custo.getOperation().toLowerCase()
+			   +","+productrelease+","+custo.getIdproductasset());
+			   
 			   csvContent = csvContent.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+","+
-					   Math.abs(custo.getPa_size()-custo.getCa_size())+",reused");
+					   Math.abs(custo.getPa_size()-custo.getCa_size())+",reused"
+					   +","+productrelease+","+custo.getIdproductasset());//TODO: Mirar!, parece que no va bien el comput
 		   }
 		   
 		   it  = unCustomizedPAs.iterator();
 		   System.out.println(zoom);
-		   //if(zoom.equals("true")) {
+		   if(zoom!=null && zoom.equals("true")) {
 			    NotCustomizedProductAssets notCust;
 				  while(it.hasNext()) { //getting lines for not customized ones;
 				       notCust = it.next();
 				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+
 				       ","+notCust.getSize()+",reused");
-				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added");
-				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed");
-			//	  }	
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added"
+				    		   +","+productrelease+", "+notCust.getIdproductasset());
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed"
+				    		   +","+productrelease+", "+notCust.getIdproductasset());
+			  }	
 		   }
 		  
-		   System.out.println(paths);
-		   System.out.println(csvContent);
+		   System.out.println(paths); System.out.println(csvContent);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvContent);//path and test
 		   
 		   model.addAttribute("pr",productrelease);

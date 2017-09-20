@@ -12,7 +12,9 @@
 
  <div class="right">
 <a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
-Go Back to Alluvial view</a>
+
+<img src="customDiff.png" alt="Back to alluvial view" style="width:80px;height:80px;"/>
+</a>
 </div>
 
 <h1 align="center" th:text="${maintitle}"> Which assets is product A customizing?  </h1>
@@ -43,6 +45,22 @@ body {
   margin-top: 9px;
 }
 
+text {
+  font: 10px sans-serif;
+}
+
+tspan:last-child {
+  font-size: 10px;
+  fill-opacity: 0.9;
+}
+
+.node  node{
+  shape-rendering: crispEdges;
+}
+
+.node--hover node {
+  stroke: #001;
+}
 </style>
 </head>
 <body>
@@ -51,13 +69,15 @@ body {
 </script>
 
 
-<a href="/reuseLevelView?zoom=true&amp;pr=productBerlin-v2.0"  onclick='zoomIn(900,500)'>Zoom-in</a>
-<a href="/reuseLevelView?zoom=false&amp;pr=productBerlin-v2.0" onclick='zoomOut()'>Zoom-out</a>
+<a href="/reuseLevelView?zoom=false&amp;pr=productBerlin-v2.0" onclick='zoomOut()'>Zoom-in</a>
+<a href="/reuseLevelView?zoom=true&amp;pr=productBerlin-v2.0"  onclick='zoomIn(900,500)'>Zoom-Out</a>
+
     	
 
 
 <p id="chart">
 <script src="http://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
 
 var margin,width,height; 
@@ -68,17 +88,17 @@ function getMetaContentByName(name,content){
 	
 function zoomIn(){
 	this.margin = {top: 70, right: 10, bottom: 10, left: 25},
-	width = 1200 - margin.left - margin.right,
-	height = 800 - margin.top - margin.bottom;
+	width = 5000 - margin.left - margin.right,
+	height = 2000 - margin.top - margin.bottom;
 }
 
 function zoomOut(){
  
 }
 
-var margin= {top: 120, right: 10, bottom: 10, left: 25},
+var margin= {top: 200, right: 10, bottom: 10, left: 25},
 width = 1300 - margin.left - margin.right,
-height = 700 - margin.top - margin.bottom;
+height = 900 - margin.top - margin.bottom;
 
 var format = d3.format(",d");
 
@@ -109,27 +129,47 @@ d3.csv("reuseLevel.csv", type, function(error, data) {
     .enter().append("div")
       .attr("class", "node")
       .attr("title", function(d) { return d.id + "\n" + format(d.value); })
+      .attr("pr", function(d) { return d.data.pr; })
+      .attr("p_asset_id", function(d) {return  d.data.p_asset_id; })
       .style("left", function(d) { return d.x0 + "px"; })
       .style("top", function(d) { return d.y0 + margin.top+ "px"; })
       .style("width", function(d) { return d.x1 - d.x0 + "px"; })
       .style("height", function(d) { return d.y1 - d.y0 + "px"; })
       .style("background",function(d) {
-    	  	var operation = d.data.operation;
-    	  	if (operation ==("reused")) return "#cccccc";
-    	  	else if (operation==("added")) return "#3fac54";
-    	  	else if (operation==("removed")) return "#e6323d";})
+	    	  var operation = d.data.operation;
+	    	  	if (operation ==("reused")) return "#cccccc";
+	    	  	else if (operation==("added")) return "#3fac54";
+	    	  	else if (operation==("removed")) return "#e6323d";
+    	  	})
+    	.on("mouseover", hovered(true))
+    .on("mouseout", hovered(false))
+    .on("click", function(d){
+	    console.log("clicked id_asset"+d.data.p_asset_id);
+	    /*<![CDATA[*/
+	    window.location.href = "http://localhost:8080/file_vp_structure?pr=" +d.data.pr+"&file="+ d.data.p_asset_id;
+	    /*]]>*/
+	 	 })
     .append("div")
       .attr("class", "node-label")
       .text(function(d) { return d.id.substring(d.id.lastIndexOf("/") + 1).split(/(?=[A-Z][^A-Z])/g).join("\n"); })
+     
     .append("div")
       .attr("class", "node-value")
       .text(function(d) { return format(d.value); })
+    
 });
 
 function type(d) {
   d.value = +d.value;
   return d;
 }
+
+function hovered(hover) {
+	  return function(d) {
+		
+	}
+}
+
 </script>
 </p>
 

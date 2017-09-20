@@ -9,9 +9,12 @@
 <meta name="maintitle" th:content="${maintitle}"></meta>
 <meta name="difftitle" th:content="${difftitle}"></meta>
 
+
  <div class="right">
 <a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
-Go Back to Alluvial view</a>
+
+<img src="customDiff.png" alt="Back to alluvial view" style="width:80px;height:80px;"/>
+</a>
 </div>
 
 <h1 align="center" th:text="${maintitle}"> Which Variation points is product customizing? </h1>
@@ -95,7 +98,7 @@ d3.csv("productstructure.csv", function(error, data) {
       .on("click", function(d){
 	    console.log("clicked id_asset"+d.data.id_asset);
 	    /*<![CDATA[*/
-	    window.location.href = "http://localhost:8080/product_structure?pr=" +d.data.p_release+"&file="+ d.data.id_asset+"#diffview";
+	    window.location.href = "http://localhost:8080/file_vp_structure?pr=" +d.data.p_release+"&file="+ d.data.id_asset+"&expression="+d.data.expression+"#diffview";
 	    /*]]>*/
 	 	 });
 
@@ -103,6 +106,7 @@ d3.csv("productstructure.csv", function(error, data) {
       .attr("id", function(d) { return "rect-" + d.id; })
       .attr("id_asset", function(d) { console.log (d); return d.data.id_asset;})
       .attr("p_release", function(d) { console.log (d); return d.data.pr_release;})
+      .attr("expression", function(d) { console.log (d); return d.data.expression;})
       .attr("width", function(d) { return d.x1 - d.x0; })
       .attr("height", function(d) { return d.y1 - d.y0; })
       .style("fill", function(d) { return color(d.depth); });

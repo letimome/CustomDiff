@@ -10,6 +10,8 @@ import javax.persistence.Table;
 public class ReuseLevel {
 	
 	@Id String id;
+	int idproductasset;
+	int idcoreasset;
 	String pa_name;
 	String idproduct; 
 	String product_name; 
@@ -26,20 +28,47 @@ public class ReuseLevel {
 	}
 	
 
-	public ReuseLevel(String id, String path, String pa_name, String idproduct, String product_name, String idrelease, String operation,
-			int locs, int ca_size, int pa_size, int delta) {
+
+
+	public ReuseLevel(String id, int idproductasset, int idcoreasset, String pa_name, String idproduct,
+			String product_name, String idrelease, String operation, String path, int locs, int ca_size, int pa_size,
+			int delta) {
 		super();
 		this.id = id;
+		this.idproductasset = idproductasset;
+		this.idcoreasset = idcoreasset;
 		this.pa_name = pa_name;
 		this.idproduct = idproduct;
 		this.product_name = product_name;
 		this.idrelease = idrelease;
 		this.operation = operation;
+		this.path = path;
 		this.locs = locs;
 		this.ca_size = ca_size;
 		this.pa_size = pa_size;
 		this.delta = delta;
-		this.path = path;
+	}
+
+
+
+
+	public int getIdproductasset() {
+		return idproductasset;
+	}
+
+
+	public void setIdproductasset(int idproductasset) {
+		this.idproductasset = idproductasset;
+	}
+
+
+	public int getIdcoreasset() {
+		return idcoreasset;
+	}
+
+
+	public void setIdcoreasset(int idcoreasset) {
+		this.idcoreasset = idcoreasset;
 	}
 
 

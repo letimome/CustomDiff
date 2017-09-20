@@ -16,6 +16,7 @@ import customs.models.SPLdao;
 import customs.models.VariationPoint;
 import customs.models.VariationPointDao;
 import customs.utils.Formatting;
+import customs.utils.VPDiffUtils;
 
 @Controller
 public class ProductStructureController {
@@ -28,8 +29,8 @@ public class ProductStructureController {
 	 private String pathToResource = "./src/main/resources/static/";
 
 	 
-	  @RequestMapping("product_structure")
-	   public String getTreeMapTrafficLight(
+	  @RequestMapping("product_structure")//for all files of product_release
+	   public String getProductReleaseStructureVPs(
 	   				@RequestParam(value="pr", required=false) String idrelease,
 	   				@RequestParam(value="file" , required = false) int  id_asset,
 	   				Model model){
@@ -47,8 +48,106 @@ public class ProductStructureController {
 			model.addAttribute("difftitle", "diff (Baseline-v1.0, " + idrelease+")");
 		  return "productVariationPoints"; 
 	 	}
+	  
+	  @RequestMapping("file_vp_structure")//just for one file
+	   public String getFileStructureVPs(
+	   				@RequestParam(value="pr", required=false) String idrelease,
+	   				@RequestParam(value="file" , required = false) int  id_asset,
+	   				@RequestParam(value="expression" , required = false) String  expression,
+	   				Model model){
+		  
+		   System.out.println("This IS idrelease: "+idrelease);
+		   System.out.println("This IS filePath selected: "+id_asset);
+		   System.out.println("This IS expression selected: "+expression);
+		   
+		   //compute CSV for VariationPoints
+		   ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(id_asset);
+		   String csvContent = extractVPsCSVForSingleProductAsset(idrelease,id_asset);
+		  
+		   customs.utils.FileUtils.writeToFile(pathToResource+"productstructure.csv",csvContent);//path and test
+		  
+		
+		  if(expression==null) {
+			  computeDiffForSelectedReleaseFile(idrelease, id_asset, model);
+			  model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.VP.getAll()]");
+		  } 
+		  else {
+			  String diffvalue =addDiffViewForProductAssetId(idrelease, id_asset, expression);
+			  model.addAttribute("diffvalue", diffvalue);
+			  model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.getVPExpression('"+expression+")]");
+		  } 
+	
+		   model.addAttribute("maintitle", "How is product '"+ idrelease + "' customizing core-asset '"+pa.getName()+"'?");
+		   return "productVariationPoints"; 
+	 	}
 
 
+	private String addDiffViewForProductAssetId(String idrelease, int id_asset, String expression) {
+		//1: get the diff from the product-asset
+		ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(id_asset);
+		String diffvalue =  customs.utils.Formatting.decodeFromBase64(pa.getRelative_diff());
+		
+		String enhancedDiff = VPDiffUtils.getEnhancedDiffWithVPs(pa, diffvalue, variationPointDao);
+		String filteredDiff = VPDiffUtils.getFilteredDiffForVPExpression(enhancedDiff, expression);
+		System.out.println("addDiffViewForProductAssetId");
+		System.out.println(filteredDiff);
+		
+		return filteredDiff;
+		
+	}
+
+	private String extractVPsCSVForSingleProductAsset(String idrelease, int id_asset) {
+		   Iterable<CustomizationsByVPandPR> customsObj = prsAndVps.getCustomizationByInproduct(idrelease);
+		   Iterator<CustomizationsByVPandPR> it = customsObj.iterator();
+		   
+		   String csvContent="id,value,id_asset,p_release,expression"; //id,value,size
+		   ArrayList<String> paths = new ArrayList<>();
+		   CustomizationsByVPandPR custo;
+		   VariationPoint vp;
+		   String path;
+		   String csvCustoms= "";
+		   ArrayList<String> filePaths=new ArrayList<String>();
+		   while (it.hasNext()) {
+			  custo= it.next();
+			  ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(custo.getFilechanged());
+			  System.out.println(pa.getIdProductasset());
+			  if(pa.getIdProductasset()==id_asset) {
+				  System.out.println("Product Asset Found");
+			  
+				  vp = variationPointDao.getVariationPointByIdvariationpoint(custo.getIdvariationpoint());
+				  path = pa.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","");
+				  
+				  if(!filePaths.contains(pa.getPath())) {
+					  filePaths.add(pa.getPath());
+					  csvCustoms=  csvCustoms.concat("\n" +pa.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",");
+				  }
+				  //clave
+				  String exp= Formatting.decodeFromBase64(vp.getExpression());
+				  String formated = exp.split("PV:IFCOND")[1];
+				  csvCustoms = csvCustoms.concat("\n"+path+"/" + Formatting.decodeFromBase64(vp.getExpression()).
+						  split("//")[1]+","+ custo.getChurn()+","
+						  +pa.getIdProductasset() + ","+ idrelease
+						 +","+formated//Formatting.decodeFromBase64(vp.getExpression())
+						 );
+				  paths.add(path);
+			  } 
+		   }//end while
+		   
+		   System.out.println("Paths");
+		   ArrayList<String>  paths2 = customs.utils.Formatting.extractMiniPaths(paths);
+		   System.out.println(paths);
+		   System.out.println(paths2);
+		   
+		   for (int i=0; i< paths2.size();i++) 
+			   if(!paths2.get(i).equals(""))
+			     csvContent=csvContent.concat("\n"+paths2.get(i)+",");
+		   
+		   csvContent=csvContent.concat(csvCustoms);
+		   System.out.println(paths2);
+		return csvContent;
+	}
+
+	
 	private void computeDiffForSelectedReleaseFile(String idrelease, int id, Model model) {
 		
 		ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(id);

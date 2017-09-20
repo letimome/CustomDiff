@@ -8,7 +8,7 @@
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
 
 <title>Alluvial Diagram </title>
-
+<img src="customDiff.png" alt="Logo" style="width:80px;height:80px;"/>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
 <link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
@@ -188,8 +188,8 @@
 	  }
 	function goToReuseLevelView(d){
 		if (d.name==="productBerlin")
-			window.location.href = "http://localhost:8080/reuseLevelView?pr=productBerline-v1.0";
-		else window.location.href = "http://localhost:8080/reuseLevelView?pr=" + d.name+"-v1.0";
+			window.location.href = "http://localhost:8080/reuseLevelView?zoom=true&pr=productBerline-v1.0";
+		else window.location.href = "http://localhost:8080/reuseLevelView?zoom=true&pr=" + d.name+"-v1.0";
 	}
 
 	function goToFeatureView(d){
