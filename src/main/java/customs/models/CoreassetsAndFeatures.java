@@ -7,13 +7,16 @@ import javax.persistence.Table;
 
 	
 	@Entity
-	@Table(name = "coreassetsbyfeatureid")
+	@Table(name = "coreassetsandfeatures")
 	//UUID() as 'id', b.idbaseline as 'baseline', ca.idcoreasset as 'idcoreasset', f.idfeature as 'featureid'
 	public class CoreassetsAndFeatures {
 		@Id String id;
 		String baseline;
 		int idcoreasset;
 		String featureid;
+		String caname;
+		String capath;
+		int size;
 		
 		public CoreassetsAndFeatures() {}
 		
@@ -25,6 +28,37 @@ import javax.persistence.Table;
 			this.idcoreasset = idcoreasset;
 			this.featureid = featureid;
 		}
+
+		
+		public int getSize() {
+			return size;
+		}
+
+
+		public void setSize(int size) {
+			this.size = size;
+		}
+
+
+		public String getCaname() {
+			return caname;
+		}
+
+
+		public void setCaname(String caname) {
+			this.caname = caname;
+		}
+
+
+		public String getCapath() {
+			return capath;
+		}
+
+
+		public void setCapath(String capath) {
+			this.capath = capath;
+		}
+
 
 		public String getId() {
 			return id;

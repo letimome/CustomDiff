@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Table(name="customizationsbyoperation")
 
 
-public class ReuseLevel {
+public class CustomizationsGByOperation {
 	
 	@Id String id;
 	int idproductasset;
@@ -23,14 +23,14 @@ public class ReuseLevel {
 	int pa_size; 
 	int delta;
 	
-	public ReuseLevel() {
+	public CustomizationsGByOperation() {
 		
 	}
 	
 
 
 
-	public ReuseLevel(String id, int idproductasset, int idcoreasset, String pa_name, String idproduct,
+	public CustomizationsGByOperation(String id, int idproductasset, int idcoreasset, String pa_name, String idproduct,
 			String product_name, String idrelease, String operation, String path, int locs, int ca_size, int pa_size,
 			int delta) {
 		super();

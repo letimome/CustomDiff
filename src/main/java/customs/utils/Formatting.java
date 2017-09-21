@@ -76,6 +76,28 @@ public class  Formatting {
 		return thepaths;
 	}
 	
+	public static ArrayList<String> extractPathsFromPathListWitoutFilePath(ArrayList<String> paths) {
+		ArrayList<String> thepaths = new ArrayList<String>();
+		
+		for(int i=0; i< paths.size(); i++) {
+			String path = paths.get(i);
+			String[ ]parsed = path.split("/"); //[input, js, sensors.js]
+			for (int j=0; j<parsed.length-1; j++) {
+				String partialpath = "";
+				for(int z=0; z<=j; z++) {
+					if(z==0) partialpath= partialpath.concat(parsed[z]);
+					else partialpath= partialpath.concat("/"+parsed[z]);
+				}
+				if(!thepaths.contains(partialpath)) {
+					thepaths.add(partialpath);
+					System.out.println("Added path:"+partialpath);
+				}
+			}
+		}	
+		return thepaths;
+	}
+	
+	
 	public static String encodeToBase64(String str){
 		// encode data on your side using BASE64
 		//https://stackoverflow.com/questions/19743851/base64-java-encode-and-decode-a-string

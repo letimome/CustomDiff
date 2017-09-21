@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import customs.models.NotCustomizedProductAssets;
 import customs.models.NotCustomizedProductAssetsDao;
 import customs.models.ProductDao;
-import customs.models.ReuseLevelDao;
-import customs.models.ReuseLevel;
+import customs.models.CustomizationsGByOperationDao;
+import customs.models.CustomizationsGByOperation;
 import customs.models.SPLdao;
 
 
@@ -22,7 +22,7 @@ public class ReuseLevelController {
 	
 	
 	 @Autowired private SPLdao SPLdao;
-	 @Autowired private ReuseLevelDao reuseLevelDao;
+	 @Autowired private CustomizationsGByOperationDao reuseLevelDao;
 	 @Autowired private NotCustomizedProductAssetsDao notCustAssetsDao;
 	 
 	 private String pathToResource = "./src/main/resources/static/";
@@ -36,8 +36,8 @@ public class ReuseLevelController {
 	   				Model model){
 		 
 		   System.out.println("The productrelease to analyze is: "+productrelease);
-		   Iterable<ReuseLevel> customizedAssets = reuseLevelDao.getCustomsByIdrelease (productrelease);
-		   Iterator<ReuseLevel> itCust  = customizedAssets.iterator();
+		   Iterable<CustomizationsGByOperation> customizedAssets = reuseLevelDao.getCustomsByIdrelease (productrelease);
+		   Iterator<CustomizationsGByOperation> itCust  = customizedAssets.iterator();
 		   
 		   Iterable<NotCustomizedProductAssets> unCustomizedPAs = notCustAssetsDao.getNotCustomizedAssetsByIdrelease(productrelease);
 		   Iterator<NotCustomizedProductAssets> it  = unCustomizedPAs.iterator();
@@ -62,7 +62,7 @@ public class ReuseLevelController {
 		   }
 		   
 		   itCust  = customizedAssets.iterator();
-		   ReuseLevel custo ;
+		   CustomizationsGByOperation custo ;
 		   
 		   while(itCust.hasNext()) {//getting lines for Customized Assets
 			   custo = itCust.next();
