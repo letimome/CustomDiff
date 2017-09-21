@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import customs.models.NotCustomizedProductAssets;
 import customs.models.NotCustomizedProductAssetsDao;
+import customs.models.ProductAsset;
+import customs.models.ProductAssetDao;
 import customs.models.ProductDao;
+import customs.models.ProductReleaseDao;
 import customs.models.CustomizationsGByOperationDao;
 import customs.models.CustomizationsGByOperation;
 import customs.models.SPLdao;
+import customs.utils.Formatting;
 
 
 @Controller
@@ -22,13 +26,81 @@ public class ReuseLevelController {
 	
 	
 	 @Autowired private SPLdao SPLdao;
-	 @Autowired private CustomizationsGByOperationDao reuseLevelDao;
+	
 	 @Autowired private NotCustomizedProductAssetsDao notCustAssetsDao;
+	 @Autowired private ProductAssetDao paDao;
+	 @Autowired private ProductReleaseDao prDao;
+	 @Autowired private CustomizationsGByOperationDao customsByFileOp;
 	 
 	 private String pathToResource = "./src/main/resources/static/";
 
 	 
+
 	 @RequestMapping("reuseLevelView")
+	   public String getTreeMapForProductRelease(
+	   				//@RequestParam(value="base", required=false) String idbaseline,
+			   		@RequestParam(value="zoom", required=false) String zoom,
+			   		@RequestParam(value="pr", required=false) String productrelease,
+	   				Model model){
+		 
+		   System.out.println("The productrelease to analyze is: "+productrelease);
+		   
+		   Iterator<ProductAsset> it = paDao.findAll().iterator(); //all product asset
+		   ProductAsset pa;
+		   ArrayList<String>  paths =new ArrayList<String>();
+		   String csvheader="id,value,operation,pr,p_asset_id";
+		   ArrayList<String> initialPaths= new ArrayList<>();
+		   String csvInitialPaths="";
+		   String csvContent="";
+		   String filepath;
+		   while (it.hasNext()) {//for each product asset
+			   pa =  it.next();
+			   if(pa.getProductrelease_idrelease().equals(productrelease)) {
+				   filepath=pa.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "");
+				   paths.add(filepath);
+				   
+				   csvContent = csvContent.concat("\n"+filepath+","+pa.getSize()/4); //insert the path + size
+				   
+			   }
+		   }
+		   
+		   csvContent = csvContent.concat(computeCSVForCustomization(productrelease));
+		   
+		   initialPaths = Formatting.extractPathsFromPathListWitoutFilePath(paths);
+		   Iterator<String> ite = initialPaths.iterator();
+		   while (ite.hasNext()) {
+			   csvInitialPaths= csvInitialPaths.concat("\n"+ite.next()+",");
+		   }
+		   
+		   System.out.println(csvheader+csvInitialPaths+csvContent);
+		   
+		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvheader+csvInitialPaths+csvContent);//path and test
+		   model.addAttribute("pr",productrelease);
+		   model.addAttribute("maintitle", "Which assets are customized by '"+productrelease+"'?");
+		   model.addAttribute("difftitle", "diff(Baseline-v1.0.coreAssets(), "+productrelease+".productAssets())");
+		   
+		   return "reuseLevel2"; 
+	 	}
+
+	private String computeCSVForCustomization(String productrelease) {
+		//	   String csvheader="id,value,operation,pr,p_asset_id";
+		String csvCustoms="";
+		Iterator<CustomizationsGByOperation> it = customsByFileOp.getCustomsByIdrelease(productrelease).iterator();
+		CustomizationsGByOperation custom;
+		String path;
+		while(it.hasNext()) {
+			custom=it.next();
+			path = custom.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "");
+			csvCustoms = csvCustoms.concat("\n"+path.concat("/"+custom.getOperation())+
+					","+custom.getLocs()+","+custom.getOperation()+","+productrelease+","+custom.getIdproductasset()
+					);
+		}
+		return csvCustoms;
+	}
+
+	
+	/****  Old One*****/
+	 @RequestMapping("reuseLevelOld")
 	   public String getTreeMapTrafficLight(
 	   				//@RequestParam(value="base", required=false) String idbaseline,
 			   		@RequestParam(value="zoom", required=false) String zoom,
@@ -36,7 +108,8 @@ public class ReuseLevelController {
 	   				Model model){
 		 
 		   System.out.println("The productrelease to analyze is: "+productrelease);
-		   Iterable<CustomizationsGByOperation> customizedAssets = reuseLevelDao.getCustomsByIdrelease (productrelease);
+		   
+		   Iterable<CustomizationsGByOperation> customizedAssets = customsByFileOp.getCustomsByIdrelease (productrelease);
 		   Iterator<CustomizationsGByOperation> itCust  = customizedAssets.iterator();
 		   
 		   Iterable<NotCustomizedProductAssets> unCustomizedPAs = notCustAssetsDao.getNotCustomizedAssetsByIdrelease(productrelease);
@@ -46,6 +119,7 @@ public class ReuseLevelController {
 		   
 		   while (it.hasNext())//getting paths for not customized assets
 			   notCustomPaths.add(it.next().getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
+		   
 		   while(itCust.hasNext())//getting paths for customized assets
 			   customPaths.add(itCust.next().getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
 			   
@@ -71,7 +145,7 @@ public class ReuseLevelController {
 			   +","+productrelease+","+custo.getIdproductasset());
 			   
 			   csvContent = csvContent.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+","+
-					   Math.abs(custo.getPa_size()-custo.getCa_size())+",reused"
+					   Math.abs(custo.getPa_size()-custo.getCa_size())+","
 					   +","+productrelease+","+custo.getIdproductasset());//TODO: Mirar!, parece que no va bien el comput
 		   }
 		   
@@ -82,10 +156,10 @@ public class ReuseLevelController {
 				  while(it.hasNext()) { //getting lines for not customized ones;
 				       notCust = it.next();
 				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+
-				       ","+notCust.getSize()+",reused");
-				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,added"
+				       ","+notCust.getSize()/5+",");
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+"/added"+",0,added"
 				    		   +","+productrelease+", "+notCust.getIdproductasset());
-				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+",0,removed"
+				       csvContent = csvContent.concat("\n"+notCust.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+"/removed,0,removed"
 				    		   +","+productrelease+", "+notCust.getIdproductasset());
 			  }	
 		   }
@@ -94,10 +168,11 @@ public class ReuseLevelController {
 		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvContent);//path and test
 		   
 		   model.addAttribute("pr",productrelease);
-		  model.addAttribute("maintitle", "Which assets is '"+productrelease+"' customizing?");
-		  model.addAttribute("difftitle", "diff(Baseline-v1.0.getAllAssets(), "+productrelease+".getAllAssets())");
+		  model.addAttribute("maintitle", "Which assets are customized by '"+productrelease+"'?");
+		  model.addAttribute("difftitle", "diff(Baseline-v1.0.coreAssets(), "+productrelease+".productAssets())");
 		   
-		   return "reuseLevel"; 
+		   return "reuseLevel2"; 
 	 	}
+	 
 
 }
