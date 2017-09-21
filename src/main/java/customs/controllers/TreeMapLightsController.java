@@ -48,13 +48,8 @@ public class TreeMapLightsController {
 	  @Autowired private DeletedCustomsByProductsToFeaturesDao deletedTofeaturesDao;
 	  @Autowired private CoreassetsAndFeaturesDao coreassetsForFeature;
 	  @Autowired private ProductReleaseDao   prDao;
-	  
 
-
-		 
-	   private String pathToResource = "./src/main/resources/static/";
-	
-	
+	   private String pathToResource = "./src/main/resources/static/";	
 	  @RequestMapping("treemapLightsView")
 	   public String getTreeMapTrafficLight(
 	   				@RequestParam(value="base", required=false) String idbaseline,

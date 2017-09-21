@@ -26,10 +26,6 @@
 		    </td></tr>
 </table>
 
-
-
-
-<br />
 <br />
 
 <title>Treemap product structure VPs</title>
@@ -118,9 +114,21 @@ d3.csv("productstructure.csv", function(error, data) {
       .attr("p_release", function(d) { console.log (d); return d.data.pr_release;})
       .attr("expression", function(d) { console.log (d); return d.data.expression;})
       .attr("width", function(d) { return d.x1 - d.x0; })
+      .attr("operation", function(d) { console.log (d);
+      			if (d.data.operation=="undefined" || d.data.operation==null)
+      				return "undefined";
+      			else return d.data.operation.toLowerCase();})
       .attr("height", function(d) { return d.y1 - d.y0; })
          .style("stroke","black")
-      .style("fill", function(d) { return color(d.depth); });
+      .style("fill", function(d) { 
+	    	  console.log("in color");		
+	    	    var operation = d.data.operation;
+	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
+	    	  	else if (operation==("ADDED")) return "#3fac54";
+	    	  	else if (operation==("REMOVED")) return "#e6323d";
+	    	return "#cccccc";//color(d.value);//the value - churn - of the customization
+    	  });
+
 
   cell.append("clipPath")
       .attr("id", function(d) { return "clip-" + d.id; })
@@ -158,24 +166,28 @@ d3.selectAll("rect").on("click", function(){
 	});
 
 function hovered(hover) {
-  return function(d) {
-    d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
-        .classed("node--hover", hover)
-      .	select("rect")
-        .attr("width", function(d) { return d.x1 - d.x0 - hover; })
-        .attr("height", function(d) { return d.y1 - d.y0 - hover; });
-    
-    if(hover==false)
-    	d3.select(d.node)
-    	      .classed("node--hover", hover).select("rect").
-    	      style("fill", function(d) { return color(d.depth); });
-    else d3.select(d.node).classed("node--hover", hover).
-    select("rect").style("fill","#6495ed");
-  };
-  
-  function clicked(click){
-	  console.log("clicked");  
-  };
+	  return function(d) {
+	    d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
+	        .classed("node--hover", hover)
+	      .	select("rect")
+	      .style("boder-color","black")
+	       .style("stroke","black")
+	        .attr("width", function(d) { return d.x1 - d.x0 - hover; })
+	        .attr("height", function(d) { return d.y1 - d.y0 - hover; });
+	    
+	    if(hover==false)
+	    	d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
+	    	      .classed("node--hover", hover).select("rect").
+	    	      style("fill", function(d) { 
+	    	    	  	var operation = d.data.operation;
+	  	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
+	  	    	  	else if (operation==("ADDED")) return "#3fac54";
+	  	    	  	else if (operation==("REMOVED")) return "#e6323d";
+	  	    		return "#cccccc";
+	    	    	  });
+	    else d3.select(d.node).classed("node--hover", hover).
+	    select("rect").style("fill","#6495ed");
+	  };
 }
 
 </script>
