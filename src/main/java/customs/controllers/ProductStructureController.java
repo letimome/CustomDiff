@@ -41,8 +41,9 @@ public class ProductStructureController {
 		   String csvContent = extractVPsCSVForProuductRelease(idrelease);
 		  
 		   customs.utils.FileUtils.writeToFile(pathToResource+"productstructure.csv",csvContent);//path and test
-		   
-		   computeDiffForSelectedReleaseFile(idrelease, id_asset, model);
+		  
+		   if(id_asset!=0)
+		     computeDiffForSelectedReleaseFile(idrelease, id_asset, model);
 		   
 		   model.addAttribute("maintitle", "Which core-assets is product' "+ idrelease + "' customizing?");
 			model.addAttribute("difftitle", "diff (Baseline-v1.0, " + idrelease+")");
@@ -67,11 +68,11 @@ public class ProductStructureController {
 		   customs.utils.FileUtils.writeToFile(pathToResource+"productstructure.csv",csvContent);//path and test
 		  
 		
-		  if(expression==null) {
+		/*  if(expression==null) {
 			  computeDiffForSelectedReleaseFile(idrelease, id_asset, model);
 			  model.addAttribute("diffHeader", "diff (Baseline-v1.0.getAsset('"+pa.getName()+"') ,"+idrelease+".getAsset('"+pa.getName()+"') [VP.Expression.contains('Features.all()')]");
-		  } 
-		  else {
+		  } */
+		  if(expression!=null){
 			  String diffvalue =addDiffViewForProductAssetId(idrelease, id_asset, expression);
 			  model.addAttribute("diffvalue", diffvalue);
 			  model.addAttribute("diffHeader", "diff (Baseline-v1.0.'"+pa.getName()+"' ,"+idrelease+".'"+pa.getName()+"' ["+expression+"]");

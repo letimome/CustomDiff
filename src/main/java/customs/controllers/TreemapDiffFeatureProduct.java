@@ -73,12 +73,12 @@ public class TreemapDiffFeatureProduct {
 
 	private String extractCSVForTreeMapFeatureProduct(String featurenamemodified, String pr,String idbaseline) {
 		String csvheader = "id,value,frequency,id_core_asset,fname,product_release,operation";
-		String csvContentLines = extractCSVForFeatureCoreAssets(featurenamemodified,idbaseline,pr);
-	//	String csvProductCustomization = extractCSVForProductCustomizingFeature(pr,featurenamemodified);
+		String csvContentLines = extractCSVForFeatureProduct(featurenamemodified,idbaseline,pr);
+	
 		return csvheader.concat(csvContentLines);
 	}
 
-	private String extractCSVForFeatureCoreAssets(String featurenamemodified, String idbaseline, String pr) {
+	private String extractCSVForFeatureProduct(String featurenamemodified, String idbaseline, String pr) {
 	
 		Iterable<CoreassetsAndFeatures> all = coreassetsForFeature.findAll();
 		System.out.println(all.toString());

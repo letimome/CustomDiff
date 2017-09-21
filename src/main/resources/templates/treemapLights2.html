@@ -99,7 +99,8 @@ tspan:last-child {
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 
 <p align="center">
-<svg align="center" width="900" height="400"></svg></p>
+<svg align="center" width="900" height="600"></svg></p>
+
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
 
@@ -157,7 +158,7 @@ d3.csv("treemapLights.csv", function(error, data) {
       .on("click", function(d){
 	    console.log("clicked id_core_asset"+d.data.id_core_asset);
 	    /*<![CDATA[*/
-	    window.location.href = "http://localhost:8080/treemapLightsView?fname="+d.data.fname+"&idfile="+ d.data.id_core_asset+"&pr="+d.data.product_release+"#diffview";
+	    window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname="+d.data.fname+"&idfile="+ d.data.id_core_asset+"&pr="+d.data.product_release+"#diffview";
 	    /*]]>*/
 	 	 });
 
@@ -168,19 +169,15 @@ d3.csv("treemapLights.csv", function(error, data) {
       .attr("pr", function(d) { console.log (d); return d.data.product_release;})
       .attr("width", function(d) { return d.x1 - d.x0; })
       .attr("height", function(d) { return d.y1 - d.y0; })
+      .attr("operation",function(d) { console.log (d); return d.data.operation;})
      .style("stroke","black")
      .style("fill", function(d) { 
 	    	  console.log("in color");		
-	    	  console.log(d);
-	    	  console.log(getMetaContentByName("pr"));
-	    	  if (d.data.product_release!=null)
-	    		  if (d.data.product_release!="undefined") 
-	    			  if (getMetaContentByName("pr") == d.data.product_release)
-	    		 		{
-	    				  d3.select(d.node).attr("selected","true");
-	    				  return "#6495ed";
-	    		 		}	
-	    	return color(d.value);//the value - churn - of the customization
+	    	  var operation = d.data.operation;
+	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
+	    	  	else if (operation==("add")) return "#3fac54";
+	    	  	else if (operation==("delete")) return "#e6323d";
+	    	return "#cccccc";//color(d.value);//the value - churn - of the customization
     	  });
 
   cell.append("clipPath")
@@ -230,13 +227,23 @@ function hovered(hover) {
 	        .attr("height", function(d) { return d.y1 - d.y0 - hover; });
 	    
 	    if(hover==false)
-	    	d3.select(d.node)
+	    	d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
 	    	      .classed("node--hover", hover).select("rect").
-	    	      style("fill", function(d) { return color(d.depth); });
+	    	      style("fill", function(d) { 
+	    	    	  	var operation = d.data.operation;
+	  	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
+	  	    	  	else if (operation==("add")) return "#3fac54";
+	  	    	  	else if (operation==("delete")) return "#e6323d";
+	    	    	  });
 	    else d3.select(d.node).classed("node--hover", hover).
 	    select("rect").style("fill","#6495ed");
 	  };
-  
+  /**
+  var operation = d.data.operation;
+	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
+	    	  	else if (operation==("add")) return "#3fac54";
+	    	  	else if (operation==("delete")) return "#e6323d";
+  */
   function clicked(click){
 	  console.log("clicked");
 	  console.log(d.data.id_core_asset);

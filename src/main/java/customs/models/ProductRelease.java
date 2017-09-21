@@ -10,24 +10,24 @@ import javax.persistence.Table;
 @Table(name="productrelease")
 public class ProductRelease {
 
-	@Id int idrelease;
+	@Id String idrelease;
 	Date releaseDate;
 	int product_idproduct;
 	
 	public ProductRelease() {}
 
-	public ProductRelease(int idrelease, Date releaseDate, int roduct_idproduct) {
+	public ProductRelease(String idrelease, Date releaseDate, int roduct_idproduct) {
 		super();
 		this.idrelease = idrelease;
 		this.releaseDate = releaseDate;
 		this.product_idproduct = roduct_idproduct;
 	}
 
-	public int getIdrelease() {
+	public String getIdrelease() {
 		return idrelease;
 	}
 
-	public void setIdrelease(int idrelease) {
+	public void setIdrelease(String idrelease) {
 		this.idrelease = idrelease;
 	}
 
