@@ -43,7 +43,7 @@ public class ReuseLevelController {
 			   		@RequestParam(value="pr", required=false) String productrelease,
 	   				Model model){
 		 
-		   System.out.println("The productrelease to analyze is: "+productrelease);
+		   System.out.println("The productrelease: "+productrelease);
 		   
 		   Iterator<ProductAsset> it = paDao.findAll().iterator(); //all product asset
 		   ProductAsset pa;
@@ -58,7 +58,6 @@ public class ReuseLevelController {
 			   if(pa.getProductrelease_idrelease().equals(productrelease)) {
 				   filepath=pa.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "");
 				   paths.add(filepath);
-				   
 				   csvContent = csvContent.concat("\n"+filepath+",1"
 				   //+pa.getSize()/4
 				   ); //insert the path + size
@@ -66,7 +65,9 @@ public class ReuseLevelController {
 			   }
 		   }
 		   
-		   csvContent = csvContent.concat(computeCSVForCustomization(productrelease));
+		   //csvContent = csvContent.concat(computeCSVForCustomization(productrelease));//customizations splitted into added/deleted
+		   csvContent = csvContent.concat(computeCSVForCustomizationChurn(productrelease));
+		   
 		   
 		   initialPaths = Formatting.extractPathsFromPathListWitoutFilePath(paths);
 		   Iterator<String> ite = initialPaths.iterator();
@@ -79,11 +80,31 @@ public class ReuseLevelController {
 		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvheader+csvInitialPaths+csvContent);//path and test
 		   model.addAttribute("pr",productrelease);
 		   model.addAttribute("maintitle", "Which assets are customized by '"+productrelease+"'?");
-		   model.addAttribute("difftitle", "diff(Baseline-v1.0.coreAssets(), "+productrelease+".productAssets())");
+		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+productrelease+")");
 		   
 		   return "reuseLevel2"; 
 	 	}
 
+	 private String computeCSVForCustomizationChurn(String productrelease) {
+			//	  String csvheader="id,value,operation,pr,p_asset_id";
+			String csvCustoms="";
+			   System.out.println("The productrelease to analyze is: "+productrelease);
+			   
+			   Iterable<CustomizationsGByOperation> customizedAssets = customsByFileOp.getCustomsByIdrelease (productrelease);
+			   Iterator<CustomizationsGByOperation> itCust  = customizedAssets.iterator();
+			   itCust  = customizedAssets.iterator();
+			   CustomizationsGByOperation custo ;
+			   
+			   while(itCust.hasNext()) {//getting lines for Customized Assets
+				   custo = itCust.next();
+				   csvCustoms = csvCustoms.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+","+
+				   custo.getLocs()+",churn"//+custo.getOperation().toLowerCase()
+				   +","+productrelease+","+custo.getIdproductasset());
+			   }
+			
+			return csvCustoms;
+		}
+	 
 	private String computeCSVForCustomization(String productrelease) {
 		//	   String csvheader="id,value,operation,pr,p_asset_id";
 		String csvCustoms="";

@@ -181,6 +181,7 @@ d3.csv("reuseLevel.csv", function(error, data) {
 	    		if ( (operation =="undefined") || (d.data.operation==null) || (d.data.operation=="reused")) return "#cccccc";
 	    	  	else if (operation==("ADDED")) return "#3fac54";
 	    	  	else if (operation==("REMOVED")) return "#e6323d";
+	    	  	 		else if (operation=="churn") return "#FF8100";
 	    	return "#cccccc";//color(d.value);//the value - churn - of the customization
     	  });
   cell.append("clipPath")
@@ -237,6 +238,7 @@ function hovered(hover) {
 	  	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
 	  	    	  	else if (operation==("ADDED")) return "#3fac54";
 	  	    	  	else if (operation==("REMOVED")) return "#e6323d";
+	  	    	  	else if (operation=="churn") return "#FF8100";
 	  	    		return "#cccccc";
 	    	    	  });
 	    else d3.select(d.node).classed("node--hover", hover).

@@ -340,7 +340,7 @@ private void addDiffViewForCoreAssetId(Model model, int idcoreasset,String pr, S
 		 model.addAttribute("fname",featureid);
 		 model.addAttribute("cavalue",ca.getIdcoreasset());
 // model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.getVPExpression('"+expression+")]");
-		 String header= "diff( Baseline-v1.0."+ca.getName()+",  "+pr+"."+ca.getName()+" [VP.contains('"+featureid+"')]";
+		 String header= "diff( Baseline-v1.0."+ca.getName()+",  "+pr+"."+ca.getName()+" [VP.contains(hasFeature('"+featureid+"'))]";
 		 		
 		 model.addAttribute("diffHeader", header);
 		 model.addAttribute("maintitle", "How is feature '"+featureid+"' being customized in products?");

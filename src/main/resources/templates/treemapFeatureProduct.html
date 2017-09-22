@@ -98,7 +98,7 @@ tspan:last-child {
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 
-<p align="center">
+<p align="center">Note: Treemap area denotes customization change-size (churn).
 
 <svg align="center" width="900" height="600"></svg></p>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -177,6 +177,7 @@ d3.csv("treemapfeatureproduct.csv", function(error, data) {
 	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
 	    	  	else if (operation==("add")) return "#3fac54";
 	    	  	else if (operation==("delete")) return "#e6323d";
+	    		else if (operation=="churn") return "#FF8100";
 	    	return "#cccccc";//color(d.value);//the value - churn - of the customization
     	  });
 
@@ -203,7 +204,7 @@ d3.csv("treemapfeatureproduct.csv", function(error, data) {
       .data(function(d) { return d.id.substring(d.id.lastIndexOf("/") + 1).split(/(?=[A-Z][^A-Z])/g).concat(format(d.value)); })
     .enter().append("tspan")
       .attr("x", 4)
-      .attr("y", function(d, i) { return 13 + i * 10; })
+      .attr("y", function(d, i) { return 20 + i * 20; })
       .text(function(d) { return d; });
 
   cell.append("title")
@@ -234,6 +235,7 @@ function hovered(hover) {
 	  	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
 	  	    	  	else if (operation==("add")) return "#3fac54";
 	  	    	  	else if (operation==("delete")) return "#e6323d";
+	  	    		else if (operation=="churn") return "#FF8100";
 	    	    	  });
 	    else d3.select(d.node).classed("node--hover", hover).
 	    select("rect").style("fill","#6495ed");

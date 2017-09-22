@@ -16,7 +16,6 @@
 
 
 <table style="width:100%">
-
     <tr>
         <td align="right"> 
         <div>
@@ -31,9 +30,6 @@
 		</td>
 		</tr>
 </table>
-
-
-
 <br />
 <br />
 <style>
@@ -179,7 +175,7 @@ d3.csv("treemapLights.csv", function(error, data) {
 	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
 	    	  	else if (operation==("add")) return "#3fac54";
 	    	  	else if (operation==("delete")) return "#e6323d";
-	    	  	else if (operation=="churn") return "#ffc100";
+	    	  	else if (operation=="churn") return "#FF8100";
 	    	return "#cccccc";//color(d.value);//the value - churn - of the customization
     	  });
 
@@ -238,7 +234,7 @@ function hovered(hover) {
 	  	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
 	  	    	  	else if (operation==("add")) return "#3fac54";
 	  	    	  	else if (operation==("delete")) return "#e6323d";
-	  	    	  	else if (operation=="churn") return "#ffc100";
+	  	    	  	else if (operation=="churn") return "#FF8100";
 	    	    	  });
 	    else d3.select(d.node).classed("node--hover", hover).
 	    select("rect").style("fill","#6495ed");

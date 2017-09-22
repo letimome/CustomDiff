@@ -91,11 +91,12 @@ public class TreemapDiffFeatureProduct {
 			if (caf.getBaseline().equals(idbaseline) && caf.getFeatureid().equals(featurenamemodified)) {
 				capaths.add(caf.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
 				//include the whole line for the core-assets + its size
-				//TODO int
 				csvCAcontent = csvCAcontent.concat("\n"+caf.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","")
-						+","+(caf.getSize()/5));//TODO cambiarlo
+						+",1"//(caf.getSize()
+								);//TODO cambiarlo
 				//include the lines for the product that has customized the assets
-				csvCAcontent = csvCAcontent.concat(extractCSVForProductCustomizingCoreAsset(pr, caf.getIdcoreasset(),featurenamemodified));
+			//	csvCAcontent = csvCAcontent.concat(extractCSVForProductCustomizingCoreAsset(pr, caf.getIdcoreasset(),featurenamemodified));
+				csvCAcontent = csvCAcontent.concat(extractCSVForProductChurnCustomizingCoreAsset(pr, caf.getIdcoreasset(),featurenamemodified));
 			}
 		}
 		//we know have all the paths for the core asset.
@@ -105,6 +106,33 @@ public class TreemapDiffFeatureProduct {
 		return headerpaths+csvCAcontent;
 	}
 
+	private String extractCSVForProductChurnCustomizingCoreAsset(String pr, int idcoreasset, String featureid){
+		//String csvheader = "id,value,frequency,id_core_asset,fname,product_release,operation";
+			ArrayList<String> paths = new ArrayList<>();
+			   String csvCustoms= "";
+			   Iterable <CustomizationsByFeature> featureCustoms = featureCustomsDao.getCustomsByFeatureid(featureid); //.findAll();
+			   Iterator<CustomizationsByFeature> ite=featureCustoms.iterator();
+			   CustomizationsByFeature featureCusto;
+			   System.out.println("featureCustoms:" +featureCustoms);
+			   while (ite.hasNext()) {
+				   featureCusto= ite.next();
+				  if(featureCusto.getFeatureId().equals(featureid) && featureCusto.getCoreassetid()==idcoreasset && featureCusto.getPr().equals(pr)) {
+					//  csvCustoms = csvCustoms.concat("\n"+featureCusto.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","").concat("/"+featureCusto.getPr()));
+					  csvCustoms = csvCustoms.concat(
+				    		 "\n"+featureCusto.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","").concat("/"+featureCusto.getPr())//+"/Churn")
+				    		 +","+featureCusto.getAmount()
+				    		 +",0"////treemap.getNumberofproductscustomizing()--Frequency; 
+				    		 +"," +featureCusto.getCoreassetid()
+				    		 +","+featureid
+				    		 +","+featureCusto.getPr()
+				    		 +",churn"
+				    		 );
+				     paths.add(featureCusto.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
+				  	 }
+			   }
+			return csvCustoms;
+		}
+	
 	private String extractCSVForProductCustomizingCoreAsset(String pr, int idcoreasset, String featureid) {
 		// For each customization that pr does to featuremodified introduce a line like
 
@@ -203,7 +231,7 @@ private void addDiffViewForCoreAssetId(Model model, int idcoreasset,String pr, S
 		 model.addAttribute("fname",featureid);
 		 model.addAttribute("cavalue",ca.getIdcoreasset());
 // model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.getVPExpression('"+expression+")]");
-		 String header= "diff( Baseline-v1.0."+ca.getName()+",  "+pr+"."+ca.getName()+" [(hasFeature('"+featureid+"'))]";
+		 String header= "diff( Baseline-v1.0."+ca.getName()+",  "+pr+"."+ca.getName()+" [VP.contains(hasFeature('"+featureid+"'))]";
 		 		
 		 model.addAttribute("diffHeader", header);
 		 model.addAttribute("maintitle", "How is feature '"+featureid+"' being customized in products?");
