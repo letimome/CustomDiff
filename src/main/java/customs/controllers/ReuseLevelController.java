@@ -16,6 +16,8 @@ import customs.models.ProductAssetDao;
 import customs.models.ProductDao;
 import customs.models.ProductReleaseDao;
 import customs.models.CustomizationsGByOperationDao;
+import customs.models.CustomizationsGByPRandFile;
+import customs.models.CustomizationsGByPRandFileDao;
 import customs.models.CustomizationsGByOperation;
 import customs.models.SPLdao;
 import customs.utils.Formatting;
@@ -30,6 +32,7 @@ public class ReuseLevelController {
 	 @Autowired private NotCustomizedProductAssetsDao notCustAssetsDao;
 	 @Autowired private ProductAssetDao paDao;
 	 @Autowired private ProductReleaseDao prDao;
+	 @Autowired private CustomizationsGByPRandFileDao customsByPROp;
 	 @Autowired private CustomizationsGByOperationDao customsByFileOp;
 	 
 	 private String pathToResource = "./src/main/resources/static/";
@@ -64,7 +67,7 @@ public class ReuseLevelController {
 				   
 			   }
 		   }
-		   
+
 		   //csvContent = csvContent.concat(computeCSVForCustomization(productrelease));//customizations splitted into added/deleted
 		   csvContent = csvContent.concat(computeCSVForCustomizationChurn(productrelease));
 		   
@@ -90,24 +93,25 @@ public class ReuseLevelController {
 			String csvCustoms="";
 			   System.out.println("The productrelease to analyze is: "+productrelease);
 			   
-			   Iterable<CustomizationsGByOperation> customizedAssets = customsByFileOp.getCustomsByIdrelease (productrelease);
-			   Iterator<CustomizationsGByOperation> itCust  = customizedAssets.iterator();
+		
+			   Iterable<CustomizationsGByPRandFile>  customizedAssets = customsByPROp.getCustomsByIdrelease (productrelease);
+			   Iterator<CustomizationsGByPRandFile> itCust= customizedAssets.iterator();
 			   itCust  = customizedAssets.iterator();
-			   CustomizationsGByOperation custo ;
+			   CustomizationsGByPRandFile custo;
 			   
 			   while(itCust.hasNext()) {//getting lines for Customized Assets
 				   custo = itCust.next();
 				   csvCustoms = csvCustoms.concat("\n"+custo.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "")+","+
-				   custo.getLocs()+",churn"//+custo.getOperation().toLowerCase()
+				   custo.getChurn()+",churn"//+custo.getOperation().toLowerCase()
 				   +","+productrelease+","+custo.getIdproductasset());
 			   }
-			
 			return csvCustoms;
 		}
 	 
 	private String computeCSVForCustomization(String productrelease) {
 		//	   String csvheader="id,value,operation,pr,p_asset_id";
 		String csvCustoms="";
+		
 		Iterator<CustomizationsGByOperation> it = customsByFileOp.getCustomsByIdrelease(productrelease).iterator();
 		CustomizationsGByOperation custom;
 		String path;

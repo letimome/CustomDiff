@@ -18,8 +18,8 @@ import customs.models.CustomizationsByFeatureDao;
 import customs.models.SPLdao;
 import customs.models.VariationPointDao;
 import customs.utils.VPDiffUtils;
-import customs.models.CustomizationsGByFile;
-import customs.models.CustomizationsGByFileDao;
+import customs.models.CustomizationsGByPRandFile;
+import customs.models.CustomizationsGByPRandFileDao;
 import customs.models.DeletedCustomsByProductsToFeatures;
 import customs.models.DeletedCustomsByProductsToFeaturesDao;
 import customs.models.ProductAsset;
@@ -30,7 +30,7 @@ import customs.models.ProductReleaseDao;
 @Controller
 public class TreeMapLightsController {
 	  @Autowired
-	   private CustomizationsGByFileDao treemapLightDao;
+	   private CustomizationsGByPRandFileDao treemapLightDao;
 	  @Autowired private CustomizationsByFeatureDao featureCustomsDao;
 	  @Autowired private SPLdao SPLdao;
 	  @Autowired private ProductAssetDao paDao;
@@ -50,10 +50,8 @@ public class TreeMapLightsController {
 	   				@RequestParam(value="pr", required=false) String pr,
 	   				Model model){
 		  
-		   System.out.println("THIS IS featurenamemodified: "+featurenamemodified);
-		   System.out.println("THIS IS idbaseline: "+idbaseline);
-		   System.out.println("THIS IS idfile: "+idfile);
-		   System.out.println("THIS IS  pr: "+ pr);
+		   System.out.println("THIS IS featurenamemodified: "+featurenamemodified);System.out.println("THIS IS idbaseline: "+idbaseline);
+		   System.out.println("THIS IS idfile: "+idfile); System.out.println("THIS IS  pr: "+ pr);
 		   
 		  //String csvContent = extractCSVForTreeMapLightsByFeature(idfile, featurenamemodified); //this depicts the churn for products
 		 //  String csvContent= extractCSVForTreeMapFeatureProducts(featurenamemodified,idbaseline);//this depicts the added/deleted lines per product to files.
@@ -68,9 +66,9 @@ public class TreeMapLightsController {
 		   model.addAttribute("fname",featurenamemodified);
 		   model.addAttribute("maintitle", "How is feature '"+featurenamemodified+"' being customized in products?");
 		   model.addAttribute("difftitle", "diff(Feature: '" +featurenamemodified+"', Product-Portfolio)");
-		   
 		  return "treemapLights2"; 
 	 	}
+	  
 	  private String extractCSVForTreeMapFeatureProductsChurn (String featurenamemodified,String idbaseline) {
 			String csvheader = "id,value,frequency,id_core_asset,fname,product_release,operation";
 			String csvcontent="";
@@ -237,11 +235,11 @@ public class TreeMapLightsController {
 		 System.out.println("Id file ="+ idcoreasset);
 		 //get all core-assets by featureid
 		 
-		 CustomizationsGByFile treemap = treemapLightDao.getCustomsByIdcoreasset(idcoreasset);
+		 CustomizationsGByPRandFile treemap = treemapLightDao.getCustomsByIdcoreasset(idcoreasset);
 		
 		 
-		 Iterable<CustomizationsGByFile> customsByFile = treemapLightDao.findAll();
-		 Iterator<CustomizationsGByFile> it = customsByFile.iterator();
+		 Iterable<CustomizationsGByPRandFile> customsByFile = treemapLightDao.findAll();
+		 Iterator<CustomizationsGByPRandFile> it = customsByFile.iterator();
 		 while(it.hasNext()) {
 			 treemap = it.next();
 			 if(treemap.getIdcoreasset()==idcoreasset) {
@@ -269,7 +267,7 @@ public class TreeMapLightsController {
 			     csvCustoms = csvCustoms.concat(
 			    		 "\n"+featureCusto.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","").concat("/"+featureCusto.getPr())
 			    		 +","+featureCusto.getAmount()
-			    		 +","+treemap.getNumberofproductscustomizing()
+			    		 +",0"////treemap.getNumberofproductscustomizing()
 			    		 +"," +featureCusto.getCoreassetid()
 			    		 +","+featureid
 			    		 +","+featureCusto.getPr()
