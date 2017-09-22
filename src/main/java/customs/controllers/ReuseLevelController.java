@@ -59,7 +59,9 @@ public class ReuseLevelController {
 				   filepath=pa.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", "");
 				   paths.add(filepath);
 				   
-				   csvContent = csvContent.concat("\n"+filepath+","+pa.getSize()/4); //insert the path + size
+				   csvContent = csvContent.concat("\n"+filepath+",1"
+				   //+pa.getSize()/4
+				   ); //insert the path + size
 				   
 			   }
 		   }

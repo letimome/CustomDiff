@@ -50,8 +50,8 @@ body {
 }
 
 .node-label {
-  padding: 18px;
-  line-height: 100em;
+  padding: 20px;
+  line-height: 300em;
   white-space: pre;
 }
 
@@ -98,7 +98,7 @@ tspan:last-child {
 <script type="text/javascript" src="dist/diff2html.js"></script>
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 
-<p align="center">
+<p align="center">Note: Treemap area denotes customization change-size (churn).
 <svg align="center" width="900" height="600"></svg></p>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -141,7 +141,9 @@ d3.csv("treemapLights.csv", function(error, data) {
   if (error) throw error;
 
   var root = stratify(data)
-      .sum(function(d) { return d.value; })
+      .sum(function(d) { 
+    	  return d.value; 
+    	  })
       .sort(function(a, b) { return b.height - a.height || b.value - a.value; });
 
   treemap(root);
@@ -177,6 +179,7 @@ d3.csv("treemapLights.csv", function(error, data) {
 	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
 	    	  	else if (operation==("add")) return "#3fac54";
 	    	  	else if (operation==("delete")) return "#e6323d";
+	    	  	else if (operation=="churn") return "#ffc100";
 	    	return "#cccccc";//color(d.value);//the value - churn - of the customization
     	  });
 
@@ -202,12 +205,13 @@ d3.csv("treemapLights.csv", function(error, data) {
     .selectAll("tspan")
       .data(function(d) { return d.id.substring(d.id.lastIndexOf("/") + 1).split(/(?=[A-Z][^A-Z])/g).concat(format(d.value)); })
     .enter().append("tspan")
-      .attr("x", 4)
-      .attr("y", function(d, i) { return 13 + i * 10; })
+      .attr("x", 10)
+      .attr("y", function(d, i) { return 20 + i * 20; })
       .text(function(d) { return d; });
 
   cell.append("title")
-      .text(function(d) { return d.id + "\n" + format(d.value); });
+      .text(function(d) {//this is the title in the label 
+    	  return d.id + "\n" + format(d.value); });
 });
 
 d3.selectAll("rect").on("click", function(d){
@@ -234,6 +238,7 @@ function hovered(hover) {
 	  	    		if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
 	  	    	  	else if (operation==("add")) return "#3fac54";
 	  	    	  	else if (operation==("delete")) return "#e6323d";
+	  	    	  	else if (operation=="churn") return "#ffc100";
 	    	    	  });
 	    else d3.select(d.node).classed("node--hover", hover).
 	    select("rect").style("fill","#6495ed");

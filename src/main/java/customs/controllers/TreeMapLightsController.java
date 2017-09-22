@@ -2,14 +2,11 @@ package customs.controllers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import customs.models.AddedCustomsByProductsToFeatures;
 import customs.models.AddedCustomsByProductsToFeaturesDao;
 import customs.models.CoreAsset;
@@ -18,16 +15,11 @@ import customs.models.CoreassetsAndFeatures;
 import customs.models.CoreassetsAndFeaturesDao;
 import customs.models.CustomizationsByFeature;
 import customs.models.CustomizationsByFeatureDao;
-import customs.models.CustomizationsByVPandPR;
-import customs.models.CustomizationsByVPandPRDao;
 import customs.models.SPLdao;
-import customs.models.VariationPoint;
 import customs.models.VariationPointDao;
-import customs.utils.Formatting;
 import customs.utils.VPDiffUtils;
 import customs.models.CustomizationsGByFile;
 import customs.models.CustomizationsGByFileDao;
-import customs.models.CustomizationsGByOperationDao;
 import customs.models.DeletedCustomsByProductsToFeatures;
 import customs.models.DeletedCustomsByProductsToFeaturesDao;
 import customs.models.ProductAsset;
@@ -63,8 +55,10 @@ public class TreeMapLightsController {
 		   System.out.println("THIS IS idfile: "+idfile);
 		   System.out.println("THIS IS  pr: "+ pr);
 		   
-		 // String csvContent = extractCSVForTreeMapLightsByFeature(idfile, featurenamemodified); THIS IS THE OLD ONE
-		   String csvContent= extractCSVForTreeMapFeatureProducts(featurenamemodified,idbaseline);
+		  //String csvContent = extractCSVForTreeMapLightsByFeature(idfile, featurenamemodified); //this depicts the churn for products
+		 //  String csvContent= extractCSVForTreeMapFeatureProducts(featurenamemodified,idbaseline);//this depicts the added/deleted lines per product to files.
+		   
+		   String csvContent= extractCSVForTreeMapFeatureProductsChurn(featurenamemodified,idbaseline);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"treemapLights.csv",csvContent);//path and test
 		   
 		   if( pr!=null && idfile!=0)
@@ -77,14 +71,50 @@ public class TreeMapLightsController {
 		   
 		  return "treemapLights2"; 
 	 	}
+	  private String extractCSVForTreeMapFeatureProductsChurn (String featurenamemodified,String idbaseline) {
+			String csvheader = "id,value,frequency,id_core_asset,fname,product_release,operation";
+			String csvcontent="";
+			csvcontent= extractCSVForFeatureProductChurn(featurenamemodified,idbaseline);	
+			return csvheader.concat(csvcontent);
+	  }
 	  
 	  private String extractCSVForTreeMapFeatureProducts(String featurenamemodified,String idbaseline) {
 			String csvheader = "id,value,frequency,id_core_asset,fname,product_release,operation";
 			String csvcontent="";
 			csvcontent= extractCSVForFeatureProduct(featurenamemodified,idbaseline);	
-			
 			return csvheader.concat(csvcontent);
 		}
+	  
+	  private String extractCSVForFeatureProductChurn(String featurenamemodified, String idbaseline) {
+		  System.out.println("In extractCSVForFeatureProductChurn");
+		  System.out.println("In featurenamemodified:"+featurenamemodified);
+		  System.out.println("In idbaseline:"+idbaseline);
+		  Iterable<CoreassetsAndFeatures> all = coreassetsForFeature.findAll();
+			System.out.println(all.toString());
+			CoreassetsAndFeatures caf;
+			Iterator<CoreassetsAndFeatures> it = all.iterator();
+			ArrayList<String> capaths = new ArrayList<String>();
+			String csvCAcontent="";
+			while (it.hasNext()) { 
+				caf = it.next();
+				if (caf.getBaseline().equals(idbaseline) && caf.getFeatureid().equals(featurenamemodified)) {
+					System.out.println("paths!:"+caf.getCapath());
+					capaths.add(caf.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
+					//include the whole line for the core-assets + its size
+					csvCAcontent = csvCAcontent.concat("\n"+caf.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","")+",1");//TODO reused CAs are left to minimun size
+					
+					//for each core asset see if any product release customizes it
+					Iterator<ProductRelease> ite = prDao.findAll().iterator();
+					while(ite.hasNext()) {//para cada release ver si customiza el core-assetID
+						csvCAcontent = csvCAcontent.concat(extractCSVForProductChurnCustomizingCoreAsset(ite.next().getIdrelease(), caf.getIdcoreasset(),featurenamemodified));
+					}
+				}
+			}
+			//we know have all the paths for the core asset.
+			 ArrayList<String>  mainPaths = customs.utils.Formatting.extractPathsFromPathListWitoutFilePath(capaths);//extract parsed paths to header.
+			 String headerpaths = extractCSVFromArrayListPaths(mainPaths);
+			return headerpaths+csvCAcontent;
+	  }
 
 		private String extractCSVForFeatureProduct(String featurenamemodified, String idbaseline) {
 			
@@ -103,9 +133,9 @@ public class TreeMapLightsController {
 					System.out.println("paths!:"+caf.getCapath());
 					capaths.add(caf.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
 					//include the whole line for the core-assets + its size
-					//TODO int
 					csvCAcontent = csvCAcontent.concat("\n"+caf.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","")
-							+","+(caf.getSize()/5));//TODO cambiarlo
+							+",1");//TODO reused CAs are left to minimun size
+					
 					//incluir los products!!
 					Iterator<ProductRelease> ite = prDao.findAll().iterator();
 					while(ite.hasNext()) {
@@ -118,6 +148,34 @@ public class TreeMapLightsController {
 			 String headerpaths = extractCSVFromArrayListPaths(mainPaths);
 			
 			return headerpaths+csvCAcontent;
+		}
+		
+		
+		private String extractCSVForProductChurnCustomizingCoreAsset(String pr, int idcoreasset, String featureid){
+		//String csvheader = "id,value,frequency,id_core_asset,fname,product_release,operation";
+			ArrayList<String> paths = new ArrayList<>();
+			   String csvCustoms= "";
+			   Iterable <CustomizationsByFeature> featureCustoms = featureCustomsDao.getCustomsByFeatureid(featureid); //.findAll();
+			   Iterator<CustomizationsByFeature> ite=featureCustoms.iterator();
+			   CustomizationsByFeature featureCusto;
+			   System.out.println("featureCustoms:" +featureCustoms);
+			   while (ite.hasNext()) {
+				   featureCusto= ite.next();
+				  if(featureCusto.getFeatureId().equals(featureid) && featureCusto.getCoreassetid()==idcoreasset && featureCusto.getPr().equals(pr)) {
+					//  csvCustoms = csvCustoms.concat("\n"+featureCusto.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","").concat("/"+featureCusto.getPr()));
+					  csvCustoms = csvCustoms.concat(
+				    		 "\n"+featureCusto.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","").concat("/"+featureCusto.getPr())//+"/Churn")
+				    		 +","+featureCusto.getAmount()
+				    		 +",0"////treemap.getNumberofproductscustomizing()--Frequency; 
+				    		 +"," +featureCusto.getCoreassetid()
+				    		 +","+featureid
+				    		 +","+featureCusto.getPr()
+				    		 +",churn"
+				    		 );
+				     paths.add(featureCusto.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
+				  	 }
+			   }
+			return csvCustoms;
 		}
 		
 		private String extractCSVForProductCustomizingCoreAsset(String pr, int idcoreasset, String featureid) {
@@ -194,15 +252,16 @@ public class TreeMapLightsController {
 						 
 		 }
 
-		   Iterable <CustomizationsByFeature> featureCustoms = featureCustomsDao.getCustomsByFeatureid(featureid); //.findAll();
-		   Iterator<CustomizationsByFeature> ite=featureCustoms.iterator();
-		   System.out.println("featureCustoms:" +featureCustoms);
+		   
+		  
 		   String csvContent="id,value,frequency,id_core_asset,fname,product_release"; 
 		   ArrayList<String> paths = new ArrayList<>();
-	
 		   String csvCustoms= "";
-		   CustomizationsByFeature featureCusto;
 		   
+		   Iterable <CustomizationsByFeature> featureCustoms = featureCustomsDao.getCustomsByFeatureid(featureid); //.findAll();
+		   Iterator<CustomizationsByFeature> ite=featureCustoms.iterator();
+		   CustomizationsByFeature featureCusto;
+		   System.out.println("featureCustoms:" +featureCustoms);
 		   while (ite.hasNext()) {
 			   featureCusto= ite.next();
 			  if(featureCusto.getFeatureId().equals(featureid) ) //NO HACE FALTA! ||  custo.getFeaturemodified().equals("undefined")) 
@@ -281,7 +340,7 @@ private void addDiffViewForCoreAssetId(Model model, int idcoreasset,String pr, S
 		 model.addAttribute("fname",featureid);
 		 model.addAttribute("cavalue",ca.getIdcoreasset());
 // model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.getVPExpression('"+expression+")]");
-		 String header= "diff( Baseline-v1.0.getAsset('"+ca.getName()+"'),  "+pr+".getAsset('"+ca.getName()+"') [VP.expression.contains('"+featureid+"')]";
+		 String header= "diff( Baseline-v1.0."+ca.getName()+",  "+pr+"."+ca.getName()+" [VP.contains('"+featureid+"')]";
 		 		
 		 model.addAttribute("diffHeader", header);
 		 model.addAttribute("maintitle", "How is feature '"+featureid+"' being customized in products?");
