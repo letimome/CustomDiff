@@ -3,6 +3,8 @@ package customs.controllers;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.hibernate.jpa.criteria.expression.ConcatExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +50,8 @@ public class ProductStructureController {
 		   //compute CSV for VariationPoints
 		   ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(id_asset);
 		   
-		   String csvContent = extractVPsCSVForSingleProductAsset(idrelease,id_asset);
+		   //String csvContent = extractVPsCSVForSingleProductAsset(idrelease,id_asset);
+		   String csvContent = extractVPsCSVForSingleProductAssetChurn(idrelease,id_asset);
 		  
 		   customs.utils.FileUtils.writeToFile(pathToResource+"productstructure.csv",csvContent);//path and test
 		/*  if(expression==null) {
@@ -115,7 +118,7 @@ public class ProductStructureController {
 		return csvContent;
 	}
 	  
-	private String extractVPsCSVForSingleProductAsset2(String idrelease, int id_asset) {//Old One: customizations are computed together!
+	private String extractVPsCSVForSingleProductAssetChurn(String idrelease, int id_asset) {//Old One: customizations are computed together!
 		   Iterable<CustomizationsByVPandPR> customsObj = prsAndVps.getCustomizationByInproduct(idrelease);
 		   Iterator<CustomizationsByVPandPR> it = customsObj.iterator();
 		   
@@ -127,13 +130,15 @@ public class ProductStructureController {
 		   String path;
 		   String csvCustoms= "";
 		   ArrayList<String> filePaths=new ArrayList<String>();
+		   ArrayList<Integer> customized_vp_ids= new  ArrayList<Integer>(); 
 		   while (it.hasNext()) {
 			  custo= it.next();
 			  ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(custo.getFilechanged());
 			  System.out.println(pa.getIdProductasset());
 			  if(pa.getIdProductasset()==id_asset) {
 				  System.out.println("Product Asset Found");
-			  
+				  customized_vp_ids.add(custo.getIdvariationpoint());
+				  
 				  vp = variationPointDao.getVariationPointByIdvariationpoint(custo.getIdvariationpoint());
 				  path = pa.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","");
 				  if(!filePaths.contains(pa.getPath())) {
@@ -147,10 +152,12 @@ public class ProductStructureController {
 						  split("//")[1]+","+ custo.getChurn()+","
 						  +pa.getIdProductasset() + ","+ idrelease
 						 +","+formated//Formatting.decodeFromBase64(vp.getExpression())
-						 );
+						 +",churn");
 				  paths.add(path);
 			  } 
 		   }//end while
+		   
+		   csvCustoms=csvCustoms.concat(extractVPsForNotCustomizedVPsFile(idrelease, id_asset, customized_vp_ids));
 		   
 		   System.out.println("Paths");
 		   ArrayList<String>  paths2 = customs.utils.Formatting.extractMiniPaths(paths);
@@ -165,6 +172,33 @@ public class ProductStructureController {
 		   System.out.println(paths2);
 		return csvContent;
 	}
+
+	private String extractVPsForNotCustomizedVPsFile(String idrelease, int idproductasset,ArrayList<Integer> customized_vp_ids) {
+		//get vps of a gile
+		String csv_not_custom_vps ="";
+		ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(idproductasset);
+		String path = pa.getPath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","");
+		Iterator<VariationPoint> filevps = variationPointDao.getVariationPointsByIdproductasset(idproductasset).iterator();
+		VariationPoint vp;
+		String exp;
+		while (filevps.hasNext()){
+			vp=filevps.next();
+			if (vp.getIdproductasset()==idproductasset) {
+				if(!customized_vp_ids.contains(vp.getIdvariationpoint())) {//if the vp is not customized, include it
+					exp = Formatting.decodeFromBase64(vp.getExpression());
+					  String formated = exp.split("PV:IFCOND")[1];
+					  csv_not_custom_vps = csv_not_custom_vps.concat("\n"+path+"/" + Formatting.decodeFromBase64(vp.getExpression()).
+							  split("//")[1]+","+ 1+"," +vp.getIdproductasset() 
+							  + ","+ idrelease+","+formated+
+							  ","+Formatting.decodeFromBase64(vp.getExpression())+",");
+				} 
+			}
+		}
+	
+		
+		return csv_not_custom_vps;
+	}
+
 
 	private String addDiffViewForProductAssetId(String idrelease, int id_asset, String expression) {
 		//1: get the diff from the product-asset

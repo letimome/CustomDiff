@@ -27,8 +27,7 @@ import customs.utils.Formatting;
 public class ReuseLevelController {
 	
 	
-	 @Autowired private SPLdao SPLdao;
-	
+	 @Autowired private SPLdao SPLdao;	
 	 @Autowired private NotCustomizedProductAssetsDao notCustAssetsDao;
 	 @Autowired private ProductAssetDao paDao;
 	 @Autowired private ProductReleaseDao prDao;
@@ -36,8 +35,6 @@ public class ReuseLevelController {
 	 @Autowired private CustomizationsGByOperationDao customsByFileOp;
 	 
 	 private String pathToResource = "./src/main/resources/static/";
-
-	 
 
 	 @RequestMapping("reuseLevelView")
 	   public String getTreeMapForProductRelease(
@@ -68,7 +65,7 @@ public class ReuseLevelController {
 			   }
 		   }
 
-		   //csvContent = csvContent.concat(computeCSVForCustomization(productrelease));//customizations splitted into added/deleted
+		   //csvContent = csvContent.concat(computeCSVForCustomization(productrelease));//customizations splited into added/deleted
 		   csvContent = csvContent.concat(computeCSVForCustomizationChurn(productrelease));
 		   
 		   
@@ -79,12 +76,10 @@ public class ReuseLevelController {
 		   }
 		   
 		   System.out.println(csvheader+csvInitialPaths+csvContent);
-		   
 		   customs.utils.FileUtils.writeToFile(pathToResource+"reuseLevel.csv",csvheader+csvInitialPaths+csvContent);//path and test
 		   model.addAttribute("pr",productrelease);
 		   model.addAttribute("maintitle", "Which assets are customized by '"+productrelease+"'?");
 		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+productrelease+")");
-		   
 		   return "reuseLevel2"; 
 	 	}
 
@@ -92,8 +87,7 @@ public class ReuseLevelController {
 			//	  String csvheader="id,value,operation,pr,p_asset_id";
 			String csvCustoms="";
 			   System.out.println("The productrelease to analyze is: "+productrelease);
-			   
-		
+
 			   Iterable<CustomizationsGByPRandFile>  customizedAssets = customsByPROp.getCustomsByIdrelease (productrelease);
 			   Iterator<CustomizationsGByPRandFile> itCust= customizedAssets.iterator();
 			   itCust  = customizedAssets.iterator();

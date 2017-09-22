@@ -1,5 +1,6 @@
 package customs.controllers;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +15,21 @@ import customs.models.Alluvial;
 import customs.models.AlluvialDao;
 import customs.models.BaselineDao;
 import customs.models.Coreassetbaseline;
+import customs.models.Feature;
+import customs.models.FeatureDao;
 import customs.models.Product;
 import customs.models.ProductAsset;
 import customs.models.ProductAssetDao;
 import customs.models.ProductDao;
+import customs.models.ProductRelease;
+import customs.models.ProductReleaseDao;
 import customs.models.SPLdao;
 import customs.models.VariationPointDao;
 
 
 @Controller
 public class AlluvialController {
+
 	   
 	   @RequestMapping("alluvials")
 	 	public @ResponseBody Iterable<Alluvial> getAllCustoms() {
@@ -54,34 +60,56 @@ public class AlluvialController {
 		   Iterator<Alluvial> it = customsObj.iterator();
 		   String csvCustoms= "source,target,value";
 		   Alluvial custo;
+		   //csvCustoms=csvCustoms.concat("\nFA, Not_Customized, 1");
+		   ArrayList<String> customizedfeatures=new ArrayList<>() ;
+		   ArrayList<String> customizedproductreleases = new ArrayList<>();
 		   while (it.hasNext()) {
 			   custo= it.next();
 			   if(custo.getIdbaseline().equals(idbaseline))
-			     if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null") && !custo.getFeatureModified().equals("undefined"))
-				   csvCustoms = csvCustoms.concat
-				   ("\n"
-				   +custo.getFeatureModified()
-				   +","+custo.getIdRelease()
-				   +","+custo.getChurn()+"");
+			     if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null") && !custo.getFeatureModified().equals("undefined")) {
+			    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeatureModified()+","+custo.getIdRelease() +","+custo.getChurn()+"");
+			    	   customizedproductreleases.add(custo.getIdRelease());
+			    	   customizedfeatures.add(custo.getFeatureModified());
+			     }
 		   }
-		   
+		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(idbaseline,customizedproductreleases));
+		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(idbaseline,customizedfeatures));
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		   System.out.println(csvCustoms);
-		   
-		/*   ProductAsset pa = productAssetDao.getProductAssetByIdproductasset(idProductAsset);
-		   String diffvalue;
-		   if(pa!=null) {
-			   	diffvalue =  customs.utils.Formatting.decodeFromBase64(pa.getRelative_diff());
-	    			//process here the content of the relative diff
-			   	model.addAttribute("diffvalue",diffvalue);
-			   	System.out.println(diffvalue);
-		   }*/
 		  return "alluvial";
 		  
 	 	}
 	   
 	   
-	   @RequestMapping("alluvialView2")
+	   private String extractCSVForNotCustomizedFeatures(String idbaseline, ArrayList<String> customizedfeatures) {
+		String csv_notcustomizedFeatures="";
+		
+		Iterator<Feature> it = fDao.findAll().iterator();
+		Feature f;
+		
+		while (it.hasNext()) {
+			f = it.next();
+			if (!customizedfeatures.contains(f.getIdfeature())) {
+				csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,"+1);
+			}
+		}
+		return csv_notcustomizedFeatures;
+	}
+
+	private String extractCSVForNotCustomizedProducts(String idbaseline, ArrayList<String> customizedproductreleases) {
+		String csv_notcustomizedprs="";
+		Iterator<ProductRelease> it = prDao.findAll().iterator();
+		ProductRelease pr;
+		while(it.hasNext()) {
+			pr=it.next();
+			if(!customizedproductreleases.contains(pr.getIdrelease())) {
+				csv_notcustomizedprs=csv_notcustomizedprs.concat("\n"+"NOT_CUSTOMIZED,"+pr.getIdrelease()+",1");
+			}
+		}
+		return csv_notcustomizedprs;
+	}
+
+	@RequestMapping("alluvialView2")
 	   public String getCustomsByBaselineId2
 	   		(@RequestParam(value="idbaseline", required=false) String idbaseline, Model model){
 		   System.out.println("THIS IS idBbSeline: "+idbaseline);
@@ -135,15 +163,17 @@ public class AlluvialController {
 			model.addAttribute("products", products);
 			return "alluvial"; //baselines html
 	}
-	   // ------------------------
+		  // ------------------------
 	   // PRIVATE FIELDS
 	   // ------------------------
-	   @Autowired
-	   private AlluvialDao alluvialDao;
-	   private ProductDao productDao;
+	   
+		@Autowired private AlluvialDao alluvialDao;
+		@Autowired private ProductDao productDao;
 	   @Autowired private BaselineDao baselineDao;
-	   private String pathToResource = "./src/main/resources/static/";
+	    private String pathToResource = "./src/main/resources/static/";
 	   @Autowired private VariationPointDao variationPointDao;
-		 @Autowired private ProductAssetDao productAssetDao;
-		 @Autowired private SPLdao SPLdao;
+	   @Autowired private ProductAssetDao productAssetDao;
+	   @Autowired private SPLdao SPLdao;
+	   @Autowired private ProductReleaseDao prDao;
+	   @Autowired private FeatureDao fDao;
 }

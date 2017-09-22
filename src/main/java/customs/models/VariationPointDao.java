@@ -8,4 +8,5 @@ public interface VariationPointDao extends CrudRepository <VariationPoint, Long 
 	
 	VariationPoint getVariationPointByIdvariationpoint(int idvariationpoint);
 	Iterable<VariationPoint> getVariationPointsByIdproductasset(int idproductasset);
+
 }
