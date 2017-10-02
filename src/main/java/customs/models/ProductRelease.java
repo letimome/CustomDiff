@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class ProductRelease {
 
 	@Id String idrelease;
-	Date releaseDate;
+	Date releasedate;
 	int product_idproduct;
 	
 	public ProductRelease() {}
@@ -19,7 +19,7 @@ public class ProductRelease {
 	public ProductRelease(String idrelease, Date releaseDate, int roduct_idproduct) {
 		super();
 		this.idrelease = idrelease;
-		this.releaseDate = releaseDate;
+		this.releasedate = releaseDate;
 		this.product_idproduct = roduct_idproduct;
 	}
 
@@ -32,11 +32,11 @@ public class ProductRelease {
 	}
 
 	public Date getReleaseDate() {
-		return releaseDate;
+		return releasedate;
 	}
 
 	public void setReleaseDate(Date releaseDate) {
-		this.releaseDate = releaseDate;
+		this.releasedate = releaseDate;
 	}
 
 	public int getRoduct_idproduct() {

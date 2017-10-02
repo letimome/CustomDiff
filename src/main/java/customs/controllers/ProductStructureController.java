@@ -186,9 +186,16 @@ public class ProductStructureController {
 			if (vp.getIdproductasset()==idproductasset) {
 				if(!customized_vp_ids.contains(vp.getIdvariationpoint())) {//if the vp is not customized, include it
 					exp = Formatting.decodeFromBase64(vp.getExpression());
-					  String formated = exp.split("PV:IFCOND")[1];
+					  String formated="undefined";
+					  if (exp.contains("PV:IFCOND"))
+						  formated= exp.split("PV:IFCOND")[1];//hasFeature
+					  else {
+						  if (exp.contains("hasFeature"))
+							  formated = exp.split("hasFeature")[1];
+					  } 
 					  csv_not_custom_vps = csv_not_custom_vps.concat("\n"+path+"/" + Formatting.decodeFromBase64(vp.getExpression()).
-							  split("//")[1]+","+ 1+"," +vp.getIdproductasset() 
+							  split("//")[1]
+									  +","+ 0.2+"," +vp.getIdproductasset() 
 							  + ","+ idrelease+","+formated+
 							  ","+Formatting.decodeFromBase64(vp.getExpression())+",");
 				} 

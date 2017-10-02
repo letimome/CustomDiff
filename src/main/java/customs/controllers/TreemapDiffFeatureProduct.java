@@ -92,7 +92,7 @@ public class TreemapDiffFeatureProduct {
 				capaths.add(caf.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/", ""));
 				//include the whole line for the core-assets + its size
 				csvCAcontent = csvCAcontent.concat("\n"+caf.getCapath().replace(SPLdao.findAll().iterator().next().getIdSPL()+"/","")
-						+",1"//(caf.getSize()
+						+",1,"//(caf.getSize()
 								);//TODO cambiarlo
 				//include the lines for the product that has customized the assets
 			//	csvCAcontent = csvCAcontent.concat(extractCSVForProductCustomizingCoreAsset(pr, caf.getIdcoreasset(),featurenamemodified));

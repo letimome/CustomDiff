@@ -30,7 +30,9 @@ import customs.models.VariationPointDao;
 @Controller
 public class AlluvialController {
 
-	   
+
+	 
+	 
 	   @RequestMapping("alluvials")
 	 	public @ResponseBody Iterable<Alluvial> getAllCustoms() {
 	 		// This returns a JSON or XML with the users
@@ -64,7 +66,9 @@ public class AlluvialController {
 		   ArrayList<String> customizedfeatures=new ArrayList<>() ;
 		   ArrayList<String> customizedproductreleases = new ArrayList<>();
 		   while (it.hasNext()) {
-			   custo= it.next();
+			
+			    custo=it.next();
+			    System.out.println((custo.getIdBaseline()));
 			   if(custo.getIdbaseline().equals(idbaseline))
 			     if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null") && !custo.getFeatureModified().equals("undefined")) {
 			    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeatureModified()+","+custo.getIdRelease() +","+custo.getChurn()+"");
@@ -72,6 +76,7 @@ public class AlluvialController {
 			    	   customizedfeatures.add(custo.getFeatureModified());
 			     }
 		   }
+		   System.out.println(csvCustoms);
 		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(idbaseline,customizedproductreleases));
 		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(idbaseline,customizedfeatures));
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
@@ -90,7 +95,7 @@ public class AlluvialController {
 		while (it.hasNext()) {
 			f = it.next();
 			if (!customizedfeatures.contains(f.getIdfeature())) {
-				csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,"+1);
+				csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,0.2");
 			}
 		}
 		return csv_notcustomizedFeatures;
@@ -103,7 +108,7 @@ public class AlluvialController {
 		while(it.hasNext()) {
 			pr=it.next();
 			if(!customizedproductreleases.contains(pr.getIdrelease())) {
-				csv_notcustomizedprs=csv_notcustomizedprs.concat("\n"+"NOT_CUSTOMIZED,"+pr.getIdrelease()+",1");
+				csv_notcustomizedprs=csv_notcustomizedprs.concat("\n"+"NOT_CUSTOMIZED,"+pr.getIdrelease()+",0.2");
 			}
 		}
 		return csv_notcustomizedprs;

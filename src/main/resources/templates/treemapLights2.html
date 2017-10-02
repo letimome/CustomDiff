@@ -20,7 +20,7 @@
         <td align="right"> 
         <div>
 		<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
-			<img src="customDiff.png" alt="Back to alluvial view" style="width:80px;height:80px;"/>
+		<img src="customDiff.png" alt="Logo" style="width:150px;height:100px;"/>
 		</a>
 		</div>
 		</td>
@@ -77,7 +77,7 @@ tspan:last-child {
 
 .node rect {
   shape-rendering: crispEdges;
-}
+}º	1
 
 .node--hover rect {
   stroke: #008;
@@ -96,13 +96,13 @@ tspan:last-child {
 
 <p style="font-size:120%;" align="center"> Note: Treemap area denotes customization change-size.</p>
 <p align="center">
-<svg align="center" width="900" height="600"></svg></p>
+<svg align="center" width="900" height="400"></svg></p>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
 
 <script>
-
+/*<![CDATA[*/
 function getMetaContentByName(name,content){
 	   var content = (content==null)?'content':content;
 	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
@@ -128,18 +128,20 @@ var stratify = d3.stratify()
     .parentId(function(d) { return d.id.substring(0, d.id.lastIndexOf("/")); });
 
 var treemap = d3.treemap()
-    .size([width, height])
-    .paddingOuter(8)
-    .paddingTop(28)
-    .paddingInner(8)
-    .round(true);
+.size([width, height])
+.paddingOuter(3)
+.paddingTop(19)
+.paddingInner(1)
+.round(true);
 
 d3.csv("treemapLights.csv", function(error, data) {
   if (error) throw error;
 
   var root = stratify(data)
       .sum(function(d) { 
-    	  return d.value; 
+    	  	//if (d.value < 2) 
+    	  		return d.value;
+    	  //	else return ( (Math.random()*10) + (d.value)); 
     	  })
       .sort(function(a, b) { return b.height - a.height || b.value - a.value; });
 
@@ -156,9 +158,9 @@ d3.csv("treemapLights.csv", function(error, data) {
       .on("mouseout", hovered(false))
       .on("click", function(d){
 	    console.log("clicked id_core_asset"+d.data.id_core_asset);
-	    /*<![CDATA[*/
+	    
 	    window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname="+d.data.fname+"&idfile="+ d.data.id_core_asset+"&pr="+d.data.product_release+"#diffview";
-	    /*]]>*/
+	  
 	 	 });
 
   cell.append("rect")
@@ -252,6 +254,7 @@ function hovered(hover) {
 	  window.location.href("htttps://localhost:8080");
   };
 }
+/*]]>*/
 
 </script>
 
