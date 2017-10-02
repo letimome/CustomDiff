@@ -28,6 +28,16 @@
 <link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
 <link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
 
+   <link rel="stylesheet" href="styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+
+
+    
+
+  <script src="js/jquery.min.js"></script>
+   <script src="js/kendo.all.min.js"></script>
+    
 <style>
 .node rect {
   cursor: move;
@@ -46,8 +56,24 @@
 .link:hover {
   stroke-opacity: .5;
 }
+#treeview .k-sprite {
+            background-image: url("../content/web/treeview/coloricons-sprite.png");
+        }
+
+        .rootfolder { background-position: 0 0; }
+        .folder     { background-position: 0 -16px; }
+        .pdf        { background-position: 0 -32px; }
+        .html       { background-position: 0 -48px; }
+        .image      { background-position: 0 -64px; }
+  
+    
+    
 
 </style>
+
+
+
+
 </head>
 
 	<script>
@@ -72,7 +98,33 @@ Note: Streams' height denotes customization change-size (churn) per Feature-Prod
 <br/>
 Rectangles area denotes customization change-size per Feature/Product.
 </p>
-<p id="chart" align="center"/>
+
+
+
+<table style="width:80%">
+    <tr>
+        <td align="left"> 
+			<div id="example">
+			    <div class="demo-section k-content">
+			        <div>
+			            <h4>Filter by feature</h4>
+			            <div id="treeview"></div>
+			        </div>
+			        <div style="padding-top: 2em;">
+			            <h4>Status</h4>
+			            <p id="result">No features checked.</p>
+			        </div>
+			         <button type="button" onclick="filterByFeature()" >Filter!</button>
+			    </div>
+			</div>
+		</td>
+		 <td align="right">
+			<p id="chart" align="center"/>
+		</td>
+	</tr>
+</table>
+
+
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="sankey.js"></script>
@@ -257,5 +309,108 @@ Rectangles area denotes customization change-size per Feature/Product.
 	//]]>
 
 </script>
+
+    
+
+
+    <script>
+  //<![CDATA[
+        $("#treeview").kendoTreeView({
+            checkboxes: {
+                checkChildren: true
+            },
+            check: onCheck,
+
+            dataSource: [{
+                id: "WeatherStation", text: "Weather Station", expanded: true, spriteCssClass: "rootfolder", items: [
+                    {
+                        id: "Sensors", text: "Sensors", expanded: false, spriteCssClass: "man", items: [
+                            { id: "Temperature", text: "Temperature", spriteCssClass: "or" },
+                            { id: "WindSpeed", text: "Wind Speed", spriteCssClass: "or" },
+                            { id: "AirPressure", text: "Air Pressure", spriteCssClass: "or" }
+                        ]
+                    },
+                    {
+                        id: "Languages", text: "Languages", expanded: false, spriteCssClass: "man", items: [
+                            { id: "English", text: "English", spriteCssClass: "alt" },
+                            { id: "German", text: "German", spriteCssClass: "alt" },
+                        ]
+                    },
+                    {
+                        id: "Warnings", text: "Warnings", expanded: false, spriteCssClass: "optional", items: [
+                            { id: "Gale", text: "Gale", spriteCssClass: "or" },
+                            { id: "Heat", text: "Heat", spriteCssClass: "or" },
+                        ]
+                    }
+                ]
+            }]
+        });
+
+        // function that gathers IDs of checked nodes
+        function checkedNodeIds(nodes, checkedNodes) {
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].checked) {
+                    checkedNodes.push(nodes[i].id);
+                }
+
+                if (nodes[i].hasChildren) {
+                    checkedNodeIds(nodes[i].children.view(), checkedNodes);
+                }
+            }
+        }
+
+        // show checked node IDs on datasource change
+        
+        function filterByFeature(){
+	        	 var checkedNodes = [],
+	             treeView = $("#treeview").data("kendoTreeView"),
+	             message="null";
+	
+	         checkedNodeIds(treeView.dataSource.view(), checkedNodes);
+	
+	         if (checkedNodes.length > 0) {
+	             message = checkedNodes.join(",");
+	         } 
+	         //go and filter by feature Name
+	         window.location.href = "http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+message;//" + d.source.name+"-v1.0";
+	        
+         }
+
+
+        function onCheck() {
+            var checkedNodes = [],
+                treeView = $("#treeview").data("kendoTreeView"),
+                message;
+
+            checkedNodeIds(treeView.dataSource.view(), checkedNodes);
+
+            if (checkedNodes.length > 0) {
+                message = "Selected features: " + checkedNodes.join(",");
+            } else {
+                message = "No feature selected.";
+            }
+
+            $("#result").html(message);
+           
+            //go and filter by feature Name
+           // window.location.href = "http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter"+message;//" + d.source.name+"-v1.0";
+        }
+        //]]>
+    </script>
+
+    <style>
+        #treeview .k-sprite {
+            background-image: url("../content/web/treeview/coloricons-sprite.png");
+        }
+
+        .rootfolder { background-position: 0 0; }
+        .folder     { background-position: 0 -16px; }
+        .pdf        { background-position: 0 -32px; }
+        .html       { background-position: 0 -48px; }
+        .image      { background-position: 0 -64px; }
+    </style>
+
+
+
 </body>
 </html>
