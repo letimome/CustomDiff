@@ -90,17 +90,41 @@ public class AlluvialController {
 			   }
 			     
 		   }
-		  csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(idbaseline,customizedproductreleases));
-		  csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(idbaseline,customizedfeatures, featuresToInclude));
+		  //if there is a filter, then do not show products which has not been customized.
+		   if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(idbaseline,customizedproductreleases));
+		  
+		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(idbaseline,customizedfeatures, featuresToInclude));
 		 
 		  customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
+		  
+		  addFilteredFeatureToTheModel(model,featuresToInclude);
+		  
 		  System.out.println(csvCustoms);
 		  return "alluvial";
 		  
 	 	}
 	   
 	   
-	   private String extractCSVForNotCustomizedFeatures(String idbaseline, ArrayList<String> customizedfeatures, ArrayList<String> featuresToInclude) {
+	   private void addFilteredFeatureToTheModel(Model model, ArrayList<String> featuresToInclude) {
+		// TODO Auto-generated method stub
+		if (featuresToInclude==null) return;
+		//  result += "<span class='selectedName'>" + checkedNodes[i].FullName + "</span>";
+		System.out.println("SEGUIDOOOO");
+		String result="";
+		Iterator<String> it = featuresToInclude.iterator();
+		ArrayList<Feature> features=new ArrayList<Feature>();
+		String f; Feature fe;
+		while(it.hasNext()) {
+			f= it.next();
+			fe=fDao.getFeatureByIdfeature(f);
+			if (fe!=null) features.add(fe);
+		}
+		
+		model.addAttribute("features", features);
+		System.out.println(features.toString());
+	}
+
+	private String extractCSVForNotCustomizedFeatures(String idbaseline, ArrayList<String> customizedfeatures, ArrayList<String> featuresToInclude) {
 		String csv_notcustomizedFeatures="";
 		
 		Iterator<Feature> it = fDao.findAll().iterator();
@@ -108,7 +132,12 @@ public class AlluvialController {
 		
 		while (it.hasNext()) {
 			f = it.next();
-			if (!customizedfeatures.contains(f.getIdfeature()) && featuresToInclude!=null && featuresToInclude.contains(f)) {
+			if(featuresToInclude==null) {//if no filter available
+				if (!customizedfeatures.contains(f.getIdfeature()))
+						csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,0.2");
+			}
+			else //if filter available
+			if (!customizedfeatures.contains(f.getIdfeature()) && featuresToInclude.contains(f.getIdfeature())) {
 				csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,0.2");
 			}
 		}
