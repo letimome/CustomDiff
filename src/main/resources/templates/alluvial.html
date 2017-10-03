@@ -1,3 +1,4 @@
+ <!DOCTYPE html>  <!-- HTML5 document type -->
  <html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
     xmlns:th="http://www.thymeleaf.org" 
     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
@@ -9,7 +10,6 @@
  
 <title>Alluvial Diagram </title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
-
 <link rel="stylesheet" href="Treant.css" type="text/css"/>
 <link rel="stylesheet" href="custom-colored.css" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
@@ -17,6 +17,11 @@
 <link rel="stylesheet" href="styles/kendo.common.min.css" />
 <link rel="stylesheet" href="styles/kendo.default.min.css" />
 <link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+
 
 <script src="NavigationMap.js"></script>
 <script src="js/jquery.min.js"></script>
@@ -25,9 +30,9 @@
 <script type="text/javascript" src="dist/diff2html-ui.js"></script>
 <script src="vendor/raphael.js"></script>
 <script src="Treant.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.7.26/go-debug.js"></script>
+<script src="https://cdnjs.com/libraries/popper.js"></script>
 <style>
 .node rect {
   cursor: move;
@@ -56,76 +61,42 @@
         .html       { background-position: 0 -48px; }
         .image      { background-position: 0 -64px; }
 
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
 </head>
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-<style>
-html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
-<body align="center" class="bd-docs">
 
-
-
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-<span class="w3-bar-item w3-left" align="left">
-	<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
-		<img src="customDiff.png" alt="Logo" style="width:170px;height:110px;"/>
-	</a>
+<body align="center" >
+<div align="left" style="z-index:4">
+<span align="left">
+	<img src="customDiffLargo.png" alt="Logo" style="width:320px;height:90px;"/>
 </span>
-
-<span style="font-size:300%;" >CustomDiff: Tracing product customizations in SPLs</span>
+<p style="font-size:200%;">Tracing product customizations in SPLs</p>
 </div>
-
-<br />
-<br />
-<br />
-<br />
-<br />
-
-<!-- Sidebar/menu -->
 
 
 <!-- Table -->
-<table  class="table table-bordered table-striped table-responsive " style="width:98%">
+<table  class="table table-bordered table-striped table-responsive " cellpadding="100" style="background-color:#E8E8E8;width:98%">
+
 	<tr>
         <td style="width:20%" align="center">
-			<p id="tree-simple" style="width:450px; height: 270px"> Navigation Map </p>
+			<div id="tree-simple" style="font-size:300%; width:600px; height: 300px"> Navigation Map 
+			<a> 
+			</a>
+			</div>
 			<script>
 			var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
-		 <td valign="botton" style="width:70%" align="center">
-			<p style= "font-size: 300%;color:blue" align="center"> diff (Features, product portfolio)</p>
-			<p style= "font-size: 250%;" align="center">What features have been customized? </p>
-		</td>
-	</tr>
-
-	<tr>
-		<td valign="top" style="width:20%">
-			<p style="font-size:150%;" align="center">Filtering Options</p>
-			<div align="center" id="example">
-			    <div align="center" id="dialog"></div>
-			    <div align="center" id="add-product" class="demo-section k-content">
-			        <button id="pickEmployeesButton"  class="k-primary">Filter features</button>  
-			        <button class="k-primary" onclick="removeFeatureFilter()">Remove filter</button>  
-			        <p align="center" id="result" >
-			        <span align="center" th:each="feature:${features}">
-			        		<span align="center" class='selectedName'  th:text="${feature.idfeature}" ></span>
-			        		</span>
-			        </p>     
-			    </div>
-			</div>
-		</td>
 		
-		<td style="width:70%">
-		<p style="font-size:150%;" align="center"> 
+		<td valign="botton" style="width:70%" align="center">
+			<p style= "color:#ff6200; font-size: 150%;" align="center"> What features have been customized? </p>
+			<p style="font-size:100%;" align="center"> 
 			Note: Streams' height denotes customization change-size per Feature-Product pair.
 			<br/>Rectangles area denotes customization change-size per Feature/Product.
-		</p>
-		<div id="chart" align="center"/>
+			</p>
+			<div id="chart" align="center"/>
+		
 		</td>
 	</tr>
 </table>
@@ -672,18 +643,24 @@ $(document).ready(function () {
         }
         //]]>
     </script>
+    
+<script>
+//<![CDATA[
+	
+$(document).ready(function(){
+	var node = document.getElementsByClassName("node nodeExample1 orange");
+	console.log(node);
+	var a = document.createElement("a");
+	var t = document.createTextNode("Filter");       // Create a text node
+	a.appendChild(t);                                // Append the text to <button>
+	node[0].appendChild(a);  
+});
+//]]>
+</script>
 
-    <style>
-        #treeview .k-sprite {
-            background-image: url("../content/web/treeview/coloricons-sprite.png");
-        }
-
-        .rootfolder { background-position: 0 0; }
-        .folder     { background-position: 0 -16px; }
-        .pdf        { background-position: 0 -32px; }
-        .html       { background-position: 0 -48px; }
-        .image      { background-position: 0 -64px; }
-    </style>
+<div id="myDiagramDiv"
+     style="width:400px; height:150px; background-color: #DAE4E4;">
+</div>
 
 
 

@@ -20,7 +20,7 @@ public class NavigationMapGenerator {
 		"			    },    "+"\n"+
 		"			    nodeStructure: {"+"\n"+
 		"			        text: { name: 'diff(features, product-portfolio)' },"+"\n"+
-		"			        HTMLclass: 'blue',"+"\n"+
+		"			        HTMLclass: 'orange',"+"\n"+
 		"			      //  image: 'images/mini-alluvial.png',"+"\n"+
 		"			        children: ["+"\n"+
 		"			            {"+"\n"+
@@ -52,9 +52,9 @@ public class NavigationMapGenerator {
 	
 	
 	public static void generateNavigationMapForFeatureSide(String feature, String fileName, String expression, String pr) {
-		String color="blue";
+		String color="orange";
 		if (fileName.equals("core-asset")) color="white";
-		else color="blue";
+		else color="orange";
 		
 		String template = 
 			"	var simple_chart_config = { \n"+
@@ -74,7 +74,7 @@ public class NavigationMapGenerator {
 		"			            {"+"\n"+
 		"			                text: { name: 'diff ("+feature+", product-portfolio)' },"+"\n"+
 		"			              //  image: 'images/mini-feature-treemap.png',"+"\n"+
-		 							"HTMLclass: 'blue',"+"\n"+
+		 							"HTMLclass: 'orange',"+"\n"+
 		"			                children: [{"+"\n"+
 		"			                	 text: { name: 'diff ("+fileName+", "+pr+")["+expression+"]' },"+"\n"+
 		"			        //        	 image: 'images/mini-diff.png'"+"\n"+
@@ -107,7 +107,7 @@ public class NavigationMapGenerator {
 		if(expression!=null && expression.contains("'"))
 			expression = expression.replace("'", "");
 
-		if (feature.equals("features")) colorMain="blue";
+		if (feature.equals("features")) colorMain="orange";
 		else colorMain="white";
 		
 		if (fileName.equals("core-asset")) {
@@ -115,8 +115,8 @@ public class NavigationMapGenerator {
 			colormiddle="whithe";
 		}
 		else {
-			colordiff="blue";
-			colormiddle="blue";
+			colordiff="orange";
+			colormiddle="orange";
 			colorMain="white";
 		} 
 		if(expression==null)
@@ -136,6 +136,7 @@ public class NavigationMapGenerator {
 		"			    nodeStructure: {"+"\n"+
 		"			        text: { name: 'diff(features, product-portfolio)' },"+"\n"+
 		"			      //  image: 'images/mini-alluvial.png',"+"\n"+
+		"						href=127.0.0.1:8080"+
 		"			        children: ["+"\n"+
 		"			            {"+"\n"+
 		"			                text: { name: 'diff ("+"feature"+", product-portfolio)' },"+"\n"+

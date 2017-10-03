@@ -10,7 +10,7 @@
 			    },    
 			    nodeStructure: {
 			        text: { name: 'diff(features, product-portfolio)' },
-			        HTMLclass: 'blue',
+			        HTMLclass: 'orange',
 			      //  image: 'images/mini-alluvial.png',
 			        children: [
 			            {
