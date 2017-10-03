@@ -30,9 +30,6 @@ import customs.models.VariationPointDao;
 @Controller
 public class AlluvialController {
 
-
-	 
-	 
 	   @RequestMapping("alluvials")
 	 	public @ResponseBody Iterable<Alluvial> getAllCustoms() {
 	 		// This returns a JSON or XML with the users
@@ -98,6 +95,8 @@ public class AlluvialController {
 		  customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		  
 		  addFilteredFeatureToTheModel(model,featuresToInclude);
+		  
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForAlluvial();
 		  
 		  System.out.println(csvCustoms);
 		  return "alluvial";

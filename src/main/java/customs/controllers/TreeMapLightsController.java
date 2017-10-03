@@ -66,6 +66,11 @@ public class TreeMapLightsController {
 		   model.addAttribute("fname",featurenamemodified);
 		   model.addAttribute("maintitle", "How is feature '"+featurenamemodified+"' being customized in products?");
 		   model.addAttribute("difftitle", "diff(Feature: '" +featurenamemodified+"', Product-Portfolio)");
+		   
+		   if(idfile!=0 && pr!=null)
+			   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(featurenamemodified,caDao.getCoreAssetByIdcoreasset(idfile).getName(),"hasFeature("+featurenamemodified+")",pr);
+		   else  
+			   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(featurenamemodified, "core-asset","Expression","product"); 
 		  return "treemapLights2"; 
 	 	}
 	  

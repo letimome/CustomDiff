@@ -65,6 +65,8 @@ public class ProductStructureController {
 		  } 
 	
 		   model.addAttribute("maintitle", "How is product '"+ idrelease + "' customizing core-asset '"+pa.getName()+"'?");
+		//   customs.utils.NavigationMapGenerator.generateNavigationMapJS("features", idrelease, expression, pa.getName());
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features",pa.getName(),expression,idrelease);
 		   return "productVariationPoints"; 
 	 	}
 

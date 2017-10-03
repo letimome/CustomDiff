@@ -66,7 +66,10 @@ public class TreemapDiffFeatureProduct {
 		   model.addAttribute("fname",featurenamemodified);
 		   model.addAttribute("maintitle", "How is feature '"+featurenamemodified+"' being customized in product "+pr+"?");
 		   model.addAttribute("difftitle", "diff(Feature: '" +featurenamemodified+"', "+pr+")");
-		  return "treemapFeatureProduct"; 
+		  
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(featurenamemodified,pr,"core-asset","hasFeature("+featurenamemodified+")");
+		   
+		   return "treemapFeatureProduct"; 
 	 	}
 
 

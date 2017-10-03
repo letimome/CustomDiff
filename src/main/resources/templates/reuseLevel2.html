@@ -15,26 +15,28 @@
 <meta name="difftitle" th:content="${difftitle}"></meta>
 
 
-<table style="width:100%">
 
+
+<table style="width:90%">
     <tr>
-        <td align="right"> 
-        <div>
-		<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
+        <td  style="width:30%" align="center"> 
+	        <div>
+			<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
 			<img src="customDiff.png" alt="Logo" style="width:150px;height:100px;"/>
-		</a>
-		</div>
+			</a>
+			</div>
 		</td>
-		 <td align="right">
-			<h1 align="center" th:text="${maintitle}"> </h1>
-			<h2 align="center" th:text="${difftitle}"> diff(CoreAssetBaseline, product)</h2>
+		 <td style="width:50%" align="center">
+			<h2 style= "font-size: 220%;" align="center" th:text="${difftitle}"> diff(CoreAssetBaseline, product)</h2>
+			<h1 style= "font-size: 180%;" align="center" th:text="${maintitle}"> </h1>
+
 		</td>
-		</tr>
+		<td style="width:20%" align="center">
+			<p id="tree-simple" style="width:450px; height: 300px"> Navigation Map </p>
+		</td>
+	</tr>
 </table>
 
-
-<br />
-<br />
 <style>
 
 text {
@@ -56,14 +58,30 @@ tspan:last-child {
 </style>
 </head>
 
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
 <link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
 <link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
+<link rel="stylesheet" href="styles/kendo.common.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+<link rel="stylesheet" href="Treant.css" type="text/css"/>
+<link rel="stylesheet" href="custom-colored.css" type="text/css"/>
+
+<script src="NavigationMap.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/kendo.all.min.js"></script>
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script src="vendor/raphael.js"></script>
+<script src="Treant.js"></script>
+
+
+<!-- Javascript for the map menu-->
+<script>
+var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
+</script>
 
 <body>
-
-<h2></h2>
 
 <!-- Javascripts -->
 <script type="text/javascript" src="dist/diff2html.js"></script>
@@ -71,7 +89,7 @@ tspan:last-child {
 
 <p style="font-size:120%;" align="center"> Note: Treemap area denotes customization change-size (churn).</p>
 <p align="center">
-<svg align="center" width="900" height="700"></svg></p>
+<svg id ="treemap" align="center" width="900" height="700"></svg></p>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
@@ -83,7 +101,7 @@ function getMetaContentByName(name,content){
 	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
 	}
 
-var svg = d3.select("svg"),
+var svg = d3.select("#treemap"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
