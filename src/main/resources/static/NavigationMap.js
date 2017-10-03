@@ -10,16 +10,15 @@
 			    },    
 			    nodeStructure: {
 			        text: { name: 'diff(features, product-portfolio)' },
+			        HTMLclass: 'blue',
 			      //  image: 'images/mini-alluvial.png',
 			        children: [
 			            {
-			                text: { name: 'diff (AirPressure, product-portfolio)' },
+			                text: { name: 'diff (feature, product-portfolio)' },
 			              //  image: 'images/mini-feature-treemap.png',
-HTMLclass: 'blue',
 			                children: [{
-			                	 text: { name: 'diff (settings.js, productBerline-v1.0)[hasFeature(AirPressure)]' },
+			                	 text: { name: 'diff (core-asset, product)' },
 			        //        	 image: 'images/mini-diff.png'
-								HTMLclass: 'blue',
 			                } ]
 			            },
 			            {
