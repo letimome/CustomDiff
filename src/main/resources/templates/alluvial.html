@@ -28,8 +28,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
-
-    
 <style>
 .node rect {
   cursor: move;
@@ -61,45 +59,52 @@
 </style>
 </head>
 
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
 <body align="center" class="bd-docs">
 
-<header  style="background-color:white">
-	<ul  class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-	<li align="left" >
-		<div class="navbar-brand mr-0 mr-md-2" align="center">
-		<img align="center" src="customDiffLargo.png" alt="Logo" style="width:400px;height:100px;"/>
-		</div>
-	</li>
-	<li style="width:25%;">
-	</li>
-	<li align="center" >
-		<div align="center" class=" flex-row   d-md-flex">
-		<p align="center" class="nav-item" style="font-size:300%;">Tracking Product customizations in SPLs</p>
-		</div>
-	</li>
-	</ul>
-</header>
-<!-- Javascript for the map menu-->
+
+
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+<span class="w3-bar-item w3-left" align="left">
+	<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
+		<img src="customDiff.png" alt="Logo" style="width:170px;height:110px;"/>
+	</a>
+</span>
+
+<span style="font-size:300%;" >CustomDiff: Tracing product customizations in SPLs</span>
+</div>
 
 <br />
 <br />
+<br />
+<br />
+<br />
 
-<table  class="table table-bordered table-striped table-responsive" style="width:98%">
+<!-- Sidebar/menu -->
+
+
+<!-- Table -->
+<table  class="table table-bordered table-striped table-responsive " style="width:98%">
 	<tr>
-        <td style="width:30%" align="center">
+        <td style="width:20%" align="center">
 			<p id="tree-simple" style="width:450px; height: 270px"> Navigation Map </p>
 			<script>
 			var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
-		 <td valign="baseline" style="width:70%" align="center">
-			<h1 valign="middle" class="text-primary" style= "font-size: 300%;" align="center"> diff (Features, product portfolio)</h1>
-			<h2 valign="middle" class="text-primary"  style= "font-size: 250%;" align="center">What features have been customized? </h2>
+		 <td valign="botton" style="width:70%" align="center">
+			<p style= "font-size: 300%;color:blue" align="center"> diff (Features, product portfolio)</p>
+			<p style= "font-size: 250%;" align="center">What features have been customized? </p>
 		</td>
 	</tr>
 
 	<tr>
-		<td valign="top" style="width:30%">
+		<td valign="top" style="width:20%">
 			<p style="font-size:150%;" align="center">Filtering Options</p>
 			<div align="center" id="example">
 			    <div align="center" id="dialog"></div>
@@ -117,9 +122,9 @@
 		
 		<td style="width:70%">
 		<p style="font-size:150%;" align="center"> 
-				Note: Streams' height denotes customization change-size per Feature-Product pair.
-				<br/>Rectangles area denotes customization change-size per Feature/Product.
-				</p>
+			Note: Streams' height denotes customization change-size per Feature-Product pair.
+			<br/>Rectangles area denotes customization change-size per Feature/Product.
+		</p>
 		<div id="chart" align="center"/>
 		</td>
 	</tr>
