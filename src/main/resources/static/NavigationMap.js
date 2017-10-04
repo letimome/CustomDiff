@@ -1,4 +1,4 @@
-	var simple_chart_config = { 
+var simple_chart_config = { 
   chart: { 
    container: '#tree-simple', 
 		        	connectors: {
@@ -10,8 +10,8 @@
 			    },    
 			    nodeStructure: {
 			        text: { name: 'diff(features, product-portfolio)' },
-			        HTMLclass: 'orange',
 			      //  image: 'images/mini-alluvial.png',
+					HTMLclass: 'visitedBlue',
 			        children: [
 			            {
 			                text: { name: 'diff (feature, product-portfolio)' },
@@ -22,14 +22,17 @@
 			                } ]
 			            },
 			            {
-			                text: { name: 'diff(features,product)' },
+			                text: { name: 'diff(features,productBerlin-v2.0)' },
 			          //      image: 'images/mini-product-treemap.png',
+ 								HTMLclass: 'orange',
 			                children: [{
-			               	 	text: { name: 'diff (core-asset, product)' },
+			               	 	text: { name: 'diff (core-asset, productBerlin-v2.0)' },
 			            //   	 	image: 'images/mini-VP-Treemap.png',
+ 								HTMLclass: 'white',
 			               		children: [{
-			               	 		text: { name: 'diff (core-asset, product)[Expression]' },
-			              // 			image: 'images/mini-diff.png'
+			               	 		text: { name: 'diff (core-asset, productBerlin-v2.0)[Expression]' },
+ 									HTMLclass: 'white',
+			              // 		image: 'images/mini-diff.png'
 			               		}]
 			                } ]
 			            }

@@ -75,7 +75,7 @@ tspan:last-child {
 
 .node rect {
   shape-rendering: crispEdges;
-}º	1
+}
 
 .node--hover rect {
   stroke: #008;
@@ -102,19 +102,24 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 	<tr><!-- Navigation map on left hand-side -->
         <td style="width:20%" align="center">
-			<p style= "color:#ff6200; font-size: 180%;" align="center"> Navigation map</p>
-			<div id="tree-simple" style="font-size:300%; width:600px; height: 300px"> Navigation Map</div>
+			<p style= "color:#0000e5; font-size: 200%;" align="center"> Roll-up diagram</p>
+			<div id="tree-simple" style="font-size:300%; width:600px; height: 400px"> </div>
 			<script><!-- Script for the drawing of the navigation map-->
 				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
 		<!--Diagram view -->
 		<td valign="botton" style="width:70%" align="center">
-			<p style= "color:#ff6200; font-size: 180%;" align="center" th:text="${maintitle}"> How is feature customized in products? </p>
-			<p style="font-size:120%;" align="center"> Note: Treemap area denotes customization change-size.</p>
+			<p style= "color:#ff6200; font-size: 200%;" align="center" th:text="${maintitle}"> How is feature customized in products? </p>
+			<p style= "color:#ff6200; font-size: 170%;" align="center"> Click-on to drill-down</p>
+			
+			
 			<p align="center">
 				<svg id="treemapDiag" align="center" width="900" height="400"></svg>
+				<br /><br />
+				<p style="font-size:120%;" align="center"> Note: Treemap area denotes customization change-size.</p>
 			</p>
+			
 		</td>
 	</tr>
 </table>
@@ -308,7 +313,7 @@ function hovered(hover) {
 		/** Adding the back button to the main element **/
 		var node = document.getElementsByClassName("node nodeExample1 visitedBlue");
 		var button = document.createElement("button");
-		var t = document.createTextNode("Navigate back");    
+		var t = document.createTextNode("Roll-up");    
 		button.appendChild(t);            
 		button.setAttribute("id","alluvialButton");  
 		node[0].appendChild(button);

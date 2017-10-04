@@ -26,6 +26,8 @@
 <link rel="stylesheet" href="Treant.css" type="text/css"/>
 <link rel="stylesheet" href="custom-colored.css" type="text/css"/>
 
+
+<!-- Javascripts -->
 <script src="NavigationMap.js"></script>
 <script src="js/jquery.min.js"></script>
 <script src="js/kendo.all.min.js"></script>
@@ -36,7 +38,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script> 
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
 
 <style>
 text {
@@ -97,17 +103,21 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 	<tr><!-- Navigation map on left hand-side -->
         <td style="width:20%" align="center">
-			<p style= "color:#ff6200; font-size: 180%;" align="center"> Navigation map</p>
-			<div id="tree-simple" style="font-size:300%; width:700px; height: 300px"> Navigation Map</div>
+			<p style= "color:#0000e5; font-size: 200%;" align="center"> Roll-up diagram</p>
+			<div id="tree-simple" style="font-size:300%; width:700px; height: 400px"> </div>
 			<script><!-- Script for the drawing of the navigation map-->
 				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
 		<!--Diagram view -->
 		<td valign="botton" style="width:70%" align="center">
-			<p style= "color:#ff6200; font-size: 180%;" align="center" th:text="${maintitle}">How is feature customized in product? </p>
+			<p style= "color:#ff6200; font-size: 200%;" align="center" th:text="${maintitle}">How is feature customized in product? </p>
+			<p style= "color:#ff6200; font-size: 170%;" align="center"> Click-on to drill-down</p>
+			
+		
+			<p align="center">
+				<svg id="treemap" align="center" width="900" height="600"></svg></p>
 			<p style="font-size:120%;" align="center"> Note: Treemap area denotes customization change-size.</p>
-			<p align="center"><svg id="treemap" align="center" width="900" height="600"></svg></p>
 		</td>
 	</tr>
 </table>
@@ -271,37 +281,39 @@ function hovered(hover) {
 <br />
  <h3 align="center" th:text="${diffHeader}"></h3>
 <div align="center" id="diffview"></div>
-<!-- Javascripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/languages/scala.min.js"></script> 
-<script type="text/javascript" src="dist/diff2html.js"></script>
-<script type="text/javascript" src="dist/diff2html-ui.js"></script>
-<script type="text/javascript" src="/dist/diff2html.js"></script>
-<script type="text/javascript" src="/dist/diff2html-ui.js"></script>
-<script type="text/javascript" src="dist/diff2html.min.js"></script>
+
 
 		
 <script>
+/*<![CDATA[*/
 	function getMetaContentByName(name,content){
 	   var content = (content==null)?'content':content;
 	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
 	}
 	
 	$(document).ready(function(){
-		//console.log(diffString); //diffString should be the value of diffview value
-		//get select("#diffvalue"). metadata
-		var diffvalue = getMetaContentByName("diffvalue");
+
+		/** Adding the back button to the main element **/
+		var node = document.getElementsByClassName("node nodeExample1 visitedBlue");
+		var button = document.createElement("button");
+		var t = document.createTextNode("Roll-up");    
+		button.appendChild(t);            
+		button.setAttribute("id","alluvialButton");  
+		node[0].appendChild(button);
+		button.onclick=function(){
+			window.location.href ="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0";
+		}
 		
+		
+		var diffvalue = getMetaContentByName("diffvalue");		
 		if (diffvalue==null) return
-		
 		console.log("diffvalue:\n" + diffvalue);
-		
 		var diff2htmlUi = new Diff2HtmlUI({diff: diffvalue});
 		console.log(diff2htmlUi);
 		diff2htmlUi.draw('#diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
 	    diff2htmlUi.highlightCode('#diffview');
 	});
+/*]]>*/	
 </script>
 
 </body>

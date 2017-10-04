@@ -39,9 +39,11 @@
   shape-rendering: crispEdges;
 }
 .node text {
+  font-size:120%;
   pointer-events: none;
   text-shadow: 0 1px 0 #fff;
 }
+
 .link {
   fill: none;
   stroke: #000;
@@ -98,15 +100,7 @@
         border-radius: 10px;
     }
 
-    #result {
-        padding-bottom: 15px;
-    }
-
-        #result:after {
-            content: '';
-            display: block;
-            clear: both;
-        }
+   
 
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
@@ -127,20 +121,26 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 	<tr><!-- Navigation map on left hand-side -->
         <td style="width:20%" align="center">
-			<p style= "color:#ff6200; font-size: 180%;" align="center"> Navigation map</p>
-			<div id="tree-simple" style="font-size:300%; width:600px; height: 300px"> Navigation Map</div>
+			<p style= "color:#0000e5; font-size: 200%;" align="center"> Roll-up diagram</p>
+				<p id="tree-simple" style="font-size:300%; width:600px; height: 400px"> </p>
+			
 			<script><!-- Script for the drawing of the navigation map-->
 				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
 		<!--Diagram view -->
 		<td valign="botton" style="width:70%" align="center">
-			<p style= "color:#ff6200; font-size: 180%;" align="center"> What features have been customized? </p>
+			
+			<p style= "color:#ff6200; font-size: 200%;" align="center"> What features have been customized? </p>
+			<p style= "color:#ff6200; font-size: 170%;" align="center"> Click-on to drill-down</p>
+		
+			<div id="chart" align="center"/>
+			<br /><br />
 			<p style="font-size:100%;" align="center"> 
 			Note: Streams' height denotes customization change-size per Feature-Product pair.
 			<br/>Rectangles area denotes customization change-size per Feature/Product.
+			
 			</p>
-			<div id="chart" align="center"/>
 		
 		</td>
 	</tr>
@@ -343,7 +343,7 @@ $(document).ready(function () {
 		dialogdiv.setAttribute("id","dialog");
 		
 		var button = document.createElement("button");
-		var t = document.createTextNode("Filter");    
+		var t = document.createTextNode("Select Features");    
 		button.appendChild(t);            
 		button.setAttribute("id","pickEmployeesButton");  
 		//button.setAttribute("class","k-primary");

@@ -1785,6 +1785,8 @@
 				this.nodeDOM.style.top = oNewState.top + 'px';
 				this.nodeDOM.style.opacity = oNewState.opacity;
 				this.nodeDOM.style.overflow = '';
+			//	this.nodeDOM.style.font-size = '200px';
+				
 			}
 
 			if ( this.lineThroughMe ) {
@@ -1992,12 +1994,12 @@
 
 
 	Tree.CONFIG = {
-		maxDepth: 100,
+		maxDepth: 200,
 		rootOrientation: 'NORTH', // NORTH || EAST || WEST || SOUTH
 		nodeAlign: 'CENTER', // CENTER || TOP || BOTTOM
-		levelSeparation: 30,
-		siblingSeparation: 30,
-		subTeeSeparation: 30,
+		levelSeparation: 50,
+		siblingSeparation: 50,
+		subTeeSeparation: 50,
 
 		hideRootNode: false,
 
@@ -2019,7 +2021,7 @@
 
 			// HTMLclass: 'node',
 			// drawLineThrough: false,
-			// collapsable: false,
+			 collapsable: false,
 			link: {
 				target: '_self'
 			}
