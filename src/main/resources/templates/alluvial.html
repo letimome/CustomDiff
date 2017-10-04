@@ -121,8 +121,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 	<tr><!-- Navigation map on left hand-side -->
         <td style="width:20%" align="center">
-			<p style= "color:#0000e5; font-size: 200%;" align="center"> Roll-up diagram</p>
-				<p id="tree-simple" style="font-size:300%; width:600px; height: 400px"> </p>
+			<p style= "color:black; font-size: 200%;" align="center"> Navigation map</p>
+			<p style= "color:black; font-size: 150%;" align="center">(On click: filter by features)</p>
+				<p id="tree-simple" style="font-size:300%; width:600px; height: 450px"> </p>
 			
 			<script><!-- Script for the drawing of the navigation map-->
 				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
@@ -132,14 +133,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		<td valign="botton" style="width:70%" align="center">
 			
 			<p style= "color:#ff6200; font-size: 200%;" align="center"> What features have been customized? </p>
-			<p style= "color:#ff6200; font-size: 170%;" align="center"> Click-on to drill-down</p>
+			<p style= "color:black; font-size: 150%;" align="center"> (On click: drill-down)</p>
+			
 		
 			<div id="chart" align="center"/>
 			<br /><br />
 			<p style="font-size:100%;" align="center"> 
-			Note: Streams' height denotes customization change-size per Feature-Product pair.
-			<br/>Rectangles area denotes customization change-size per Feature/Product.
-			
+				Note: Streams' height denotes customization change-size per Feature-Product pair.
+				<br/>Rectangles area denotes customization change-size per Feature/Product.
 			</p>
 		
 		</td>
@@ -659,9 +660,8 @@ $(document).ready(function () {
         }
         
    
-        //]]>
-    </script>
-
+//]]>
+</script>
 <footer>
   <div align="center" >
 	  <span align="center">

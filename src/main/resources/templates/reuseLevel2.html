@@ -77,16 +77,17 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <table  class="table table-bordered table-striped table-responsive " cellpadding="100" style="background-color:#E8E8E8;width:98%">
 	<tr><!-- Navigation map on left hand-side -->
         <td valign="top"  style="width:20%" align="center">
-			<p style= "color:#0000e5; font-size: 200%;" align="center"> Roll-up diagram</p>
-			<div id="tree-simple" style="font-size:300%; width:600px; height: 400px"> Navigation Map</div>
+			<p style= "color:black; font-size: 200%;" align="center"> Navigation map</p>
+			<div id="tree-simple" style="font-size:300%; width:600px; height: 450px"> Navigation Map</div>
 			<script><!-- Script for the drawing of the navigation map-->
 				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
 		<!--Diagram view -->
 		<td valign="botton" style="width:70%" align="center">
+			
 			<p style= "color:#ff6200; font-size: 200%;" align="center" th:text="${maintitle}"> Which are the assets customized by product?</p>
-			<p style= "color:#ff6200; font-size: 170%;" align="center"> Click-on to drill-down</p>
+					<p style= "color:black; font-size: 150%;" align="center"> (On click: drill-down)</p>
 			
 			<p><svg id ="treemap" align="center" width="900" height="700"></svg></p>
 			<p style="font-size:100%;" align="center"> 

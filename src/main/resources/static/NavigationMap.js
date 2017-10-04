@@ -10,15 +10,17 @@
 			    },    
 			    nodeStructure: {
 			        text: { name: 'diff(features, product-portfolio)' },
-			        HTMLclass: 'orange',
 			      //  image: 'images/mini-alluvial.png',
+					HTMLclass: 'visitedBlue',
 			        children: [
 			            {
-			                text: { name: 'diff (feature, product-portfolio)' },
+			                text: { name: 'diff (AirPressure, product-portfolio)' },
 			              //  image: 'images/mini-feature-treemap.png',
+HTMLclass: 'orange',
 			                children: [{
 			                	 text: { name: 'diff (core-asset, product)[Expression]' },
 			        //        	 image: 'images/mini-diff.png'
+								HTMLclass: 'white',
 			                } ]
 			            },
 			            {
