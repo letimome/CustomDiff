@@ -67,8 +67,9 @@ public class TreemapDiffFeatureProduct {
 		   model.addAttribute("maintitle", "How is feature '"+featurenamemodified+"' being customized in product "+pr+"?");
 		   model.addAttribute("difftitle", "diff(Feature: '" +featurenamemodified+"', "+pr+")");
 		  
-		   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(featurenamemodified,pr,"core-asset","hasFeature("+featurenamemodified+")");
-		   
+		   if(idfile!=0)
+		      customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(featurenamemodified,pr,caDao.getCoreAssetByIdcoreasset(idfile).getName(),"hasFeature("+featurenamemodified+")");
+		   else customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(featurenamemodified,pr,"core-asset","Expression");
 		   return "treemapFeatureProduct"; 
 	 	}
 

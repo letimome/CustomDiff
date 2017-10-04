@@ -10,32 +10,35 @@
 <meta name="fname" th:content="${fname}"></meta>
 <meta name="cavalue" th:content="${cavalue}"></meta>
 <meta name="diffHeader" th:content="${diffHeader}"></meta>
-
 <meta name="maintitle" th:content="${maintitle}"></meta>
 <meta name="difftitle" th:content="${difftitle}"></meta>
 
+<!-- CSSs -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
+<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
+<link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
+<link rel="stylesheet" href="styles/kendo.common.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+<link rel="stylesheet" href="Treant.css" type="text/css"/>
+<link rel="stylesheet" href="custom-colored.css" type="text/css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
 
-
-
-<table style="width:90%">
-    <tr>
-        <td  style="width:30%" align="center"> 
-	        <div>
-			<a  href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&amp;id_product_asset=0">
-			<img src="customDiff.png" alt="Logo" style="width:150px;height:100px;"/>
-			</a>
-			</div>
-		</td>
-		 <td style="width:50%" align="center">
-			<h2 style= "font-size: 220%;" align="center" th:text="${difftitle}"> diff(CoreAssetBaseline, product)</h2>
-			<h1 style= "font-size: 180%;" align="center" th:text="${maintitle}"> </h1>
-
-		</td>
-		<td style="width:20%" align="center">
-			<p id="tree-simple" style="width:450px; height: 300px"> Navigation Map </p>
-		</td>
-	</tr>
-</table>
+<!-- Javascripts -->
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script src="NavigationMap.js"></script>
+<script src="NavigationMap.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/kendo.all.min.js"></script>
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script src="vendor/raphael.js"></script>
+<script src="Treant.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
 
 <style>
 
@@ -55,47 +58,44 @@ tspan:last-child {
 .node--hover rect {
   stroke: #001;
 }
+
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
 </head>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
-<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
-<link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
-<link rel="stylesheet" href="styles/kendo.common.min.css" />
-<link rel="stylesheet" href="styles/kendo.default.min.css" />
-<link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
-<link rel="stylesheet" href="Treant.css" type="text/css"/>
-<link rel="stylesheet" href="custom-colored.css" type="text/css"/>
-
-<script src="NavigationMap.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/kendo.all.min.js"></script>
-<script type="text/javascript" src="dist/diff2html.js"></script>
-<script type="text/javascript" src="dist/diff2html-ui.js"></script>
-<script src="vendor/raphael.js"></script>
-<script src="Treant.js"></script>
+<!-- Header-->
+<body align="center" >
+<div align="left" style="z-index:4">
+<span align="left">
+	<img src="customDiffLargo.png" alt="Logo" style="width:320px;height:90px;"/>
+</span>
+<p style="font-size:200%;">Tracing product customizations in SPLs</p>
+</div>
 
 
-<!-- Javascript for the map menu-->
-<script>
-var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
-</script>
+<!-- Table -->
+<table  class="table table-bordered table-striped table-responsive " cellpadding="100" style="background-color:#E8E8E8;width:98%">
+	<tr><!-- Navigation map on left hand-side -->
+        <td valign="top"  style="width:20%" align="center">
+			<p style= "color:#ff6200; font-size: 180%;" align="center"> Navigation map</p>
+			<div id="tree-simple" style="font-size:300%; width:600px; height: 300px"> Navigation Map</div>
+			<script><!-- Script for the drawing of the navigation map-->
+				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
+			</script>
+		</td>
+		<!--Diagram view -->
+		<td valign="botton" style="width:70%" align="center">
+			<p style= "color:#ff6200; font-size: 180%;" align="center" th:text="${maintitle}"> Which are the assets customized by product?</p>
+			<p style="font-size:100%;" align="center"> 
+			Note: Rectangles' area denote customization change-size.
+			</p>
+			<p><svg id ="treemap" align="center" width="900" height="700"></svg></p>
+		</td>
+	</tr>
+</table>
 
-<body>
-
-<!-- Javascripts -->
-<script type="text/javascript" src="dist/diff2html.js"></script>
-<script type="text/javascript" src="dist/diff2html-ui.js"></script>
-
-<p style="font-size:120%;" align="center"> Note: Treemap area denotes customization change-size (churn).</p>
-<p align="center">
-<svg id ="treemap" align="center" width="900" height="700"></svg></p>
-
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
 
 <script>
-
 function getMetaContentByName(name,content){
 	   var content = (content==null)?'content':content;
 	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
@@ -253,25 +253,34 @@ function hovered(hover) {
 
 		
 <script>
+/*<![CDATA[*/
 	function getMetaContentByName(name,content){
 	   var content = (content==null)?'content':content;
 	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
 	}
 	
 	$(document).ready(function(){
-		//console.log(diffString); //diffString should be the value of diffview value
-		//get select("#diffvalue"). metadata
-		var diffvalue = getMetaContentByName("diffvalue");
+		/** Adding the back button to the main element **/
+		var node = document.getElementsByClassName("node nodeExample1 visitedBlue");
+		var button = document.createElement("button");
+		var t = document.createTextNode("Navigate back");    
+		button.appendChild(t);            
+		button.setAttribute("id","alluvialButton");  
+		node[0].appendChild(button);
+		button.onclick=function(){
+			window.location.href ="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0";
+		}
 		
+		/** For the diff view **/
+		var diffvalue = getMetaContentByName("diffvalue");		
 		if (diffvalue==null) return
-		
 		console.log("diffvalue:\n" + diffvalue);
-		
 		var diff2htmlUi = new Diff2HtmlUI({diff: diffvalue});
 		console.log(diff2htmlUi);
 		diff2htmlUi.draw('#diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
 	    diff2htmlUi.highlightCode('#diffview');
 	});
+/*]]>*/
 </script>
 
 </body>

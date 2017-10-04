@@ -27,10 +27,12 @@ public class NavigationMapGenerator {
 		"			                text: { name: 'diff ("+"feature"+", product-portfolio)' },"+"\n"+
 		"			              //  image: 'images/mini-feature-treemap.png',"+"\n"+
 		"			                children: [{"+"\n"+
-		"			                	 text: { name: 'diff ("+"core-asset"+", "+"product"+")' },"+"\n"+
+		"			                	 text: { name: 'diff ("+"core-asset"+", "+"product"+")[Expression]' },"+"\n"+
 		"			        //        	 image: 'images/mini-diff.png'"+"\n"+
 		"			                } ]"+"\n"+
 		"			            },"+"\n"+
+
+		
 		"			            {"+"\n"+
 		"			                text: { name: 'diff(features,"+"product"+")' },"+"\n"+
 		"			          //      image: 'images/mini-product-treemap.png',"+"\n"+
@@ -52,9 +54,18 @@ public class NavigationMapGenerator {
 	
 	
 	public static void generateNavigationMapForFeatureSide(String feature, String fileName, String expression, String pr) {
+		String visited = "#0B0080";
+		
 		String color="orange";
-		if (fileName.equals("core-asset")) color="white";
-		else color="orange";
+		if (fileName.equals("core-asset")) {
+			color="white";
+			visited = "#0B0080";
+		} 
+			
+		else {
+			color="orange";
+			visited = "white";
+		} 
 		
 		String template = 
 			"	var simple_chart_config = { \n"+
@@ -70,6 +81,7 @@ public class NavigationMapGenerator {
 		"			    nodeStructure: {"+"\n"+
 		"			        text: { name: 'diff(features, product-portfolio)' },"+"\n"+
 		"			      //  image: 'images/mini-alluvial.png',"+"\n"+
+		"					HTMLclass: 'visitedBlue',"+"\n"+
 		"			        children: ["+"\n"+
 		"			            {"+"\n"+
 		"			                text: { name: 'diff ("+feature+", product-portfolio)' },"+"\n"+
@@ -108,22 +120,22 @@ public class NavigationMapGenerator {
 			expression = expression.replace("'", "");
 
 		if (feature.equals("features")) colorMain="orange";
-		else colorMain="white";
+		else colorMain="visitedBlue";
 		
 		if (fileName.equals("core-asset")) {
 			colordiff="white";
-			colormiddle="whithe";
+			colormiddle="white";
 		}
 		else {
 			colordiff="orange";
 			colormiddle="orange";
-			colorMain="white";
+			colorMain="visitedBlue";
 		} 
 		if(expression==null)
 			colordiff="white";
 		
 		String template = 
-			"	var simple_chart_config = { \n"+
+			"var simple_chart_config = { \n"+
 					"  chart: { \n"+
 					"   container: '#tree-simple', \n"+
 		"		        	connectors: {\n"+
@@ -136,7 +148,7 @@ public class NavigationMapGenerator {
 		"			    nodeStructure: {"+"\n"+
 		"			        text: { name: 'diff(features, product-portfolio)' },"+"\n"+
 		"			      //  image: 'images/mini-alluvial.png',"+"\n"+
-		"						href=127.0.0.1:8080"+
+		"					HTMLclass: 'visitedBlue',"+"\n"+
 		"			        children: ["+"\n"+
 		"			            {"+"\n"+
 		"			                text: { name: 'diff ("+"feature"+", product-portfolio)' },"+"\n"+
@@ -170,10 +182,66 @@ public class NavigationMapGenerator {
 
 
 
-	public static void generateNavigationMapForFeatureProduct(String featurenamemodified, String pr, String string,
-			String string2) {
+	public static void generateNavigationMapForFeatureProduct(String feature, String pr, String fileName, String expression) {
+
+		String visited = "#0B0080";
 		
+		String color="orange";
+		if (fileName.equals("core-asset") || expression!=null || (!expression.equals("Expression"))) {
+			color="white";
+			visited = "#0B0080";
+		} 
+		else {
+			color="orange";
+			visited = "white";
+		} 
 		
+		String template = "	var simple_chart_config = { \n"+
+					"  chart: { \n"+
+					"   container: '#tree-simple', \n"+
+		"		        	connectors: {\n"+
+		"			                type: 'step' \n"+
+		"			            },\n"+
+		"			            node: {"+"\n"+
+		"			                HTMLclass: 'nodeExample1'"+"\n"+
+		"			            }"+"\n"+
+		"			    },    "+"\n"+
+		"			    nodeStructure: {"+"\n"+
+		"			        text: { name: 'diff(features, product-portfolio)' },"+"\n"+
+		"			      //  image: 'images/mini-alluvial.png',"+"\n"+
+		"					HTMLclass: 'visitedBlue',"+"\n"+
+		"			        children: ["+"\n"+
+		"			            {"+"\n"+
+		"			                text: { name: 'diff ("+feature+", product-portfolio)' },"+"\n"+
+		"			              //  image: 'images/mini-feature-treemap.png',"+"\n"+
+		 							"HTMLclass: 'white',"+"\n"+
+		"			                children: [{ \n"+
+		"		 							text:{name: 'diff("+feature+","+pr+")'}, \n"+
+		"									 HTMLclass: 'orange',\n"+
+		"										children: [{"+"\n"+
+		"			               				 	 text: { name: 'diff ("+fileName+", "+pr+")["+expression+"]' },"+"\n"+
+		"											HTMLclass: '"+color+"',"+"\n"+
+		"			                				} ]"+"\n"+
+		"							}]"+
+		"			            },"+"\n"+
+		"			            {"+"\n"+
+		"			                text: { name: 'diff(features,"+"product"+")' },"+"\n"+
+		"			          //      image: 'images/mini-product-treemap.png',"+"\n"+
+		"			                children: [{"+"\n"+
+		"			               	 	text: { name: 'diff ("+"core-asset"+", "+"product"+")' },"+"\n"+
+		"			            //   	 	image: 'images/mini-VP-Treemap.png',"+"\n"+
+		"			               		children: [{"+"\n"+
+		"			               	 		text: { name: 'diff ("+"core-asset"+", "+"product"+")[Expression]' },"+"\n"+
+		"			              // 			image: 'images/mini-diff.png'"+"\n"+
+		"			               		}]"+"\n"+
+		"			                } ]"+"\n"+
+		"			            }"+"\n"+
+		"			        ]"+"\n"+
+		"			    }"+"\n"+
+		"			};";
+		
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
 	}
+
 
 }

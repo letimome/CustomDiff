@@ -63,7 +63,7 @@ public class ProductStructureController {
 			  model.addAttribute("diffvalue", diffvalue);
 			  model.addAttribute("diffHeader", "diff (Baseline-v1.0.'"+pa.getName()+"' ,"+idrelease+".'"+pa.getName()+"' ["+expression+"]");
 		  } 
-	
+		  model.addAttribute("pr", idrelease);
 		   model.addAttribute("maintitle", "How is product '"+ idrelease + "' customizing core-asset '"+pa.getName()+"'?");
 		//   customs.utils.NavigationMapGenerator.generateNavigationMapJS("features", idrelease, expression, pa.getName());
 		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features",pa.getName(),expression,idrelease);

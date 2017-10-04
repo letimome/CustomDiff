@@ -17,7 +17,7 @@
 			                text: { name: 'diff (feature, product-portfolio)' },
 			              //  image: 'images/mini-feature-treemap.png',
 			                children: [{
-			                	 text: { name: 'diff (core-asset, product)' },
+			                	 text: { name: 'diff (core-asset, product)[Expression]' },
 			        //        	 image: 'images/mini-diff.png'
 			                } ]
 			            },

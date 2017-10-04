@@ -1,4 +1,4 @@
- <!DOCTYPE html>  <!-- HTML5 document type -->
+<!-- HTML5 document type -->
  <html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
     xmlns:th="http://www.thymeleaf.org" 
     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
@@ -31,8 +31,7 @@
 <script src="vendor/raphael.js"></script>
 <script src="Treant.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/1.7.26/go-debug.js"></script>
-<script src="https://cdnjs.com/libraries/popper.js"></script>
+
 <style>
 .node rect {
   cursor: move;
@@ -61,11 +60,60 @@
         .html       { background-position: 0 -48px; }
         .image      { background-position: 0 -64px; }
 
+   #example {
+        min-height: 200px;
+    }
+
+        #example .title {
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+    .search-wrapper {
+        width: 100%;
+    }
+    .query-match {
+        color: red;
+    }
+    .select-all-wrapper {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .selected-count {
+        float: right;
+        color: #aaa;
+    }
+    .k-treeview {
+        border-width: 1px!important;
+        padding: 5px;
+    }
+    .selectedName {
+        padding: 5px 10px;
+        background: #aaa;
+        color: white;
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+    }
+
+    #result {
+        padding-bottom: 15px;
+    }
+
+        #result:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
 </head>
 
 
+<!-- Header-->
 <body align="center" >
 <div align="left" style="z-index:4">
 <span align="left">
@@ -74,23 +122,20 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <p style="font-size:200%;">Tracing product customizations in SPLs</p>
 </div>
 
-
 <!-- Table -->
 <table  class="table table-bordered table-striped table-responsive " cellpadding="100" style="background-color:#E8E8E8;width:98%">
 
-	<tr>
+	<tr><!-- Navigation map on left hand-side -->
         <td style="width:20%" align="center">
-			<div id="tree-simple" style="font-size:300%; width:600px; height: 300px"> Navigation Map 
-			<a> 
-			</a>
-			</div>
-			<script>
-			var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
+			<p style= "color:#ff6200; font-size: 180%;" align="center"> Navigation map</p>
+			<div id="tree-simple" style="font-size:300%; width:600px; height: 300px"> Navigation Map</div>
+			<script><!-- Script for the drawing of the navigation map-->
+				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
-		
+		<!--Diagram view -->
 		<td valign="botton" style="width:70%" align="center">
-			<p style= "color:#ff6200; font-size: 150%;" align="center"> What features have been customized? </p>
+			<p style= "color:#ff6200; font-size: 180%;" align="center"> What features have been customized? </p>
 			<p style="font-size:100%;" align="center"> 
 			Note: Streams' height denotes customization change-size per Feature-Product pair.
 			<br/>Rectangles area denotes customization change-size per Feature/Product.
@@ -105,8 +150,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="sankey.js"></script>
 <script src="draw.js"></script>
- <script>
- 
+ <script> <!-- Script for drawing the alluvial diagram -->
 //<![CDATA[
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 10},
@@ -288,34 +332,49 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 
 <script>
-
+<!-- Script for the filtering menu -->
 //<![CDATA[
+		
 $(document).ready(function () {
-        var tempSelectList = [];
-        var dialog = $("#dialog").kendoDialog({
-            width: "400px",
-            height: "500px",
-            visible: false,
-            title: "Features",
-            closable: true,
-            modal: false,
-            content:
-            	  "<div class='k-textbox k-space-right search-wrapper'>"+
-            	  "<input id='employees-search' type='text'  placeholder='Search feature'/><span class='k-icon k-i-search'>"+
-            	  "</span></div>" +             
-                "<div class='select-all-wrapper'><input data-role='checkbox' onchange='selectAll(this)' type='checkbox' class='k-checkbox' id='_selectAllEmployees'/><label class='k-checkbox-label' for='_selectAllEmployees'>Select all features</label><span class='selected-count'></span></div>" +
-                "<div id='treeview'></div>",
-            actions: [
-                { text: 'Cancel'},
-                { text: 'OK', primary: true, action: actionOK }
-            ],
-            initOpen: initOpen,
-            open: dialogOpen
-        });
+			
+		var node = document.getElementsByClassName("node nodeExample1 orange");
+		
+		var dialogdiv = document.createElement("div");
+		dialogdiv.setAttribute("id","dialog");
+		
+		var button = document.createElement("button");
+		var t = document.createTextNode("Filter");    
+		button.appendChild(t);            
+		button.setAttribute("id","pickEmployeesButton");  
+		//button.setAttribute("class","k-primary");
+		
+		node[0].appendChild(dialogdiv);
+		node[0].appendChild(button);
+	
+			 var tempSelectList = [];
+		     var dialog = $("#dialog").kendoDialog({
+		            width: "400px",
+		            height: "500px",
+		            visible: false,
+		            title: "Features",
+		            closable: true,
+		            modal: false,
+		            content: "<div class='k-textbox k-space-right search-wrapper'><input id='employees-search' type='text'  placeholder='Search feature'/><span class='k-icon k-i-search'></span></div>" +             
+		                "<div class='select-all-wrapper'><input data-role='checkbox' onchange='selectAll(this)' type='checkbox' class='k-checkbox' id='_selectAllEmployees'/><label class='k-checkbox-label' for='_selectAllEmployees'>Select all features</label><span class='selected-count'></span></div>" +
+		                "<div id='treeview'></div>",
+		            actions: [
+		                { text: 'Cancel'},
+		                { text: 'OK', primary: true, action: actionOK }
+		            ],
+		            initOpen: initOpen,
+		            open: dialogOpen
+		        });
 
-        $("#pickEmployeesButton").kendoButton({
-            click: openDialog
-        });
+		        $("#pickEmployeesButton").kendoButton({
+		            click: openDialog
+		        });
+		       
+
 
       
         var featuremodel = [{
@@ -351,11 +410,12 @@ $(document).ready(function () {
                 checkChildren: true
               },
             loadOnDemand: true,
-            expandAll: false,
+            expandAll: true,
             dataBound: treeViewDataBound,
             check: treeViewCheck
         });
-    });
+        
+    });//end of on document load
 
     function treeViewDataBound(e) {
         e.sender.expand(e.node);
@@ -377,9 +437,12 @@ $(document).ready(function () {
             $("#employees-search").focus().select();
         })
     }
-    function openDialog(e) {
-        $("#dialog").data("kendoDialog").open();
-    }
+    function openDialog() {
+    		console.log($("#dialog"));
+	    	console.log($("#dialog").data("kendoDialog"));
+	        
+	    	$("#dialog").data("kendoDialog").open();
+	  }
 
     function actionOK(e) {
         var treeView = $("#treeview").data("kendoTreeView");
@@ -503,62 +566,15 @@ $(document).ready(function () {
     $.expr[':'].containsIgnoreCase = function (n, i, m) {
         return jQuery(n).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
     };
+    
+ 
+    
   //]]>
 </script>
 
 
-<style>
-    #example {
-        min-height: 200px;
-    }
 
-        #example .title {
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-
-    .search-wrapper {
-        width: 100%;
-    }
-    .query-match {
-        color: red;
-    }
-    .select-all-wrapper {
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    .selected-count {
-        float: right;
-        color: #aaa;
-    }
-    .k-treeview {
-        border-width: 1px!important;
-        padding: 5px;
-    }
-    .selectedName {
-        padding: 5px 10px;
-        background: #aaa;
-        color: white;
-        float: left;
-        margin-right: 5px;
-        margin-bottom: 5px;
-        border-radius: 10px;
-    }
-
-    #result {
-        padding-bottom: 15px;
-    }
-
-        #result:after {
-            content: '';
-            display: block;
-            clear: both;
-        }
-</style>
-
-
-    <script>
+ <script>
     //this is the old script
   //<![CDATA[
         $("#treeview").kendoTreeView({
@@ -641,28 +657,11 @@ $(document).ready(function () {
             //go and filter by feature Name
            // window.location.href = "http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter"+message;//" + d.source.name+"-v1.0";
         }
+        
+   
         //]]>
     </script>
     
-<script>
-//<![CDATA[
-	
-$(document).ready(function(){
-	var node = document.getElementsByClassName("node nodeExample1 orange");
-	console.log(node);
-	var a = document.createElement("a");
-	var t = document.createTextNode("Filter");       // Create a text node
-	a.appendChild(t);                                // Append the text to <button>
-	node[0].appendChild(a);  
-});
-//]]>
-</script>
-
-<div id="myDiagramDiv"
-     style="width:400px; height:150px; background-color: #DAE4E4;">
-</div>
-
-
 
 </body>
 </html>
