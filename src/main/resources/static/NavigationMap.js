@@ -9,29 +9,24 @@
 			            }
 			    },    
 			    nodeStructure: {
-			        text: { name: 'diff(features, product-portfolio)' },
-			      //  image: 'images/mini-alluvial.png',
-					HTMLclass: 'visitedBlue',
+			        text: { name: 'diff(PL Features, Product Variants)' },
+			        HTMLclass: 'orange',
 			        children: [
 			            {
-			                text: { name: 'diff (AirPressure, product-portfolio)' },
-			              //  image: 'images/mini-feature-treemap.png',
-HTMLclass: 'orange',
+			                text: { name: 'diff (PL Feature, Product Variants)' },
+							children: [{
+			               	   text: { },
 			                children: [{
-			                	 text: { name: 'diff (core-asset, product)[Expression]' },
-			        //        	 image: 'images/mini-diff.png'
-								HTMLclass: 'white',
+			                	 text: { name: 'diff (PL asset, Variant asset)[Cond. Expression]' },
+			                } ]
 			                } ]
 			            },
 			            {
-			                text: { name: 'diff(features,product)' },
-			          //      image: 'images/mini-product-treemap.png',
+			                text: { name: 'diff(PL Features,Product Variant)' },
 			                children: [{
-			               	 	text: { name: 'diff (core-asset, product)' },
-			            //   	 	image: 'images/mini-VP-Treemap.png',
+			               	 	text: { name: 'diff (PL asset, Product Variant)' },
 			               		children: [{
-			               	 		text: { name: 'diff (core-asset, product)[Expression]' },
-			              // 			image: 'images/mini-diff.png'
+			               	 		text: { name: 'diff (PL asset, Variant asset)[Cond. Expression]' },
 			               		}]
 			                } ]
 			            }
