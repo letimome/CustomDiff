@@ -9,24 +9,24 @@
 			            }
 			    },    
 			    nodeStructure: {
-			        text: { name: 'diff(PL Features, Product Variants)' },
+			        text: { name: 'diff(Platform, Product Portfolio)' },
 			        HTMLclass: 'orange',
 			        children: [
 			            {
-			                text: { name: 'diff (PL Feature, Product Variants)' },
+			                text: { name: 'diff (Feature, Product Portfolio)' },
 							children: [{
 			               	   text: { },
 			                children: [{
-			                	 text: { name: 'diff (PL asset, Variant asset)[Cond. Expression]' },
+			                	 text: { name: 'diff (PL asset, Variant asset)[Filter]' },
 			                } ]
 			                } ]
 			            },
 			            {
-			                text: { name: 'diff(PL Features,Product Variant)' },
+			                text: { name: 'diff(Platform,Product Variant)' },
 			                children: [{
 			               	 	text: { name: 'diff (PL asset, Product Variant)' },
 			               		children: [{
-			               	 		text: { name: 'diff (PL asset, Variant asset)[Cond. Expression]' },
+			               	 		text: { name: 'diff (PL asset, Variant asset)[Filter]' },
 			               		}]
 			                } ]
 			            }

@@ -45,8 +45,12 @@ tspan:last-child {
 
 .node rect {
   shape-rendering: crispEdges;
+  
 }
 
+.node--hover rect[operation="churn"] {
+	cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+}
 .node--hover rect {
   stroke: #001;
 }
@@ -63,13 +67,28 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <p style="font-size:200%;">Tracing product customizations in SPLs</p>
 </div>
 
+
+<!-- Navigation header-->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div  valign="top" class="navbar-header active selected">
+      <a class="navbar-brand " href="localhost:8080">Home</a></div>
+    <ul class="nav navbar-nav">
+    	  <li><a>Search </a> </li>
+    	  
+      <li><a href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0">Customization analysis</a></li>
+      <li><a href="http://localhost:8080/config">Configuration</a></li>
+    </ul>
+  </div>
+</nav>
+
 <!-- Table -->
 <table  class="table table-bordered table-striped table-responsive " cellpadding="100" style="background-color:#E8E8E8;width:98%">
 
 	<tr><!-- Navigation map on left hand-side -->
         <td style="width:20%" align="center">
-			<p style= "color:black; font-size: 200%;" align="center"> Navigation map</p>
-			<div id="tree-simple" style="font-size:300%; width:600px; height: 450px">  </div>
+			<p style= "color:black; font-size: 200%;" align="center"> Position map</p>
+			<div id="tree-simple" style="font-size:300%; width:600px; height: 550px">  </div>
 			<script><!-- Script for the drawing of the navigation map-->
 				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
@@ -77,8 +96,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		<!--Diagram view -->
 		<td valign="botton" style="width:70%" align="center">
 			<p style= "color:#ff6200; font-size: 200%;" align="center" th:text="${maintitle}" >Which Variation points is product customizing? </p>
-			<p style= "color:black; font-size: 150%;" align="center"> (On click: drill-down)</p>
+			
 			<p align="center">
+				<a href="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0">
+				 	<img src="images/roll-up.png" alt="Roll-up" style="width:100px;height:40px;"/>
+				</a>
+				<br /><br />
 			<svg id="treemap" align="center" width="900" height="400"></svg></p>
 			<p style="font-size:100%;" align="center">Note: Treemap area denotes customization change-size per variation point</p>
 		</td>
@@ -243,7 +266,7 @@ function hovered(hover) {
 	}
 	
 	$(document).ready(function(){
-		/** Adding the back button to the root element **/
+		/** Adding the back button to the root element
 		var node = document.getElementsByClassName("node nodeExample1 visitedBlue");
 		var button = document.createElement("button");
 		var t = document.createTextNode("Roll-up");    
@@ -253,8 +276,8 @@ function hovered(hover) {
 		node[1].appendChild(button);//Node for the alluvial
 		button.onclick=function(){
 			window.location.href ="http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0";
-		}
-		/** Adding the back button to the roll up element **/
+		} **/
+		/** Adding the back button to the roll up element 
 		var button = document.createElement("button");
 		var t = document.createTextNode("Roll-up");    
 		button.appendChild(t);            
@@ -265,7 +288,29 @@ function hovered(hover) {
 			var pr = getMetaContentByName("pr");
 			console.log(pr);
 			window.location.href ="http://localhost:8080/reuseLevelView?zoom=true&pr="+pr;
-		}
+		} **/
+		
+		//Add you are here location
+		var node = document.getElementsByClassName("node nodeExample1 orange");
+		var span = document.createElement("p");
+		var image = document.createElement("img");
+		image.setAttribute("src","http://localhost:8080/images/here.png");
+		image.setAttribute("heigh","60px");
+		image.setAttribute("width","50px");
+		image.append(document.createElement("br"))
+		span.append(image);
+		node[0].append(span);
+		
+		var span = document.createElement("p");
+		var image = document.createElement("img");
+		image.setAttribute("src","http://localhost:8080/images/here.png");
+		image.setAttribute("heigh","60px");
+		image.setAttribute("width","50px");
+		image.append(document.createElement("br"))
+		span.append(image);
+		node[1].append(span);
+		
+		
 		
 		/** For the diff view **/
 		var diffvalue = getMetaContentByName("diffvalue");

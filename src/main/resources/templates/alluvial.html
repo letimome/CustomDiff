@@ -34,7 +34,7 @@
 
 <style>
 .node rect {
-  cursor: move;
+  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
   fill-opacity: .9;
   shape-rendering: crispEdges;
 }
@@ -47,8 +47,10 @@
 .link {
   fill: none;
   stroke: #000;
+  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
   stroke-opacity: .2;
 }
+
 .link:hover {
   stroke-opacity: .5;
 }
@@ -104,6 +106,8 @@
 
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
+
+
 </head>
 
 
@@ -113,16 +117,18 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <span align="left">
 	<img src="customDiffLargo.png" alt="Logo" style="width:320px;height:90px;"/>
 </span>
+<!-- 
 <p style="font-size:200%;">Tracing product customizations in SPLs</p>
+-->
 </div>
+<br />
 
 <!-- Table -->
 <table  class="table table-bordered table-striped table-responsive " cellpadding="100" style="background-color:#E8E8E8;width:98%">
 
 	<tr><!-- Navigation map on left hand-side -->
         <td style="width:20%" align="center">
-			<p style= "color:black; font-size: 200%;" align="center"> Navigation map</p>
-			<p style= "color:black; font-size: 150%;" align="center">(On click: filter by features)</p>
+			<p style= "color:black; font-size: 200%;" align="center"> Position map</p>
 				<p id="tree-simple" style="font-size:300%; width:600px; height: 450px"> </p>
 			
 			<script><!-- Script for the drawing of the navigation map-->
@@ -130,12 +136,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 			</script>
 		</td>
 		<!--Diagram view -->
-		<td valign="botton" style="width:70%" align="center">
-			
+		<td style="width:70%" align="center">
 			<p style= "color:#ff6200; font-size: 200%;" align="center"> What features have been customized? </p>
-			<p style= "color:black; font-size: 150%;" align="center"> (On click: drill-down)</p>
+			 <div id="dialog" align="left"></div>
+			 <button  align="left" id="pickEmployeesButton" class="k-primary">Click to filter features</button>       
 			
-		
 			<div id="chart" align="center"/>
 			<br /><br />
 			<p style="font-size:100%;" align="center"> 
@@ -292,7 +297,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 	}
 
 	function goToFeatureView(d){
-	    window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname=" + d.name+"&idfile=0";
+	   // window.location.href = "http://localhost:8080/treemapLightsView?base=Baseline-v1.0&fname=" + d.name+"&idfile=0";
+		 window.location.href = "http://localhost:8080/featureProductPortfolioView?base=Baseline-v1.0&fname=" + d.name;
 	}
 	function goToFeatureViewDetailed(d){
 		console.log(d);
@@ -338,7 +344,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		
 $(document).ready(function () {
 			
-		var node = document.getElementsByClassName("node nodeExample1 orange");
+	/*	var node = document.getElementsByClassName("node nodeExample1 orange");
 		
 		var dialogdiv = document.createElement("div");
 		dialogdiv.setAttribute("id","dialog");
@@ -349,14 +355,15 @@ $(document).ready(function () {
 		button.setAttribute("id","pickEmployeesButton");  
 		
 		node[0].appendChild(dialogdiv);
-		node[0].appendChild(button);
-	
+		node[0].appendChild(button);*/
+		
+		
 			 var tempSelectList = [];
 		     var dialog = $("#dialog").kendoDialog({
 		            width: "400px",
 		            height: "500px",
 		            visible: false,
-		            title: "Features",
+		            title: "Select features",
 		            closable: true,
 		            modal: false,
 		            content: "<div class='k-textbox k-space-right search-wrapper'><input id='employees-search' type='text'  placeholder='Search feature'/><span class='k-icon k-i-search'></span></div>" +             
@@ -414,6 +421,29 @@ $(document).ready(function () {
             dataBound: treeViewDataBound,
             check: treeViewCheck
         });
+        
+ 
+    	
+    	//Add you are here location
+    	var node = document.getElementsByClassName("node nodeExample1 orange");
+    	var span = document.createElement("p");
+    	var image = document.createElement("img");
+    	image.setAttribute("src","http://localhost:8080/images/here.png");
+    	image.setAttribute("heigh","60px");
+    	image.setAttribute("width","50px");
+    	image.append(document.createElement("br"))
+    	span.append(image);
+    	node[0].append(span);
+    
+    	//Adding image for rect nodes you are here location
+    	var node = document.getElementsByTagName("rect");
+    	console.log(node);
+    	console.log(node[0]);
+    	var image = document.createElement("img");
+    	image.setAttribute("src","http://localhost:8080/images/drill-down.png");
+    	image.setAttribute("heigh","60px");
+    	image.setAttribute("width","50px");
+    	node[0].append(image);
         
     });//end of on document load
 
@@ -567,7 +597,9 @@ $(document).ready(function () {
         return jQuery(n).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
     };
     
- 
+	//Add you are drill-down icons
+
+
     
   //]]>
 </script>

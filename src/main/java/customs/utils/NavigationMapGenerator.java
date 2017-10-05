@@ -3,14 +3,14 @@ package customs.utils;
 public class NavigationMapGenerator {
 	 private static String pathToResource = "./src/main/resources/static/";
 	
-	static String productPortfolioToken = "Product Variants";
+	static String productPortfolioToken = "Product Portfolio";
 	static String productToken = "Product Variant";
 	static String productAssetToken = "Variant asset";
 	static String coreAssetToken = "PL asset";
 	static String coreAssetsToken = "PL assets";
-	static String expressionToken= "Cond. Expression";
-	static String featuresToken = "PL Features";
-	static String featureToken = "PL Feature";
+	static String expressionToken= "Filter";
+	static String featuresToken = "Platform";
+	static String featureToken = "Feature";
 	
 	
 	public static void generateNavigationMapForAlluvial() {

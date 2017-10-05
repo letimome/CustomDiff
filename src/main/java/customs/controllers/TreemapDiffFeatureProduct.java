@@ -44,7 +44,7 @@ public class TreemapDiffFeatureProduct {
 		 
 	   private String pathToResource = "./src/main/resources/static/";
 	
-	
+	//treemapfeatureproductview?base=&fname?pr=?idfile
 	  @RequestMapping("treemapfeatureproductview")
 	   public String getTreeMapTrafficLight(
 	   				@RequestParam(value="base", required=false) String idbaseline,
