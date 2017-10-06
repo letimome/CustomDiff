@@ -10,21 +10,26 @@
 			    },    
 			    nodeStructure: {
 			        text: { name: 'diff(Platform, Product Portfolio)' },
-			        HTMLclass: 'orange',
+			      //  image: 'images/mini-alluvial.png',
+					HTMLclass: 'visitedBlue',
 			        children: [
 			            {
-			                text: { name: 'diff (Feature, Product Portfolio)' },
-							children: [{
-			               	   text: { },
+			                text: { name: 'diff (AirPressure, Product Portfolio)' },
+HTMLclass: 'orange',
+children: [{
+text: { },
 			                children: [{
-			                	 text: { name: 'diff (PL asset, Variant asset)[Filter]' },
+			                	 text: { name: 'diff (PL.PL asset, product.PL asset)[Filter]' },
+								HTMLclass: 'white',
 			                } ]
-			                } ]
+							} ]
 			            },
 			            {
 			                text: { name: 'diff(Platform,Product Variant)' },
+			          //      image: 'images/mini-product-treemap.png',
 			                children: [{
 			               	 	text: { name: 'diff (PL asset, Product Variant)' },
+			            //   	 	image: 'images/mini-VP-Treemap.png',
 			               		children: [{
 			               	 		text: { name: 'diff (PL asset, Variant asset)[Filter]' },
 			               		}]
