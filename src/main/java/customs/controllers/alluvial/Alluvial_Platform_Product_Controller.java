@@ -7,15 +7,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import customs.models.CoreAsset;
+import customs.models.CoreAssetDao;
+import customs.models.CustomizationsByFeature;
 import customs.models.CustomsByProductAssetsToFeatures;
 import customs.models.CustomsByProductAssetsToFeaturesDao;
+import customs.models.ProductAsset;
+import customs.models.ProductAssetDao;
 
 
 
 @Controller
 public class Alluvial_Platform_Product_Controller {
 	
-
+	@Autowired private ProductAssetDao paDao;
+	@Autowired private CoreAssetDao caDao;
 	 @Autowired private CustomsByProductAssetsToFeaturesDao customsPAtoFeatures;
 	 private String pathToResource = "./src/main/resources/static/";
 
@@ -25,7 +32,7 @@ public class Alluvial_Platform_Product_Controller {
 		 
 		   System.out.println("The productrelease: "+productrelease);
 
-		   String csvheader="source,target,id,value,operation,pr,p_asset_id";
+		   String csvheader="source,target,id,value,pr,id_pa,id_ca,fname";
 		   
 		   String csvContent  = computeForCustomizationsForPRassetsToFeaturesChurn(productrelease);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
@@ -40,7 +47,7 @@ public class Alluvial_Platform_Product_Controller {
 	 	}
 
 	private String computeForCustomizationsForPRassetsToFeaturesChurn(String productrelease) {
-		//	   String csvheader="source,target,id,value,operation,pr,p_asset_id";
+		//	  String csvheader="source,target,id,value,operation,pr,id_pa,id_ca,fname";
 		   String csvCustoms="";
 		   System.out.println("The productrelease to analyze is: "+productrelease);
 
@@ -51,11 +58,33 @@ public class Alluvial_Platform_Product_Controller {
 		   while(it.hasNext()) {//getting lines for Customized Assets
 			   custo = it.next();
 			   csvCustoms = csvCustoms.concat("\n" +custo.getFeaturechanged()+","+custo.getName()+","
-					   +custo.getPath() + ","+custo.getChurn()+","+custo.getInproduct()+","+custo.getIdproductasset());
+					   +custo.getPath() + ","+custo.getChurn()+","+custo.getInproduct()+","+custo.getIdproductasset()
+					   +","+getCaIdFromPa(productrelease,custo.getIdproductasset())+","+custo.getFeaturechanged()); 
+			   
 			   
 		   }
 		return csvCustoms;
 		
+	}
+
+	private int getCaIdFromPa(String pr, int idproductasset) {	
+			
+			//I need to get the absolute diff  that modifies the idcoreasset in release pr
+			 System.out.println("diff for idproductasset: "+idproductasset); System.out.println("diff for pr: "+pr);
+			 
+			 CoreAsset ca=null;
+			 ProductAsset pa=null;
+			 
+			  pa = paDao.getProductAssetByIdproductasset(idproductasset) ;
+			 
+			  Iterator <CoreAsset> ite = caDao.findAll().iterator();
+			 while(ite.hasNext()) {
+				 ca=ite.next();
+				 if(pa.getProductrelease_idrelease().equals(pr) && pa.getPath().equals(ca.getPath()))
+					 break;
+			 }
+			 System.out.println();
+			 return ca.getIdcoreasset();
 	}
 
 }

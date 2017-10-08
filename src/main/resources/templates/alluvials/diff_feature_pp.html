@@ -34,7 +34,7 @@
 
 <style>
 .node rect {
-  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+  cursor: not-allowed;
   fill-opacity: .9;
   shape-rendering: crispEdges;
 }
@@ -105,6 +105,35 @@
    
 
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+
+li [nav-item]{ 
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+img { display: block;float: left;margin-right: 10px;}
+
+
+.navbar-nav {
+flex-direction: row;
+ float: right;
+}
+
+.navbar-header {
+align: left;
+float: left;
+}
+
+.container-fluid  {
+    float: left;
+   
+}
+.navbar-light{
+  border-bottom: 0px solid grey;
+  float: left;
+  
+}
 </style>
 
 
@@ -113,38 +142,58 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 <!-- Header-->
 <body align="center" >
-<div align="left" style="z-index:4">
-<span align="left">
-	<img src="customDiffLargo.png" alt="Logo" style="width:320px;height:90px;"/>
-</span>
-<!-- 
-<p style="font-size:200%;">Tracing product customizations in SPLs</p>
--->
-</div>
-<br />
+
+
+<!-- Header -->
+<!-- Header -->
+<header  class="navbar navbar-light bg-faded">
+  <nav  class="container w-100" style="background-color: white;">
+    <div class="d-flex justify-content-between hidden-lg-up">      
+       <a class="navbar-brand " href="/index">
+    	  		<img id="Home" align="left " src="customDiffLargo.png" alt="Home" style="width:180px;height:50px;"></img>
+    	  </a>
+    </div>
+      <ul class="nav navbar-nav ">
+        <li class="">
+        </li>
+         	<li class="nav-item"><a href="http://localhost:8080/index"><img src="http://localhost:8080/images/home.png" alt="Home" 
+	      style="width:30px;height:30px;"/></a></li>
+	     <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://localhost:8080/images/hierarchy.png" alt="Customization analysis" 
+	      style="width:38px;height:38px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="http://localhost:8080/search"><img src="http://localhost:8080/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="http://localhost:8080/config"><img src="http://localhost:8080/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item" align="center"><a href="http://localhost:8080/documentation"><img src="http://localhost:8080/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
+      </ul>
+  </nav>
+</header>
 
 <!-- Table -->
-<table  class="table table-bordered table-striped table-responsive " cellpadding="100" style="background-color:#E8E8E8;width:98%">
-
+<table  class="table table-bordered table-striped table-responsive " cellpadding="20px" cellspacing="20px" 
+style="background-color:white;width:98%">
 	<tr><!-- Navigation map on left hand-side -->
-        <td style="width:20%" align="center">
-			<p style= "color:black; font-size: 200%;" align="center"> Position map</p>
-				<p id="tree-simple" style="font-size:300%; width:600px; height: 450px"> </p>
-			
+        <td align="left" valign="top" style="width:25%;background-color:white" >
+			<p style= "color:black; font-size: 150%;" align="center"> Position map</p>
+				<p valign="top"  id="tree-simple" style="width:440px; height: 450px"> </p>
 			<script><!-- Script for the drawing of the navigation map-->
 				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
 		<!--Diagram view -->
-		<td style="width:70%" align="center">
-			<p style= "color:#ff6200; font-size: 200%;" align="center" th:text="${maintitle}"> How is feature  being customized by the Product Portfolio? </p>
-			 
-			<a href="http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0">
-				 <div>	<img src="images/roll-up.png" alt="Roll-up" style="width:100px;height:40px;"/>Roll-up</div>
-				</a>
-			<div id="chart" align="center"/>
+		<td colspan="20" align="center" valign="top" style="width:80%;background-color:">
+			
+			<p align="left"><a href="http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0">Roll-up</a></p>
+			  <p><a href="http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0">
+				<img align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
+			</a>
+			</p>
+			
+			<p style= "color:black; font-size: 150%;" align="center" th:text="${maintitle}"> What features have been customized? </p>
+			<div align="center">
+			</div><br />
+			
+			<p id="chart" align="center" style="backgound-color:grey"/>
 			<br /><br />
-			<p style="font-size:100%;" align="center"> 
+			<p style="font-size:90%;" align="center"> 
 				Note: Streams' height denotes customization change-size per Feature-Product pair.
 				<br/>Rectangles area denotes customization change-size per Feature/Product.
 			</p>
@@ -154,6 +203,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </table>
 
 
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="sankey.js"></script>
 <script src="draw.js"></script>
@@ -161,8 +211,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 //<![CDATA[
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 10},
-	    width = 900 - margin.left - margin.right,
-	    height = 700 - margin.top - margin.bottom;
+	    width = 600 - margin.left - margin.right,
+	    height = 400 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();
@@ -187,8 +237,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 	      graph.nodes.push({ "name": d.source });
 	      graph.nodes.push({ "name": d.target });
 	      graph.links.push({ "source": d.source,
-	                         "target": d.target,
-	                         "value": +d.value });
+              "target": d.target,
+              "value": d.value,
+              "id_ca": d.id_ca,
+              "id_pa": d.id_pa,
+              "fname": d.fname,
+              "pr": d.pr });
 	     });
 	     // return only the distinct / unique nodes
 	     graph.nodes = d3.keys(d3.nest()
@@ -260,12 +314,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		  .on("mouseover", myMouseoverFunction)
 		.on("mouseout", myMouseoutFunction)
 	    .append("title").text(function(d) { 
-	    		var show;
+	    		/*var show;
 	    	     if(d.name.includes("product")) 
 	    	    	 	show="diff(Baseline-v1.0,"+ d.name+")";
 	    	     else show="diff("+ d.name+", product portfolio)";
 	    	    	 //d.name + "\n" + format(d.value);
-			  return show;
+			  return show;*/
 			  });
 	
 	        
@@ -294,15 +348,15 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 	    link.attr("d", path);
 	  }
 	function goToReuseLevelView(d){//click on products
-		window.location.href = "http://localhost:8080/diff_platform_product?&pr=" + d.name;
+	//	window.location.href = "http://localhost:8080/diff_platform_product?&pr=" + d.name;
 	}
 
 	function goToFeatureView(d){//click on feature - either provide alluvial with children, or go to feature core assets.
-		 window.location.href = "http://localhost:8080/diff_feature_pp?base=Baseline-v1.0&fname=" + d.name;
+	//	 window.location.href = "http://localhost:8080/diff_feature_pp?base=Baseline-v1.0&fname=" + d.name;
 	}
 	function goToFeatureViewDetailed(d){//click on the links between Feature&product
 		console.log(d);
-		 window.location.href = "http://localhost:8080/diff_feature_product?base=Baseline-v1.0&fname=" + d.source.name+"&pr="+d.target.name+"&idfile=0";
+		window.location.href = "http://localhost:8080/diff_ca_pa_code?base=Baseline-v1.0&fname=" + d.fname+"&pr="+d.pr+"&idfile="+d.id_ca+"&from=f";
 	}
 		
 	function myMouseoverFunction(d){
@@ -687,13 +741,13 @@ $(document).ready(function () {
    
 //]]>
 </script>
-<footer>
-  <div align="center" >
-	  <span align="center">
-		<img src="images/onekinLogo.png" alt="Logo" style="width:180px;height:70px;"/>
-		 <text style="font-size:150%;" >Email to: oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus</text>
-	  </span>
-  </div>
+<footer class="footer">
+      <div class="container">
+        <span class="text-muted"> 
+        <img src="images/onekinLogo.png" alt="Logo" style="width:150px;height:70px;">
+        Contact:      oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </img> </span>
+		 
+      </div>
  </footer>    
     
 </body>

@@ -31,7 +31,7 @@ public class Alluvial_Feature_PP_Controller {
 	  private String pathToResource = "./src/main/resources/static/";	
 	   
 	 @RequestMapping("diff_feature_pp")
-	   public String getTreeMapTrafficLight(
+	   public String getDiffFeaturePP(
 	   				@RequestParam(value="base", required=false) String idbaseline,
 	   				@RequestParam(value="fname", required=false) String featurenamemodified,
 	   				Model model){
@@ -42,7 +42,7 @@ public class Alluvial_Feature_PP_Controller {
 		  
 		  
 		   model.addAttribute("fname",featurenamemodified);
-		   model.addAttribute("maintitle", "How is feature '"+featurenamemodified+"' being customized in products?");
+		   model.addAttribute("maintitle", "How are feature '"+featurenamemodified+"' assets customized by the product portfolio?");
 
 		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(featurenamemodified, "core-asset","Expression","product"); 
 		  
@@ -52,7 +52,7 @@ public class Alluvial_Feature_PP_Controller {
 	 
 		private String extractCSVForFeatureProductPortfolioChurn(String featurenamemodified, String idbaseline) {
 			//String csvheader = "id,value,product_release,operation,fname";
-			String csvheader = "source,target,value,product_release,operation,fname";
+			String csvheader = "source,target,value,pr,operation,fname,id_ca,id_pa";
 			String csvcontent= extractCSVForFeatureProductPorfolioView(featurenamemodified,idbaseline);	
 			return csvheader.concat(csvcontent);
 		}
@@ -68,7 +68,8 @@ public class Alluvial_Feature_PP_Controller {
 				custom = it.next();
 				if(custom.getIdbaseline().equals(idbaseline) && custom.getIdfeature().equals(featurenamemodified)) {
 					listcustomizedCas.add(custom.getAssetpath());
-					csvContent=csvContent.concat("\n"+custom.getAssetname()+",").concat(custom.getPr()+","+custom.getChurn()+","+custom.getPr()+",churn,"+featurenamemodified);
+					csvContent=csvContent.concat("\n"+custom.getAssetname()+",").concat(custom.getPr()+","+custom.getChurn()+","
+					+custom.getPr()+",churn,"+featurenamemodified+","+custom.getIdcoreasset()+","+custom.getIdproductasset());
 				}
 				/*csvContent=csvContent.concat("\n"+featurenamemodified+"/").concat(custom.getIdrelease()+","+custom.getChurn()+","+custom.getIdrelease()+",churn,"+featurenamemodified);
 				}*/ 
@@ -80,7 +81,7 @@ public class Alluvial_Feature_PP_Controller {
 
 		private String addNotCustomizedCoreAssetsTotheCSV(ArrayList<String> listcustomizedCas, String csvContent, String idBaseline,String featurenamemodified) {
 			//String csvheader = "source,target,value,product_release,operation,fname";
-			
+			System.out.println("addNotCustomizedCoreAssetsTotheCSV");
 			Iterator<CoreassetsAndFeatures> it = coreassetsForFeature.findAll().iterator();
 			System.out.println(it.toString());
 			CoreassetsAndFeatures caf;
@@ -89,7 +90,7 @@ public class Alluvial_Feature_PP_Controller {
 			while (it.hasNext()) {
 				caf = it.next();
 				if (caf.getBaseline().equals(idBaseline) &&(caf.getFeatureid().equals(featurenamemodified)) &&(!listcustomizedCas.contains(caf.getCapath()))) {
-					csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED_BY_PRODUCTS,0.1");
+					csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED,0.1");
 				}
 			}
 			

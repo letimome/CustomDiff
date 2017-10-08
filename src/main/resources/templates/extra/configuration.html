@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>CustomDiff: Home Page</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 
+ <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+
+
+<style type="text/css">
+
+
+
+
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+
+
+
+li [nav-item]{ display: block;float: left;margin-right: 5px;}
+img { display: block;float: left;margin-right: 10px;}
+
+#home{ display: block;
+float: left;
+margin-right: 50px;
+margin-left: 50px;}
+
+
+.navbar-nav {
+flex-direction: row;
+ float: right;
+}
+
+.navbar-header {
+align: left;
+float: left;
+}
+
+.container-fluid  {
+    float: left;
+   
+}
+
+.container w-100 {
+    float: left;
+    flex-direction: row;
+ 
+}
+
+.navbar-light{
+  border-bottom: 0px solid grey;
+  float: left;
+  flex-direction: row;
+  
+}
+  
+
+</style>
+</head>
+
+<script>
+
+jQuery(document).ready(function(e) {
+    //jQuery('#mymodal').trigger('click');
+	jQuery('#db').trigger('click');
+	$("#db").trigger("click");
+	
+	
+});
+
+function loadData(){
+	
+}
+</script>
+
+<body align="center" >
+
+<!-- Header -->
+<header  class="navbar navbar-light bg-faded">
+  <nav  class="container w-100" style="background-color: white;">
+    <div class="d-flex justify-content-between hidden-lg-up">      
+       <a class="navbar-brand " href="/index">
+    	  		<img id="Home" align="left " src="customDiffLargo.png" alt="Home" style="width:180px;height:50px;"></img>
+    	  </a>
+    </div>
+      <ul class="nav navbar-nav ">
+        <li class="">
+        </li>
+         	<li class="nav-item"><a href="http://localhost:8080/index"><img src="http://localhost:8080/images/home.png" alt="Home" 
+	      style="width:30px;height:30px;"/></a></li>
+	     <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://localhost:8080/images/hierarchy.png" alt="Customization analysis" 
+	      style="width:38px;height:38px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="http://localhost:8080/search"><img src="http://localhost:8080/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="http://localhost:8080/config"><img src="http://localhost:8080/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item" align="center"><a href="http://localhost:8080/documentation"><img src="http://localhost:8080/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
+      </ul>
+  </nav>
+</header>
+<br /><br />
+ 
+<div class="container" style="background-color: light-grey;">
+  <br /><br />
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-6">CustomDiff Configuration</h1>
+       
+      <!--  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>-->  
+      </div>
+    </div>
+	
+	<!-- Panel -->
+	<ul class="nav nav-tabs" role="tablist">
+	  
+	  <li class="nav-item">
+	    <a class="nav-link" href="#git" role="tab" data-toggle="tab">Git repository</a>
+	  </li>
+	   <li class="nav-item">
+	    <a class="nav-link" href="#bm" role="tab" data-toggle="tab">Branching model</a>
+	  </li>
+	 
+	    <li class="nav-item">
+	    <a class="nav-link" href="#rs" role="tab" data-toggle="tab">Release strategy </a>
+	  </li>
+	 
+	  <li class="nav-item">
+	    <a class="nav-link" href="#pv" role="tab" data-toggle="tab">Conditional compilation syntax</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link" href="#db" role="tab" data-toggle="tab">Db connection</a>
+	  </li>
+	</ul>
+	
+	<!-- Tab panes -->
+	<div class="tab-content" style="border:1px">
+	
+	<!-- Git pane -->
+	<div role="tabpanel" class="tab-pane" id="git">
+	  <br />
+	  <p align="left"> Enter data to connect to the Git repository where the SPL development takes place.</p>
+	  		
+	  <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Repository url</label>
+		  <div class="col-10">
+		    <input class="form-control" type="text" value="https://github.com/letimome/WeatherStationSPL" id="example-text-input" />
+		  </div>
+	 </div>
+	   <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Username</label>
+		  <div class="col-10">
+		    <input class="form-control" type="text" value="letimome" id="example-text-input" />
+		  </div>
+	 </div>
+	   <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Password</label>
+		  <div class="col-10">
+		    <input class="form-control pwd" type="password"  value="123456" id="example-text-input" />
+		  </div>
+	 </div>
+	 
+			  
+	  </div>
+	  
+	  <!-- RBanching model -->
+	  <div role="tabpanel" class="tab-pane fade" id="bm">
+	   <br />
+	  <p align="left">The branching model: PL assets (a.k.a. platform are kept in a branch. 
+	  Product variants branch off this branch (see figure below)
+	  </p>
+	  
+	    <br/>
+	    <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Platform release branch (pattern)</label>
+		  <div class="col-10">
+		    <input class="form-control pwd" type="text"  value="master" id="example-text-input" />
+		  </div>
+		 </div>
+		 
+		 <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Products release branch (pattern)</label>
+		  <div class="col-10">
+		    <input class="form-control pwd" type="text"  value="product*" id="example-text-input" />
+		  </div>
+		 </div>
+		<!--<img align ="center" scr="images/branching-model.png"  style="width:300px;height:100px;"/>  --> 
+	  </div>
+	  
+ 	  <!-- Release strategy  -->
+	  <div role="tabpanel" class="tab-pane fade" id="rs">
+	    <br />
+	    <p align="left"> Used for mining customizations for releases</p>
+	   
+	   	<div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Pattern for commits involving a platform release</label>
+		  <div class="col-10">
+		    <input class="form-control" type="text"  value="&lt;PlatformName&gt; - &lt;versionNumber&gt;" id="example-text-input" />
+		  </div>
+		</div>
+		
+		<div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Pattern for commits involving a product release</label>
+		  <div class="col-10">
+		    <input class="form-control" type="text"  value="&lt;ProductName&gt; - &lt;versionNumber&gt;" id="example-text-input" />
+		  </div>
+		
+		</div>
+
+	   
+	  </div>
+	
+	   <!-- PV expressions -->
+	  <div role="tabpanel" class="tab-pane fade" id="pv">
+	      <br />
+	  <p align="left"> Used for recovering variation points out of  asset files (so far, only pure:variants is supported)</p>
+	    <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Variation point start pattern</label>
+		  <div class="col-10">
+		    <input class="form-control pwd" type="text"  value="PV:IFCOND" id="example-text-input" />
+		  </div>
+		  <label for="example-text-input" class="col-2 col-form-label">Variation point end pattern</label>
+		  <div class="col-10">
+		    <input class="form-control pwd" type="text"  value="PV:ENDCOND" id="example-text-input" />
+		  </div>
+		 </div>
+	  </div>
+	  
+	  <!--DDBB-->
+	  <div role="tabpanel" class="tab-pane fade" id="db">
+	   <br />
+	  <p align="left"> Configure the settings where the data from the Git repository will be loaded.</p>
+	  <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Db url</label>
+		  <div class="col-10">
+		    <input class="form-control" type="text" value="jdbc:mysql://127.0.0.1:3306/customdiffdb?useSSL=true" id="example-text-input" />
+		  </div>
+	 </div>
+	   <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Username</label>
+		  <div class="col-10">
+		    <input class="form-control" type="text" value="leticia" id="example-text-input" />
+		  </div>
+	 </div>
+	   <div class="form-group row">
+		  <label for="example-text-input" class="col-2 col-form-label">Password</label>
+		  <div class="col-10">
+		    <input class="form-control pwd" type="password"  value="123456" id="example-text-input" />
+		  </div>
+	 </div>
+			 <!-- Button trigger modal -->
+		<button type="button" id="mymodal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+		  Launch ETL process
+		</button>
+	  </div>
+	  
+	
+	</div><!-- ending fro tab-content--> 
+	 
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 align="center" class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+       <p>Already up tp date!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<br />
+<br />
+<br />
+
+
+<footer class="footer">
+      <div class="container">
+        <span class="text-muted"> 
+        <img src="images/onekinLogo.png" alt="Logo" style="width:150px;height:70px;">
+        Contact:      oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </img> </span>
+		 
+      </div>
+ </footer>  
+
+</html>

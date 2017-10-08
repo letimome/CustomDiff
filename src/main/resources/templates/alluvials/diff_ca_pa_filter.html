@@ -1,0 +1,290 @@
+<!-- HTML5 document type -->
+ <html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8"/>
+<meta name="diffvalue" th:content="${diffvalue}"></meta>
+<meta name="pr" th:content="${pr}"></meta>
+<meta name="fname" th:content="${fname}"></meta>
+<meta name="cavalue" th:content="${cavalue}"></meta>
+<meta name="diffHeader" th:content="${diffHeader}"></meta>
+<meta name="maintitle" th:content="${maintitle}"></meta>
+<meta name="difftitle" th:content="${difftitle}"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="from" th:content="${from}" />
+ 
+<title>Alluvial Diagram </title>
+
+<link rel="stylesheet" href="Treant.css" type="text/css"/>
+<link rel="stylesheet" href="custom-colored.css" type="text/css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
+<link rel="stylesheet" href="styles/kendo.common.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
+
+
+
+<script src="NavigationMap.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/kendo.all.min.js"></script>
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script src="vendor/raphael.js"></script>
+<script src="Treant.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3.v4.0.0-alpha.35.min.js"></script>
+<script src="NavigationMap.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/kendo.all.min.js"></script>
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script src="vendor/raphael.js"></script>
+<script src="Treant.js"></script>
+
+<style>
+#treeview .k-sprite {
+            background-image: url("../content/web/treeview/coloricons-sprite.png");
+        }
+
+        .rootfolder { background-position: 0 0; }
+        .folder     { background-position: 0 -16px; }
+        .pdf        { background-position: 0 -32px; }
+        .html       { background-position: 0 -48px; }
+        .image      { background-position: 0 -64px; }
+
+   #example {
+        min-height: 200px;
+    }
+
+        #example .title {
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+    .search-wrapper {
+        width: 100%;
+    }
+    .query-match {
+        color: red;
+    }
+    .select-all-wrapper {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .selected-count {
+        float: right;
+        color: #aaa;
+    }
+    .k-treeview {
+        border-width: 1px!important;
+        padding: 5px;
+    }
+    .selectedName {
+        padding: 5px 10px;
+        background: #aaa;
+        color: white;
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+    }
+img:hover{
+cursor: pointer;
+}
+
+#roll-up{
+  cursor: pointer;
+  }
+}
+
+  
+
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+li [nav-item]{ 
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+img { display: block;float: left;margin-right: 10px;}
+
+
+.navbar-nav {
+flex-direction: row;
+ float: right;
+}
+
+.navbar-header {
+align: left;
+float: left;
+}
+
+.container-fluid  {
+    float: left;
+   
+}
+.navbar-light{
+  border-bottom: 0px solid grey;
+  float: left;
+  
+}
+
+.diffview{
+font-size:100%;
+}
+
+
+.d2h-diff-table{
+
+   font-size:11px;
+   text-align: left;
+   white-space: nowrap;
+   overflow: scroll; /* Scrollbar are always visible */
+   /* overflow: auto;   Scrollbar is displayed as it's needed */
+
+}
+
+
+</style>
+
+
+</head>
+
+
+
+<!-- Header-->
+<body align="center" >
+
+<!-- Header -->
+<header  class="navbar navbar-light bg-faded">
+  <nav  class="container w-100" style="background-color: white;">
+    <div class="d-flex justify-content-between hidden-lg-up">      
+       <a class="navbar-brand " href="/index">
+    	  		<img id="Home" align="left " src="customDiffLargo.png" alt="Home" style="width:180px;height:50px;"></img>
+    	  </a>
+    </div>
+      <ul class="nav navbar-nav ">
+        <li class="">
+        </li>
+         	<li class="nav-item"><a href="http://localhost:8080/index"><img src="http://localhost:8080/images/home.png" alt="Home" 
+	      style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://localhost:8080/images/hierarchy.png" alt="Customization analysis" 
+	      style="width:38px;height:38px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="http://localhost:8080/search"><img src="http://localhost:8080/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="http://localhost:8080/config"><img src="http://localhost:8080/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item" align="center"><a href="http://localhost:8080/documentation"><img src="http://localhost:8080/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
+      </ul>
+  </nav>
+</header>
+
+
+
+
+
+<script>
+<!-- Script for the filtering menu -->
+//<![CDATA[
+	function getMetaContentByName(name,content){
+	   var content = (content==null)?'content':content;
+	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+	}
+
+$(document).ready(function () {
+			
+    	//Add you are here location
+    	var node = document.getElementsByClassName("node nodeExample1 orange");
+    	var span = document.createElement("p");
+    	var image = document.createElement("img");
+    	image.setAttribute("src","http://localhost:8080/images/here.png");
+    	image.setAttribute("heigh","60px");
+    	image.setAttribute("width","50px");
+    	image.append(document.createElement("br"))
+    	span.append(image);
+    	node[0].append(span);
+    	
+    	/** For the diff view **/
+		var diffvalue = getMetaContentByName("diffvalue");
+		if (diffvalue==null) return;
+		console.log("diffvalue:\n" + diffvalue);
+		var diff2htmlUi = new Diff2HtmlUI({diff: diffvalue});
+		console.log(diff2htmlUi);
+		diff2htmlUi.draw('#diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
+	    diff2htmlUi.highlightCode('#diffview');
+    
+	    /*double*/
+	  
+    
+    });//end of on document load
+	
+    function rollUp(){
+		
+		var from = getMetaContentByName("from");
+	//	console.log(from);
+	//	var fname=getMetaContentByName('fname');
+	//	console.log(fname);
+		
+		if(from=='f')
+			 window.location.href = "http://localhost:8080/diff_feature_pp?base=Baseline-v1.0&fname="+getMetaContentByName('fname');//
+		if(from=='fp')
+			window.location.href = "http://localhost:8080/diff_feature_product?base=Baseline-v1.0&fname="+getMetaContentByName('fname')+"&pr="+getMetaContentByName('pr');//
+		if(from=='p')
+			window.location.href = "http://localhost:8080/diff_platform_product?pr="+getMetaContentByName('pr');//
+	}
+    
+  //]]>
+</script>
+
+
+
+<!-- Table -->
+<table class="" cellpadding="20px" cellspacing="20px" style="background-color:#e9ecef;width:98%">
+	<tr><!-- Navigation map on left hand-side -->
+        <td align="left" valign="top" style="width:25%;background-color:white" >
+			<p style= "color:black; font-size: 150%;" align="center"> Position map</p>
+				<p valign="top"  id="tree-simple" style="width:440px; height: 450px"> </p>
+			<script><!-- Script for the drawing of the navigation map-->
+				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
+			</script>
+		</td>
+		<!--Diagram view -->
+		<td colspan="20" align="center" valign="top" style="width:50%;background-color:#e9ecef">
+			<p align="left"><a href="#" onclick="rollUp()">Roll-up</a></p>
+			  <p><a onclick="rollUp()">
+				<img align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
+			</a>
+			</p>
+			
+			<p style= "color:black; font-size: 150%;" align="center" th:text="${maintitle}"> Diff view for asset. </p>
+			<br /><br />
+			<div align="center">
+			<!--<h2 align="left" style= "font-size: 100%"  th:text="${diffHeader}"></h2>-->
+			<p  class="diffview" align="center"  id="diffview" style="width:90%;height:80%;background-color:white"></p>
+			</div><br />			
+		</td>
+	</tr>
+</table>
+
+
+
+
+
+<footer class="footer">
+      <div class="container">
+        <span class="text-muted"> 
+        <img src="images/onekinLogo.png" alt="Logo" style="width:150px;height:70px;">
+        Contact:      oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </img> </span>
+		 
+      </div>
+ </footer>    
+    
+</body>
+</html>
