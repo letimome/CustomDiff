@@ -141,7 +141,8 @@ float: left;
   float: left;
   
 }
-  
+
+
 </style>
 
 
@@ -180,20 +181,20 @@ style="background-color:;width:98%">
 	<tr><!-- Navigation map on left hand-side -->
         <td align="left" valign="top" style="width:25%;background-color:white" >
 			<p style= "color:black; font-size: 150%;" align="center"> Position map</p>
-				<p valign="top"  id="tree-simple" style="width:440px; height: 450px"> </p>
+				<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
 			<script><!-- Script for the drawing of the navigation map-->
 				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 			</script>
 		</td>
 		<!--Diagram view -->
-		<td colspan="20" align="center" valign="top" style="width:80%;background-color">
+		<td colspan="20" align="center" valign="top" style="width:100%;">
 			<p style= "color:black; font-size: 150%;" align="center"> What features have been customized? </p>
 			 <div id="dialog" align="left"></div>
 			 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter features!
 			 <img align="left" src="images/filter.png"></img>
 			 </button>       
 			
-			<div id="chart" align="left"/>
+			<div class="parent" id="chart" align="left"/>
 			<br />
 			<p style="font-size:90%;" align="center"> 
 				Note: Streams' height denotes customization change-size per Feature-Product pair.
@@ -212,8 +213,8 @@ style="background-color:;width:98%">
 //<![CDATA[
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 10},
-	    width = 900 - margin.left - margin.right,
-	    height = 600 - margin.top - margin.bottom;
+	    width = 780 - margin.left - margin.right,
+	    height = 430 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();
