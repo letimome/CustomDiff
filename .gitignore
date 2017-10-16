@@ -21,8 +21,8 @@ tmp/
 .DS_Store
 .history
 .idea
-*/.cvs
-*.cvs
+*/.csv
+*.csv
 .idea_modules
 .project
 RUNNING_PID
