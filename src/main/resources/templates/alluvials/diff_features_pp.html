@@ -144,8 +144,6 @@ float: left;
 
 
 </style>
-
-
 </head>
 
 <body align="center" >
@@ -172,38 +170,47 @@ float: left;
 </header>
 
 
+
+
 <!-- Table -->
-<div style="align:center;width:100%;heigh:90%">
-
-<table  class="table table-bordered table-striped table-responsive " cellpadding="20px" cellspacing="20px" 
-style="background-color:;width:98%">
-
-	<tr><!-- Navigation map on left hand-side -->
-        <td align="left" valign="top" style="width:25%;background-color:white" >
-			<p style= "color:black; font-size: 150%;" align="center"> Position map</p>
-				<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
-			<script><!-- Script for the drawing of the navigation map-->
-				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
-			</script>
-		</td>
-		<!--Diagram view -->
-		<td colspan="20" align="center" valign="top" style="width:100%;">
-			<p style= "color:black; font-size: 150%;" align="center"> What features have been customized? </p>
-			 <div id="dialog" align="left"></div>
-			 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter features!
-			 <img align="left" src="images/filter.png"></img>
-			 </button>       
+<div class="container-fluid">
+	<table  class="table table-bordered table-striped table-responsive " cellpadding="20px" cellspacing="20px" 
+	style="background-color:;width:98%">
+		<tr><!-- Navigation map on left hand-side -->
+	        <td align="left" valign="top" style="background-color:white" >
+				   <div class="row d-flex d-md-block flex-nowrap wrapper">
+				        <div  class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+							<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
+							<script><!-- Script for the drawing of the navigation map-->
+								var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
+							</script>
+				
+				       	</div>
+				        <main align="right" class="col-md-9 float-left col px-3 pl-md-2 pt-2 main"  >
+				            	<span align=""><p style= "color:black; align:right; font-size: 120%;"> Position map</p></span>
+				            <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
+				        </main>
+				    </div>
+			</td>
+			<!--Diagram view -->
+			<td colspan="20" align="center" valign="top" style="width:100%;">
+				<p style= "color:black; font-size: 150%;" align="center"> What features have been customized? </p>
+				 <div id="dialog" align="left"></div>
+				 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter features!
+				 <img align="left" src="images/filter.png"></img>
+				 </button>       
+				
+				<p id="chart"  align="center" style="min-height:500px;align:center" />
+				<br />
+				<p style="font-size:90%;" align="center"> 
+					Note: Streams' height denotes customization change-size per Feature-Product pair.
+					<br/>Rectangles area denotes customization change-size per Feature/Product.
+				</p>
 			
-			<div class="parent" id="chart" align="left"/>
-			<br />
-			<p style="font-size:90%;" align="center"> 
-				Note: Streams' height denotes customization change-size per Feature-Product pair.
-				<br/>Rectangles area denotes customization change-size per Feature/Product.
-			</p>
-		
-		</td>
-	</tr>
-</table>
+			</td>
+		</tr>
+	</table>
+
 
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -212,9 +219,9 @@ style="background-color:;width:98%">
  <script> <!-- Script for drawing the alluvial diagram -->
 //<![CDATA[
   var units = "Widgets";
-	var margin = {top: 10, right: 10, bottom: 10, left: 10},
-	    width = 780 - margin.left - margin.right,
-	    height = 430 - margin.top - margin.bottom;
+	var margin = {top: 10, right: 10, bottom: 10, left: 60},
+	    width = 900 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();

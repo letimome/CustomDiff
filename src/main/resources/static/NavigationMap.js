@@ -14,19 +14,19 @@
 			        children: [
 			            {
 			                text: { name: 'diff (Feature, Product Portfolio)' },
-			        children: [{
+			                children: [{
 			                	 text: { name: 'diff (PL asset, Variant asset) [Filter]' },
 			                } ]
 			            },
 						{
-			                text: { name: 'diff(WindSpeed, productBerlin-v1.0)' },
-			        				HTMLclass: 'orange',
+			                text: { name: 'diff(Feature, Product Variant)' },
 			               		children: [{
 			               	 		text: { name: 'diff (PL asset, Variant asset) [Filter]' },
 			               		}]
 			        		},
 			            {
-			                text: { name: 'diff(Platform, Product Variant)' },
+			                text: { name: 'diff(Platform, productSeville-v1.0)' },
+			        			HTMLclass: 'orange',
 			               		children: [{
 			               	 		text: { name: 'diff (PL asset, Variant asset) [Filter]' },
 			               		}]

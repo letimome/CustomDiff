@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="from" th:content="${from}" />
  
-<title>Alluvial Diagram </title>
+<title>diff (feature, product)</title>
 
 <link rel="stylesheet" href="Treant.css" type="text/css"/>
 <link rel="stylesheet" href="custom-colored.css" type="text/css"/>
@@ -243,19 +243,30 @@ $(document).ready(function () {
   //]]>
 </script>
 
-
-
 <!-- Table -->
-<table class="" cellpadding="20px" cellspacing="20px" style="background-color:#e9ecef;width:98%">
-	<tr><!-- Navigation map on left hand-side -->
-        <td align="left" valign="top" style="width:25%;background-color:white" >
-			<p style= "color:black; font-size: 150%;" align="center"> Position map</p>
-				<p valign="top"  id="tree-simple" style="width:440px; height: 450px"> </p>
-			<script><!-- Script for the drawing of the navigation map-->
-				var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
-			</script>
-		</td>
-		<!--Diagram view -->
+<div class="container-fluid">
+	<table  class="" cellpadding="20px" cellspacing="20px" 
+	style="background-color:;width:98%">
+		<tr><!-- Navigation map on left hand-side -->
+	        <td align="left" valign="top" style="background-color:white" >
+				   <div class="row d-flex d-md-block flex-nowrap wrapper">
+				        
+				        <div  class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+						
+							
+							<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
+							<script><!-- Script for the drawing of the navigation map-->
+								var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
+							</script>
+				
+				       	</div>
+				        <main align="right" class="col-md-9 float-left col px-3 pl-md-2 pt-2 main"  >
+				            	<span align=""><p style= "color:black; align:right; font-size: 120%;"> Position map</p></span>
+				            <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
+				        </main>
+				    </div>
+			</td>
+			<!--Diagram view -->
 		<td colspan="20" align="center" valign="top" style="width:50%;background-color:#e9ecef">
 			<p align="left"><a href="#" onclick="rollUp()">Roll-up</a></p>
 			  <p><a onclick="rollUp()">
@@ -272,18 +283,15 @@ $(document).ready(function () {
 		</td>
 	</tr>
 </table>
-
+</div>
 
 
 
 
 <footer class="footer">
-      <div class="container">
-        <span class="text-muted"> 
-        <img src="images/onekinLogo.png" alt="Logo" style="width:150px;height:70px;">
-        Contact:      oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </img> </span>
-		 
-      </div>
+            <span class="text-muted"> 
+        <img src="images/onekinLogo.png" alt="Logo" style="width:120px;height:60px;">
+        Contact:   oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </img> </span>
  </footer>    
     
 </body>
