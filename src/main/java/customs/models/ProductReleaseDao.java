@@ -6,4 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface ProductReleaseDao extends CrudRepository<ProductRelease, Long>{
 
+	Iterable<ProductRelease> getProductReleaseByName(String name);
+
 }

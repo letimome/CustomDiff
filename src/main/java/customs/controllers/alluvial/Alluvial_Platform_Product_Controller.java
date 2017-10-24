@@ -1,19 +1,24 @@
 package customs.controllers.alluvial;
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import customs.models.CoreAsset;
 import customs.models.CoreAssetDao;
-import customs.models.CustomsByProductAssetsToFeatures;
-import customs.models.CustomsByProductAssetsToFeaturesDao;
+import customs.models.CoreassetsAndFeatures;
+import customs.models.Churn_CoreAssetsAndFeaturesByPR;
+import customs.models.Churn_CoreAssetsAndFeaturesByPRDao;
+import customs.models.Churn_PoductPortfolioAndFeatures;
+import customs.models.Churn_PoductPortfolioAndFeaturesDao;
 import customs.models.NewProductAsset;
 import customs.models.NewProductAssetDao;
+import customs.models.ProductRelease;
+import customs.models.ProductReleaseDao;
 
 
 
@@ -22,7 +27,8 @@ public class Alluvial_Platform_Product_Controller {
 	
 	@Autowired private NewProductAssetDao paDao;
 	@Autowired private CoreAssetDao caDao;
-	 @Autowired private CustomsByProductAssetsToFeaturesDao customsPAtoFeatures;
+	@Autowired private ProductReleaseDao prDao;
+	 @Autowired private Churn_CoreAssetsAndFeaturesByPRDao customstoCAAndFeatures;
 	 private String pathToResource = "./src/main/resources/static/";
 
 	 @RequestMapping("diff_platform_product")
@@ -34,6 +40,7 @@ public class Alluvial_Platform_Product_Controller {
 		   String csvheader="source,target,id,value,pr,id_pa,id_ca,fname";//TODO remove id_pa!!
 		   
 		   String csvContent  = computeForCustomizationsForPRassetsToFeaturesChurn(productrelease);
+		  
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
 		  
 		   model.addAttribute("pr",productrelease);
@@ -46,24 +53,52 @@ public class Alluvial_Platform_Product_Controller {
 	 	}
 
 	private String computeForCustomizationsForPRassetsToFeaturesChurn(String productrelease) {
-		//	  String csvheader="source,target,id,value,operation,pr,id_pa,id_ca,fname";
+		//	  String csvheader="source,target,id,value,pr,id_pa,id_ca,fname";
 		   String csvCustoms="";
-		   System.out.println("The productrelease to analyze is: "+productrelease);
-
-		   Iterable<CustomsByProductAssetsToFeatures>  customizedAssets = customsPAtoFeatures.getCustomsByInproduct(productrelease);
-		   Iterator<CustomsByProductAssetsToFeatures> it= customizedAssets.iterator();
-		   CustomsByProductAssetsToFeatures custo;
+		   Iterable<ProductRelease> prs = prDao.getProductReleaseByName(productrelease);
+		   ProductRelease pr=prs.iterator().next();
+		   System.out.println("The productrelease to analyze is: "+pr.getName());
+		   Iterable<Churn_CoreAssetsAndFeaturesByPR>  customizedAssets = customstoCAAndFeatures.getCustomsByIdproductrelease(pr.getId_product());
+		   Iterator<Churn_CoreAssetsAndFeaturesByPR> it= customizedAssets.iterator();
+		   
+		   Churn_CoreAssetsAndFeaturesByPR custo;
+		   ArrayList<String> listcustomizedCas = new ArrayList<String>();
 		   
 		   while(it.hasNext()) {//getting lines for Customized Assets
 			   custo = it.next();
-			   csvCustoms = csvCustoms.concat("\n" +custo.getFeaturechanged()+","+custo.getName()+","
-					   +custo.getPath() + ","+custo.getChurn()+","+custo.getInproduct()+","+custo.getIdproductasset()
-					   +","+custo.getIdproductasset()+","+custo.getFeaturechanged()); 
+			listcustomizedCas.add(custo.getCa_path());
+			   csvCustoms = csvCustoms.concat("\n" +custo.getIdfeature()+","+custo.getCa_name()+","
+					   +custo.getCa_path()+","+custo.getChurn()+","+custo.getPr_name()+","+custo.getId_coreasset()
+					   +","+custo.getId_coreasset()+","+custo.getIdfeature()); 
 		   }
+		   
+		   csvCustoms = addNotCustomizedCoreAssetsTotheCSV(listcustomizedCas,csvCustoms,productrelease);
 		return csvCustoms;
 		
 	}
-
+	
+	private String addNotCustomizedCoreAssetsTotheCSV(ArrayList<String> listcustomizedCas, String csvContent,String productrelease) {
+		//String csvheader = source,target,id,value,pr,id_pa,id_ca,fname";
+		System.out.println("addNotCustomizedCoreAssetsTotheCSV");
+		Iterator<CoreAsset> it = caDao.findAll().iterator();
+		System.out.println(it.toString());
+		CoreAsset ca;
+		
+		
+		while (it.hasNext()) {
+			ca = it.next();
+			if (!listcustomizedCas.contains(ca.getPath())) {
+				csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+ca.getName()+","+ca.getPath()+",0.2,"+productrelease);
+			}
+		}
+		
+		return csvContent;
+	}
+	  
+	
+//GET CORE ASSETS THAT HAVE NOT BEEN CUSTOMIZED BY THE PRODUCT!! TODO
+//GET NEW ASSETS IN PRODUCTS!! TODO
+	
 	/*private int getCaIdFromPa(String pr, int idproductasset) {	
 			
 			//I need to get the absolute diff  that modifies the idcoreasset in release pr

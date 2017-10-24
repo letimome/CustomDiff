@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "customizations_by_products_and_features")
-public class CustomsByProductsAndFeatures{
+@Table(name = "churn_productportfolio_features")
+public class Churn_PoductPortfolioAndFeatures{
 
 	@Id  String id;
 	String id_feature;
@@ -22,7 +22,7 @@ public class CustomsByProductsAndFeatures{
 	int deleted;
 	int churn;
 	
-	public CustomsByProductsAndFeatures() {
+	public Churn_PoductPortfolioAndFeatures() {
 		
 	}
 

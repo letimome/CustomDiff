@@ -6,10 +6,10 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "churn_coreassets_and_features")
-public class Customs_of_product_to_feature_ca {
+@Table(name = "churn_coreassets_and_features_by_pr")
+public class Churn_CoreAssetsAndFeaturesByPR {
 	@Id String id;//
-	int pr_id;
+	int idproductrelease;
 	String idfeature;
 	int idcoreasset;
 	String pr_name;
@@ -18,7 +18,7 @@ public class Customs_of_product_to_feature_ca {
 	int churn;
 	
 
-	public Customs_of_product_to_feature_ca() {}
+	public Churn_CoreAssetsAndFeaturesByPR() {}
 
 	public String getId() {
 		return id;
@@ -36,21 +36,6 @@ public class Customs_of_product_to_feature_ca {
 		this.idcoreasset = idcoreasset;
 	}
 
-	public int getPr_id() {
-		return pr_id;
-	}
-
-	public void setPr_id(int pr_id) {
-		this.pr_id = pr_id;
-	}
-
-	public String getId_feature() {
-		return idfeature;
-	}
-
-	public void setId_feature(String id_feature) {
-		this.idfeature = id_feature;
-	}
 
 	public int getId_coreasset() {
 		return idcoreasset;
@@ -99,4 +84,13 @@ public class Customs_of_product_to_feature_ca {
 	public void setIdfeature(String idfeature) {
 		this.idfeature = idfeature;
 	}
+
+	public int getIdproductrelease() {
+		return idproductrelease;
+	}
+
+	public void setIdproductrelease(int idproductrelease) {
+		this.idproductrelease = idproductrelease;
+	}
+	
 }

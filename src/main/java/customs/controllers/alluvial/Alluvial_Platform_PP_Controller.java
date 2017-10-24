@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import customs.models.CustomsByProductsAndFeatures;
-import customs.models.CustomsByProductsAndFeaturesDao;
+import customs.models.Churn_PoductPortfolioAndFeatures;
+import customs.models.Churn_PoductPortfolioAndFeaturesDao;
 import customs.models.Feature;
 import customs.models.FeatureDao;
 import customs.models.ProductRelease;
@@ -21,10 +21,9 @@ import customs.models.ProductReleaseDao;
 //the root controller for the alluvial diagram view
 @Controller
 public class Alluvial_Platform_PP_Controller {
-	@Autowired private CustomsByProductsAndFeaturesDao alluvialDao;
+	@Autowired private Churn_PoductPortfolioAndFeaturesDao alluvialDao;
     private String pathToResource = "./src/main/resources/static/";
-   
-    @Autowired private ProductReleaseDao prDao;//TODO delete
+    @Autowired private ProductReleaseDao prDao;
     @Autowired private FeatureDao fDao;
 	
 	@RequestMapping("diff_features_pp")
@@ -43,10 +42,10 @@ public class Alluvial_Platform_PP_Controller {
 		   }
 
 		   
-		   Iterable<CustomsByProductsAndFeatures> customsObj = alluvialDao.findAll();
-		   Iterator<CustomsByProductsAndFeatures> it = customsObj.iterator();
+		   Iterable<Churn_PoductPortfolioAndFeatures> customsObj = alluvialDao.findAll();
+		   Iterator<Churn_PoductPortfolioAndFeatures> it = customsObj.iterator();
 		   String csvCustoms= "source,target,value";
-		   CustomsByProductsAndFeatures custo;
+		   Churn_PoductPortfolioAndFeatures custo;
 		   
 		   ArrayList<String> customizedfeatures=new ArrayList<>() ;
 		   ArrayList<String> customizedproductreleases = new ArrayList<>();
