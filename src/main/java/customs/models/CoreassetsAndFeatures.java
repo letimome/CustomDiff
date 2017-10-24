@@ -7,84 +7,62 @@ import javax.persistence.Table;
 
 	
 	@Entity
-	@Table(name = "coreassetsandfeatures")
-	//UUID() as 'id', b.idbaseline as 'baseline', ca.idcoreasset as 'idcoreasset', f.idfeature as 'featureid'
+	@Table(name = "coreassets_and_features")
 	public class CoreassetsAndFeatures {
 		@Id String id;
-		String baseline;
 		int idcoreasset;
-		String featureid;
+		String idfeature;
 		String caname;
 		String capath;
 		int size;
 		
 		public CoreassetsAndFeatures() {}
-		
-
-		public CoreassetsAndFeatures(String id, String baseline, int idcoreasset, String featureid) {
-			super();
-			this.id = id;
-			this.baseline = baseline;
-			this.idcoreasset = idcoreasset;
-			this.featureid = featureid;
-		}
-
-		
-		public int getSize() {
-			return size;
-		}
-
-
-		public void setSize(int size) {
-			this.size = size;
-		}
-
-
-		public String getCaname() {
-			return caname;
-		}
-
-
-		public void setCaname(String caname) {
-			this.caname = caname;
-		}
-
-
-		public String getCapath() {
-			return capath;
-		}
-
-
-		public void setCapath(String capath) {
-			this.capath = capath;
-		}
-
 
 		public String getId() {
 			return id;
 		}
+
 		public void setId(String id) {
 			this.id = id;
 		}
-		public String getBaseline() {
-			return baseline;
-		}
-		public void setBaseline(String baseline) {
-			this.baseline = baseline;
-		}
-		public int getIdcoreasset() {
+
+		public int getId_coreasset() {
 			return idcoreasset;
 		}
-		public void setIdcoreasset(int idcoreasset) {
-			this.idcoreasset = idcoreasset;
+
+		public void setId_coreasset(int id_coreasset) {
+			this.idcoreasset = id_coreasset;
 		}
-		public String getFeatureid() {
-			return featureid;
+
+		public String getId_feature() {
+			return idfeature;
 		}
-		public void setFeatureid(String featureid) {
-			this.featureid = featureid;
+
+		public void setId_feature(String id_feature) {
+			this.idfeature = id_feature;
 		}
-		
-		
-		
+
+		public String getCa_name() {
+			return caname;
+		}
+
+		public void setCa_name(String ca_name) {
+			this.caname = ca_name;
+		}
+
+		public String getCa_path() {
+			return capath;
+		}
+
+		public void setCa_path(String ca_path) {
+			this.capath = ca_path;
+		}
+
+		public int getSize() {
+			return size;
+		}
+
+		public void setSize(int size) {
+			this.size = size;
+		}
 }

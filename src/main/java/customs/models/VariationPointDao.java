@@ -7,6 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface VariationPointDao extends CrudRepository <VariationPoint, Long > {
 	
 	VariationPoint getVariationPointByIdvariationpoint(int idvariationpoint);
-	Iterable<VariationPoint> getVariationPointsByIdproductasset(int idproductasset);
 
 }

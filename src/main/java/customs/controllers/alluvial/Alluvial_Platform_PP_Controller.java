@@ -8,27 +8,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import customs.models.Alluvial;
-import customs.models.AlluvialDao;
-import customs.models.BaselineDao;
+import customs.models.CustomsByProductsAndFeatures;
+import customs.models.CustomsByProductsAndFeaturesDao;
 import customs.models.Feature;
 import customs.models.FeatureDao;
-import customs.models.ProductAssetDao;
-import customs.models.ProductDao;
 import customs.models.ProductRelease;
 import customs.models.ProductReleaseDao;
-import customs.models.SPLdao;
-import customs.models.VariationPointDao;
+
 
 
 
 //the root controller for the alluvial diagram view
 @Controller
 public class Alluvial_Platform_PP_Controller {
-	@Autowired private AlluvialDao alluvialDao;
+	@Autowired private CustomsByProductsAndFeaturesDao alluvialDao;
     private String pathToResource = "./src/main/resources/static/";
-    @Autowired private ProductReleaseDao prDao;
+   
+    @Autowired private ProductReleaseDao prDao;//TODO delete
     @Autowired private FeatureDao fDao;
 	
 	@RequestMapping("diff_features_pp")
@@ -47,10 +43,10 @@ public class Alluvial_Platform_PP_Controller {
 		   }
 
 		   
-		   Iterable<Alluvial> customsObj = alluvialDao.findAll();
-		   Iterator<Alluvial> it = customsObj.iterator();
+		   Iterable<CustomsByProductsAndFeatures> customsObj = alluvialDao.findAll();
+		   Iterator<CustomsByProductsAndFeatures> it = customsObj.iterator();
 		   String csvCustoms= "source,target,value";
-		   Alluvial custo;
+		   CustomsByProductsAndFeatures custo;
 		   
 		   ArrayList<String> customizedfeatures=new ArrayList<>() ;
 		   ArrayList<String> customizedproductreleases = new ArrayList<>();
@@ -58,19 +54,19 @@ public class Alluvial_Platform_PP_Controller {
 		   
 		   while (it.hasNext()) {
 			    custo=it.next();
-			    System.out.println((custo.getIdBaseline()));
+			 
 			    include=false;
 			   if( featuresToInclude==null)  include=true;
-			   else if (featuresToInclude.contains(custo.getFeatureModified())) include=true;
+			   else if (featuresToInclude.contains(custo.getFeaturemodified())) include=true;
 			    	 
-			   if(custo.getIdbaseline().equals(idbaseline)) {
-				   if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null")
-						     && !custo.getFeatureModified().equals("undefined") && include) {
-						    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeatureModified()+","+custo.getIdRelease() +","+custo.getChurn()+"");
-						    	   customizedproductreleases.add(custo.getIdRelease());
-						    	   customizedfeatures.add(custo.getFeatureModified());
+			 //  if(custo.getIdbaseline().equals(idbaseline)) {
+				   if(custo.getFeaturemodified()!=null && !custo.getFeaturemodified().equals("null")
+						     && !custo.getFeaturemodified().equals("undefined") && include) {
+						    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeaturemodified()+","+custo.getPr_name() +","+custo.getChurn()+"");
+						    	   customizedproductreleases.add(custo.getPr_name());
+						    	   customizedfeatures.add(custo.getFeaturemodified());
 						     }
-			   }
+			//   }
 			     
 		   }
 		  //if there is a filter, then do not show products which has not been customized.
@@ -99,7 +95,7 @@ public class Alluvial_Platform_PP_Controller {
 		String f; Feature fe;
 		while(it.hasNext()) {
 			f= it.next();
-			fe=fDao.getFeatureByIdfeature(f);
+			fe=fDao.getFeatureByName(f);
 			if (fe!=null) features.add(fe);
 		}
 		
@@ -133,8 +129,8 @@ public class Alluvial_Platform_PP_Controller {
 		ProductRelease pr;
 		while(it.hasNext()) {
 			pr=it.next();
-			if(!customizedproductreleases.contains(pr.getIdrelease())) {
-				csv_notcustomizedprs=csv_notcustomizedprs.concat("\n"+"NOT_CUSTOMIZED,"+pr.getIdrelease()+",0.2");
+			if(!customizedproductreleases.contains(pr.getName())) {
+				csv_notcustomizedprs=csv_notcustomizedprs.concat("\n"+"NOT_CUSTOMIZED,"+pr.getName()+",0.2");
 			}
 		}
 		return csv_notcustomizedprs;

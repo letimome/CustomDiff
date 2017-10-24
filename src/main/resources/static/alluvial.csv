@@ -1,9 +1,14 @@
 source,target,value
-ProductBerlin,AirPressure,2
-ProductBerlin,English,2
-productNewYork,English,2
-ProductBerlin,German,2
-productDonosti,German,1
-productDonosti,Heat,2
-ProductBerlin,WindSpeed,2
-productNewYork,WindSpeed,2
+AirPressure,productEHU-v1.0,1
+AirPressure,productPrueba-v1.0,4
+AirPressure,productTest-v1.0,1
+Gale,productPrueba-v1.0,2
+No Feature,productEHU-v1.0,1
+No Feature,productTest-v1.0,1
+WindSpeed,productEHU-v1.0,4
+WindSpeed,productPrueba-v1.0,6
+WindSpeed,productTest-v1.0,4
+English,NOT_CUSTOMIZED,0.2
+German,NOT_CUSTOMIZED,0.2
+Heat,NOT_CUSTOMIZED,0.2
+Temperature,NOT_CUSTOMIZED,0.2

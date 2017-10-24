@@ -1,4 +1,4 @@
-package customs.controllers;
+package customs.controllers.alluvial;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,20 +10,20 @@ public class MainController {
 //@RequestMapping(value="html", method = RequestMethod.GET )
 @RequestMapping("/")
 public String index() {
-    return "index";//index.html
+    return "index";
   }
 
 @RequestMapping("/index")
 public String index2() {
-    return "index";//index.html
+    return "index";
   }
 
 @RequestMapping("/settings")
 public String settings() {
-    return "settings";//index.html
+    return "settings";
   }
 @RequestMapping("/customs")
 public String customs() {
-    return "customs";//index.html
+    return "customs";
   }
 }

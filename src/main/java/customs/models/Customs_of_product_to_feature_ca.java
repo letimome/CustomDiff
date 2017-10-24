@@ -6,22 +6,19 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table(name = "customs_by_products_to_features")
+@Table(name = "churn_coreassets_and_features")
 public class Customs_of_product_to_feature_ca {
-	@Id String id;
-	
-	int idcoreasset;
-	int idproductasset;
-	String pr;
-	String assetname;
-	String assetpath;
-	int churn;
+	@Id String id;//
+	int pr_id;
 	String idfeature;
-	String idbaseline;
+	int idcoreasset;
+	String pr_name;
+	String ca_name;
+	String ca_path;
+	int churn;
 	
-	public Customs_of_product_to_feature_ca() {
-		
-	}
+
+	public Customs_of_product_to_feature_ca() {}
 
 	public String getId() {
 		return id;
@@ -29,16 +26,6 @@ public class Customs_of_product_to_feature_ca {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	
-	
-	public String getIdbaseline() {
-		return idbaseline;
-	}
-
-	public void setIdbaseline(String idbaseline) {
-		this.idbaseline = idbaseline;
 	}
 
 	public int getIdcoreasset() {
@@ -49,36 +36,52 @@ public class Customs_of_product_to_feature_ca {
 		this.idcoreasset = idcoreasset;
 	}
 
-	public int getIdproductasset() {
-		return idproductasset;
+	public int getPr_id() {
+		return pr_id;
 	}
 
-	public void setIdproductasset(int idproductasset) {
-		this.idproductasset = idproductasset;
+	public void setPr_id(int pr_id) {
+		this.pr_id = pr_id;
 	}
 
-	public String getPr() {
-		return pr;
+	public String getId_feature() {
+		return idfeature;
 	}
 
-	public void setPr(String pr) {
-		this.pr = pr;
+	public void setId_feature(String id_feature) {
+		this.idfeature = id_feature;
 	}
 
-	public String getAssetname() {
-		return assetname;
+	public int getId_coreasset() {
+		return idcoreasset;
 	}
 
-	public void setAssetname(String assetname) {
-		this.assetname = assetname;
+	public void setId_coreasset(int id_coreasset) {
+		this.idcoreasset = id_coreasset;
 	}
 
-	public String getAssetpath() {
-		return assetpath;
+	public String getPr_name() {
+		return pr_name;
 	}
 
-	public void setAssetpath(String assetpath) {
-		this.assetpath = assetpath;
+	public void setPr_name(String pr_name) {
+		this.pr_name = pr_name;
+	}
+
+	public String getCa_name() {
+		return ca_name;
+	}
+
+	public void setCa_name(String ca_name) {
+		this.ca_name = ca_name;
+	}
+
+	public String getCa_path() {
+		return ca_path;
+	}
+
+	public void setCa_path(String ca_path) {
+		this.ca_path = ca_path;
 	}
 
 	public int getChurn() {

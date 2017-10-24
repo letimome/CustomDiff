@@ -5,101 +5,102 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "customization")
+@Table(name = "customization_fact")
 public class Customization {
 	
 	@Id int idcustomization;
-	String operation;
-	int coreAsset_idcoreAsset;
-	int productasset_idproductasset;
-	String feature_idfeature;
-	int isnewfeature;
-	int isnewasset;
-	String featurenamemodified;
+	int lines_added;
+	int lines_deleted;
+	String custom_diff;
+	String commit_set;
+	String message_set;
+	String greater_diff;
+	int idvariationpoint;
+	int idproductrelease;
+	int id_developer_group;
 	
-	
+		
 	public Customization () {}
 
-
-	public int getIdCustomization() {
+	public int getId_customization() {
 		return idcustomization;
 	}
 
-
-	public void setIdCustomization(int idcustomization) {
-		this.idcustomization = idcustomization;
+	public void setId_customization(int id_customization) {
+		this.idcustomization = id_customization;
 	}
 
-
-	public String getOperation() {
-		return operation;
+	public int getLines_added() {
+		return lines_added;
 	}
 
-
-	public void setOperation(String operation) {
-		this.operation = operation;
+	public void setLines_added(int lines_added) {
+		this.lines_added = lines_added;
 	}
 
-
-	public int getCoreAsset_idCoreAsset() {
-		return coreAsset_idcoreAsset;
+	public int getLines_deleted() {
+		return lines_deleted;
 	}
 
-
-	public void setCoreAsset_idCoreAsset(int coreAsset_idCoreAsset) {
-		coreAsset_idcoreAsset = coreAsset_idCoreAsset;
+	public void setLines_deleted(int lines_deleted) {
+		this.lines_deleted = lines_deleted;
 	}
 
-
-	public int getProductAsset_idProductAsset() {
-		return productasset_idproductasset;
+	public String getCustom_diff() {
+		return custom_diff;
 	}
 
-
-	public void setProductAsset_idProductAsset(int productAsset_idProductAsset) {
-		productasset_idproductasset = productAsset_idProductAsset;
+	public void setCustom_diff(String custom_diff) {
+		this.custom_diff = custom_diff;
 	}
 
-
-	public String getFeature_idFeature() {
-		return feature_idfeature;
+	public String getCommit_set() {
+		return commit_set;
 	}
 
-
-	public void setFeature_idFeature(String feature_idFeature) {
-		feature_idfeature = feature_idFeature;
+	public void setCommit_set(String commit_set) {
+		this.commit_set = commit_set;
 	}
 
-
-	public int getIsNewFeature() {
-		return isnewfeature;
+	public String getMessage_set() {
+		return message_set;
 	}
 
-
-	public void setIsNewFeature(int isNewFeature) {
-		this.isnewfeature = isNewFeature;
+	public void setMessage_set(String message_set) {
+		this.message_set = message_set;
 	}
 
-
-	public int getIsNewAsset() {
-		return isnewasset;
+	public String getGreater_diff() {
+		return greater_diff;
 	}
 
-
-	public void setIsNewAsset(int isNewAsset) {
-		this.isnewasset = isNewAsset;
+	public void setGreater_diff(String greater_diff) {
+		this.greater_diff = greater_diff;
 	}
 
-
-	public String getFeatureNameModified() {
-		return featurenamemodified;
+	public int getId_variationpoint() {
+		return idvariationpoint;
 	}
 
-
-	public void setFeatureNameModified(String featurenamemodified) {
-		this.featurenamemodified = featurenamemodified;
+	public void setId_variationpoint(int id_variationpoint) {
+		this.idvariationpoint = id_variationpoint;
 	}
 	
-	
+	public int getId_developer_group() {
+		return id_developer_group;
+	}
+
+	public void setId_developer_group(int id_developer_group) {
+		this.id_developer_group = id_developer_group;
+	}
+
+	public int getId_productrelease() {
+		return idproductrelease;
+	}
+
+
+	public void setId_productrelease(int id_productrelease) {
+		this.idproductrelease = id_productrelease;
+	}
 	
 }

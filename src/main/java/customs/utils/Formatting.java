@@ -98,17 +98,11 @@ public class  Formatting {
 	}
 	
 	
-	public static String encodeToBase64(String str){
-		// encode data on your side using BASE64
-		//https://stackoverflow.com/questions/19743851/base64-java-encode-and-decode-a-string
-		String   bytesEncoded = Base64.encode(str.getBytes());
-		return bytesEncoded;
-	}
-	
-	public static String decodeFromBase64(String bytesEncoded){
 
-		byte[] valueDecoded= Base64.decode(bytesEncoded);
-		System.out.println("Decoded value is " + new String(valueDecoded));
+	public static String decodeFromBase64(String encoded){
+
+	byte[] valueDecoded= Base64.decode(encoded);
+	//	System.out.println("Decoded value is: " + new String(valueDecoded));
 		
 		return new String(valueDecoded);
 	}

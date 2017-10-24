@@ -10,13 +10,12 @@ import javax.persistence.Table;
 public class CustomsForCaPaFeature {	
 	@Id String id;
 	int id_ca;
-	int id_pa;
 	String p_release;
 	String filename;
 	String path;
 	int churn;
 	String featuremodified;
-	String idbaseline;
+	
 	
 	public CustomsForCaPaFeature() {}
 
@@ -34,14 +33,6 @@ public class CustomsForCaPaFeature {
 
 	public void setId_ca(int id_ca) {
 		this.id_ca = id_ca;
-	}
-
-	public int getId_pa() {
-		return id_pa;
-	}
-
-	public void setId_pa(int id_pa) {
-		this.id_pa = id_pa;
 	}
 
 	public String getP_release() {
@@ -83,15 +74,6 @@ public class CustomsForCaPaFeature {
 	public void setFeaturemodified(String featuremodified) {
 		this.featuremodified = featuremodified;
 	}
-
-	public String getIdbaseline() {
-		return idbaseline;
-	}
-
-	public void setIdbaseline(String idbaseline) {
-		this.idbaseline = idbaseline;
-	}
-	
 	
 
 }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 @Transactional
 public interface CoreassetsAndFeaturesDao extends CrudRepository <CoreassetsAndFeatures, Long>{
 
-	Iterable<CoreassetsAndFeatures> getFeatureCoreAssetsByFeatureid(String featureid);
+	Iterable<CoreassetsAndFeatures> getFeatureCoreAssetsByIdfeature(int idfeature);
 	
 	
 }

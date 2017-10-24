@@ -8,18 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import customs.models.CoreAsset;
-import customs.models.CoreAssetDao;
 import customs.models.CoreassetsAndFeatures;
 import customs.models.CoreassetsAndFeaturesDao;
-import customs.models.CustomizationsProductFeature;
-import customs.models.CustomizationsProductFeatureDao;
 import customs.models.Customs_of_product_to_feature_ca;
 import customs.models.Customs_of_product_to_feature_caDao;
-import customs.models.ProductAssetDao;
-import customs.models.ProductReleaseDao;
-import customs.models.SPLdao;
 
 
 
@@ -28,6 +20,7 @@ public class Alluvial_Feature_PP_Controller {
 
 	  @Autowired private CoreassetsAndFeaturesDao coreassetsForFeature;
 	  @Autowired private Customs_of_product_to_feature_caDao customsPRtoCA;
+	 
 	  private String pathToResource = "./src/main/resources/static/";	
 	   
 	 @RequestMapping("diff_feature_pp")
@@ -66,10 +59,10 @@ public class Alluvial_Feature_PP_Controller {
 			String csvContent ="";//"\n"+featurenamemodified+",";
 			while (it.hasNext()) {
 				custom = it.next();
-				if(custom.getIdbaseline().equals(idbaseline) && custom.getIdfeature().equals(featurenamemodified)) {
-					listcustomizedCas.add(custom.getAssetpath());
-					csvContent=csvContent.concat("\n"+custom.getAssetname()+",").concat(custom.getPr()+","+custom.getChurn()+","
-					+custom.getPr()+",churn,"+featurenamemodified+","+custom.getIdcoreasset()+","+custom.getIdproductasset());
+				if(custom.getIdfeature().equals(featurenamemodified)) {
+					listcustomizedCas.add(custom.getCa_path());
+					csvContent=csvContent.concat("\n"+custom.getCa_name()+",").concat(custom.getPr_name()+","+custom.getChurn()+","
+					+custom.getPr_name()+",churn,"+featurenamemodified+","+custom.getIdcoreasset()+","+custom.getId_coreasset());
 				}
 				/*csvContent=csvContent.concat("\n"+featurenamemodified+"/").concat(custom.getIdrelease()+","+custom.getChurn()+","+custom.getIdrelease()+",churn,"+featurenamemodified);
 				}*/ 
@@ -89,8 +82,8 @@ public class Alluvial_Feature_PP_Controller {
 			
 			while (it.hasNext()) {
 				caf = it.next();
-				if (caf.getBaseline().equals(idBaseline) &&(caf.getFeatureid().equals(featurenamemodified)) &&(!listcustomizedCas.contains(caf.getCapath()))) {
-					csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED,0.1");
+				if ((caf.getId_feature().equals(featurenamemodified)) &&(!listcustomizedCas.contains(caf.getCa_path()))) {
+					csvContent = csvContent.concat("\n"+caf.getCa_name()+",NOT_CUSTOMIZED,0.1");
 				}
 			}
 			

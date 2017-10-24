@@ -1,47 +1,34 @@
 package customs.controllers.alluvial;
 
 import java.util.Iterator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import customs.models.AddedCustomsByProductsToFeaturesDao;
 import customs.models.CoreAsset;
 import customs.models.CoreAssetDao;
-import customs.models.CoreassetsAndFeaturesDao;
-import customs.models.CustomizationsByFeature;
-import customs.models.CustomizationsByFeatureDao;
-import customs.models.CustomizationsGByOperationDao;
-import customs.models.DeletedCustomsByProductsToFeaturesDao;
-import customs.models.ProductAsset;
-import customs.models.ProductAssetDao;
-import customs.models.SPLdao;
-import customs.models.VariationPointDao;
-import customs.utils.VPDiffUtils;
+import customs.models.CustomsByFeatureAndCoreAsset;
+import customs.models.CustomsByFeatureAndCoreAssetDao;
+import customs.utils.Formatting;
+
 
 @Controller
 public class Diff_CoreAsset_ProductAsset_Controller {
-	  @Autowired private CustomizationsByFeatureDao featureCustomsDao;
-	  @Autowired private VariationPointDao variationPointDao;
-	  @Autowired private ProductAssetDao paDao;
+	  @Autowired private CustomsByFeatureAndCoreAssetDao customsToAssetsByproducts;
 	  @Autowired private CoreAssetDao caDao;
 	  
 
 	
 	 @RequestMapping("diff_ca_pa_code")
 	   public String getDiffCaPaCode(
-  				@RequestParam(value="base", required=false) String idbaseline, @RequestParam(value="fname", required=false) String featurenamemodified,
+  				@RequestParam(value="base", required=false) String idbaseline, 
+  				@RequestParam(value="fname", required=false) String featurenamemodified,
   				@RequestParam(value="pr", required=false) String pr, 
   				@RequestParam(value="idfile", required=false) int idfile,
   				@RequestParam(value="from", required=false) String from, 
   				Model model){
 	  
-		 //tby == triggered by. Values:
-		 //f, fp, pro
-		 System.out.println("THIS IS base: "+idbaseline);
 		 System.out.println("THIS IS fname: "+featurenamemodified);
 		 System.out.println("THIS IS pr: "+pr);
 		 System.out.println("THIS IS idfile: "+idfile);
@@ -68,56 +55,37 @@ public class Diff_CoreAsset_ProductAsset_Controller {
 	 }
 
 	 
-	 private void addDiffViewForCoreAssetId(Model model, int idcoreasset,String pr, String featureid) {
+	 private void addDiffViewForCoreAssetId(Model model, int idcoreasset, String pr, String featureid) {
 			
-			if(pr==null) return;
-			//I need to get the absolute diff  that modifies the idcoreasset in release pr
-			 System.out.println("diff for idcoreasset: "+idcoreasset); System.out.println("diff for pr: "+pr);
-			 ProductAsset pa=null;
-			 CoreAsset ca=null;
-			 
-			 if(idcoreasset==0) {//then select the first one
-				 Iterator<CustomizationsByFeature>  it= featureCustomsDao.getCustomsByFeatureid(featureid).iterator();
-				 CustomizationsByFeature aux;
-				 while(it.hasNext()) {
-					 aux= it.next();
-					 if(aux.getPr().equals(pr)) {
-						 ca =  caDao.getCoreAssetByIdcoreasset(aux.getCoreassetid());
-						 break;
-					 }
-				 }
-			 }
-			 else ca = caDao.getCoreAssetByIdcoreasset(idcoreasset);
-			 
-			 Iterator <ProductAsset> ite = paDao.findAll().iterator();
-			 while(ite.hasNext()) {
-				 pa=ite.next();
-				 if(pa.getProductrelease_idrelease().equals(pr) && ca.getPath().equals(pa.getPath()))
-					 break;
-			 }
-			 
-			 System.out.println("pa: "+pa);
-			 System.out.println("pa: "+pa.getPath());
-			 String diffvalue =  customs.utils.Formatting.decodeFromBase64(pa.getRelative_diff());
-			 //process here the content of the relative diff
-			 System.out.println(diffvalue);
-			 
+		if(pr==null) return;
+		//I need to get the absolute diff  that modifies the idcoreasset in release pr
+		
 			
-			 String enhancedDiffValue = VPDiffUtils.getEnhancedDiffWithVPs(pa, diffvalue, variationPointDao);
-			/*/ ArrayList<String> featureList= new ArrayList<>();
-			 featureList.add(featureid);*/
-			 String filteredDiff= VPDiffUtils.getFilteredDiffForFeature(enhancedDiffValue,featureid);
+		 CoreAsset ca = caDao.getCoreAssetByIdcoreasset(idcoreasset);
+		 System.out.println("CA:"+ca);
+		 System.out.print("\ndiff for idcoreasset: "+idcoreasset+" and ca name:"+ca.getName()); 
+		 System.out.println(" for pr: "+pr);
 			
-			 model.addAttribute("diffvalue",filteredDiff); 
-			 model.addAttribute("pr",pr);
-			 model.addAttribute("fname",featureid);
-			 model.addAttribute("cavalue",ca.getIdcoreasset());
-			 // model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.getVPExpression('"+expression+")]");
-			 String header= "diff( Baseline-v1.0."+ca.getName()+",  "+pr+"."+ca.getName()+" [VP.contains(hasFeature('"+featureid+"'))]";
-			 		
-			 model.addAttribute("diffHeader", header);
-			 model.addAttribute("maintitle", "How is feature '"+featureid+"' being customized in products?");
-			 model.addAttribute("difftitle", "diff(Feature: '" +featureid+"', Product-Portfolio)");
+		Iterable<CustomsByFeatureAndCoreAsset>  customs= customsToAssetsByproducts.findAll(); //
+		CustomsByFeatureAndCoreAsset custom=null;
+		Iterator<CustomsByFeatureAndCoreAsset> it = customs.iterator();
+			
+		String diffvalue ="";
+		while(it.hasNext()) {
+			custom= it.next();
+			if(custom.getIdcoreasset()==idcoreasset && (custom.getIdfeature().equals(featureid))
+						&&(custom.getPrname().equals(pr))) {
+				diffvalue = diffvalue.concat(Formatting.decodeFromBase64( custom.getCustom_diff())).concat("\n");	
+			}
 		}
+		System.out.println("\n--------diffvalue:"+ diffvalue);	 
+		model.addAttribute("diffvalue", diffvalue); 
+		model.addAttribute("pr",pr);
+		model.addAttribute("fname",featureid);
+		model.addAttribute("cavalue",ca.getIdcoreasset());			 // model.addAttribute("diffHeader", "diff (core-asset:'"+pa.getName()+"', product-asset:'"+pa.getName()+"' [file.getVPExpression('"+expression+")]");
+		String header= "diff( Baseline-v1.0."+ca.getName()+",  "+pr+"."+ca.getName()+" [VP.contains(hasFeature('"+featureid+"'))]";
+		model.addAttribute("diffHeader", header);
+		model.addAttribute("maintitle", "How is feature '"+featureid+"' being customized in products?");			 model.addAttribute("difftitle", "diff(Feature: '" +featureid+"', Product-Portfolio)");
+	 }
 
 }

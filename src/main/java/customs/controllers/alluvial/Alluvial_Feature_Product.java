@@ -8,25 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import customs.models.AddedCustomsByProductsToFeaturesDao;
-import customs.models.CoreAssetDao;
 import customs.models.CoreassetsAndFeatures;
 import customs.models.CoreassetsAndFeaturesDao;
-import customs.models.CustomizationsByFeatureDao;
-import customs.models.CustomizationsGByOperationDao;
 import customs.models.CustomsForCaPaFeature;
 import customs.models.CustomsForCaPaFeatureDao;
-import customs.models.DeletedCustomsByProductsToFeaturesDao;
-import customs.models.ProductAssetDao;
-import customs.models.SPLdao;
-import customs.models.VariationPointDao;
+
 
 @Controller
 public class Alluvial_Feature_Product {
 
 	 @Autowired private CustomsForCaPaFeatureDao customscapaDao;
-	  @Autowired private CoreAssetDao caDao;
 	  @Autowired private CoreassetsAndFeaturesDao coreassetsForFeature;
 
 		 
@@ -68,10 +59,10 @@ public class Alluvial_Feature_Product {
 			
 			custom = it.next();
 			
-			if( (custom.getFeaturemodified().equals(featurenamemodified))	&& (custom.getIdbaseline().equals(idbaseline)) && (custom.getP_release().equals(pr))){ 
+			if( (custom.getFeaturemodified().equals(featurenamemodified))	&& (custom.getP_release().equals(pr))){ 
 				featureCAsCustomized.add(custom.getPath());
 				customsCSV = customsCSV.concat("\n" +featurenamemodified+ "."+custom.getFilename()+","+pr+"."+custom.getFilename()+","+custom.getChurn()
-				+","+custom.getP_release()+","+custom.getFeaturemodified()+","+custom.getId_ca()+","+custom.getId_pa());
+				+","+custom.getP_release()+","+custom.getFeaturemodified()+","+custom.getId_ca()+","+custom.getId_ca());
 			}
 		}
 		//adding not customized Feature's Core assets
@@ -95,8 +86,8 @@ public class Alluvial_Feature_Product {
 		while (it.hasNext()) {
 			caf = it.next();
 			//caf.getIdcoreasset();
-			if (caf.getBaseline().equals(idbaseline) &&(caf.getFeatureid().equals(featurenamemodified)) &&(!featureCAsCustomized.contains(caf.getCapath()))) {
-				csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED,0.1");
+			if ((caf.getId_feature().equals(featurenamemodified)) &&(!featureCAsCustomized.contains(caf.getCa_path()))) {
+				csvContent = csvContent.concat("\n"+caf.getCa_name()+",NOT_CUSTOMIZED,0.1");
 			}
 		}
 		System.out.println("In getCSVForNotCustomizedCAsForFeature");
@@ -107,7 +98,7 @@ public class Alluvial_Feature_Product {
 	private String getCSVForNewlyCreatedProductAssetsForFeature() {
 		String csvContent="";
 		
-		csvContent = "\nNEW_ASSET,properties.js,2";
+		//csvContent = "\nNEW_ASSET,properties.js,2";
 		
 		return csvContent;
 	}

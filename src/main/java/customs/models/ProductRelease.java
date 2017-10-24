@@ -7,44 +7,70 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="productrelease")
+@Table(name="product_release")
 public class ProductRelease {
 
-	@Id String idrelease;
-	Date releasedate;
-	int product_idproduct;
+	@Id int idproductrelease;
+	String name;//tag
+	Date date;
+	String commits_set;
+	int idproduct;
 	
 	public ProductRelease() {}
 
-	public ProductRelease(String idrelease, Date releaseDate, int roduct_idproduct) {
+	
+	
+	public ProductRelease(int id_productrelease, String name, Date date, String commits_set, int id_product) {
 		super();
-		this.idrelease = idrelease;
-		this.releasedate = releaseDate;
-		this.product_idproduct = roduct_idproduct;
+		this.idproductrelease = id_productrelease;
+		this.name = name;
+		this.date = date;
+		this.commits_set = commits_set;
+		this.idproduct = id_product;
 	}
 
-	public String getIdrelease() {
-		return idrelease;
+
+
+	public int getId_productrelease() {
+		return idproductrelease;
 	}
 
-	public void setIdrelease(String idrelease) {
-		this.idrelease = idrelease;
+	public void setId_productrelease(int id_productrelease) {
+		this.idproductrelease = id_productrelease;
 	}
 
-	public Date getReleaseDate() {
-		return releasedate;
+	public String getName() {
+		return name;
 	}
 
-	public void setReleaseDate(Date releaseDate) {
-		this.releasedate = releaseDate;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public int getRoduct_idproduct() {
-		return product_idproduct;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setRoduct_idproduct(int roduct_idproduct) {
-		this.product_idproduct = roduct_idproduct;
+	public void setDate(Date date) {
+		this.date = date;
 	}
+
+	public String getCommits_set() {
+		return commits_set;
+	}
+
+	public void setCommits_set(String commits_set) {
+		this.commits_set = commits_set;
+	}
+
+	public int getId_product() {
+		return idproduct;
+	}
+
+	public void setId_product(int id_product) {
+		this.idproduct = id_product;
+	}
+
+
 	
 }

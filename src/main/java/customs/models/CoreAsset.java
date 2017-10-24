@@ -6,17 +6,15 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table (name="coreasset")
+@Table (name="core_asset")
 public class CoreAsset {
 
-
-	
 		@Id int idcoreasset;
 		String name;
 		String path;
 		String content;
 		int size;
-		String coreassetbaseline_idbaseline;
+		int isnewasset;
 		
 		public CoreAsset() {}
 
@@ -60,13 +58,11 @@ public class CoreAsset {
 			this.size = size;
 		}
 
-		public String getCoreassetbaseline_idbaseline() {
-			return coreassetbaseline_idbaseline;
+		public int getIsnewasset() {
+			return isnewasset;
 		}
 
-		public void setCoreassetbaseline_idbaseline(String coreassetbaseline_idbaseline) {
-			this.coreassetbaseline_idbaseline = coreassetbaseline_idbaseline;
+		public void setIsnewasset(int isnewasset) {
+			this.isnewasset = isnewasset;
 		}
-		
-	
 }

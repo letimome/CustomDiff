@@ -4,29 +4,29 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
 @Entity
-@Table (name="variationpoint")
+@Table (name="variation_point")
 public class VariationPoint {
 	
 	@Id int idvariationpoint;
-	String body;
-	String expression;
-	int line_init;
-	int line_end;
-	String idcoreasset;
-	int idproductasset;
-	String parent;
+	String expression;//concated if nested
+	int idcoreasset;
+	int id_feature_group;
 	
-	public int getIdvariationpoint() {
+	
+	public VariationPoint() {}
+	
+	public VariationPoint(int id_variationpoint, String expression, int id_coreasset, int id_feature_group) {
+		super();
+		this.idvariationpoint = id_variationpoint;
+		this.expression = expression;
+		this.idcoreasset = id_coreasset;
+		this.id_feature_group = id_feature_group;
+	}
+	public int getId_variationpoint() {
 		return idvariationpoint;
 	}
-	public void setIdvariationpoint(int idvariationpoint) {
-		this.idvariationpoint = idvariationpoint;
-	}
-	public String getBody() {
-		return body;
-	}
-	public void setBody(String body) {
-		this.body = body;
+	public void setId_variationpoint(int id_variationpoint) {
+		this.idvariationpoint = id_variationpoint;
 	}
 	public String getExpression() {
 		return expression;
@@ -34,36 +34,17 @@ public class VariationPoint {
 	public void setExpression(String expression) {
 		this.expression = expression;
 	}
-	public int getLine_init() {
-		return line_init;
-	}
-	public void setLine_init(int line_init) {
-		this.line_init = line_init;
-	}
-	public int getLine_end() {
-		return line_end;
-	}
-	public void setLine_end(int line_end) {
-		this.line_end = line_end;
-	}
-	public String getIdcoreasset() {
+	public int getId_coreasset() {
 		return idcoreasset;
 	}
-	public void setIdcoreasset(String idcoreasset) {
-		this.idcoreasset = idcoreasset;
+	public void setId_coreasset(int id_coreasset) {
+		this.idcoreasset = id_coreasset;
 	}
-	public int getIdproductasset() {
-		return idproductasset;
+	public int getId_feature_group() {
+		return id_feature_group;
 	}
-	public void setIdproductasset(int idproductasset) {
-		this.idproductasset = idproductasset;
+	public void setId_feature_group(int id_feature_group) {
+		this.id_feature_group = id_feature_group;
 	}
-	public String getParent() {
-		return parent;
-	}
-	public void setParent(String parent) {
-		this.parent = parent;
-	}
-
 
 }

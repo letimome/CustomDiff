@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 
 @Entity
-@Table (name="customsbyproductassetstofeatures")
+@Table (name="nonono")
 public class CustomsByProductAssetsToFeatures {
 //customsByProductAssetsToFeatures
 	@Id String id;

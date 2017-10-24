@@ -10,18 +10,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import customs.models.CoreAsset;
 import customs.models.CoreAssetDao;
-import customs.models.CustomizationsByFeature;
 import customs.models.CustomsByProductAssetsToFeatures;
 import customs.models.CustomsByProductAssetsToFeaturesDao;
-import customs.models.ProductAsset;
-import customs.models.ProductAssetDao;
+import customs.models.NewProductAsset;
+import customs.models.NewProductAssetDao;
 
 
 
 @Controller
 public class Alluvial_Platform_Product_Controller {
 	
-	@Autowired private ProductAssetDao paDao;
+	@Autowired private NewProductAssetDao paDao;
 	@Autowired private CoreAssetDao caDao;
 	 @Autowired private CustomsByProductAssetsToFeaturesDao customsPAtoFeatures;
 	 private String pathToResource = "./src/main/resources/static/";
@@ -32,7 +31,7 @@ public class Alluvial_Platform_Product_Controller {
 		 
 		   System.out.println("The productrelease: "+productrelease);
 
-		   String csvheader="source,target,id,value,pr,id_pa,id_ca,fname";
+		   String csvheader="source,target,id,value,pr,id_pa,id_ca,fname";//TODO remove id_pa!!
 		   
 		   String csvContent  = computeForCustomizationsForPRassetsToFeaturesChurn(productrelease);
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
@@ -59,21 +58,19 @@ public class Alluvial_Platform_Product_Controller {
 			   custo = it.next();
 			   csvCustoms = csvCustoms.concat("\n" +custo.getFeaturechanged()+","+custo.getName()+","
 					   +custo.getPath() + ","+custo.getChurn()+","+custo.getInproduct()+","+custo.getIdproductasset()
-					   +","+getCaIdFromPa(productrelease,custo.getIdproductasset())+","+custo.getFeaturechanged()); 
-			   
-			   
+					   +","+custo.getIdproductasset()+","+custo.getFeaturechanged()); 
 		   }
 		return csvCustoms;
 		
 	}
 
-	private int getCaIdFromPa(String pr, int idproductasset) {	
+	/*private int getCaIdFromPa(String pr, int idproductasset) {	
 			
 			//I need to get the absolute diff  that modifies the idcoreasset in release pr
 			 System.out.println("diff for idproductasset: "+idproductasset); System.out.println("diff for pr: "+pr);
 			 
 			 CoreAsset ca=null;
-			 ProductAsset pa=null;
+			 NewProductAsset pa=null;
 			 
 			  pa = paDao.getProductAssetByIdproductasset(idproductasset) ;
 			 
@@ -85,6 +82,6 @@ public class Alluvial_Platform_Product_Controller {
 			 }
 			 System.out.println();
 			 return ca.getIdcoreasset();
-	}
+	}*/
 
 }

@@ -3,11 +3,7 @@ package customs.utils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.springframework.data.support.IsNewStrategy;
-
-import customs.models.CustomizationsByVPandPR;
-import customs.models.ProductAsset;
+import customs.models.NewProductAsset;
 import customs.models.VariationPoint;
 import customs.models.VariationPointDao;
 
@@ -15,7 +11,7 @@ public class VPDiffUtils {
 	
 	
 	
-	public static String getEnhancedDiffWithVPs(ProductAsset pa, String diffvalue, VariationPointDao variationPointDao) {
+/*	public static String getEnhancedDiffWithVPs(ProductAsset pa, String diffvalue, VariationPointDao variationPointDao) {
 		 String enhancedDiffValue="";
 		 List<String> diffList = customs.utils.FileComparator.fileToLines(diffvalue);
 		 Iterator<String> it = diffList.iterator();
@@ -58,7 +54,7 @@ public class VPDiffUtils {
 		 }
 		 System.out.println(enhancedDiffValue);
 		return enhancedDiffValue;
-	}
+	}*/
 
 	public static String getFilteredDiffForVPExpression(String diffvalue, String expression){
 	    ArrayList<String> featureids = extractAllFeaturesFromTheExpression(expression);
@@ -202,21 +198,21 @@ public class VPDiffUtils {
 	return listfeatures;
 	}
 	
-	public static String extractVPExpressionByLineNumber(int line_number, Iterable<VariationPoint> vps) {
+	/*public static String extractVPExpressionByLineNumber(int line_number, Iterable<VariationPoint> vps) {
 		VariationPoint vp=null;
 		String expression= Formatting.encodeToBase64(" // a_mandatory_feature");
 		Iterator<VariationPoint> it = vps.iterator();
 		while (it.hasNext()) {
 			vp=it.next();
-			/*System.out.println(vp.getExpression());
+			//System.out.println(vp.getExpression());
 			System.out.println("Init line:"+vp.getLine_init());
 			System.out.println("End line:"+vp.getLine_end());
 			System.out.println("line to search:"+line_number);
-			System.out.println(vp.toString());*/
+			System.out.println(vp.toString());
 			if(vp.getLine_init()<= line_number && vp.getLine_end()>=line_number)//get this expression
 				expression = vp.getExpression();//Note that the nested vps have already their parents expression concated.
 		}
 		System.out.println(expression);
 		return expression;
-	}
+	}*/
 }
