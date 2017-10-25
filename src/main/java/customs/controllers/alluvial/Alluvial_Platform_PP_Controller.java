@@ -22,17 +22,15 @@ import customs.models.ProductReleaseDao;
 @Controller
 public class Alluvial_Platform_PP_Controller {
 	@Autowired private Churn_PoductPortfolioAndFeaturesDao alluvialDao;
-    private String pathToResource = "./src/main/resources/static/";
+    
+	private String pathToResource = "./src/main/resources/static/";
     @Autowired private ProductReleaseDao prDao;
     @Autowired private FeatureDao fDao;
 	
 	@RequestMapping("diff_features_pp")
-	   public String getMainAlluvialView (@RequestParam(value="idbaseline", required=false) String idbaseline, 
-	   		@RequestParam(value="filter", required=false) String filter,
-	   		@RequestParam(value="fmLevel", required=false) String depth,
-	   		Model model){
+	   public String getMainAlluvialView ( 	   		
+			   @RequestParam(value="filter", required=false) String filter, @RequestParam(value="fmLevel", required=false) String depth, Model model){
 		   
-		   System.out.println("Baseline: "+idbaseline); System.out.println("FeatureList: "+filter);
 		   
 		   ArrayList<String> featuresToInclude ;
 		   if (filter==null)   featuresToInclude=null;
@@ -50,7 +48,7 @@ public class Alluvial_Platform_PP_Controller {
 		   ArrayList<String> customizedfeatures=new ArrayList<>() ;
 		   ArrayList<String> customizedproductreleases = new ArrayList<>();
 		   boolean include=false;
-		   
+		   String append="";
 		   while (it.hasNext()) {
 			    custo=it.next();
 			 
@@ -58,20 +56,25 @@ public class Alluvial_Platform_PP_Controller {
 			   if( featuresToInclude==null)  include=true;
 			   else if (featuresToInclude.contains(custo.getFeaturemodified())) include=true;
 			    	 
-			 //  if(custo.getIdbaseline().equals(idbaseline)) {
-				   if(custo.getFeaturemodified()!=null && !custo.getFeaturemodified().equals("null")
-						     && !custo.getFeaturemodified().equals("undefined") && include) {
-						    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeaturemodified()+","+custo.getPr_name() +","+custo.getChurn()+"");
-						    	   customizedproductreleases.add(custo.getPr_name());
-						    	   customizedfeatures.add(custo.getFeaturemodified());
-						     }
-			//   }
+		      Feature feature = fDao.getFeatureByName(custo.getFeaturemodified());
+		      if (feature.getIsNew()==1) append=" [NEW]"; 
+		      else append ="";
+			  if(custo.getFeaturemodified()!=null && !custo.getFeaturemodified().equals("null")
+					     && !custo.getFeaturemodified().equals("undefined") && include) {
+				    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeaturemodified()+append+","+custo.getPr_name() +","+custo.getChurn()+"");
+				    	   customizedproductreleases.add(custo.getPr_name());
+				    	   customizedfeatures.add(custo.getFeaturemodified());
+			   }
+		
+			  
+				 // csvCustoms = csvCustoms.concat ("\n NEW_FEATURE," +custo.getFeaturemodified()+","+custo.getChurn()+"");
+	    	  
 			     
 		   }
 		  //if there is a filter, then do not show products which has not been customized.
-		   if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(idbaseline,customizedproductreleases));
+		   if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(customizedproductreleases));
 		  
-		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(idbaseline,customizedfeatures, featuresToInclude));
+		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(customizedfeatures, featuresToInclude));
 		 
 		  customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		  
@@ -102,7 +105,7 @@ public class Alluvial_Platform_PP_Controller {
 		System.out.println(features.toString());
 	}
 
-	private String extractCSVForNotCustomizedFeatures(String idbaseline, ArrayList<String> customizedfeatures, ArrayList<String> featuresToInclude) {
+	private String extractCSVForNotCustomizedFeatures( ArrayList<String> customizedfeatures, ArrayList<String> featuresToInclude) {
 		String csv_notcustomizedFeatures="";
 		
 		Iterator<Feature> it = fDao.findAll().iterator();
@@ -122,7 +125,7 @@ public class Alluvial_Platform_PP_Controller {
 		return csv_notcustomizedFeatures;
 	}
 	
-	private String extractCSVForNotCustomizedProducts(String idbaseline, ArrayList<String> customizedproductreleases) {
+	private String extractCSVForNotCustomizedProducts(ArrayList<String> customizedproductreleases) {
 		String csv_notcustomizedprs="";
 		Iterator<ProductRelease> it = prDao.findAll().iterator();
 		ProductRelease pr;

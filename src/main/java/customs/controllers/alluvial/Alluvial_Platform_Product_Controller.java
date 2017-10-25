@@ -73,10 +73,12 @@ public class Alluvial_Platform_Product_Controller {
 		   }
 		   
 		   csvCustoms = addNotCustomizedCoreAssetsTotheCSV(listcustomizedCas,csvCustoms,productrelease);
+		   csvCustoms= 	addNewProductAssetsTotheCSV(csvCustoms,productrelease);
 		return csvCustoms;
 		
 	}
 	
+	//GET CORE ASSETS THAT HAVE NOT BEEN CUSTOMIZED BY THE PRODUCT!! 
 	private String addNotCustomizedCoreAssetsTotheCSV(ArrayList<String> listcustomizedCas, String csvContent,String productrelease) {
 		//String csvheader = source,target,id,value,pr,id_pa,id_ca,fname";
 		System.out.println("addNotCustomizedCoreAssetsTotheCSV");
@@ -96,27 +98,24 @@ public class Alluvial_Platform_Product_Controller {
 	}
 	  
 	
-//GET CORE ASSETS THAT HAVE NOT BEEN CUSTOMIZED BY THE PRODUCT!! TODO
-//GET NEW ASSETS IN PRODUCTS!! TODO
-	
-	/*private int getCaIdFromPa(String pr, int idproductasset) {	
-			
-			//I need to get the absolute diff  that modifies the idcoreasset in release pr
-			 System.out.println("diff for idproductasset: "+idproductasset); System.out.println("diff for pr: "+pr);
-			 
-			 CoreAsset ca=null;
-			 NewProductAsset pa=null;
-			 
-			  pa = paDao.getProductAssetByIdproductasset(idproductasset) ;
-			 
-			  Iterator <CoreAsset> ite = caDao.findAll().iterator();
-			 while(ite.hasNext()) {
-				 ca=ite.next();
-				 if(pa.getProductrelease_idrelease().equals(pr) && pa.getPath().equals(ca.getPath()))
-					 break;
-			 }
-			 System.out.println();
-			 return ca.getIdcoreasset();
-	}*/
+
+//GET NEW ASSETS IN PRODUCTS!!
+	private String addNewProductAssetsTotheCSV(String csvContent,String productrelease) {
+		//String csvheader = source,target,id,value,pr,id_pa,id_ca,fname";
+		System.out.println("addNewProductAssetsTotheCSV");
+		Iterator<NewProductAsset> it = paDao.findAll().iterator();
+		
+		System.out.println(it.toString());
+		NewProductAsset ca;
+		
+		while (it.hasNext()) {
+			ca = it.next();
+			if (ca.getPr_name().equals(productrelease)) {
+				csvContent = csvContent.concat("\nNEW_ASSET,"+ca.getAsset_name()+","+ca.getPath()+",0.2,"+productrelease);
+			}
+		}
+		return csvContent;
+	}
+
 
 }

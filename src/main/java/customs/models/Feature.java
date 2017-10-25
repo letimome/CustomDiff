@@ -9,6 +9,7 @@ import javax.persistence.Table;
 public class Feature {
 	@Id String idfeature;
 	String name;
+	int isnew;
 	
 	public Feature() {}
 
@@ -27,9 +28,13 @@ public class Feature {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-	
-	
 
+	public int getIsNew() {
+		return isnew;
+	}
+
+	public void setIsNew(int isNew) {
+		this.isnew = isNew;
+	}
+	
 }
