@@ -10,16 +10,17 @@
 			    },    
 			    nodeStructure: {
 			        text: { name: 'diff(Platform, Product Portfolio)' },
-			        HTMLclass: 'orange',
+					HTMLclass: 'visitedBlue',
 			        children: [
 			            {
 			                text: { name: 'diff (Feature, Product Portfolio)' },
-			                children: [{
+			        children: [{
 			                	 text: { name: 'diff (PL asset, Variant asset) [Filter]' },
 			                } ]
 			            },
 						{
-			                text: { name: 'diff(Feature, Product Variant)' },
+			                text: { name: 'diff(WindSpeed, productTest-v1.0)' },
+			        				HTMLclass: 'orange',
 			               		children: [{
 			               	 		text: { name: 'diff (PL asset, Variant asset) [Filter]' },
 			               		}]

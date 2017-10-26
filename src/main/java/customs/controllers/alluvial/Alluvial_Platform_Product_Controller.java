@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import customs.models.CoreAsset;
 import customs.models.CoreAssetDao;
 import customs.models.CoreassetsAndFeatures;
+import customs.models.Feature;
+import customs.models.FeatureDao;
 import customs.models.Churn_CoreAssetsAndFeaturesByPR;
 import customs.models.Churn_CoreAssetsAndFeaturesByPRDao;
 import customs.models.Churn_PoductPortfolioAndFeatures;
@@ -26,6 +28,7 @@ import customs.models.ProductReleaseDao;
 public class Alluvial_Platform_Product_Controller {
 	
 	@Autowired private NewProductAssetDao paDao;
+	 @Autowired private FeatureDao fDao;
 	@Autowired private CoreAssetDao caDao;
 	@Autowired private ProductReleaseDao prDao;
 	 @Autowired private Churn_CoreAssetsAndFeaturesByPRDao customstoCAAndFeatures;
@@ -63,11 +66,15 @@ public class Alluvial_Platform_Product_Controller {
 		   
 		   Churn_CoreAssetsAndFeaturesByPR custo;
 		   ArrayList<String> listcustomizedCas = new ArrayList<String>();
-		   
+		  String append="";
 		   while(it.hasNext()) {//getting lines for Customized Assets
 			   custo = it.next();
-			listcustomizedCas.add(custo.getCa_path());
-			   csvCustoms = csvCustoms.concat("\n" +custo.getIdfeature()+","+custo.getCa_name()+","
+			   
+			   Feature feature = fDao.getFeatureByName(custo.getIdfeature());
+			   if (feature.getIsNew()==1) append=" [NEW]"; 
+			   else append="";
+			   listcustomizedCas.add(custo.getCa_path());
+			   csvCustoms = csvCustoms.concat("\n" +custo.getIdfeature()+append+","+custo.getCa_name()+","
 					   +custo.getCa_path()+","+custo.getChurn()+","+custo.getPr_name()+","+custo.getId_coreasset()
 					   +","+custo.getId_coreasset()+","+custo.getIdfeature()); 
 		   }
