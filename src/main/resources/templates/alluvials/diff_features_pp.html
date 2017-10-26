@@ -353,15 +353,15 @@ float: left;
 	    link.attr("d", path);
 	  }
 	function goToReuseLevelView(d){//click on products
-		window.location.href = "http://localhost:8080/diff_platform_product?&pr=" + d.name;
+		window.location.href = "/diff_platform_product?&pr=" + d.name;
 	}
 
 	function goToFeatureView(d){//click on feature - either provide alluvial with children, or go to feature core assets.
-		 window.location.href = "http://localhost:8080/diff_feature_pp?base=Baseline-v1.0&fname=" + d.name;
+		 window.location.href = "/diff_feature_pp?base=Baseline-v1.0&fname=" + d.name;
 	}
 	function goToFeatureViewDetailed(d){//click on the links between Feature&product
 		console.log(d);
-		 window.location.href = "http://localhost:8080/diff_feature_product?base=Baseline-v1.0&fname=" + d.source.name+"&pr="+d.target.name+"&idfile=0";
+		 window.location.href = "/diff_feature_product?base=Baseline-v1.0&fname=" + d.source.name+"&pr="+d.target.name+"&idfile=0";
 	}
 		
 	function myMouseoverFunction(d){
@@ -724,7 +724,7 @@ $(document).ready(function () {
 	             message = checkedNodes.join(",");
 	         } 
 	         //go and filter by feature Name
-	         window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+message;//" + d.source.name+"-v1.0";
+	         window.location.href = "/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+message;//" + d.source.name+"-v1.0";
 	        
          }
 

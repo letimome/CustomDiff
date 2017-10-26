@@ -190,7 +190,7 @@ float: left;
 		<td colspan="20" align="center" valign="top" style="width:80%;background-color:">
 			
 			<p align="left"><a href="http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0">Roll-up</a></p>
-			  <p><a href="http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0">
+			  <p><a href="/diff_features_pp?idbaseline=Baseline-v1.0">
 				<img align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
 			</a>
 			</p>
@@ -365,7 +365,7 @@ float: left;
 	function goToFeatureViewDetailed(d){//click on the links between ca&pa
 		console.log(d);
 		//window.location.href = "http://localhost:8080/diff_feature_product?base=Baseline-v1.0&fname=" + d.fname+"&pr="+d.pr+"&idfile="+d.id_pa;
-		window.location.href = "http://localhost:8080/diff_ca_pa_code?base=Baseline-v1.0&fname=" + d.fname+"&pr="+d.pr+"&idfile="+d.id_ca+"&from=fp";
+		window.location.href = "/diff_ca_pa_code?base=Baseline-v1.0&fname=" + d.fname+"&pr="+d.pr+"&idfile="+d.id_ca+"&from=fp";
 	}
 		
 	function myMouseoverFunction(d){

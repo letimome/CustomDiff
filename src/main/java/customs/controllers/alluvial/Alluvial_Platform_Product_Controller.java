@@ -66,15 +66,18 @@ public class Alluvial_Platform_Product_Controller {
 		   
 		   Churn_CoreAssetsAndFeaturesByPR custo;
 		   ArrayList<String> listcustomizedCas = new ArrayList<String>();
-		  String append="";
+		  String append="", newCA="";
+		  CoreAsset ca;
 		   while(it.hasNext()) {//getting lines for Customized Assets
 			   custo = it.next();
-			   
+			   ca = caDao.getCoreAssetByIdcoreasset(custo.getId_coreasset());
+			   if(ca.getIsnewasset()==1) newCA=" [NEW]";
+				else newCA= "";
 			   Feature feature = fDao.getFeatureByName(custo.getIdfeature());
 			   if (feature.getIsNew()==1) append=" [NEW]"; 
 			   else append="";
 			   listcustomizedCas.add(custo.getCa_path());
-			   csvCustoms = csvCustoms.concat("\n" +custo.getIdfeature()+append+","+custo.getCa_name()+","
+			   csvCustoms = csvCustoms.concat("\n" +custo.getIdfeature()+append+","+custo.getCa_name()+newCA+","
 					   +custo.getCa_path()+","+custo.getChurn()+","+custo.getPr_name()+","+custo.getId_coreasset()
 					   +","+custo.getId_coreasset()+","+custo.getIdfeature()); 
 		   }
@@ -93,9 +96,10 @@ public class Alluvial_Platform_Product_Controller {
 		System.out.println(it.toString());
 		CoreAsset ca;
 		
-		
+		String append="";
 		while (it.hasNext()) {
 			ca = it.next();
+			
 			if (!listcustomizedCas.contains(ca.getPath())) {
 				csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+ca.getName()+","+ca.getPath()+",0.2,"+productrelease);
 			}
@@ -118,7 +122,7 @@ public class Alluvial_Platform_Product_Controller {
 		while (it.hasNext()) {
 			ca = it.next();
 			if (ca.getPr_name().equals(productrelease)) {
-				csvContent = csvContent.concat("\nNEW_ASSET,"+ca.getAsset_name()+","+ca.getPath()+",0.2,"+productrelease);
+				//csvContent = csvContent.concat("\nNEW_ASSET,"+ca.getAsset_name()+","+ca.getPath()+",0.2,"+productrelease);
 			}
 		}
 		return csvContent;

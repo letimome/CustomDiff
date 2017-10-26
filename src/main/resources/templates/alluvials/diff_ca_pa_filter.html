@@ -233,11 +233,11 @@ $(document).ready(function () {
 	//	console.log(fname);
 		
 		if(from=='f')
-			 window.location.href = "http://localhost:8080/diff_feature_pp?base=Baseline-v1.0&fname="+getMetaContentByName('fname');//
+			 window.location.href = "/diff_feature_pp?base=Baseline-v1.0&fname="+getMetaContentByName('fname');//
 		if(from=='fp')
-			window.location.href = "http://localhost:8080/diff_feature_product?base=Baseline-v1.0&fname="+getMetaContentByName('fname')+"&pr="+getMetaContentByName('pr');//
+			window.location.href = "/diff_feature_product?base=Baseline-v1.0&fname="+getMetaContentByName('fname')+"&pr="+getMetaContentByName('pr');//
 		if(from=='p')
-			window.location.href = "http://localhost:8080/diff_platform_product?pr="+getMetaContentByName('pr');//
+			window.location.href = "/diff_platform_product?pr="+getMetaContentByName('pr');//
 	}
     
   //]]>

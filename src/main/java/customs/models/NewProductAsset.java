@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Entity
 @Table (name="new_assets_in_products")
 public class NewProductAsset {
-	@Id int id; 
+	@Id String id; 
 	int idasset;
 	String name;
 	String path;
@@ -21,12 +21,12 @@ public class NewProductAsset {
 		
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
