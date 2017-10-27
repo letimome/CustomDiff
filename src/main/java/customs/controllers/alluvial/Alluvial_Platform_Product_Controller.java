@@ -74,8 +74,8 @@ public class Alluvial_Platform_Product_Controller {
 			   if(ca.getIsnewasset()==1) newCA=" [NEW]";
 				else newCA= "";
 			   Feature feature = fDao.getFeatureByName(custo.getIdfeature());
-			   if (feature.getIsNew()==1) append=" [NEW]"; 
-			   else append="";
+			 //  if (feature.getIsNew()==1) append=" [NEW]"; 
+			   //else append="";
 			   listcustomizedCas.add(custo.getCa_path());
 			   csvCustoms = csvCustoms.concat("\n" +custo.getIdfeature()+append+","+custo.getCa_name()+newCA+","
 					   +custo.getCa_path()+","+custo.getChurn()+","+custo.getPr_name()+","+custo.getId_coreasset()
