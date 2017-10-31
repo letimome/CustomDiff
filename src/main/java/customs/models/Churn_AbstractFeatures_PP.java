@@ -1,30 +1,23 @@
 package customs.models;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Id;
+//
 
 @Entity
-@Table(name = "churn_productportfolio_features")
-public class Churn_PoductPortfolioAndFeatures{
-
-	@Id  String id;
-	String id_feature;
-	String featuremodified;
-	//int id_product;
+@Table(name = "churn_parent_features_productportfolio")
+public class Churn_AbstractFeatures_PP {
+	@Id String id;
+	int id_parentfeature;
+	String parentfeaturename;
 	int id_pr;
 	String pr_name;
 	int added;
 	int deleted;
 	int churn;
 	
-	public Churn_PoductPortfolioAndFeatures() {
-		
-	}
+	public Churn_AbstractFeatures_PP() {}
 
 	public String getId() {
 		return id;
@@ -34,22 +27,20 @@ public class Churn_PoductPortfolioAndFeatures{
 		this.id = id;
 	}
 
-
-
-	public String getId_feature() {
-		return id_feature;
+	public int getId_parentfeature() {
+		return id_parentfeature;
 	}
 
-	public void setId_feature(String id_feature) {
-		this.id_feature = id_feature;
+	public void setId_parentfeature(int id_parentfeature) {
+		this.id_parentfeature = id_parentfeature;
 	}
 
-	public String getFeaturemodified() {
-		return featuremodified;
+	public String getParentfeaturename() {
+		return parentfeaturename;
 	}
 
-	public void setFeaturemodified(String featuremodified) {
-		this.featuremodified = featuremodified;
+	public void setParentfeaturename(String parentfeaturename) {
+		this.parentfeaturename = parentfeaturename;
 	}
 
 	public int getId_pr() {
@@ -91,7 +82,6 @@ public class Churn_PoductPortfolioAndFeatures{
 	public void setChurn(int churn) {
 		this.churn = churn;
 	}
-
 	
 	
 }

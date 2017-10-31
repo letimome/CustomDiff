@@ -15,6 +15,7 @@ public class CoreAsset {
 		String content;
 		int size;
 		int isnewasset;
+		int idpackage;
 		
 		public CoreAsset() {}
 
@@ -65,4 +66,13 @@ public class CoreAsset {
 		public void setIsnewasset(int isnewasset) {
 			this.isnewasset = isnewasset;
 		}
+
+		public int getIdpackage() {
+			return idpackage;
+		}
+
+		public void setIdpackage(int idpackage) {
+			this.idpackage = idpackage;
+		}
+		
 }

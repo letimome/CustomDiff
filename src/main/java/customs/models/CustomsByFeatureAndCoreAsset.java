@@ -21,6 +21,8 @@ public class CustomsByFeatureAndCoreAsset {
 	String messages;
 	String commits;
 	String maindiff;
+	int idparentfeature;
+	String parentfeaturename;
 	
 	public  CustomsByFeatureAndCoreAsset() {}
 
@@ -171,6 +173,26 @@ public class CustomsByFeatureAndCoreAsset {
 
 	public void setMaindiff(String maindiff) {
 		this.maindiff = maindiff;
+	}
+
+
+	public int getIdparentfeature() {
+		return idparentfeature;
+	}
+
+
+	public void setIdparentfeature(int idparentfeature) {
+		this.idparentfeature = idparentfeature;
+	}
+
+
+	public String getParentfeaturename() {
+		return parentfeaturename;
+	}
+
+
+	public void setParentfeaturename(String parentfeaturename) {
+		this.parentfeaturename = parentfeaturename;
 	}
 	
 }

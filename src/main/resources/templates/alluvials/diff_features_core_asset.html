@@ -6,13 +6,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
+<meta name="idproductrelease" th:content="${idproductrelease}"></meta>
+<meta name="idpackage" th:content="${idpackage}"></meta>
+
+
 <meta name="pr" th:content="${pr}"></meta>
 <meta name="fname" th:content="${fname}"></meta>
 <meta name="cavalue" th:content="${cavalue}"></meta>
-<meta name="idproductrelease" th:content="${idproductrelease}"></meta>
-<meta name="idparentfeature" th:content="${idparentfeature}"></meta>
-<meta name="idcoreasset" th:content="${idcoreasset}"></meta>
-<meta name="idpackage" th:content="${idpackage}"></meta>
 <meta name="diffHeader" th:content="${diffHeader}"></meta>
 <meta name="maintitle" th:content="${maintitle}"></meta>
 <meta name="difftitle" th:content="${difftitle}"></meta>
@@ -231,8 +231,7 @@ $(document).ready(function () {
 	
     function rollUp(){
 		
-		var from = getMetaContentByName("from");
-		window.location.href = "/diff_features_package_assets?idproductrelease="+getMetaContentByName('idproductrelease')+"&idpackage="+getMetaContentByName('idpackage')+"&idparentfeature="+getMetaContentByName('idparentfeature');//
+		window.location.href= "/diff_parent_features_package_assets?idproductrelease="+getMetaContentByName('idproductrelease')+"&idpackage="+getMetaContentByName('idpackage');
 	}
     
   //]]>

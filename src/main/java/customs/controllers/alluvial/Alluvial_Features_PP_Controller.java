@@ -12,24 +12,28 @@ import customs.models.Churn_PoductPortfolioAndFeatures;
 import customs.models.Churn_PoductPortfolioAndFeaturesDao;
 import customs.models.Feature;
 import customs.models.FeatureDao;
+import customs.models.ParentFeature;
+import customs.models.ParentFeatureDao;
 import customs.models.ProductRelease;
 import customs.models.ProductReleaseDao;
 
 
 
-
-//the root controller for the alluvial diagram view
 @Controller
-public class Alluvial_Platform_PP_Controller {
+public class Alluvial_Features_PP_Controller {
 	@Autowired private Churn_PoductPortfolioAndFeaturesDao alluvialDao;
     
 	private String pathToResource = "./src/main/resources/static/";
     @Autowired private ProductReleaseDao prDao;
     @Autowired private FeatureDao fDao;
+    @Autowired private ParentFeatureDao parentFeatureDao;
 	
 	@RequestMapping("diff_features_pp")
 	   public String getMainAlluvialView ( 	   		
-			   @RequestParam(value="filter", required=false) String filter, @RequestParam(value="fmLevel", required=false) String depth, Model model){
+			   @RequestParam(value="idparentfeature", required=true) int idparentfeature,
+			   @RequestParam(value="from", required=false) String from,
+			   @RequestParam(value="filter", required=false) String filter
+			   , Model model){
 		   
 		   
 		   ArrayList<String> featuresToInclude ;
@@ -38,7 +42,6 @@ public class Alluvial_Platform_PP_Controller {
 			   featuresToInclude = customs.utils.Formatting.stringToArrayList(filter, ",");
 			   System.out.println(featuresToInclude.toString());
 		   }
-
 		   
 		   Iterable<Churn_PoductPortfolioAndFeatures> customsObj = alluvialDao.findAll();
 		   Iterator<Churn_PoductPortfolioAndFeatures> it = customsObj.iterator();
@@ -48,37 +51,35 @@ public class Alluvial_Platform_PP_Controller {
 		   ArrayList<String> customizedfeatures=new ArrayList<>() ;
 		   ArrayList<String> customizedproductreleases = new ArrayList<>();
 		   boolean include=false;
-		   String append="";
+		   Feature f;
 		   while (it.hasNext()) {
 			    custo=it.next();
 			 
 			    include=false;
 			   if( featuresToInclude==null)  include=true;
 			   else if (featuresToInclude.contains(custo.getFeaturemodified())) include=true;
-			    	 
-		      Feature feature = fDao.getFeatureByName(custo.getFeaturemodified());
-		      if (feature.getIsNew()==1) append=" [NEW]"; 
-		      else append ="";
-			  if(custo.getFeaturemodified()!=null && !custo.getFeaturemodified().equals("null")
+			   f = fDao.getFeatureByName(custo.getFeaturemodified());
+			  if(custo.getFeaturemodified()!=null
+					     && f.getIdparent()==idparentfeature
+					  	 && !custo.getFeaturemodified().equals("null")
 					     && !custo.getFeaturemodified().equals("undefined") && include) {
-				    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeaturemodified()+append+","+custo.getPr_name() +","+custo.getChurn()+"");
+				    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeaturemodified()+","+custo.getPr_name() +","+custo.getChurn()+"");
 				    	   customizedproductreleases.add(custo.getPr_name());
 				    	   customizedfeatures.add(custo.getFeaturemodified());
-			   }
-		
-			  
-				 // csvCustoms = csvCustoms.concat ("\n NEW_FEATURE," +custo.getFeaturemodified()+","+custo.getChurn()+"");
-	    	  
-			     
+			   }     
 		   }
-		  //if there is a filter, then do not show products which has not been customized.
-		   if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(customizedproductreleases));
 		  
-		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(customizedfeatures, featuresToInclude));
+		//   if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(customizedproductreleases));
+		  
+		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(customizedfeatures, idparentfeature,featuresToInclude));
 		 
 		  customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
+		  ParentFeature pf = parentFeatureDao.getParentFeatureByIdparentfeature(idparentfeature);
 		  
 		  addFilteredFeatureToTheModel(model,featuresToInclude);
+		  model.addAttribute("maintitle","How are "+pf.getName()+"'s features being customized by the products?");
+		  model.addAttribute("from",from);
+		  model.addAttribute("idparentfeature",idparentfeature);
 		  
 		  customs.utils.NavigationMapGenerator.generateNavigationMapForAlluvial();
 		  
@@ -87,11 +88,8 @@ public class Alluvial_Platform_PP_Controller {
 		  
 	 	}
 	   private void addFilteredFeatureToTheModel(Model model, ArrayList<String> featuresToInclude) {
-		// TODO Auto-generated method stub
+	
 		if (featuresToInclude==null) return;
-		//  result += "<span class='selectedName'>" + checkedNodes[i].FullName + "</span>";
-		System.out.println("SEGUIDOOOO");
-		String result="";
 		Iterator<String> it = featuresToInclude.iterator();
 		ArrayList<Feature> features=new ArrayList<Feature>();
 		String f; Feature fe;
@@ -105,7 +103,7 @@ public class Alluvial_Platform_PP_Controller {
 		System.out.println(features.toString());
 	}
 
-	private String extractCSVForNotCustomizedFeatures( ArrayList<String> customizedfeatures, ArrayList<String> featuresToInclude) {
+	private String extractCSVForNotCustomizedFeatures( ArrayList<String> customizedfeatures, int idparentfeature, ArrayList<String> featuresToInclude) {
 		String csv_notcustomizedFeatures="";
 		
 		Iterator<Feature> it = fDao.findAll().iterator();
@@ -113,28 +111,20 @@ public class Alluvial_Platform_PP_Controller {
 		
 		while (it.hasNext()) {
 			f = it.next();
-			if(featuresToInclude==null) {//if no filter available
+			if(featuresToInclude==null && f.getIdparent()==idparentfeature) {//if no filter available
 				if (!customizedfeatures.contains(f.getIdfeature()))
 						csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,0.2");
 			}
 			else //if filter available
-			if (!customizedfeatures.contains(f.getIdfeature()) && featuresToInclude.contains(f.getIdfeature())) {
+			if (   (!customizedfeatures.contains(f.getIdfeature())) 
+					&& (featuresToInclude!=null) && (f.getIdparent()==idparentfeature)
+					&& (featuresToInclude.contains(f.getIdfeature()))
+				) {
 				csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,0.2");
 			}
 		}
 		return csv_notcustomizedFeatures;
 	}
 	
-	private String extractCSVForNotCustomizedProducts(ArrayList<String> customizedproductreleases) {
-		String csv_notcustomizedprs="";
-		Iterator<ProductRelease> it = prDao.findAll().iterator();
-		ProductRelease pr;
-		while(it.hasNext()) {
-			pr=it.next();
-			if(!customizedproductreleases.contains(pr.getName())) {
-				csv_notcustomizedprs=csv_notcustomizedprs.concat("\n"+"NOT_CUSTOMIZED,"+pr.getName()+",0.2");
-			}
-		}
-		return csv_notcustomizedprs;
-	}
+	
 }

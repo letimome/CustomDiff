@@ -8,4 +8,6 @@ public interface ProductReleaseDao extends CrudRepository<ProductRelease, Long>{
 
 	Iterable<ProductRelease> getProductReleaseByName(String name);
 
+	ProductRelease getProductReleaseByIdproductrelease(int idproductrelease);
+
 }

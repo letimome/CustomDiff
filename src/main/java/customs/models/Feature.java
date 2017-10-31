@@ -10,6 +10,7 @@ public class Feature {
 	@Id String idfeature;
 	String name;
 	int isnew;
+	int idparent;
 	
 	public Feature() {}
 
@@ -36,5 +37,23 @@ public class Feature {
 	public void setIsNew(int isNew) {
 		this.isnew = isNew;
 	}
+
+	public int getIsnew() {
+		return isnew;
+	}
+
+	public void setIsnew(int isnew) {
+		this.isnew = isnew;
+	}
+
+	public int getIdparent() {
+		return idparent;
+	}
+
+	public void setIdparent(int idparent) {
+		this.idparent = idparent;
+	}
+	
+	
 	
 }

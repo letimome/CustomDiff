@@ -14,19 +14,18 @@ public class ProductRelease {
 	String name;//tag
 	Date date;
 	String commits_set;
-	int idproduct;
 	
 	public ProductRelease() {}
 
 	
 	
-	public ProductRelease(int id_productrelease, String name, Date date, String commits_set, int id_product) {
+	public ProductRelease(int id_productrelease, String name, Date date, String commits_set) {
 		super();
 		this.idproductrelease = id_productrelease;
 		this.name = name;
 		this.date = date;
 		this.commits_set = commits_set;
-		this.idproduct = id_product;
+		//this.idproduct = id_product;
 	}
 
 
@@ -63,14 +62,4 @@ public class ProductRelease {
 		this.commits_set = commits_set;
 	}
 
-	public int getId_product() {
-		return idproduct;
-	}
-
-	public void setId_product(int id_product) {
-		this.idproduct = id_product;
-	}
-
-
-	
 }

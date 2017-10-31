@@ -28,10 +28,10 @@ import customs.models.ProductReleaseDao;
 public class Alluvial_Platform_Product_Controller {
 	
 	@Autowired private NewProductAssetDao paDao;
-	 @Autowired private FeatureDao fDao;
+	@Autowired private FeatureDao fDao;
 	@Autowired private CoreAssetDao caDao;
 	@Autowired private ProductReleaseDao prDao;
-	 @Autowired private Churn_CoreAssetsAndFeaturesByPRDao customstoCAAndFeatures;
+	@Autowired private Churn_CoreAssetsAndFeaturesByPRDao customstoCAAndFeatures;
 	 private String pathToResource = "./src/main/resources/static/";
 
 	 @RequestMapping("diff_platform_product")
@@ -61,7 +61,7 @@ public class Alluvial_Platform_Product_Controller {
 		   Iterable<ProductRelease> prs = prDao.getProductReleaseByName(productrelease);
 		   ProductRelease pr=prs.iterator().next();
 		   System.out.println("The productrelease to analyze is: "+pr.getName());
-		   Iterable<Churn_CoreAssetsAndFeaturesByPR>  customizedAssets = customstoCAAndFeatures.getCustomsByIdproductrelease(pr.getId_product());
+		   Iterable<Churn_CoreAssetsAndFeaturesByPR>  customizedAssets = customstoCAAndFeatures.getCustomsByIdproductrelease(pr.getId_productrelease());
 		   Iterator<Churn_CoreAssetsAndFeaturesByPR> it= customizedAssets.iterator();
 		   
 		   Churn_CoreAssetsAndFeaturesByPR custo;
@@ -108,7 +108,6 @@ public class Alluvial_Platform_Product_Controller {
 		return csvContent;
 	}
 	  
-	
 
 //GET NEW ASSETS IN PRODUCTS!!
 	private String addNewProductAssetsTotheCSV(String csvContent,String productrelease) {

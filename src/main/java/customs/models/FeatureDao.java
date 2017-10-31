@@ -11,5 +11,7 @@ public interface FeatureDao extends CrudRepository<Feature, Long> {
 
 	Feature getFeatureByName(String name);
 
+	Feature getFeatureByIdfeature(String idfeature);
+
 
 }

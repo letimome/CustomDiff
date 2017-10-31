@@ -5,17 +5,14 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="utf-8"/>
-<meta name="diffvalue" th:content="${diffvalue}"></meta>
+
+<meta name="idproductrelease" th:content="${idproductrelease}"></meta>
+<meta name="idpackage" th:content="${idpackage}"></meta>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  
-<title>diff(Platform, Product Portfolio) Diagram </title>
-
+<title>diff(Parent Features, Package Assets) </title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
 <link rel="stylesheet" href="Treant.css" type="text/css"/>
 <link rel="stylesheet" href="custom-colored.css" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
@@ -25,11 +22,8 @@
 <link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
-
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
-
 
 
 <script src="NavigationMap.js"></script>
@@ -40,8 +34,6 @@
 <script src="vendor/raphael.js"></script>
 <script src="Treant.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-<script src="http://marvl.infotech.monash.edu/webcola/cola.v3.min.js"></script>
-
 <style>
 .node rect {
   cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
@@ -49,7 +41,7 @@
   shape-rendering: crispEdges;
 }
 .node text {
-  font-size:100%;
+  font-size:120%;
   pointer-events: none;
   text-shadow: 0 1px 0 #fff;
 }
@@ -112,7 +104,15 @@
         border-radius: 10px;
     }
 
+   .navbar-light{
+  border-bottom: 1px solid grey;
+  float: left;
+  
+}
+  
+
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
 
 li [nav-item]{ 
 	display: block;
@@ -133,7 +133,7 @@ float: left;
 }
 
 .container-fluid  {
-    float: left;
+    float: center;
    
 }
 .navbar-light{
@@ -141,8 +141,6 @@ float: left;
   float: left;
   
 }
-
-
 </style>
 </head>
 
@@ -194,29 +192,25 @@ float: left;
 			</td>
 			<!--Diagram view -->
 			<td colspan="20" align="center" valign="top" style="width:100%;">
-			
-			<p align="left"><a href="/diff_parent_features_products" >Roll-up</a></p>
-			  <p><a href="/diff_parent_features_products">
-				<img align="center"  src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
-			</a>
-			</p>
-				<p style= "color:black; font-size: 150%;" align="center" th:text="${maintitle}"> What features have been customized? </p>
+				<p style= "color:black; font-size: 150%;" align="center"> Which (parent) features have been customized by the products? </p>
+				 
+				<p style="font-size:100%;" align="center"> 
+					Note: Height denotes customization change-size, per each Feature (left) - Product release (right) pair.
+				 </p>
 				 <div id="dialog" align="left"></div>
-				 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter features!
+				 <button  id="pickEmployeesButton" class="btn btn-primary">Filter features!
 				 <img align="left" src="images/filter.png"></img>
 				 </button>       
+				 <br/><br/>
+					
+				<p align="center" id="chart" />
 				
-				<p id="chart"  align="center" style="min-height:500px;align:center" />
-				<br />
-				<p style="font-size:90%;" align="center"> 
-					Note: Streams' height denotes customization change-size per Feature-Product pair.
-					<br/>Rectangles area denotes customization change-size per Feature/Product.
-				</p>
-	
 			</td>
 		</tr>
 	</table>
-	
+
+
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="sankey.js"></script>
 <script src="draw.js"></script>
@@ -247,11 +241,13 @@ float: left;
 	  //set up graph in same style as original example but empty
 	  graph = {"nodes" : [], "links" : []};
 	    data.forEach(function (d) {
-	      graph.nodes.push({ "name": d.source });
-	      graph.nodes.push({ "name": d.target });
+	      graph.nodes.push({ "name": d.source, "idparentfeature": d.idparentfeature });
+	      graph.nodes.push({ "name": d.target, "pr": d.pr});
 	      graph.links.push({ "source": d.source,
 	                         "target": d.target,
-	                         "value": +d.value });
+	                         "value": d.value ,
+	                         "idparentfeature": d.idparentfeature,
+	                         "idproductrelease": d.idproductrelease });
 	     });
 	     // return only the distinct / unique nodes
 	     graph.nodes = d3.keys(d3.nest()
@@ -281,7 +277,7 @@ float: left;
 	      .sort(function(a, b) { return b.dy - a.dy; })
 	      .on("click",function(d, a , b,link){
         if (d3.event.defaultPrevented) return;
-           goToFeatureViewDetailed(d);
+        drillDownByParentFeatureAndProductRelease(d);
     		});
 	// add the link titles
 	  link.append("title")
@@ -298,11 +294,16 @@ float: left;
 			  return "translate(" + d.x + "," + d.y + ")"; })
 			   .on("click",function(d){
         if (d3.event.defaultPrevented) return;
-           window.console.log("clicked on product:"+d.name);
-          
-           if (d.name.includes("Product") || d.name.includes("product"))
-        	     goToReuseLevelView(d);//goToReuseLevelView
-           else goToFeatureView (d);
+        if(d.sourceLinks.length==0){
+            window.console.log("this is a product release package node");
+            drillDownByProductRelease(d);
+        } 
+        else if(d.targetLinks.length==0){
+        	//this is a component package node
+      	  window.console.log("this is a parent feature node ");
+      	  drillDownByParentFeature(d);
+        } 
+        
     		});
 	  /*  .call(d3.behavior.drag()
 	      .origin(function(d) { return d; })
@@ -356,17 +357,20 @@ float: left;
 	    sankey.relayout();
 	    link.attr("d", path);
 	  }
-	function goToReuseLevelView(d){//click on products
-		window.location.href = "/diff_platform_product?&pr=" + d.name;
-	}
+	
+		function drillDownByProductRelease(d){//click on products
+			console.log(d);
+			window.location.href = "http://localhost:8080/diff_parent_features_product_packages?idproductrelease="+d.targetLinks[0].idproductrelease+"&from=pfpp";
+		}
 
-	function goToFeatureView(d){//click on feature - either provide alluvial with children, or go to feature core assets.
-		 window.location.href = "/diff_feature_pp?base=Baseline-v1.0&fname=" + d.name;
-	}
-	function goToFeatureViewDetailed(d){//click on the links between Feature&product
-		console.log(d);
-		 window.location.href = "/diff_feature_product?base=Baseline-v1.0&fname=" + d.source.name+"&pr="+d.target.name+"&idfile=0";
-	}
+		function drillDownByParentFeature(d){//click on feature - either provide alluvial with children, or go to feature core assets.
+			console.log(d.sourceLinks[0].idparentfeature); 
+			window.location.href = "http://localhost:8080/diff_features_pp?idparentfeature=" + d.sourceLinks[0].idparentfeature+"&from=pfpp";
+		}
+		function drillDownByParentFeatureAndProductRelease(d){//click on the links between Feature&product
+			console.log(d);
+			window.location.href = "http://localhost:8080/diff_features_product_packages?idparentfeature="+ d.idparentfeature+"&idproductrelease="+d.idproductrelease+"&from=pfpp";
+		}
 		
 	function myMouseoverFunction(d){
 	    window.console.log(this);
@@ -396,27 +400,11 @@ float: left;
 
 
 <script>
-<!-- Script for the filtering menu -->
+
 //<![CDATA[
 		
 $(document).ready(function () {
 			
-	/*	var node = document.getElementsByClassName("node nodeExample1 orange");
-		
-		var dialogdiv = document.createElement("div");
-		dialogdiv.setAttribute("id","dialog");
-		
-		var button = document.createElement("button");
-		var t = document.createTextNode("Filter PL Features");    
-		button.appendChild(t);            
-		button.setAttribute("id","pickEmployeesButton");  
-		
-		node[0].appendChild(dialogdiv);
-		node[0].appendChild(button);*/
-		
-		
-		
-		
 			 var tempSelectList = [];
 		     var dialog = $("#dialog").kendoDialog({
 		            width: "400px",
@@ -446,23 +434,14 @@ $(document).ready(function () {
         var featuremodel = [{
             id: "WeatherStation", FullName: "WeatherStation", expanded: true,hasChildren:true, spriteCssClass: "rootfolder", items: [
                 {
-                    id: "Sensors", FullName: "Sensors", expanded: false, hasChildren:true, spriteCssClass: "man", items: [
-                        { id: "Temperature", FullName: "Temperature", spriteCssClass: "or", hasChildren:false },
-                        { id: "WindSpeed", FullName: "WindSpeed", spriteCssClass: "or" , hasChildren:false },
-                        { id: "AirPressure", FullName: "AirPressure", spriteCssClass: "or", hasChildren:false }
-                    ]
+                    id: "Sensors", FullName: "Sensors", expanded: false, hasChildren:false, spriteCssClass: "man"
+                    
                 },
                 {
-                    id: "Languages", FullName: "Languages", expanded: false, hasChildren:true,spriteCssClass: "man", items: [
-                        { id: "English", FullName: "English", spriteCssClass: "alt", hasChildren:false },
-                        { id: "German", FullName: "German", spriteCssClass: "alt", hasChildren:false },
-                    ]
+                    id: "Languages", FullName: "Languages", expanded: false, hasChildren:false,spriteCssClass: "man"
                 },
                 {
-                    id: "Warnings", FullName: "Warnings", expanded: false,hasChildren:true, spriteCssClass: "optional", items: [
-                        { id: "Gale", FullName: "Gale", spriteCssClass: "or" , hasChildren:false},
-                        { id: "Heat", FullName: "Heat", spriteCssClass: "or" , hasChildren:false},
-                    ]
+                    id: "Warnings", FullName: "Warnings", expanded: false,hasChildren:false, spriteCssClass: "optional"
                 }
             ]
         }];
@@ -541,11 +520,11 @@ $(document).ready(function () {
         var checkedNodes = getCheckedItems(treeView);
         updateResult(checkedNodes);
         var filter = getCheckedItemsList(treeView); 
-        window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+filter;//" + d.source.name+"-v1.0";
+        window.location.href = "http://localhost:8080/diff_parent_features_products?filter="+filter;//" + d.source.name+"-v1.0";
     }
     
 	  function removeFeatureFilter(){//removeFilter()
-		  window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0";//" + d.source.name+"-v1.0";
+		  window.location.href = "http://localhost:8080/diff_parent_features_products";
 	    }
     
     
@@ -661,48 +640,7 @@ $(document).ready(function () {
     
 	//Add you are drill-down icons
 
-
-    
-  //]]>
-</script>
-
-
-
- <script>
-    //this is the old script
-  //<![CDATA[
-        $("#treeview").kendoTreeView({
-            checkboxes: {
-                checkChildren: true
-            },
-            check: onCheck,
-
-            dataSource: [{
-                id: "WeatherStation", text: "Weather Station", expanded: true, spriteCssClass: "rootfolder", items: [
-                    {
-                        id: "Sensors", text: "Sensors", expanded: false, spriteCssClass: "man", items: [
-                            { id: "Temperature", text: "Temperature", spriteCssClass: "or" },
-                            { id: "WindSpeed", text: "Wind Speed", spriteCssClass: "or" },
-                            { id: "AirPressure", text: "Air Pressure", spriteCssClass: "or" }
-                        ]
-                    },
-                    {
-                        id: "Languages", text: "Languages", expanded: false, spriteCssClass: "man", items: [
-                            { id: "English", text: "English", spriteCssClass: "alt" },
-                            { id: "German", text: "German", spriteCssClass: "alt" },
-                        ]
-                    },
-                    {
-                        id: "Warnings", text: "Warnings", expanded: false, spriteCssClass: "optional", items: [
-                            { id: "Gale", text: "Gale", spriteCssClass: "or" },
-                            { id: "Heat", text: "Heat", spriteCssClass: "or" },
-                        ]
-                    }
-                ]
-            }]
-        });
-
-        // function that gathers IDs of checked nodes
+ // function that gathers IDs of checked nodes
         function checkedNodeIds(nodes, checkedNodes) {
             for (var i = 0; i < nodes.length; i++) {
                 if (nodes[i].checked) {
@@ -751,10 +689,10 @@ $(document).ready(function () {
             //go and filter by feature Name
            // window.location.href = "http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter"+message;//" + d.source.name+"-v1.0";
         }
-        
-   
-//]]>
+  //]]>
 </script>
+
+
 </div>
 
 <footer class="footer">
