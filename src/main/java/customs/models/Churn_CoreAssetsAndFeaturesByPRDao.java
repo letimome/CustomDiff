@@ -9,4 +9,6 @@ public interface  Churn_CoreAssetsAndFeaturesByPRDao extends CrudRepository<Chur
 
 	Iterable<Churn_CoreAssetsAndFeaturesByPR> getCustomsByIdproductrelease(int idproductrelease);
 
+	Iterable<Churn_CoreAssetsAndFeaturesByPR> getCustomsByIdfeature(String idfeature);
+
 }

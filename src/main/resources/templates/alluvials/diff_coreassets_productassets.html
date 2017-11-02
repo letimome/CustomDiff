@@ -6,6 +6,11 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
+
+<meta name="idfeature" th:content="${idfeature}"></meta>
+<meta name="idpackage" th:content="${idpackage}"></meta>
+<meta name="idproductrelease" th:content="${idproductrelease}"></meta>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
  
 <title>diff (PL asset, variant asset)[Filter]</title>
@@ -189,8 +194,8 @@ float: left;
 			<!--Diagram view -->
 		<td colspan="20" align="center" valign="top" style="width:80%;background-color:">
 			
-			<p align="left"><a href="http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0">Roll-up</a></p>
-			  <p><a href="/diff_features_pp?idbaseline=Baseline-v1.0">
+			<p align="left"><a href="#" onclick="rollUp()">Roll-up</a></p>
+			  <p><a href="#" onclick="rollUp()">
 				<img align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
 			</a>
 			</p>
@@ -247,10 +252,10 @@ float: left;
 	      graph.links.push({ "source": d.source,
 	                         "target": d.target,
 	                         "value": d.value,
-	                         "id_ca": d.id_ca,
-	                         "id_pa": d.id_pa,
-	                         "fname": d.fname,
-	                         "pr": d.pr });
+	                         "idcoreasset": d.idcoreasset,
+	                         "idpackage": d.idpackage,
+	                         "idfeature": d.idfeature,
+	                         "idproductrelease": d.idproductrelease });
 	     });
 	     // return only the distinct / unique nodes
 	     graph.nodes = d3.keys(d3.nest()
@@ -364,8 +369,9 @@ float: left;
 	}
 	function goToFeatureViewDetailed(d){//click on the links between ca&pa
 		console.log(d);
-		//window.location.href = "http://localhost:8080/diff_feature_product?base=Baseline-v1.0&fname=" + d.fname+"&pr="+d.pr+"&idfile="+d.id_pa;
-		window.location.href = "/diff_ca_pa_code?base=Baseline-v1.0&fname=" + d.fname+"&pr="+d.pr+"&idfile="+d.id_ca+"&from=fp";
+
+		window.location.href = "/diff_feature_core_asset?idfeature="+ d.idfeature+"&pr="+d.idproductrelease+"&idcoreasset="+d.idcoreasset+"&from=cava";
+				
 	}
 		
 	function myMouseoverFunction(d){
@@ -399,12 +405,10 @@ float: left;
 <!-- Script for the filtering menu -->
 //<![CDATA[
 		
+
+    
 $(document).ready(function () {
 			
-
-		
- 
-    	
     	//Add you are here location
     	var node = document.getElementsByClassName("node nodeExample1 orange");
     	var span = document.createElement("p");
@@ -427,7 +431,21 @@ $(document).ready(function () {
     	node[0].append(image);*/
         
     });//end of on document load
-
+	function getMetaContentByName(name,content){
+		   var content = (content==null)?'content':content;
+		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+		}
+	
+ function rollUp(){
+		//window.location.href ="/diff_features_pp?idparentfeature="+idparent;
+ 		
+ 		var idfeature = getMetaContentByName('idfeature');
+ 		var idproductrelease = getMetaContentByName('idproductrelease');
+ 		
+ 		window.location.href = "/diff_feature_and_product_packages?idfeature="+idfeature+"&idproductrelease="+idproductrelease;
+ 			
+ 
+ }
 
        
   //]]>

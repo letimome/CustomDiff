@@ -62,7 +62,7 @@ public class Diff_Feature_CoreAsset {
 	   model.addAttribute("idpackage",ca.getIdpackage());
 	   
 	   model.addAttribute("from",from);
-	   model.addAttribute("fname",idfeature);
+	   model.addAttribute("idfeature",idfeature);
 	   model.addAttribute("difftitle", "diff(Feature: '" +idfeature+"', "+pr.getName()+")");
 	   
 	   return "alluvials/diff_ca_pa_filter";

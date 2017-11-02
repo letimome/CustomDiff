@@ -432,9 +432,12 @@ float: left;
 		var idparent = getMetaContentByName("idparentfeature");
 			console.log(from);
 		if (from=='pfpp')
-			window.location.href ="http://localhost:8080/diff_parent_features_products";
+			window.location.href ="/diff_parent_features_products";
 		else if (from=='pfp')
-			window.location.href ="http://localhost:8080/diff_parent_features_product_packages?idproductrelease="+pr;
+			window.location.href ="/diff_parent_features_product_packages?idproductrelease="+pr;
+		
+		else if (from=='fpr')
+			window.location.href ="/diff_features_pp?idparentfeature="+idparent;
 		
 	}
 $(document).ready(function () {

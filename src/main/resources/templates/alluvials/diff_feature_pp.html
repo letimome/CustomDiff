@@ -6,6 +6,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
+<meta name="idpackage" th:content="${idpackage}"></meta>
+<meta name="idfeature" th:content="${idfeature}"></meta>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
  
 <title>diff(Feature,Product Portfolio)</title>
@@ -190,8 +192,8 @@ float: left;
 			<!--Diagram view -->
 		<td colspan="20" align="center" valign="top" style="width:80%;background-color:">
 			
-			<p align="left"><a href="/diff_features_pp?idbaseline=Baseline-v1.0">Roll-up</a></p>
-			  <p><a href="/diff_features_pp?idbaseline=Baseline-v1.0">
+			<p align="left"><a href="#" onclick="rollUp()">Roll-up</a></p>
+			  <p><a href="#" onclick="rollUp()">
 				<img align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
 			</a>
 			</p>
@@ -243,15 +245,22 @@ float: left;
 	  //set up graph in same style as original example but empty
 	  graph = {"nodes" : [], "links" : []};
 	    data.forEach(function (d) {
-	      graph.nodes.push({ "name": d.source });
-	      graph.nodes.push({ "name": d.target });
+	      graph.nodes.push({ "name": d.source, "idfeature": d.idfeature,
+              "idcoreasset": d.idcoreasset,
+              "idpackage": d.idpackage,
+              "idproductrelease": d.idproductrelease, });
+	      graph.nodes.push({ "name": d.target, "idfeature": d.idfeature,
+              "idcoreasset": d.idcoreasset,
+              "idpackage": d.idpackage,
+              "idproductrelease": d.idproductrelease, });
 	      graph.links.push({ "source": d.source,
               "target": d.target,
               "value": d.value,
-              "id_ca": d.id_ca,
-              "id_pa": d.id_pa,
-              "fname": d.fname,
-              "pr": d.pr });
+              "idfeature": d.idfeature,
+              "idcoreasset": d.idcoreasset,
+              "idpackage": d.idpackage,
+              "idproductrelease": d.idproductrelease,
+              });
 	     });
 	     // return only the distinct / unique nodes
 	     graph.nodes = d3.keys(d3.nest()
@@ -363,9 +372,14 @@ float: left;
 	function goToFeatureView(d){//click on feature - either provide alluvial with children, or go to feature core assets.
 	//	 window.location.href = "http://localhost:8080/diff_feature_pp?base=Baseline-v1.0&fname=" + d.name;
 	}
+	
 	function goToFeatureViewDetailed(d){//click on the links between Feature&product
 		console.log(d);
-		window.location.href = "/diff_ca_pa_code?base=Baseline-v1.0&fname=" + d.fname+"&pr="+d.pr+"&idfile="+d.id_ca+"&from=f";
+		var idfeature = d.idfeature;
+		var pr = d.idproductrelease;
+		var idcoreasset= d.idcoreasset;
+		var from="capp";
+		window.location.href = "/diff_feature_core_asset?idfeature="+idfeature+"&pr="+pr+"&idcoreasset="+idcoreasset+"&from="+from;
 	}
 		
 	function myMouseoverFunction(d){
@@ -398,7 +412,15 @@ float: left;
 <script>
 <!-- Script for the filtering menu -->
 //<![CDATA[
+	function getMetaContentByName(name,content){
+	   var content = (content==null)?'content':content;
+	   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+	}
 		
+    function rollUp(){
+		window.location.href = "diff_feature_packages_pp?idfeature="+getMetaContentByName('idfeature');
+	}
+    
 $(document).ready(function () {
 			
 	/*	var node = document.getElementsByClassName("node nodeExample1 orange");

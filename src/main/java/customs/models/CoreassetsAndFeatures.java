@@ -15,6 +15,7 @@ import javax.persistence.Table;
 		String caname;
 		String capath;
 		int size;
+		int idpackage;
 		
 		public CoreassetsAndFeatures() {}
 
@@ -65,4 +66,45 @@ import javax.persistence.Table;
 		public void setSize(int size) {
 			this.size = size;
 		}
+
+		public int getIdcoreasset() {
+			return idcoreasset;
+		}
+
+		public void setIdcoreasset(int idcoreasset) {
+			this.idcoreasset = idcoreasset;
+		}
+
+		public String getIdfeature() {
+			return idfeature;
+		}
+
+		public void setIdfeature(String idfeature) {
+			this.idfeature = idfeature;
+		}
+
+		public String getCaname() {
+			return caname;
+		}
+
+		public void setCaname(String caname) {
+			this.caname = caname;
+		}
+
+		public String getCapath() {
+			return capath;
+		}
+
+		public void setCapath(String capath) {
+			this.capath = capath;
+		}
+
+		public int getIdpackage() {
+			return idpackage;
+		}
+
+		public void setIdpackage(int idpackage) {
+			this.idpackage = idpackage;
+		}
+		
 }

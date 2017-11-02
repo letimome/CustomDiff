@@ -11,6 +11,7 @@
 <meta name="cavalue" th:content="${cavalue}"></meta>
 <meta name="idproductrelease" th:content="${idproductrelease}"></meta>
 <meta name="idparentfeature" th:content="${idparentfeature}"></meta>
+<meta name="idfeature" th:content="${idfeature}"></meta>
 <meta name="idcoreasset" th:content="${idcoreasset}"></meta>
 <meta name="idpackage" th:content="${idpackage}"></meta>
 <meta name="diffHeader" th:content="${diffHeader}"></meta>
@@ -228,11 +229,22 @@ $(document).ready(function () {
 	  
     
     });//end of on document load
+    
+	function getMetaContentByName(name,content){
+		   var content = (content==null)?'content':content;
+		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+		}
 	
     function rollUp(){
-		
-		var from = getMetaContentByName("from");
-		window.location.href = "/diff_features_package_assets?idproductrelease="+getMetaContentByName('idproductrelease')+"&idpackage="+getMetaContentByName('idpackage')+"&idparentfeature="+getMetaContentByName('idparentfeature');//
+		//window.location.href ="/diff_features_pp?idparentfeature="+idparent;
+    		var from = getMetaContentByName("from");
+    		var idfeature = getMetaContentByName('idfeature');
+    		var idpackage = getMetaContentByName('idpackage');
+    		var idproductrelease = getMetaContentByName('idproductrelease');
+		if (from=='capp')
+			window.location.href="/diff_core_assets_pp?idpackage="+idpackage+"&idfeature="+idfeature;
+		 if(from=='cava')
+			 window.location.href="/diff_coreassets_productassets?idproductrelease="+idproductrelease+"&idfeature="+idfeature+"&idpackage="+idpackage;
 	}
     
   //]]>

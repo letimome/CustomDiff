@@ -45,7 +45,7 @@ public class Alluvial_Features_PP_Controller {
 		   
 		   Iterable<Churn_PoductPortfolioAndFeatures> customsObj = alluvialDao.findAll();
 		   Iterator<Churn_PoductPortfolioAndFeatures> it = customsObj.iterator();
-		   String csvCustoms= "source,target,value";
+		   String csvCustoms= "source,target,value,idparentfeature,idproductrelease";
 		   Churn_PoductPortfolioAndFeatures custo;
 		   
 		   ArrayList<String> customizedfeatures=new ArrayList<>() ;
@@ -63,7 +63,9 @@ public class Alluvial_Features_PP_Controller {
 					     && f.getIdparent()==idparentfeature
 					  	 && !custo.getFeaturemodified().equals("null")
 					     && !custo.getFeaturemodified().equals("undefined") && include) {
-				    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeaturemodified()+","+custo.getPr_name() +","+custo.getChurn()+"");
+				    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeaturemodified()+","+custo.getPr_name() +","+custo.getChurn()
+				    	   +","+idparentfeature+","+custo.getId_pr());
+				    	  
 				    	   customizedproductreleases.add(custo.getPr_name());
 				    	   customizedfeatures.add(custo.getFeaturemodified());
 			   }     

@@ -8,4 +8,6 @@ public interface Churn_Features_ComponentPackagesDao extends CrudRepository <Chu
 
 	Iterable<Churn_Features_ComponentPackages> getCustomsByIdproductrelease(int id_productrelease);
 
+	Iterable<Churn_Features_ComponentPackages> getCustomsByIdfeature(String idfeature);
+
 }
