@@ -112,5 +112,16 @@ public class  Formatting {
 		
 		return new String(valueDecoded);
 	}
+
+	public static ArrayList<String> stringToArrayList(String string, String parseBy) {
+		ArrayList<String> list = new ArrayList<String>();
+		if(string==null) return null;
+		
+		String[] array = string.split(parseBy);
+		for (int i=0; i<array.length;i++) {
+			list.add(array[i]);
+		}
+		return list;
+	}
 	
 }

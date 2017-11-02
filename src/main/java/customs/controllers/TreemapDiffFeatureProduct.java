@@ -44,7 +44,7 @@ public class TreemapDiffFeatureProduct {
 		 
 	   private String pathToResource = "./src/main/resources/static/";
 	
-	
+	//treemapfeatureproductview?base=&fname?pr=?idfile
 	  @RequestMapping("treemapfeatureproductview")
 	   public String getTreeMapTrafficLight(
 	   				@RequestParam(value="base", required=false) String idbaseline,
@@ -66,7 +66,11 @@ public class TreemapDiffFeatureProduct {
 		   model.addAttribute("fname",featurenamemodified);
 		   model.addAttribute("maintitle", "How is feature '"+featurenamemodified+"' being customized in product "+pr+"?");
 		   model.addAttribute("difftitle", "diff(Feature: '" +featurenamemodified+"', "+pr+")");
-		  return "treemapFeatureProduct"; 
+		  
+		   if(idfile!=0)
+		      customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(featurenamemodified,pr,caDao.getCoreAssetByIdcoreasset(idfile).getName(),"hasFeature("+featurenamemodified+")");
+		   else customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(featurenamemodified,pr,"core-asset","Expression");
+		   return "treemapFeatureProduct"; 
 	 	}
 
 

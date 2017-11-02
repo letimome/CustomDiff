@@ -30,9 +30,6 @@ import customs.models.VariationPointDao;
 @Controller
 public class AlluvialController {
 
-
-	 
-	 
 	   @RequestMapping("alluvials")
 	 	public @ResponseBody Iterable<Alluvial> getAllCustoms() {
 	 		// This returns a JSON or XML with the users
@@ -51,42 +48,82 @@ public class AlluvialController {
 	 	}
 	   
 	   @RequestMapping("alluvialView")
-	   public String getCustomsByBaselineId
-	   		(@RequestParam(value="idbaseline", required=false) String idbaseline, 
-	   	//	@RequestParam(value="id_product_asset", required=false) int idProductAsset,
-	   				Model model){
-		   System.out.println("THIS IS idBbSeline: "+idbaseline);
-		//   System.out.println("THIS IS idProductAsset: "+idProductAsset);
+	   public String getCustomsByBaselineId (@RequestParam(value="idbaseline", required=false) String idbaseline, 
+	   		@RequestParam(value="filter", required=false) String filter, Model model){
+		   
+		   System.out.println("Baseline: "+idbaseline); System.out.println("FeatureList: "+filter);
+		   
+		   ArrayList<String> featuresToInclude ;
+		   if (filter==null)   featuresToInclude=null;
+		   else {
+			   featuresToInclude = customs.utils.Formatting.stringToArrayList(filter, ",");
+			   System.out.println(featuresToInclude.toString());
+		   }
+
 		   
 		   Iterable<Alluvial> customsObj = alluvialDao.findAll();
 		   Iterator<Alluvial> it = customsObj.iterator();
 		   String csvCustoms= "source,target,value";
 		   Alluvial custo;
-		   //csvCustoms=csvCustoms.concat("\nFA, Not_Customized, 1");
+		   
 		   ArrayList<String> customizedfeatures=new ArrayList<>() ;
 		   ArrayList<String> customizedproductreleases = new ArrayList<>();
+		   boolean include=false;
+		   
 		   while (it.hasNext()) {
-			
 			    custo=it.next();
 			    System.out.println((custo.getIdBaseline()));
-			   if(custo.getIdbaseline().equals(idbaseline))
-			     if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null") && !custo.getFeatureModified().equals("undefined")) {
-			    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeatureModified()+","+custo.getIdRelease() +","+custo.getChurn()+"");
-			    	   customizedproductreleases.add(custo.getIdRelease());
-			    	   customizedfeatures.add(custo.getFeatureModified());
-			     }
+			    include=false;
+			   if( featuresToInclude==null)  include=true;
+			   else if (featuresToInclude.contains(custo.getFeatureModified())) include=true;
+			    	 
+			   if(custo.getIdbaseline().equals(idbaseline)) {
+				   if(custo.getFeatureModified()!=null && !custo.getFeatureModified().equals("null")
+						     && !custo.getFeatureModified().equals("undefined") && include) {
+						    	   csvCustoms = csvCustoms.concat ("\n" +custo.getFeatureModified()+","+custo.getIdRelease() +","+custo.getChurn()+"");
+						    	   customizedproductreleases.add(custo.getIdRelease());
+						    	   customizedfeatures.add(custo.getFeatureModified());
+						     }
+			   }
+			     
 		   }
-		   System.out.println(csvCustoms);
-		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(idbaseline,customizedproductreleases));
-		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(idbaseline,customizedfeatures));
-		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
-		   System.out.println(csvCustoms);
+		  //if there is a filter, then do not show products which has not been customized.
+		   if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(idbaseline,customizedproductreleases));
+		  
+		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(idbaseline,customizedfeatures, featuresToInclude));
+		 
+		  customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
+		  
+		  addFilteredFeatureToTheModel(model,featuresToInclude);
+		  
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForAlluvial();
+		  
+		  System.out.println(csvCustoms);
 		  return "alluvial";
 		  
 	 	}
 	   
 	   
-	   private String extractCSVForNotCustomizedFeatures(String idbaseline, ArrayList<String> customizedfeatures) {
+	   private void addFilteredFeatureToTheModel(Model model, ArrayList<String> featuresToInclude) {
+		// TODO Auto-generated method stub
+		if (featuresToInclude==null) return;
+		//  result += "<span class='selectedName'>" + checkedNodes[i].FullName + "</span>";
+		System.out.println("SEGUIDOOOO");
+		String result="";
+		Iterator<String> it = featuresToInclude.iterator();
+		ArrayList<Feature> features=new ArrayList<Feature>();
+		String f; Feature fe;
+		while(it.hasNext()) {
+			f= it.next();
+			fe=fDao.getFeatureByIdfeature(f);
+			if (fe!=null) features.add(fe);
+		}
+		
+		model.addAttribute("features", features);
+		System.out.println(features.toString());
+	}
+
+	private String extractCSVForNotCustomizedFeatures(String idbaseline, ArrayList<String> customizedfeatures, ArrayList<String> featuresToInclude) {
 		String csv_notcustomizedFeatures="";
 		
 		Iterator<Feature> it = fDao.findAll().iterator();
@@ -94,7 +131,12 @@ public class AlluvialController {
 		
 		while (it.hasNext()) {
 			f = it.next();
-			if (!customizedfeatures.contains(f.getIdfeature())) {
+			if(featuresToInclude==null) {//if no filter available
+				if (!customizedfeatures.contains(f.getIdfeature()))
+						csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,0.2");
+			}
+			else //if filter available
+			if (!customizedfeatures.contains(f.getIdfeature()) && featuresToInclude.contains(f.getIdfeature())) {
 				csv_notcustomizedFeatures=csv_notcustomizedFeatures.concat("\n"+f.getIdfeature()+",NOT_CUSTOMIZED,0.2");
 			}
 		}

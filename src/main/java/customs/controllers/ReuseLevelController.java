@@ -80,6 +80,12 @@ public class ReuseLevelController {
 		   model.addAttribute("pr",productrelease);
 		   model.addAttribute("maintitle", "Which assets are customized by '"+productrelease+"'?");
 		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+productrelease+")");
+		  
+		  
+		   
+		   
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features","core-asset","Expression",productrelease);
+		   
 		   return "reuseLevel2"; 
 	 	}
 
