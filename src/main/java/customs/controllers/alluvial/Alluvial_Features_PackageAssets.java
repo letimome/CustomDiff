@@ -60,9 +60,7 @@ public class Alluvial_Features_PackageAssets {
 			model.addAttribute("from",from);
 			model.addAttribute("pr",pr);
 			model.addAttribute("fname",parentFeature.getName());
-			model.addAttribute("maintitle", "How is feature '"+parentFeature.getName()+"' being customized in product "+pr.getName()+"?");
-			model.addAttribute("difftitle", "diff(Feature: '" +parentFeature.getName()+"', "+pr.getName()+")");
-			
+			model.addAttribute("maintitle", "How is parent-feature '"+parentFeature.getName()+"' being customized in '"+pr.getName()+"'?");
 			
 			customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(parentFeature.getName(),pr.getName(),"core-asset","Expression");
 					 	 

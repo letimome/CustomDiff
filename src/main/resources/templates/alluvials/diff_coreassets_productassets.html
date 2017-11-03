@@ -6,8 +6,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
-
+<meta name="from" th:content="${from}"></meta>
 <meta name="idfeature" th:content="${idfeature}"></meta>
+<meta name="idparentfeature" th:content="${idparentfeature}"></meta>
 <meta name="idpackage" th:content="${idpackage}"></meta>
 <meta name="idproductrelease" th:content="${idproductrelease}"></meta>
 
@@ -440,11 +441,16 @@ $(document).ready(function () {
 		//window.location.href ="/diff_features_pp?idparentfeature="+idparent;
  		
  		var idfeature = getMetaContentByName('idfeature');
+ 		var idparentfeature = getMetaContentByName('idparentfeature');
  		var idproductrelease = getMetaContentByName('idproductrelease');
- 		
- 		window.location.href = "/diff_feature_and_product_packages?idfeature="+idfeature+"&idproductrelease="+idproductrelease;
- 			
- 
+ 		var from = getMetaContentByName('from');
+ 	
+ 		 if (from=='fppackp')
+ 			window.location.href = "/diff_feature_and_product_packages?idfeature="+idfeature+"&idproductrelease="+idproductrelease;
+ 		else  if (from=='fp')
+ 			window.location.href = "/diff_features_product_packages?idproductrelease="+idproductrelease+"&idparentfeature="+idparentfeature;
+ 		else  if (from=='fppp')
+ 			window.location.href = "/diff_feature_packages_pp?idfeature="+idfeature;
  }
 
        

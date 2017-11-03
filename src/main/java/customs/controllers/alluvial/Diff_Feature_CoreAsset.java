@@ -54,7 +54,7 @@ public class Diff_Feature_CoreAsset {
 	   if(from.equals("p"))
 		   customs.utils.NavigationMapGenerator.generateNavigationMapForCodeDiffP(idfeature,ca.getName(),"hasFeature ("+idfeature+")",pr.getName());
 	   */
-	   model.addAttribute("maintitle", "How is "+pr.getName()+" modifying the code in file '"+ca.getName()+"' for feature '"+idfeature+"' ?");
+	   model.addAttribute("maintitle", "How is '"+pr.getName()+"' modifying '"+ca.getName()+"' for feature '"+idfeature+"' ?");
 	   model.addAttribute("pr",pr.getName());
 	   model.addAttribute("idproductrelease",idproductrelease);
 	   model.addAttribute("idparentfeature",feature.getIdparent());
@@ -93,8 +93,8 @@ public class Diff_Feature_CoreAsset {
 	   if(from.equals("p"))
 		   customs.utils.NavigationMapGenerator.generateNavigationMapForCodeDiffP(idfeature,ca.getName(),"hasFeature ("+idfeature+")",pr.getName());
 	   */
-	   model.addAttribute("maintitle", "How is "+pr.getName()+" modifying the code in file '"
-			   	+ca.getName()+"' for parent feature '"+parentFeature.getName()+"' ?");
+	   model.addAttribute("maintitle", "How is '"+pr.getName()+"' modifying '"
+			   	+ca.getName()+"' for parent-feature '"+parentFeature.getName()+"' ?");
 	   
 	   model.addAttribute("pr",pr.getName());
 	   model.addAttribute("idproductrelease",pr.getId_productrelease());
@@ -133,7 +133,7 @@ public class Diff_Feature_CoreAsset {
 				diffvalue = diffvalue.concat(Formatting.decodeFromBase64( custom.getCustom_diff())).concat("\n");	
 			}
 		}
-		System.out.println("\n--------diffvalue:"+ diffvalue);	 
+		
 		model.addAttribute("diffvalue", diffvalue); 
 		model.addAttribute("pr",pr);
 		model.addAttribute("fname", parentFeature.getName());
@@ -148,9 +148,7 @@ public class Diff_Feature_CoreAsset {
 	private void addDiffViewForCoreAssetId(Model model, int idcoreasset, String pr, String featureid) {
 			
 		if(pr==null) return;
-		//I need to get the absolute diff  that modifies the idcoreasset in release pr
-		
-			
+
 		 CoreAsset ca = caDao.getCoreAssetByIdcoreasset(idcoreasset);
 		 System.out.println("CA:"+ca);
 		 System.out.print("\ndiff for idcoreasset: "+idcoreasset+" and ca name:"+ca.getName()); 
@@ -168,7 +166,7 @@ public class Diff_Feature_CoreAsset {
 				diffvalue = diffvalue.concat(Formatting.decodeFromBase64( custom.getCustom_diff())).concat("\n");	
 			}
 		}
-		System.out.println("\n--------diffvalue:"+ diffvalue);	 
+		 
 		model.addAttribute("diffvalue", diffvalue); 
 		model.addAttribute("pr",pr);
 		model.addAttribute("fname",featureid);

@@ -14,12 +14,12 @@ import customs.utils.Formatting;
 
 
 @Controller
-public class Diff_CoreAsset_ProductAsset_Controller {
+public class Diff_CoreAsset_ProductAsset_Controller_Obsolete {
 	  @Autowired private CustomsByFeatureAndCoreAssetDao customsToAssetsByproducts;
 	  @Autowired private CoreAssetDao caDao;
 	  
 
-	
+	/*
 	 @RequestMapping("diff_ca_pa_code")
 	   public String getDiffCaPaCode(
   				@RequestParam(value="base", required=false) String idbaseline, 
@@ -53,7 +53,7 @@ public class Diff_CoreAsset_ProductAsset_Controller {
 	   
 	   return "alluvials/diff_ca_pa_filter";
 	 }
-
+*/
 	 
 	 private void addDiffViewForCoreAssetId(Model model, int idcoreasset, String pr, String featureid) {
 			

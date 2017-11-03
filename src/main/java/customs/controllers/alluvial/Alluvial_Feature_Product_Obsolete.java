@@ -18,7 +18,7 @@ import customs.models.CustomsForCaPaFeatureDao;
 
 
 @Controller
-public class Alluvial_Feature_Product {
+public class Alluvial_Feature_Product_Obsolete {
 
 	 @Autowired private CustomsForCaPaFeatureDao customscapaDao;
 	 @Autowired private CoreassetsAndFeaturesDao coreassetsForFeature;

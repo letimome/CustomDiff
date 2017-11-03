@@ -25,7 +25,7 @@ import customs.models.ProductReleaseDao;
 
 
 @Controller
-public class Alluvial_Platform_Product_Controller {
+public class Alluvial_Platform_Product_Controller_obsolete {
 	
 	@Autowired private NewProductAssetDao paDao;
 	@Autowired private FeatureDao fDao;

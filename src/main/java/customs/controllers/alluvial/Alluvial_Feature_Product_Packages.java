@@ -36,7 +36,6 @@ public class Alluvial_Feature_Product_Packages {
 	@Autowired private Churn_CoreAssetsAndFeaturesByPRDao churnCAforPrDao;
 	
 	
-	private String lastFrom=null;
 	private String pathToResource = "./src/main/resources/static/";
 	
 	
@@ -69,57 +68,11 @@ public class Alluvial_Feature_Product_Packages {
 	 	}
 
 		
-	 @RequestMapping("diff_coreassets_productassets")
-	   public String getAlluvialForCaPa(
-			   @RequestParam(value="idproductrelease", required=true) int idproductrelease, 
-			   @RequestParam(value="idfeature", required=true) String idfeature, 
-			   @RequestParam(value="idpackage", required=true) String idpackage, 
-			   Model model){
+	
+	 
+	 
+	 
 
-           
-		   ProductRelease pr = prDao.getProductReleaseByIdproductrelease(idproductrelease);
-		   Feature f = fDao.getFeatureByIdfeature(idfeature);
-
-		   model.addAttribute("pr",pr.getName());
-		   model.addAttribute("idproductrelease",idproductrelease);
-		   model.addAttribute("idfeature",idfeature);
-		   model.addAttribute("idpackage",idpackage);
-		   model.addAttribute("maintitle", "Which core assets are customized by '"+pr.getName()+"'?");
-		   
-		   String csvheader="source,target,value,idcoreasset,idpackage,idfeature,idproductrelease";
-		   String csvContent  = computeCustomizationsForPRFeatureAssets(pr,f);
-		   
-		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features","core-asset","Expression",pr.getName());
-		   
-		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
-		   
-		   return "alluvials/diff_coreassets_productassets"; 
-	 	}
-	 
-	 
-	 
-	 
-	private String computeCustomizationsForPRFeatureAssets(ProductRelease pr, Feature f) {
-		// String csvheader="source,target,value,idcoreasset,idpackage,idfeature,idproductrelease";
-		String csvContent= "";
-		CoreAsset ca;
-		ArrayList<Integer> listOfidcoreasset = new ArrayList<Integer>();
-		Iterator<Churn_CoreAssetsAndFeaturesByPR> it = churnCAforPrDao.getCustomsByIdfeature(f.getIdfeature()).iterator();
-		Churn_CoreAssetsAndFeaturesByPR custom;
-		while (it.hasNext()) {
-			custom = it.next();
-			if(custom.getIdproductrelease()==pr.getId_productrelease()) {
-				ca=caDao.getCoreAssetByIdcoreasset(custom.getId_coreasset());
-				listOfidcoreasset.add(custom.getId_coreasset());
-				csvContent= csvContent.concat("\n"+custom.getCa_name()+"  ["+f.getIdfeature()+"],"
-				+custom.getCa_name()+","
-						+custom.getChurn()+","+custom.getId_coreasset()+","+ca.getIdpackage()+","+custom.getIdfeature()+","+custom.getIdproductrelease());
-			}
-				
-		}
-		csvContent= csvContent + computeCSVForNotCustomizedFeatureAssets(f,listOfidcoreasset);
-		return csvContent;
-	}
 
 
 	private String computeCustomizationsForPRFeaturePackages(ProductRelease pr, Feature f) {
@@ -173,19 +126,5 @@ public class Alluvial_Feature_Product_Packages {
 		return csvContent;
 	}
 	
-	private String computeCSVForNotCustomizedFeatureAssets(Feature f, ArrayList<Integer> listOfidcoreasset) {
-		String csvContent="";
-		Iterator<CoreassetsAndFeatures> it = caFeaturesDao.getFeatureCoreAssetsByIdfeature(f.getIdfeature()).iterator();
-		CoreassetsAndFeatures caf;
-		ArrayList<Integer> listassets = new ArrayList<Integer>();
-		while(it.hasNext()) {
-			caf = it.next();
-			if(!listOfidcoreasset.contains(caf.getId_coreasset()) && (!listassets.contains(caf.getId_coreasset()))) {
-				listassets.add(caf.getId_coreasset());
-				csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED,0.2");
-			}
-				
-		}
-		return csvContent;
-	}
+	
 }

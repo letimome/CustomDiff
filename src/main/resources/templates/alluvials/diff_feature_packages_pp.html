@@ -6,9 +6,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="idparentfeature" th:content="${idparentfeature}"></meta>
+<meta name="idfeature" th:content="${idfeature}"></meta>
+<meta name="idpackage" th:content="${idpackage}"></meta>
+<meta name="from" th:content="${from}"></meta>
+<meta name="idproductrelease" th:content="${idproductrelease}"></meta>
+
+
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
- 
+
 <title>diff(Parent Features, Product Component Packages) </title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
 <link rel="stylesheet" href="Treant.css" type="text/css"/>
@@ -381,6 +387,7 @@ float: left;
 	}
 	function drillDownByIdparentFeatureAndIdpackage(d){//click on the links between package & and product release
 		console.log(d);
+	    window.location.href="/diff_coreassets_productassets?idproductrelease="+d.idproductrelease+"&idfeature="+d.idfeature+"&idpackage="+d.idpackage+"&from=fppp";
 	
 	}
 		
