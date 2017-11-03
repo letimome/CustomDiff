@@ -73,9 +73,12 @@ public class Alluvial_ParentFeatures_PP_Controller {
 		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(customizedfeatures, featuresToInclude));
 		 
 		  customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
-		  
+		  String filterJson = customs.utils.FeaturesToJason.getJsonForParentFeatures(parentFeatureDao.findAll());
+		 System.out.println("filterJson");
+		 System.out.println(filterJson);
+		  model.addAttribute("filterJson",filterJson);
+		 
 		  addFilteredFeatureToTheModel(model,featuresToInclude);
-		  
 		  customs.utils.NavigationMapGenerator.generateNavigationMapForAlluvial();
 		  
 		  System.out.println(csvCustoms);
@@ -133,4 +136,6 @@ public class Alluvial_ParentFeatures_PP_Controller {
 				model.addAttribute("features", features);
 				System.out.println(features.toString());
 			}
+		  
+		  
 }

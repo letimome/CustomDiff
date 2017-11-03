@@ -8,6 +8,7 @@
 
 <meta name="idproductrelease" th:content="${idproductrelease}"></meta>
 <meta name="idpackage" th:content="${idpackage}"></meta>
+<meta name="filterJson" th:content="${filterJson}"></meta>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
  
@@ -402,9 +403,14 @@ float: left;
 <script>
 
 //<![CDATA[
-		
+				
+	function getMetaContentByName(name,content){
+		   var content = (content==null)?'content':content;
+		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+		}
 $(document).ready(function () {
-			
+	
+	
 			 var tempSelectList = [];
 		     var dialog = $("#dialog").kendoDialog({
 		            width: "400px",
@@ -431,22 +437,14 @@ $(document).ready(function () {
 
 
       
-        var featuremodel = [{
-            id: "WeatherStation", FullName: "WeatherStation", expanded: true,hasChildren:true, spriteCssClass: "rootfolder", items: [
-                {
-                    id: "Sensors", FullName: "Sensors", expanded: false, hasChildren:false, spriteCssClass: "man"
-                },
-                {
-                    id: "Languages", FullName: "Languages", expanded: false, hasChildren:false,spriteCssClass: "man"
-                },
-                {
-                    id: "Warnings", FullName: "Warnings", expanded: false,hasChildren:false, spriteCssClass: "optional"
-                }
-            ]
-        }];
-
+        var featuremodel = getMetaContentByName("filterJson");
+        console.log(featuremodel);
+        
+        var featuremodeljson = jQuery.parseJSON(featuremodel);
+       console.log(featuremodeljson);
+       
         $("#treeview").kendoTreeView({
-            	dataSource:featuremodel,
+            	dataSource:featuremodeljson,
             	autoScroll: false,
             dataTextField: "FullName",
             checkboxes: true,
