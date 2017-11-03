@@ -82,11 +82,12 @@ public class Alluvial_ParentFeatures_PackageAssets {
 						   +custo.getChurn()+","+custo.getId_parentfeature()+","+custo.getIdcoreasset() 
 						   +","+custo.getIdproductrelease()+","+custo.getIdpackage()); 
 				   
-				     csvCustoms = addNotCustomizedComponentPackagesTotheCSV(listcustomizedAssets,csvCustoms,pr.getId_productrelease(),comp_package);
-					 //  csvCustoms= 	addNewAssetsTotheCSV(csvCustoms,pr.getName());
+				    
+					 //  
 			   }
 		   }
-		  
+		   csvCustoms = addNotCustomizedComponentPackagesTotheCSV(listcustomizedAssets,csvCustoms,pr.getId_productrelease(),comp_package);
+		  //csvCustoms= 	addNewAssetsTotheCSV(csvCustoms,pr.getName());
 		return csvCustoms;
 	}
 
@@ -94,11 +95,13 @@ public class Alluvial_ParentFeatures_PackageAssets {
 		Iterator<CoreAsset> it = caDao.findAll().iterator();
 		System.out.println(it.toString());
 		CoreAsset ca;
-		
+		ArrayList<Integer> listaddedAssets = new ArrayList<Integer>();
 		while (it.hasNext()) {
 			ca = it.next();
-			if (!listcustomizedAssets.contains(ca.getIdcoreasset()) && ca.getIdpackage()==comp_package.getIdpackage()) {
+			if (!listcustomizedAssets.contains(ca.getIdcoreasset()) && ca.getIdpackage()==comp_package.getIdpackage()
+					&& (listaddedAssets.contains(ca.getIdcoreasset()))) {
 				csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+ca.getName()+",0.2,");
+				listaddedAssets.add(ca.getIdcoreasset());
 			}
 		}
 		
