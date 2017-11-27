@@ -13,5 +13,7 @@ public interface FeatureDao extends CrudRepository<Feature, Long> {
 
 	Feature getFeatureByIdfeature(String idfeature);
 
+	Iterable<Feature> getFeaturesByIdparent(int idparentfeature);
+
 
 }
