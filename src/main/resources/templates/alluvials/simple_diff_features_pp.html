@@ -198,11 +198,11 @@ float: left;
 			<!--Diagram view -->
 			<td colspan="20" align="center" valign="top" style="width:100%;">
 			
-			<p align="left"><a href="/diff_parent_features_products" >Roll-up</a></p>
+			<!--<p align="left"><a href="/diff_parent_features_products" >Roll-up</a></p>
 			  <p><a href="/diff_parent_features_products">
 				<img align="center"  src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
 			</a>
-			</p>
+			</p>-->
 				<p style= "color:black; font-size: 150%;" align="center" th:text="${maintitle}"> What features have been customized? </p>
 				  <div id="dialog" align="left"></div>
 				 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter features!
@@ -365,16 +365,16 @@ float: left;
 	  }
 	function goToReuseLevelView(d){//click on products
 		console.log(d);
-		window.location.href = "/diff_features_product_packages?&idproductrelease=" + d.targetLinks[0].idproductrelease+"&idparentfeature="+d.targetLinks[0].idparentfeature+"&from=fpr";
+		window.location.href = "/simple_diff_features_product_packages?&idproductrelease=" + d.targetLinks[0].idproductrelease+"&idparentfeature="+d.targetLinks[0].idparentfeature+"&from=fpr";
 	}
 
 	function goToFeatureView(d){//click on feature - either provide alluvial with children, or go to feature core assets.
 		console.log(d);
-		 window.location.href = "/diff_feature_packages_pp?idfeature="+d.name;
+		 window.location.href = "/simple_diff_feature_packages_pp?idfeature="+d.name;
 	}
 	function goToFeatureViewDetailed(d){//click on the links between Feature&product
 		console.log(d);
-		 window.location.href = "/diff_feature_and_product_packages?idfeature=" + d.source.name+"&idproductrelease="+d.idproductrelease;
+		 window.location.href = "/simple_diff_feature_and_product_packages?idfeature=" + d.source.name+"&idproductrelease="+d.idproductrelease;
 	}
 		
 	function myMouseoverFunction(d){
@@ -436,51 +436,67 @@ $(document).ready(function () {
 		}
 $(document).ready(function () {
 	
-	
-			 var tempSelectList = [];
-		     var dialog = $("#dialog").kendoDialog({
-		            width: "400px",
-		            height: "500px",
-		            visible: false,
-		            title: "Select features",
-		            closable: true,
-		            modal: false,
-		            content: "<div class='k-textbox k-space-right search-wrapper'><input id='employees-search' type='text'  placeholder='Search feature'/><span class='k-icon k-i-search'></span></div>" +             
-		                "<div class='select-all-wrapper'><input data-role='checkbox' onchange='selectAll(this)' type='checkbox' class='k-checkbox' id='_selectAllEmployees'/><label class='k-checkbox-label' for='_selectAllEmployees'>Select all features</label><span class='selected-count'></span></div>" +
-		                "<div id='treeview'></div>",
-		            actions: [
-		                { text: 'Cancel'},
-		                { text: 'OK', primary: false, action: actionOK }
-		            ],
-		            initOpen: initOpen,
-		            open: dialogOpen
-		        });
+	var tempSelectList = [];
+    var dialog = $("#dialog").kendoDialog({
+        width: "400px",
+        height: "500px",
+        visible: false,
+        title: "Select features",
+        closable: true,
+        modal: false,
+        content: "<div class='k-textbox k-space-right search-wrapper'><input id='employees-search' type='text'  placeholder='Search employees'/><span class='k-icon k-i-search'></span></div>" +             
+            "<div class='select-all-wrapper'><input data-role='checkbox' onchange='selectAll(this)' type='checkbox' class='k-checkbox' id='_selectAllEmployees'/><label class='k-checkbox-label' for='_selectAllEmployees'>Select all features</label><span class='selected-count'></span></div>" +
+            "<div id='treeview'></div>",
+        actions: [
+            { text: 'Cancel'},
+            { text: 'OK', primary: false, action: actionOK }
+        ],
+        initOpen: initOpen,
+        open: dialogOpen
+    });
 
-		        $("#pickEmployeesButton").kendoButton({
-		            click: openDialog
-		        });
+    $("#pickEmployeesButton").kendoButton({
+        click: openDialog
+    });
 		       
 
 
       
         var featuremodel = getMetaContentByName("filterJson");
-        console.log(featuremodel);
+        console.log("FM:"+featuremodel);
         
         var featuremodeljson = jQuery.parseJSON(featuremodel);
        console.log(featuremodeljson);
        
-        $("#treeview").kendoTreeView({
-            	dataSource:featuremodeljson,
-            	autoScroll: false,
+       homogeneous = new kendo.data.HierarchicalDataSource(featuremodeljson);
+     
+       var fmstring  = '[{"id": "All", "FullName": "All", "expanded": "true", "hasChildren" :"true", "spriteCssClass" : "rootfolder", "items": [{ \n "id" :"No Feature", "FullName":"No Feature", "expanded": "false", "hasChildren": "false"},   \n { "id" : "Sensors", "FullName":"Sensors", "expanded": "false", "hasChildren": "false"}, \n {"id":"Warnings", "FullName":"Warnings", "expanded": "false", "hasChildren": "false"}, \n {"id":"Languages", "FullName":"Languages", "expanded": "false", "hasChildren":"true", "items": [{ \n "id":"English","FullName":"English", "expanded":"true"}]}]}]';
+       var local= new kendo.data.HierarchicalDataSource({ 
+		       
+		    	   data: featuremodeljson,
+		       
+		    	   schema:{
+		        		model: {
+		        			children: "items"
+		        		}
+		        }
+       
+       });
+       
+       $("#treeview").kendoTreeView({
+            	dataSource:  local, //featuremodeljson
+         //   	autoScroll: true,
             dataTextField: "FullName",
             checkboxes: true,
-            checkboxes: {
+          /*  checkboxes: {
                 checkChildren: true
-              },
-            loadOnDemand: true,
-            expandAll: true,
-            dataBound: treeViewDataBound,
-            check: treeViewCheck
+              },*/
+            loadOnDemand: false,
+           // children: "items",
+            
+            //dataBound: treeViewDataBound,
+            //check: treeViewCheck
+           
         });
         
  
@@ -535,7 +551,7 @@ $(document).ready(function () {
         var checkedNodes = getCheckedItems(treeView);
         updateResult(checkedNodes);
         var filter = getCheckedItemsList(treeView); 
-        window.location.href = "/diff_features_pp?idparentfeature="+getMetaContentByName("idparentfeature") +"&filter="+filter+"&from=pfpp";//" + d.source.name+"-v1.0";
+        window.location.href = "/simple_diff_features_pp?idparentfeature="+getMetaContentByName("idparentfeature") +"&filter="+filter+"&from=pfpp";//" + d.source.name+"-v1.0";
         
     }
     

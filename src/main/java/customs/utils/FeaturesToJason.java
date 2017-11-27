@@ -29,15 +29,34 @@ public class FeaturesToJason {
 		while (it.hasNext()){
 			parent = it.next();
 			json+="{ \"id\":\""+parent.getName()+ "\", \"FullName\":\""+parent.getName()
-						+"\", \"expanded\": \"true\", \"hasChildren\": \"false\"  }";
+			+"\", \"expanded\": \"true\", \"hasChildren\": \"true\" }";
 			if(it.hasNext()) json+=",";
 		}
 		json+= "]";
 		return json;
 		}	
+
+	
+	public static String getJsonForParentChildrenFeature(Iterable<ParentFeature> findAll) {
+		String json = "[ ";
+		Iterator<ParentFeature> it = findAll.iterator();
+		ParentFeature parent;
+		int i=0;
+		while (it.hasNext()){
+			parent = it.next();
+			json+="{ \"id\":\""+parent.getName()+ "\", \"FullName\":\""+parent.getName()
+				+"\", \"expanded\": \"true\", \"hasChildren\": \"true\", "
+				+ "\"items\": [{\"id\":\"Feature"+i+"\", \"FullName\": \"Feature"+i+"\", \"expanded\": \"true\", \"hasChildren\":\"true\"}] }";
+			if(it.hasNext()) json+=",";
+			i++;
+		}
+		json+= "]";
+		System.out.println(" IN getJsonForParentChildrenFeature");
+		System.out.println(json);
+		return json; 
 	}
 
-
+}
 
 
 /****
@@ -54,7 +73,7 @@ public class FeaturesToJason {
 	{id:"No Feature", FullName:"No Feature", expanded: false, hasChildren:false},
 	{id:"Sensors", FullName:"Sensors", expanded: false, hasChildren:false},
 	{id:"Warnings", FullName:"Warnings", expanded: false, hasChildren:false},
-	{id:"Languages", FullName:"Languages", expanded: false, hasChildren:false}
+	{id:"Languages", FullName:"Languages", expanded: false, hasChildren:true, items:[{id:"English",FullName:"English", expanded:true}]}
 	]}]
  * 
  * **/
