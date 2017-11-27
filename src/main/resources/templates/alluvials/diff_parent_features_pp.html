@@ -218,7 +218,7 @@ float: left;
 //<![CDATA[
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 60},
-	    width = 900 - margin.left - margin.right,
+	    width = 1100 - margin.left - margin.right,
 	    height = 700 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
@@ -343,7 +343,7 @@ float: left;
 	      .attr("dy", ".35em")
 	      .attr("text-anchor", "end")
 	      .attr("transform", null)
-	      .text(function(d) { return d.name; })
+	      .text(function(d) { return d.name+"\n["+d.value+"]"; })
 	   	    .filter(function(d) { return d.x < width / 2; })
 	      .attr("x", 6 + sankey.nodeWidth())
 	      .attr("text-anchor", "start");
