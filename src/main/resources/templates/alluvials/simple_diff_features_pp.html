@@ -29,7 +29,13 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
 
+    <link rel="stylesheet" href="styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/kendo.all.min.js"></script>
+    
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
 
@@ -205,7 +211,7 @@ float: left;
 			</p>-->
 				<p style= "color:black; font-size: 150%;" align="center" th:text="${maintitle}"> What features have been customized? </p>
 				  <div id="dialog" align="left"></div>
-				 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter features!
+				 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter by feature
 				 <img align="left" src="images/filter.png"></img>
 				 </button>      
 				
@@ -365,7 +371,7 @@ float: left;
 	  }
 	function goToReuseLevelView(d){//click on products
 		console.log(d);
-		window.location.href = "/simple_diff_features_product_assets?&idproductrelease=" + d.targetLinks[0].idproductrelease;//"&idparentfeature="+d.targetLinks[0].idparentfeature+"&from=fpr";
+		window.location.href = "/simple_diff_features_product_assets?idproductrelease=" + d.targetLinks[0].idproductrelease+"&filter=all";//"&idparentfeature="+d.targetLinks[0].idparentfeature+"&from=fpr";
 	}
 
 	function goToFeatureView(d){//click on feature - either provide alluvial with children, or go to feature core assets.
@@ -395,7 +401,6 @@ float: left;
 	  d3.select(this)
 	  .attr("height", function(d) { return d.dy; })
       .attr("width", sankey.nodeWidth());
-  
   }
         
 	});//end
@@ -407,7 +412,10 @@ float: left;
 <script>
 <!-- Script for the filtering menu -->
 //<![CDATA[
-		
+		function getMetaContentByName(name,content){
+		   var content = (content==null)?'content':content;
+		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+		}
 $(document).ready(function () {		
     	//Add you are here location
     	var node = document.getElementsByClassName("node nodeExample1 orange");
@@ -423,18 +431,6 @@ $(document).ready(function () {
     	span.append(image);
     	node[0].append(span);
 
-	//]]>
-</script>
-
-<script>
-
-//<![CDATA[
-				
-	function getMetaContentByName(name,content){
-		   var content = (content==null)?'content':content;
-		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
-		}
-$(document).ready(function () {
 	
 	var tempSelectList = [];
     var dialog = $("#dialog").kendoDialog({
@@ -444,7 +440,7 @@ $(document).ready(function () {
         title: "Select features",
         closable: true,
         modal: false,
-        content: "<div class='k-textbox k-space-right search-wrapper'><input id='employees-search' type='text'  placeholder='Search employees'/><span class='k-icon k-i-search'></span></div>" +             
+        content: "<div class='k-textbox k-space-right search-wrapper'><input id='employees-search' type='text'  placeholder='Search features'/><span class='k-icon k-i-search'></span></div>" +             
             "<div class='select-all-wrapper'><input data-role='checkbox' onchange='selectAll(this)' type='checkbox' class='k-checkbox' id='_selectAllEmployees'/><label class='k-checkbox-label' for='_selectAllEmployees'>Select all features</label><span class='selected-count'></span></div>" +
             "<div id='treeview'></div>",
         actions: [
@@ -459,43 +455,68 @@ $(document).ready(function () {
         click: openDialog
     });
 		       
-
+	 var featuremodelAdhoc = [{
+         id: "WeatherStation", FullName: "Platform Features", expanded: true,hasChildren:true, items: [
+             {
+                 id: "Sensors", FullName: "Sensors", expanded: false, hasChildren:true, items: [
+                     { id: "Temperature", FullName: "Temperature", hasChildren:false },
+                     { id: "WindSpeed", FullName: "WindSpeed",  hasChildren:false },
+                     { id: "AirPressure", FullName: "AirPressure",  hasChildren:false }
+                 ]
+             },
+             {
+                 id: "Languages", FullName: "Languages", expanded: false, hasChildren:true, items: [
+                     { id: "English", FullName: "English", hasChildren:false },
+                     { id: "German", FullName: "German",  hasChildren:false },
+                 ]
+             },
+             {
+                 id: "Warnings", FullName: "Warnings", expanded: false,hasChildren:true, items: [
+                     { id: "Gale", FullName: "Gale",  hasChildren:false},
+                     { id: "Heat", FullName: "Heat", hasChildren:false},
+                 ]
+             },
+             {
+                 id: "No Feature", FullName: "No Feature", expanded: false,hasChildren:false
+             }
+         ]
+     }];
 
       
         var featuremodel = getMetaContentByName("filterJson");
         console.log("FM:"+featuremodel);
         
-        var featuremodeljson = jQuery.parseJSON(featuremodel);
-       console.log(featuremodeljson);
-       
-       homogeneous = new kendo.data.HierarchicalDataSource(featuremodeljson);
+       var featuremodeljson = jQuery.parseJSON(featuremodel);
+       console.log( JSON.stringify(JSON.parse(featuremodel),null,2));
      
-       var fmstring  = '[{"id": "All", "FullName": "All", "expanded": "true", "hasChildren" :"true", "spriteCssClass" : "rootfolder", "items": [{ \n "id" :"No Feature", "FullName":"No Feature", "expanded": "false", "hasChildren": "false"},   \n { "id" : "Sensors", "FullName":"Sensors", "expanded": "false", "hasChildren": "false"}, \n {"id":"Warnings", "FullName":"Warnings", "expanded": "false", "hasChildren": "false"}, \n {"id":"Languages", "FullName":"Languages", "expanded": "false", "hasChildren":"true", "items": [{ \n "id":"English","FullName":"English", "expanded":"true"}]}]}]';
-       var local= new kendo.data.HierarchicalDataSource({ 
-		       
-		    	   data: featuremodeljson,
-		       
+       
+      // homogeneous = new kendo.data.HierarchicalDataSource(featuremodel);
+	 // var fmstring  = '[{"id": "All", "FullName": "All", "expanded": "true", "hasChildren" :"true", "spriteCssClass" : "rootfolder", "items": [{ \n "id" :"No Feature", "FullName":"No Feature", "expanded": "false", "hasChildren": "false"},   \n { "id" : "Sensors", "FullName":"Sensors", "expanded": "false", "hasChildren": "false"}, \n {"id":"Warnings", "FullName":"Warnings", "expanded": "false", "hasChildren": "false"}, \n {"id":"Languages", "FullName":"Languages", "expanded": "false", "hasChildren":"true", "items": [{ \n "id":"English","FullName":"English", "expanded":"true"}]}]}]';
+       var local = new kendo.data.HierarchicalDataSource({ 
+		    	   data: featuremodelAdhoc,//featuremodeljson
 		    	   schema:{
 		        		model: {
+		        			id: "id",
 		        			children: "items"
 		        		}
 		        }
-       
        });
        
+     
+       
        $("#treeview").kendoTreeView({
-            	dataSource:  local, //featuremodeljson
+    	  		 dataSource:  local,// local, //featuremodeljson
          //   	autoScroll: true,
             dataTextField: "FullName",
             checkboxes: true,
-          /*  checkboxes: {
+            checkboxes: {
                 checkChildren: true
-              },*/
+              },
             loadOnDemand: false,
-           // children: "items",
             
-            //dataBound: treeViewDataBound,
-            //check: treeViewCheck
+         	
+            dataBound: treeViewDataBound,
+            check: treeViewCheck
            
         });
         
@@ -551,7 +572,7 @@ $(document).ready(function () {
         var checkedNodes = getCheckedItems(treeView);
         updateResult(checkedNodes);
         var filter = getCheckedItemsList(treeView); 
-        window.location.href = "/simple_diff_features_pp?idparentfeature="+getMetaContentByName("idparentfeature") +"&filter="+filter+"&from=pfpp";//" + d.source.name+"-v1.0";
+        window.location.href = "/simple_diff_features_pp?filter="+filter;//" + d.source.name+"-v1.0";
         
     }
     

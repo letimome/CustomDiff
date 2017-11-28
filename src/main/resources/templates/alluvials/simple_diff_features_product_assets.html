@@ -202,6 +202,10 @@ float: left;
 			
 			<p style= "color:black; font-size: 150%;" align="center" th:text="${maintitle}"> What (parent) features have been customized by products? </p>
 			<div align="center">
+			  <div id="dialog" align="left"></div>
+				 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter by components
+				 <img align="left" src="images/filter.png"></img>
+				 </button>      
 			</div><br />
 			
 			<p id="chart" align="center" style="backgound-color:grey"/>
@@ -488,24 +492,20 @@ $(document).ready(function () {
 
       
         var featuremodel = [{
-            id: "WeatherStation", FullName: "WeatherStation", expanded: true,hasChildren:true, spriteCssClass: "rootfolder", items: [
+            id: "Components", FullName: "Components", expanded: true,hasChildren:true, spriteCssClass: "rootfolder", items: [
                 {
-                    id: "Sensors", FullName: "Sensors", expanded: false, hasChildren:true, spriteCssClass: "man", items: [
-                        { id: "Temperature", FullName: "Temperature", spriteCssClass: "or", hasChildren:false },
-                        { id: "WindSpeed", FullName: "WindSpeed", spriteCssClass: "or" , hasChildren:false },
-                        { id: "AirPressure", FullName: "AirPressure", spriteCssClass: "or", hasChildren:false }
+                    id: "js", FullName: "js", expanded: false, hasChildren:true, spriteCssClass: "man", items: [
+                       
                     ]
                 },
                 {
-                    id: "Languages", FullName: "Languages", expanded: false, hasChildren:true,spriteCssClass: "man", items: [
-                        { id: "English", FullName: "English", spriteCssClass: "alt", hasChildren:false },
-                        { id: "German", FullName: "German", spriteCssClass: "alt", hasChildren:false },
+                    id: "images", FullName: "images", expanded: false, hasChildren:true,spriteCssClass: "man", items: [
+                       
                     ]
                 },
                 {
-                    id: "Warnings", FullName: "Warnings", expanded: false,hasChildren:true, spriteCssClass: "optional", items: [
-                        { id: "Gale", FullName: "Gale", spriteCssClass: "or" , hasChildren:false},
-                        { id: "Heat", FullName: "Heat", spriteCssClass: "or" , hasChildren:false},
+                    id: "css", FullName: "css", expanded: false,hasChildren:true, spriteCssClass: "optional", items: [
+                        
                     ]
                 }
             ]
@@ -582,11 +582,11 @@ $(document).ready(function () {
         var checkedNodes = getCheckedItems(treeView);
         updateResult(checkedNodes);
         var filter = getCheckedItemsList(treeView); 
-        window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+filter;//" + d.source.name+"-v1.0";
+        window.location.href = "http://localhost:8080/simple_diff_features_product_assets?idproductrelease="+getMetaContentByName('idproductrelease')+"&filter="+filter;//" + d.source.name+"-v1.0";
     }
     
 	  function removeFeatureFilter(){//removeFilter()
-		  window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0";//" + d.source.name+"-v1.0";
+		 // window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0";//" + d.source.name+"-v1.0";
 	    }
     
     

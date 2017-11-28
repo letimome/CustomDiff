@@ -1,14 +1,21 @@
-source,target,value
-AirPressure,productEHU-v1.0,1
-AirPressure,productPrueba-v1.0,4
-AirPressure,productTest-v1.0,1
-Gale,productPrueba-v1.0,2
-No Feature,productEHU-v1.0,1
-No Feature,productTest-v1.0,1
-WindSpeed,productEHU-v1.0,4
-WindSpeed,productPrueba-v1.0,6
-WindSpeed,productTest-v1.0,4
-English,NOT_CUSTOMIZED,0.2
-German,NOT_CUSTOMIZED,0.2
-Heat,NOT_CUSTOMIZED,0.2
-Temperature,NOT_CUSTOMIZED,0.2
+source,target,value,idparentfeature,idproductrelease
+AirPressure,productEHU-v1.0,1,1,1
+AirPressure,productProductA-v1.0,2,1,2
+AirPressure,productPrueba-v1.0,4,1,3
+AirPressure,productTest-v1.0,1,1,5
+Gale,productProductA-v1.0,5,2,2
+Gale,productPrueba-v1.0,2,2,3
+German,productProductA-v1.0,3,3,2
+German,productSanse-v1.0,2,3,4
+Heat,productProductA-v1.0,3,2,2
+Heat,productSanse-v1.0,2,2,4
+No Feature,productEHU-v1.0,1,0,1
+No Feature,productProductA-v1.0,1,0,2
+No Feature,productSanse-v1.0,24,0,4
+No Feature,productTest-v1.0,1,0,5
+WindSpeed,productEHU-v1.0,4,1,1
+WindSpeed,productProductA-v1.0,5,1,2
+WindSpeed,productPrueba-v1.0,6,1,3
+WindSpeed,productTest-v1.0,4,1,5
+English,NONE,0.2
+Temperature,NONE,0.2

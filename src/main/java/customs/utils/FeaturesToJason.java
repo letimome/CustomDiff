@@ -46,7 +46,7 @@ public class FeaturesToJason {
 			parent = it.next();
 			json+="{ \"id\":\""+parent.getName()+ "\", \"FullName\":\""+parent.getName()
 				+"\", \"expanded\": \"true\", \"hasChildren\": \"true\", "
-				+ "\"items\": [{\"id\":\"Feature"+i+"\", \"FullName\": \"Feature"+i+"\", \"expanded\": \"true\", \"hasChildren\":\"true\"}] }";
+				+ " \"items\": [{ \"id\" :\"Feature"+i+"\", \"FullName\": \"Feature"+i+"\", \"expanded\": \"true\", \"hasChildren\": \"false\"}] }";
 			if(it.hasNext()) json+=",";
 			i++;
 		}
@@ -56,8 +56,8 @@ public class FeaturesToJason {
 		return json; 
 	}
 
-}
 
+}
 
 /****
  * 
@@ -76,6 +76,6 @@ public class FeaturesToJason {
 	{id:"Languages", FullName:"Languages", expanded: false, hasChildren:true, items:[{id:"English",FullName:"English", expanded:true}]}
 	]}]
  * 
- * **/
+ ***/
 
 
