@@ -1,0 +1,472 @@
+<!-- HTML5 document type -->
+ <html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8"/>
+<meta name="diffvalue" th:content="${diffvalue}"></meta>
+<meta name="from" th:content="${from}"></meta>
+<meta name="idfeature" th:content="${idfeature}"></meta>
+<meta name="idparentfeature" th:content="${idparentfeature}"></meta>
+<meta name="idpackage" th:content="${idpackage}"></meta>
+<meta name="idproductrelease" th:content="${idproductrelease}"></meta>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+ 
+<title>diff (PL asset, variant asset)[Filter]</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
+<link rel="stylesheet" href="Treant.css" type="text/css"/>
+<link rel="stylesheet" href="custom-colored.css" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
+<link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
+<link rel="stylesheet" href="styles/kendo.common.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+
+
+<script src="NavigationMap.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/kendo.all.min.js"></script>
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script src="vendor/raphael.js"></script>
+<script src="Treant.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+<style>
+.node rect {
+  cursor: not-allowed;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+.node text {
+  font-size:120%;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff;
+}
+
+.link {
+  fill: none;
+  stroke: #000;
+  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+  stroke-opacity: .2;
+}
+
+.link:hover {
+  stroke-opacity: .5;
+}
+#treeview .k-sprite {
+            background-image: url("../content/web/treeview/coloricons-sprite.png");
+        }
+
+        .rootfolder { background-position: 0 0; }
+        .folder     { background-position: 0 -16px; }
+        .pdf        { background-position: 0 -32px; }
+        .html       { background-position: 0 -48px; }
+        .image      { background-position: 0 -64px; }
+
+   #example {
+        min-height: 200px;
+    }
+
+        #example .title {
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+    .search-wrapper {
+        width: 100%;
+    }
+    .query-match {
+        color: red;
+    }
+    .select-all-wrapper {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .selected-count {
+        float: right;
+        color: #aaa;
+    }
+    .k-treeview {
+        border-width: 1px!important;
+        padding: 5px;
+    }
+    .selectedName {
+        padding: 5px 10px;
+        background: #aaa;
+        color: white;
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+    }
+
+   
+
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+.navbar-light{
+  border-bottom: 1px solid grey;
+  float: left;
+  
+}
+  li [nav-item]{ 
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+img { display: block;float: left;margin-right: 10px;}
+
+
+.navbar-nav {
+flex-direction: row;
+ float: right;
+}
+
+.navbar-header {
+align: left;
+float: left;
+}
+
+.container-fluid  {
+    float: left;
+   
+}
+.navbar-light{
+  border-bottom: 0px solid grey;
+  float: left;
+  
+}
+</style>
+
+
+</head>
+
+<!-- Header-->
+<body align="center" >
+<header  class="navbar navbar-light bg-faded">
+  <nav  class="container w-100" style="background-color: white;">
+    <div class="d-flex justify-content-between hidden-lg-up">      
+       <a class="navbar-brand " href="/index">
+    	  		<img id="Home" align="left " src="customDiffLargo.png" alt="Home" style="width:180px;height:50px;"></img>
+    	  </a>
+    </div>
+      <ul class="nav navbar-nav ">
+        <li class="">
+        </li>
+         	<li class="nav-item"><a href="http://localhost:8080/index"><img src="http://localhost:8080/images/home.png" alt="Home" 
+	      style="width:30px;height:30px;"/></a></li>
+	    <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://localhost:8080/images/hierarchy.png" alt="Customization analysis" 
+	      style="width:38px;height:38px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="http://localhost:8080/search"><img src="http://localhost:8080/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="http://localhost:8080/config"><img src="http://localhost:8080/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item" align="center"><a href="http://localhost:8080/documentation"><img src="http://localhost:8080/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
+      </ul>
+  </nav>
+</header>
+
+<!-- Table -->
+<div class="container-fluid">
+	<table  class="table table-bordered table-striped table-responsive " cellpadding="20px" cellspacing="20px" 
+	style="background-color:;width:98%">
+		<tr><!-- Navigation map on left hand-side -->
+	       <td align="left" valign="top" style="background-color:white" >
+				   <div class="row d-flex d-md-block flex-nowrap wrapper">
+				        <div  class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
+							<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
+							<script><!-- Script for the drawing of the navigation map-->
+								var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
+							</script>
+				
+				       	</div>
+				        <main align="right" class="col-md-9 float-left col px-3 pl-md-2 pt-2 main"  >
+				            	<span align=""><p style= "color:black; align:right; font-size: 120%;"> Position map</p></span>
+				            <a href="#" data-target="#sidebar" data-toggle="collapse"><i class="fa fa-navicon fa-2x py-2 p-1"></i></a>
+				        </main>
+				    </div>
+			</td>
+			<!--Diagram view -->
+		<td colspan="20" align="center" valign="top" style="width:80%;background-color:">
+			
+			<p align="left"><a href="#" onclick="rollUp()">Roll-up</a></p>
+			  <p><a href="#" onclick="rollUp()">
+				<img align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
+			</a>
+			</p>
+			
+			<p style= "color:black; font-size: 150%;" align="center" th:text="${maintitle}"> What features have been customized? </p>
+			<div align="center">
+			</div><br />
+			
+			<p id="chart" align="center" style="backgound-color:grey"/>
+			<br /><br />
+			<p style="font-size:90%;" align="center"> 
+				Note: Streams' height denotes customization change-size per Feature-Product pair.
+				<br/>Rectangles area denotes customization change-size per Feature/Product.
+			</p>
+		
+		</td>
+	</tr>
+</table>
+</div>
+
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="sankey.js"></script>
+<script src="draw.js"></script>
+ <script> <!-- Script for drawing the alluvial diagram -->
+//<![CDATA[
+  var units = "Widgets";
+	var margin = {top: 10, right: 10, bottom: 10, left: 10},
+	    width = 650 - margin.left - margin.right,
+	    height = 450 - margin.top - margin.bottom;
+	var formatNumber = d3.format(",.0f"),    // zero decimal places
+	    format = function(d) { return formatNumber(d) + " " + units; },
+	    color = d3.scale.category20();
+	// append the svg canvas to the page
+	var svg = d3.select("#chart").append("svg")
+	    .attr("width", width + margin.left + margin.right)
+	    .attr("height", height + margin.top + margin.bottom)
+	  .append("g")
+	    .attr("transform", 
+	          "translate(" + margin.left + "," + margin.top + ")");
+	// Set the sankey diagram properties
+	var sankey = d3.sankey()
+	    .nodeWidth(36)
+	    .nodePadding(40)
+	    .size([width, height]);
+	var path = sankey.link();
+	// load the data (using the timelyportfolio csv method)
+	d3.csv("/alluvial.csv", function(error, data) {
+	  //set up graph in same style as original example but empty
+	  graph = {"nodes" : [], "links" : []};
+	    data.forEach(function (d) {
+	      graph.nodes.push({ "name": d.source });
+	      graph.nodes.push({ "name": d.target });
+	      graph.links.push({ "source": d.source,
+	                         "target": d.target,
+	                         "value": d.value,
+	                         "idcoreasset": d.idcoreasset,
+	                         "idpackage": d.idpackage,
+	                         "idfeature": d.idfeature,
+	                         "idproductrelease": d.idproductrelease });
+	     });
+	     // return only the distinct / unique nodes
+	     graph.nodes = d3.keys(d3.nest()
+	       .key(function (d) { return d.name; })
+	       .map(graph.nodes));
+	     // loop through each link replacing the text with its index from node
+	     graph.links.forEach(function (d, i) {
+	       graph.links[i].source = graph.nodes.indexOf(graph.links[i].source);
+	       graph.links[i].target = graph.nodes.indexOf(graph.links[i].target);
+	     });
+	     //now loop through each nodes to make nodes an array of objects
+	     // rather than an array of strings
+	     graph.nodes.forEach(function (d, i) {
+	       graph.nodes[i] = { "name": d };
+	     });
+	  sankey
+	    .nodes(graph.nodes)
+	    .links(graph.links)
+	    .layout(32);
+	// add in the links
+	  var link = svg.append("g").selectAll(".link")
+	      .data(graph.links)
+	    .enter().append("path")
+	      .attr("class", "link")
+	      .attr("d", path)
+	      .style("stroke-width", function(d) { return Math.max(1, d.dy); })
+	      .sort(function(a, b) { return b.dy - a.dy; })
+	      .on("click",function(d, a , b,link){
+        if (d3.event.defaultPrevented) return;
+           goToFeatureViewDetailed(d);
+    		});
+	// add the link titles
+	  link.append("title")
+	        .text(function(d) {
+	        	var show = "diff("+d.source.name+", "+d.target.name+")";
+	        	//d.source.name + " → " +  d.target.name + "\n" + format(d.value);
+	    		return show;});
+	// add in the nodes
+	  var node = svg.append("g").selectAll(".node")
+	      .data(graph.nodes)
+	    .enter().append("g")
+	      .attr("class", "node")
+	      .attr("transform", function(d) { 
+			  return "translate(" + d.x + "," + d.y + ")"; })
+			   .on("click",function(d){
+        if (d3.event.defaultPrevented) return;
+           window.console.log("clicked on product:"+d.name);
+          
+           if (d.name.includes("Product") || d.name.includes("product"))
+        	     goToReuseLevelView(d);//goToReuseLevelView
+           else goToFeatureView (d);
+    		});
+	  /*  .call(d3.behavior.drag()
+	      .origin(function(d) { return d; })
+	      .on("dragstart", function() { 
+			  this.parentNode.appendChild(this); })
+	      .on("drag", dragmove));*/
+	      
+
+		
+	// add the rectangles for the nodes
+	  node.append("rect")
+	  .attr("height", function(d) { return d.dy; })
+	      .attr("width", sankey.nodeWidth())
+	      .attr("text", "asdasdadaa")
+	      .style("fill", function(d) { 
+			  return d.color = color(d.name.replace(/ .*/, "")); })
+	      .style("stroke", function(d) { return d3.rgb(d.color).darker(2); })
+		  .on("mouseover", myMouseoverFunction)
+		.on("mouseout", myMouseoutFunction)
+	    .append("title").text(function(d) { 
+	    		/*var show;
+	    	     if(d.name.includes("product")) 
+	    	    	 //	show="diff(Baseline-v1.0,"+ d.name+")";
+	    	     else ;//show="diff("+ d.name+", product portfolio)";
+	    	    	 //d.name + "\n" + format(d.value);
+			  return show;*/
+			  });
+	
+	        
+	      // add in the title for the nodes
+	
+	
+	
+	node.append("text")
+	      .attr("x", -6)
+	      .attr("y", function(d) { return d.dy / 2; })
+	      .attr("dy", ".35em")
+	      .attr("text-anchor", "end")
+	      .attr("transform", null)
+	      .text(function(d) {  
+	    	  	 if(d.value <1  )  return d.name+"  [0 LOCs]";
+    	 		 return d.name+"  ["+d.value+" LOCs]"; })
+	   	    .filter(function(d) { return d.x < width / 2; })
+	      .attr("x", 6 + sankey.nodeWidth())
+	      .attr("text-anchor", "start");
+
+	// the function for moving the nodes
+	  function dragmove(d) {
+	    d3.select(this).attr("transform", 
+	        "translate(" + d.x + "," + (
+	                d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+	            ) + ")");
+	    sankey.relayout();
+	    link.attr("d", path);
+	  }
+	function goToReuseLevelView(d){//click on pa
+		
+	}
+
+	function goToFeatureView(d){//click on ca 
+		
+	}
+	function goToFeatureViewDetailed(d){//click on the links between ca&pa
+		console.log(d);
+
+		window.location.href = "/simple_diff_ca_pa_filter?idfeature="+ d.idfeature+"&pr="+d.idproductrelease+"&idcoreasset="+d.idcoreasset+"&from=fp";
+				
+	}
+		
+	function myMouseoverFunction(d){
+	    window.console.log(this);
+	    window.console.log(d);
+		//d3.select(this).style("fill","white");
+		
+		d3.select(this)
+		  .attr("height", function(d) { return d.dy + 20; })
+	      .attr("width", sankey.nodeWidth() +15);
+	}
+  function myMouseoutFunction(d) {
+	  d3.select(this).style("fill", function(d) { 
+		  return d.color = color(d.name.replace(/ .*/, "")); })
+      .style("stroke", function(d) { 
+		  return d3.rgb(d.color).darker(5); });
+	  
+	  d3.select(this)
+	  .attr("height", function(d) { return d.dy; })
+      .attr("width", sankey.nodeWidth());
+  
+  }
+        
+	});//end
+	//]]>
+
+</script>
+
+
+<script>
+<!-- Script for the filtering menu -->
+//<![CDATA[
+		
+
+    
+$(document).ready(function () {
+			
+    	//Add you are here location
+    	var node = document.getElementsByClassName("node nodeExample1 orange");
+    	var span = document.createElement("p");
+    	var image = document.createElement("img");
+    	image.setAttribute("src","http://localhost:8080/images/here.png");
+    	image.setAttribute("heigh","60px");
+    	image.setAttribute("width","50px");
+    	image.append(document.createElement("br"))
+    	span.append(image);
+    	node[0].append(span);
+    
+    	/*Adding image for rect nodes you are here location
+    	var node = document.getElementsByTagName("rect");
+    	console.log(node);
+    	console.log(node[0]);
+    	var image = document.createElement("img");
+    	image.setAttribute("src","http://localhost:8080/images/drill-down.png");
+    	image.setAttribute("heigh","60px");
+    	image.setAttribute("width","50px");
+    	node[0].append(image);*/
+        
+    });//end of on document load
+	function getMetaContentByName(name,content){
+		   var content = (content==null)?'content':content;
+		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+		}
+	
+ function rollUp(){
+	 
+		window.location.href = "/simple_diff_features_pp?";
+ 		
+ 	//	var idfeature = getMetaContentByName('idfeature');
+ 	//	var idparentfeature = getMetaContentByName('idparentfeature');
+ 	//	var idproductrelease = getMetaContentByName('idproductrelease');
+ 	//	var from = getMetaContentByName('from');
+ 		
+ 	//	 if (from=='fppackp')
+ 	//		window.location.href = "/diff_feature_and_product_packages?idfeature="+idfeature+"&idproductrelease="+idproductrelease;
+ 	//	else  if (from=='fp')
+ 	//		window.location.href = "/diff_features_product_packages?idproductrelease="+idproductrelease+"&idparentfeature="+idparentfeature;
+ 	//	else  if (from=='fppp')
+ 	//		window.location.href = "/diff_feature_packages_pp?idfeature="+idfeature;
+ }
+
+       
+  //]]>
+</script>
+
+<footer class="footer">
+      <div class="container">
+        <span class="text-muted"> 
+        <img src="images/onekinLogo.png" alt="Logo" style="width:150px;height:70px;">
+        Contact:      oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </img> </span>
+		 
+      </div>
+ </footer>  
+</body>
+</html>

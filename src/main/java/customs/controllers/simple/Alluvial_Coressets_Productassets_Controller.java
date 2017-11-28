@@ -1,4 +1,4 @@
-package customs.controllers.alluvial;
+package customs.controllers.simple;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +22,7 @@ import customs.models.FeatureDao;
 import customs.models.ProductRelease;
 import customs.models.ProductReleaseDao;
 @Controller
-public class Alluvial_Coresset_Productasset {
+public class Alluvial_Coressets_Productassets_Controller {
 
 	
 
@@ -37,13 +37,10 @@ public class Alluvial_Coresset_Productasset {
 	private String pathToResource = "./src/main/resources/static/";
 	
 	
-	
-	
-	 @RequestMapping("diff_coreassets_productassets")
+	 @RequestMapping("simple_diff_coreassets_productassets")
 	   public String getAlluvialForCaPa(
 			   @RequestParam(value="idproductrelease", required=true) int idproductrelease, 
 			   @RequestParam(value="idfeature", required=true) String idfeature, 
-			   @RequestParam(value="idpackage", required=true) String idpackage, 
 			   @RequestParam(value="from", required=false) String from, 
 			   Model model){
 
@@ -57,17 +54,20 @@ public class Alluvial_Coresset_Productasset {
 		   model.addAttribute("idproductrelease",idproductrelease);
 		   model.addAttribute("idfeature",idfeature);
 		   model.addAttribute("from",from);
-		   model.addAttribute("idpackage",idpackage);
+		   //model.addAttribute("idpackage",idpackage);
 		   model.addAttribute("idparentfeature",f.getIdparent());
-		   model.addAttribute("maintitle", "Which core assets are customized by '"+pr.getName()+"'?");
+		   model.addAttribute("maintitle", "Which "+f.getName()+"'s core assets are customized by '"+pr.getName()+"'?");
 		   
 		   String csvheader="source,target,value,idcoreasset,idpackage,idfeature,idproductrelease";
 		   String csvContent  = computeCustomizationsForPRFeatureAssets(pr,f);
 		   
-		   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct( f.getName(),  pr.getName(), "core-asset",  "expression");
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(f.getName(), pr.getName(), "core-assets", "Expression");
+		   
+		  // customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide(f.getName(),"core-asset","Expression",pr.getName());
+		   
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
 		   
-		   return "alluvials/diff_coreassets_productassets"; 
+		   return "alluvials/simple_diff_coreassets_productassets"; 
 	 	}
 	 
 	 
@@ -104,7 +104,7 @@ public class Alluvial_Coresset_Productasset {
 			caf = it.next();
 			if(!listOfidcoreasset.contains(caf.getId_coreasset()) && (!listassets.contains(caf.getId_coreasset()))) {
 				listassets.add(caf.getId_coreasset());
-				csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED,0.2");
+				csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED,0.01");
 			}
 				
 		}

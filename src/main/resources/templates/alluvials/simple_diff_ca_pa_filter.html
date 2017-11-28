@@ -239,16 +239,15 @@ $(document).ready(function () {
 		//window.location.href ="/diff_features_pp?idparentfeature="+idparent;
     		var from = getMetaContentByName("from");
     		var idfeature = getMetaContentByName('idfeature');
-    		var idpackage = getMetaContentByName('idpackage');
-    		var idparentfeature = getMetaContentByName('idparentfeature');
+    		//var idpackage = getMetaContentByName('idpackage');
+    		//var idparentfeature = getMetaContentByName('idparentfeature');
     		var idproductrelease = getMetaContentByName('idproductrelease');
-		if (from=='capp')
-			window.location.href="/diff_core_assets_pp?idpackage="+idpackage+"&idfeature="+idfeature;
-		else if(from=='cava')
-			 window.location.href="/diff_coreassets_productassets?idproductrelease="+idproductrelease+"&idfeature="+idfeature+"&idpackage="+idpackage;
-		else if (from=='fa')
-			 window.location.href="/diff_features_package_assets?idproductrelease="+idproductrelease+"&idpackage="+idpackage+"&idparentfeature="+idparentfeature;
-			
+		if (from=='f')
+			window.location.href="/simple_diff_feature_pp?idfeature="+idfeature;
+		else if(from=='p')
+			 window.location.href="/simple_diff_features_product_assets?idproductrelease="+idproductrelease;
+		else if (from=='fp')
+			 window.location.href="/simple_diff_coreassets_productassets?idproductrelease="+idproductrelease+"&idfeature="+idfeature;
     }
     
   //]]>

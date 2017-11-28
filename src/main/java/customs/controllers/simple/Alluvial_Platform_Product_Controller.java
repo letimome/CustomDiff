@@ -1,4 +1,4 @@
-package customs.controllers.alluvial;
+package customs.controllers.simple;
 
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import customs.models.ProductReleaseDao;
 
 
 @Controller
-public class Alluvial_Platform_Product_Controller_obsolete {
+public class Alluvial_Platform_Product_Controller {
 	
 	@Autowired private NewProductAssetDao paDao;
 	@Autowired private FeatureDao fDao;
@@ -34,32 +34,32 @@ public class Alluvial_Platform_Product_Controller_obsolete {
 	@Autowired private Churn_CoreAssetsAndFeaturesByPRDao customstoCAAndFeatures;
 	 private String pathToResource = "./src/main/resources/static/";
 
-	 @RequestMapping("diff_platform_product")
-	   public String getTreeMapForProductRelease(@RequestParam(value="pr", required=false) String productrelease,
+	 @RequestMapping("simple_diff_features_product_assets")
+	   public String getTreeMapForProductRelease(@RequestParam(value="idproductrelease", required=false) int idproductrelease,
 	   				Model model){
 		 
-		   System.out.println("The productrelease: "+productrelease);
+		
 
-		   String csvheader="source,target,id,value,pr,id_pa,id_ca,fname";//TODO remove id_pa!!
-		   
-		   String csvContent  = computeForCustomizationsForPRassetsToFeaturesChurn(productrelease);
+		   String csvheader="source,target,id,value,idproductrelease,id_pa,idcoreasset,idfeature";//TODO remove id_pa!!
+		   ProductRelease pr = prDao.getProductReleaseByIdproductrelease(idproductrelease);
+		   String csvContent  = computeForCustomizationsForPRassetsToFeaturesChurn(pr);
 		  
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
 		  
-		   model.addAttribute("pr",productrelease);
-		   model.addAttribute("maintitle", "Which assets are customized by '"+productrelease+"'?");
-		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+productrelease+")");
+		   model.addAttribute("pr",pr.getName());
+		   model.addAttribute("maintitle", "Which assets are customized by '"+pr.getName()+"'?");
+		   model.addAttribute("difftitle", "diff(Platform, "+pr.getName()+")");
 		  
-		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features","core-asset","Expression",productrelease);
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features","core-asset","Expression",pr.getName());
 		   
-		   return "alluvials/diff_platform_product"; 
+		   return "alluvials/simple_diff_features_product_assets"; 
 	 	}
 
-	private String computeForCustomizationsForPRassetsToFeaturesChurn(String productrelease) {
+	private String computeForCustomizationsForPRassetsToFeaturesChurn(ProductRelease pr) {
 		//	  String csvheader="source,target,id,value,pr,id_pa,id_ca,fname";
 		   String csvCustoms="";
-		   Iterable<ProductRelease> prs = prDao.getProductReleaseByName(productrelease);
-		   ProductRelease pr=prs.iterator().next();
+		   //Iterable<ProductRelease> prs = prDao.getProductReleaseByName(productrelease);
+		   //ProductRelease pr=prs.iterator().next();
 		   System.out.println("The productrelease to analyze is: "+pr.getName());
 		   Iterable<Churn_CoreAssetsAndFeaturesByPR>  customizedAssets = customstoCAAndFeatures.getCustomsByIdproductrelease(pr.getId_productrelease());
 		   Iterator<Churn_CoreAssetsAndFeaturesByPR> it= customizedAssets.iterator();
@@ -77,13 +77,13 @@ public class Alluvial_Platform_Product_Controller_obsolete {
 			 //  if (feature.getIsNew()==1) append=" [NEW]"; 
 			   //else append="";
 			   listcustomizedCas.add(custo.getCa_path());
-			   csvCustoms = csvCustoms.concat("\n" +custo.getIdfeature()+append+","+custo.getCa_name()+newCA+","
-					   +custo.getCa_path()+","+custo.getChurn()+","+custo.getPr_name()+","+custo.getId_coreasset()
+			   csvCustoms = csvCustoms.concat("\n" +custo.getIdfeature()+","+custo.getCa_name()+newCA+","
+					   +custo.getCa_path()+","+custo.getChurn()+","+custo.getIdproductrelease()+","+custo.getId_coreasset()
 					   +","+custo.getId_coreasset()+","+custo.getIdfeature()); 
 		   }
 		   
-		   csvCustoms = addNotCustomizedCoreAssetsTotheCSV(listcustomizedCas,csvCustoms,productrelease);
-		   csvCustoms= 	addNewProductAssetsTotheCSV(csvCustoms,productrelease);
+		   csvCustoms = addNotCustomizedCoreAssetsTotheCSV(listcustomizedCas,csvCustoms,pr.getName());
+		 //  csvCustoms= 	addNewProductAssetsTotheCSV(csvCustoms,pr.getName());
 		return csvCustoms;
 		
 	}
@@ -101,7 +101,7 @@ public class Alluvial_Platform_Product_Controller_obsolete {
 			ca = it.next();
 			
 			if (!listcustomizedCas.contains(ca.getPath())) {
-				csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+ca.getName()+","+ca.getPath()+",0.2,"+productrelease);
+				csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+ca.getName()+","+ca.getPath()+",0.01,"+productrelease);
 			}
 		}
 		
