@@ -49,7 +49,7 @@
 .link {
   fill: none;
   stroke: #000;
-  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+  cursor: not-allowed;
   stroke-opacity: .2;
 }
 
@@ -203,7 +203,7 @@ float: left;
 			<div align="center">
 			</div><br />
 				<p style="font-size:100%;" align="center"> 
-			Note: Height denotes customization change-size, per each Feature (left) - Component package (right) pair.
+			Note: Rectangles' height denotes customization change-size, per each Parent Feature (left) - Component package (right) pair.
 				
 			</p>
 			<p id="chart" align="center" style="backgound-color:grey">
@@ -397,7 +397,7 @@ float: left;
 	}
 	function drillDownByIdparentFeatureAndIdpackage(d){//click on the links between Feature&product
 		console.log(d);
-		window.location.href = "http://localhost:8080/diff_features_package_assets?idproductrelease="+d.idproductrelease+"&idparentfeature="+ d.idparentfeature+"&idpackage="+d.idpackage+"&from=pfp";
+		//window.location.href = "http://localhost:8080/diff_features_package_assets?idproductrelease="+d.idproductrelease+"&idparentfeature="+ d.idparentfeature+"&idpackage="+d.idpackage+"&from=pfp";
 	}
 		
 	function myMouseoverFunction(d){
