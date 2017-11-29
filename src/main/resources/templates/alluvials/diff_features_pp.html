@@ -183,7 +183,7 @@ float: left;
 	        <td align="left" valign="top" style="background-color:white" >
 				   <div class="row d-flex d-md-block flex-nowrap wrapper">
 				        <div  class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-							<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
+							<p valign="top"  id="tree-simple" style="width:420px; height: 600px"> </p>
 							<script><!-- Script for the drawing of the navigation map-->
 								var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 							</script>
@@ -209,7 +209,9 @@ float: left;
 				 <img align="left" src="images/filter.png"></img>
 				 </button>      
 				
-				<p id="chart"  align="center" style="min-height:500px;align:center" />
+				<p id="chart"  align="center" style="min-height:500px;align:center" >
+				
+				</p>
 				<br />
 				<p style="font-size:90%;" align="center"> 
 					Note: Streams' height denotes customization change-size per Feature-Product pair.
@@ -422,6 +424,8 @@ $(document).ready(function () {
     	span.setAttribute("align","center");
     	span.append(image);
     	node[0].append(span);
+    	
+ 
 
 	//]]>
 </script>

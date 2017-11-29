@@ -53,6 +53,7 @@ public class Alluvial_ParentFeaturesProductPackages {
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
 		  
 		   model.addAttribute("pr",pr.getName());
+		   model.addAttribute("idproductrelease",idproductrelease);
 		   model.addAttribute("maintitle", "Which packages is '"+pr.getName()+"' customizing?");
 		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+pr.getName()+")");
 		  
@@ -60,8 +61,9 @@ public class Alluvial_ParentFeaturesProductPackages {
 		   
 		   return "alluvials/diff_parent_features_product_packages"; 
 	 	}
-
+//
 	 
+	
 	 
 	 @RequestMapping("diff_features_product_packages")
 	   public String getAlluvial_Features_ProductPackages(
@@ -153,8 +155,7 @@ public class Alluvial_ParentFeaturesProductPackages {
 	}
 
 	private String addNotCustomizedComponentPackagesTotheCSV(ArrayList<Integer> listcustomizedComps, String csvContent, int idproductrelease) {
-		// source,target,value,idparentfeature,idpackage,pr";
-			
+	
 				Iterator<CoreAsset> it = caDao.findAll().iterator();
 				System.out.println(it.toString());
 				CoreAsset ca;
@@ -165,9 +166,9 @@ public class Alluvial_ParentFeaturesProductPackages {
 					ca = it.next();
 					comp_package = componentDao.getComponentPackageByIdpackage(ca.getIdpackage());
 					if (!listcustomizedComps.contains(ca.getIdpackage()) && (!addedComponents.contains(comp_package))) {
-						if(comp_package.getIsroot()==1) root=" [No package]";
+						if(comp_package.getIsroot()==1) root=" Root";
 						else root=comp_package.getName();
-						csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+root+",0.2,,,"+idproductrelease);
+						csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+root+",0.01,,,"+idproductrelease);
 					}
 					addedComponents.add(comp_package);
 				}

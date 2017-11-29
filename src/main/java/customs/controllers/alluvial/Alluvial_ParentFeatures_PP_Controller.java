@@ -79,6 +79,7 @@ public class Alluvial_ParentFeatures_PP_Controller {
 		  model.addAttribute("filterJson",filterJson);
 		 
 		  addFilteredFeatureToTheModel(model,featuresToInclude);
+		  
 		  customs.utils.NavigationMapGenerator.generateNavigationMapForAlluvial();
 		  
 		  System.out.println(csvCustoms);

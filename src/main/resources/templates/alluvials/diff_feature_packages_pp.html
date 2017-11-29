@@ -54,7 +54,7 @@
 .link {
   fill: none;
   stroke: #000;
-  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+  cursor:  not-allowed;
   stroke-opacity: .2;
 }
 
@@ -182,7 +182,7 @@ float: left;
 	        <td align="left" valign="top" style="background-color:white" >
 				   <div class="row d-flex d-md-block flex-nowrap wrapper">
 				        <div  class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-							<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
+							<p valign="top"  id="tree-simple" style="width:420px; height: 600px"> </p>
 							<script><!-- Script for the drawing of the navigation map-->
 								var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 							</script>
@@ -207,12 +207,33 @@ float: left;
 			<div align="center">
 			</div><br />
 			
-			<p id="chart" align="center" style="backgound-color:grey"/>
-			<br /><br />
 			<p style="font-size:90%;" align="center"> 
 				Note: Streams' height denotes customization change-size per Feature-Product pair.
 				<br/>Rectangles area denotes customization change-size per Feature/Product.
 			</p>
+			<p id="chart" align="center" style="backgound-color:grey">
+				<br />
+					<script><!-- Script for the drawing of the navigation map-->
+						//<![CDATA[	
+							function getMetaContentByName(name,content){
+							   var content = (content==null)?'content':content;
+							   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+							}
+							function goToAllFiles(d){
+								var idfeature=getMetaContentByName('idfeature');
+								console.log(idfeature);
+								window.location.href = "/diff_all_core_assets_pp?idfeature="+idfeature;
+								}
+						//]]>
+					</script>
+				<p align="left "><img id="asterisk" onclick="goToAllFiles()" align="left" src="images/asterisk.png" alt="Drill-down to all features" height="42" width="42">
+						 Drill-down to all packages' files</img>
+				</p>
+			</p>
+			
+			<br /><br />
+			
+			
 		
 		</td>
 	</tr>
@@ -389,7 +410,7 @@ float: left;
 	}
 	function drillDownByIdparentFeatureAndIdpackage(d){//click on the links between package & and product release
 		console.log(d);
-	    window.location.href="/diff_coreassets_productassets?idproductrelease="+d.idproductrelease+"&idfeature="+d.idfeature+"&idpackage="+d.idpackage+"&from=fppp";
+	   // window.location.href="/diff_coreassets_productassets?idproductrelease="+d.idproductrelease+"&idfeature="+d.idfeature+"&idpackage="+d.idpackage+"&from=fppp";
 	
 	}
 		

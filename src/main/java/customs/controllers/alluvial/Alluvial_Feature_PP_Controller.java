@@ -35,7 +35,7 @@ public class Alluvial_Feature_PP_Controller {
 		   model.addAttribute("fname",featurenamemodified);
 		   model.addAttribute("maintitle", "How are feature '"+featurenamemodified+"' assets customized by the product portfolio?");
 
-		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(featurenamemodified, "core-asset","Expression","product"); 
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(featurenamemodified, "PL asset","Filter","Variant asset", "Component"); 
 		  
 		  return "alluvials/diff_feature_pp";
 	  }

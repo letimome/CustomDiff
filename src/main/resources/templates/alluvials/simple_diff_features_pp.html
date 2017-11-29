@@ -294,12 +294,18 @@ float: left;
         if (d3.event.defaultPrevented) return;
            goToFeatureViewDetailed(d);
     		});
+	
+	  link.append("text").text(function(d) {  return "["+d.value+" LOCs]"; });
+	
 	// add the link titles
 	  link.append("title")
 	        .text(function(d) {
-	        	var show = "diff("+d.source.name+", "+d.target.name+")";
+	        	var show = "diff("+d.source.name+", "+d.target.name+") ["+d.value+" LOCs]";
 	        	//d.source.name + " → " +  d.target.name + "\n" + format(d.value);
 	    		return show;});
+	 
+
+	
 	// add in the nodes
 	  var node = svg.append("g").selectAll(".node")
 	      .data(graph.nodes)
@@ -327,7 +333,6 @@ float: left;
 	  node.append("rect")
 	  .attr("height", function(d) { return d.dy; })
 	      .attr("width", sankey.nodeWidth())
-	      .attr("text", "asdasdadaa")
 	      .style("fill", function(d) { 
 			  return d.color = color(d.name.replace(/ .*/, "")); })
 	      .style("stroke", function(d) { return d3.rgb(d.color).darker(2); })
@@ -456,7 +461,7 @@ $(document).ready(function () {
     });
 		       
 	 var featuremodelAdhoc = [{
-         id: "WeatherStation", FullName: "Platform Features", expanded: true,hasChildren:true, items: [
+         id: "WeatherStation", FullName: "Platform Features", expanded: false,hasChildren:true, items: [
              {
                  id: "Sensors", FullName: "Sensors", expanded: false, hasChildren:true, items: [
                      { id: "Temperature", FullName: "Temperature", hasChildren:false },
@@ -513,8 +518,6 @@ $(document).ready(function () {
                 checkChildren: true
               },
             loadOnDemand: false,
-            
-         	
             dataBound: treeViewDataBound,
             check: treeViewCheck
            

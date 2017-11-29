@@ -35,7 +35,7 @@ public class Alluvial_Feature_Assets_PP_Controller {
 		   model.addAttribute("fname",featurenamemodified);
 		   model.addAttribute("maintitle", "How are feature '"+featurenamemodified+"' assets customized by the product portfolio?");
 
-		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(featurenamemodified, "core-asset","Expression","product"); 
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(featurenamemodified, "core-asset","Expression","product","Components"); 
 		  
 		  return "alluvials/simple_diff_feature_pp";
 	  }
@@ -80,7 +80,7 @@ public class Alluvial_Feature_Assets_PP_Controller {
 			while (it.hasNext()) {
 				caf = it.next();
 				if ((caf.getId_feature().equals(featurenamemodified)) &&(!listcustomizedCas.contains(caf.getCa_path()))) {
-					csvContent = csvContent.concat("\n"+caf.getCa_name()+",NOT_CUSTOMIZED,0.2");
+					csvContent = csvContent.concat("\n"+caf.getCa_name()+",NOT_CUSTOMIZED,0.01");
 				}
 			}
 			

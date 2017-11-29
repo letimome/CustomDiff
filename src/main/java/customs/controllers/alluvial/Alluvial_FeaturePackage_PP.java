@@ -14,6 +14,7 @@ import customs.models.Churn_Features_ComponentPackages;
 import customs.models.Churn_Features_ComponentPackagesDao;
 import customs.models.ComponentPackage;
 import customs.models.ComponentPackageDao;
+import customs.models.CoreAsset;
 import customs.models.CoreAssetDao;
 import customs.models.CoreassetsAndFeatures;
 import customs.models.CoreassetsAndFeaturesDao;
@@ -28,6 +29,8 @@ public class Alluvial_FeaturePackage_PP {
 	 @Autowired private ProductReleaseDao prDao;
 	 @Autowired private ComponentPackageDao packageDao;
 	 @Autowired private FeatureDao fDao;
+	 @Autowired private CoreassetsAndFeaturesDao coreassetsForFeature;
+	  @Autowired private Churn_CoreAssetsAndFeaturesByPRDao customsPRtoCA;
 	 @Autowired private CoreAssetDao caDao;
 		
 	@Autowired private ComponentPackageDao componentDao;
@@ -47,7 +50,7 @@ public class Alluvial_FeaturePackage_PP {
 		  
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
 		  //idparentfeature
-		   
+		   model.addAttribute("idfeature",idfeature);
 		   model.addAttribute("idparentfeature",f.getIdparent());   
 		   model.addAttribute("maintitle", "Which packages from feature '"+idfeature+"' are customized by the products?");
 		   
@@ -65,13 +68,54 @@ public class Alluvial_FeaturePackage_PP {
 		  
 		   model.addAttribute("idfeature",idfeature);
 		   model.addAttribute("idpackage",idpackage);
-		   model.addAttribute("maintitle", "How are feature '"+idfeature+"' assets customized by the product portfolio?");
+		   ComponentPackage pa = packageDao.getComponentPackageByIdpackage(idpackage);
+		   model.addAttribute("maintitle", "How are feature '"+idfeature+"' assets, in '"+pa.getName()+"' package, customized by the product portfolio?");
 
-		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(idfeature, "core-asset","Expression","product"); 
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(idfeature, "core-asset","Expression","product", "Component"); 
 		  
 		  return "alluvials/diff_feature_pp";
 	  }
 	 
+	 @RequestMapping("diff_all_core_assets_pp")
+	   public String getDiff_All_CoreAssetsPP( @RequestParam(value="idfeature", required=true) String idfeature,  
+			  Model model){
+		    
+		   String csvContent= extractCSVForFeatureProductPortfolioChurn(idfeature);
+		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvContent);//path and test
+		  
+		   model.addAttribute("idfeature",idfeature);
+		   model.addAttribute("maintitle", "How are all feature '"+idfeature+"'s assets customized by the product portfolio?");
+
+		  return "alluvials/diff_feature_pp";
+	  }
+	 
+	 private String extractCSVForFeatureProductPortfolioChurn(String featurenamemodified) {
+			//String csvheader = "id,value,product_release,operation,fname";
+			String csvheader = "source,target,value,idproductrelease,operation,idfeature,idcoreasset,id_pa";
+			String csvcontent= extractCSVForFeatureProductPorfolioView(featurenamemodified);	
+			return csvheader.concat(csvcontent);
+		}
+
+
+		private String extractCSVForFeatureProductPorfolioView(String featurenamemodified) {
+			Iterator<Churn_CoreAssetsAndFeaturesByPR> it = customsPRtoCA.findAll().iterator();
+			Churn_CoreAssetsAndFeaturesByPR custom;
+			ArrayList<String> listcustomizedCas= new ArrayList<String>();
+			
+			String csvContent ="";//"\n"+featurenamemodified+",";
+			while (it.hasNext()) {
+				custom = it.next();
+				if(custom.getIdfeature().equals(featurenamemodified)) {
+					listcustomizedCas.add(custom.getCa_path());
+					csvContent=csvContent.concat("\n"+custom.getCa_name()+",").concat(custom.getPr_name()+","+custom.getChurn()+","
+					+custom.getIdproductrelease()+",churn,"+featurenamemodified+","+custom.getIdcoreasset()+","+custom.getId_coreasset());
+				}
+				/*csvContent=csvContent.concat("\n"+featurenamemodified+"/").concat(custom.getIdrelease()+","+custom.getChurn()+","+custom.getIdrelease()+",churn,"+featurenamemodified);
+				}*/ 
+			}
+			csvContent = addNotCustomizedCoreAssetsTotheCSV(listcustomizedCas,csvContent,featurenamemodified);
+			return csvContent;
+		}
 	 private String computeForCustomizationsForFeaturePackageAssetsToPPChurn(String idfeature, int idpackage) {
 		 String csvheader="source,target,value,idcoreasset,idpackage,idfeature,idproductrelease";
 		Iterable<Churn_CoreAssetsAndFeaturesByPR> list = churnAssetsPRDao.getCustomsByIdfeature(idfeature);
@@ -83,6 +127,8 @@ public class Alluvial_FeaturePackage_PP {
 		
 		while (it.hasNext()) {
 			custom = it.next();
+			CoreAsset ca = caDao.getCoreAssetByIdcoreasset(custom.getId_coreasset());
+			if (ca.getIdpackage()!=idpackage) continue;
 			listcustomizedComps.add(custom.getId_coreasset());
 			csvContent = csvContent.concat("\n"+custom.getCa_name()+","+custom.getPr_name()+","+custom.getChurn()
 			+","+custom.getId_coreasset()+","+idpackage+","+idfeature+","+custom.getIdproductrelease());
@@ -91,6 +137,24 @@ public class Alluvial_FeaturePackage_PP {
 		return csvheader+csvContent;
 		}
 	 
+	 private String addNotCustomizedCoreAssetsTotheCSV(ArrayList<String> listcustomizedCas, String csvContent,String featurenamemodified) {
+			//String csvheader = "source,target,value,product_release,operation,fname";
+			System.out.println("addNotCustomizedCoreAssetsTotheCSV");
+			Iterator<CoreassetsAndFeatures> it = coreassetsForFeature.findAll().iterator();
+			System.out.println(it.toString());
+			CoreassetsAndFeatures caf;
+			
+			
+			while (it.hasNext()) {
+				caf = it.next();
+				if ((caf.getId_feature().equals(featurenamemodified)) &&(!listcustomizedCas.contains(caf.getCa_path()))) {
+					csvContent = csvContent.concat("\n"+caf.getCa_name()+",NOT_CUSTOMIZED,0.01");
+				}
+			}
+			
+			return csvContent;
+		}
+		  
 	private String computeForCustomizationsForFeaturePackagesToPPChurn(String idfeature) {
 		Iterable<Churn_Features_ComponentPackages> list = featurePackagesDao.getCustomsByIdfeature(idfeature);
 		Iterator<Churn_Features_ComponentPackages> it = list.iterator();
@@ -124,7 +188,7 @@ public class Alluvial_FeaturePackage_PP {
 			comp_package = componentDao.getComponentPackageByIdpackage(ca.getIdpackage());
 			if (!listcustomizedComps.contains(ca.getIdpackage()) && (!addedComponents.contains(comp_package))
 					) {
-				csvContent = csvContent.concat("\n"+ca.getCa_name()+",NOT_CUSTOMIZED,0.2");
+				csvContent = csvContent.concat("\n"+ca.getCa_name()+",NOT_CUSTOMIZED,0.01");
 			}
 			addedComponents.add(comp_package);
 		}

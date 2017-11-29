@@ -145,6 +145,8 @@ float: left;
 </style>
 </head>
 
+
+
 <body align="center" >
 <!-- Header -->
 <header  class="navbar navbar-light bg-faded">
@@ -179,7 +181,7 @@ float: left;
 	        <td align="left" valign="top" style="background-color:white" >
 				   <div class="row d-flex d-md-block flex-nowrap wrapper">
 				        <div  class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-							<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
+							<p valign="top"  id="tree-simple" style="width:420px; height: 600px"> </p>
 							<script><!-- Script for the drawing of the navigation map-->
 								var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 							</script>
@@ -204,7 +206,20 @@ float: left;
 				 </button>       
 				 <br/><br/>
 					
-				<p align="center" id="chart" />
+				<p align="" id="chart" >
+					<p align="left"> 
+					<script><!-- Script for the drawing of the navigation map-->
+						//<![CDATA[	
+						function goToAllfeatures(d){
+								window.location.href = "/diff_all_features_pp?from=pfpp";
+							}
+						//]]>
+					</script>
+					<img id="asterisk" onclick="goToAllfeatures()" align="left" src="images/asterisk.png" alt="Drill-down to all features" height="42" width="42">
+					 Jump to all features</img>
+					 </p>
+					
+				</p>
 				
 			</td>
 		</tr>
@@ -361,18 +376,20 @@ float: left;
 	    link.attr("d", path);
 	  }
 	
+		
+		
 		function drillDownByProductRelease(d){//click on products
 			console.log(d);
-			window.location.href = "http://localhost:8080/diff_parent_features_product_packages?idproductrelease="+d.targetLinks[0].idproductrelease+"&from=pfpp";
+			window.location.href = "/diff_parent_features_product_packages?idproductrelease="+d.targetLinks[0].idproductrelease+"&from=pfpp";
 		}
 
 		function drillDownByParentFeature(d){//click on feature - either provide alluvial with children, or go to feature core assets.
 			console.log(d.sourceLinks[0].idparentfeature); 
-			window.location.href = "http://localhost:8080/diff_features_pp?idparentfeature=" + d.sourceLinks[0].idparentfeature+"&from=pfpp";
+			window.location.href = "/diff_features_pp?idparentfeature=" + d.sourceLinks[0].idparentfeature+"&from=pfpp";
 		}
 		function drillDownByParentFeatureAndProductRelease(d){//click on the links between Feature&product
 			console.log(d);
-			window.location.href = "http://localhost:8080/diff_features_product_packages?idparentfeature="+ d.idparentfeature+"&idproductrelease="+d.idproductrelease+"&from=pfpp";
+			window.location.href = "/diff_features_product_packages?idparentfeature="+ d.idparentfeature+"&idproductrelease="+d.idproductrelease+"&from=pfpp";
 		}
 		
 	function myMouseoverFunction(d){
@@ -475,7 +492,7 @@ $(document).ready(function () {
     	span.append(image);
     	node[0].append(span);
     
-    	/*Make it responsive*/
+    
         
     });//end of on document load
 

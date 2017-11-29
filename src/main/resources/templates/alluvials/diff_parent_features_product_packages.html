@@ -6,6 +6,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="diffvalue" th:content="${diffvalue}"></meta>
+<meta name="idproductrelease" th:content="${idproductrelease}"></meta>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
  
 <title>diff(Parent Features, Product Component Packages) </title>
@@ -117,8 +119,9 @@ li [nav-item]{
 	float: left;
 	margin-right: 5px;
 }
-img { display: block;float: left;margin-right: 10px;}
+.roll-up { display: block; float: left;margin-right: 10px;}
 
+. asterisk-right { display: block;float: right; margin-right: 10px;}
 
 .navbar-nav {
 flex-direction: row;
@@ -175,7 +178,7 @@ float: left;
 	        <td align="left" valign="top" style="background-color:white" >
 				   <div class="row d-flex d-md-block flex-nowrap wrapper">
 				        <div  class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-							<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
+							<p valign="top"  id="tree-simple" style="width:420px; height: 600px"> </p>
 							<script><!-- Script for the drawing of the navigation map-->
 								var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 							</script>
@@ -192,7 +195,7 @@ float: left;
 		<td colspan="20" align="center" valign="top" style="width:80%;background-color:">
 			<p align="left"><a href="diff_parent_features_products">Roll-up</a></p>
 			  <p><a href="http://localhost:8080/diff_parent_features_products">
-				<img align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
+				<img class="roll-up" align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
 			</a>
 			</p>
 			
@@ -203,10 +206,28 @@ float: left;
 			Note: Height denotes customization change-size, per each Feature (left) - Component package (right) pair.
 				
 			</p>
-			<p id="chart" align="center" style="backgound-color:grey"/>
+			<p id="chart" align="center" style="backgound-color:grey">
+			
+			<br />
+			
+			<p align="right"> 
+					<script><!-- Script for the drawing of the navigation map-->
+						//<![CDATA[	
+						function getMetaContentByName(name,content){
+						   var content = (content==null)?'content':content;
+						   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+						}
+						function goToAllFiles(d){
+							var idproductrelease=getMetaContentByName("idproductrelease");
+							window.location.href = "/diff_parent_features_all_assets?idproductrelease="+idproductrelease+"&from=pfp";
+						}
+					//]]>
+					</script>
+					<span align="right"><img class="asterisk-right" id="asterisk" onclick="goToAllFiles()" src="images/asterisk.png" alt="Drill-down to all files" height="42" width="42"></img></span>
+			Drill-down to all packages' files </p>
 			<br /><br />
 		
-		
+		</p>
 		</td>
 	</tr>
 </table>

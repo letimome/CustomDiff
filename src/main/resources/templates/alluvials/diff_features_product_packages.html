@@ -179,7 +179,7 @@ float: left;
 	        <td align="left" valign="top" style="background-color:white" >
 				   <div class="row d-flex d-md-block flex-nowrap wrapper">
 				        <div  class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar">
-							<p valign="top"  id="tree-simple" style="width:420px; height: 450px"> </p>
+							<p valign="top"  id="tree-simple" style="width:420px; height: 600px"> </p>
 							<script><!-- Script for the drawing of the navigation map-->
 								var my_chart = new Treant(simple_chart_config);	//loaded from Navigation map js
 							</script>
@@ -204,7 +204,18 @@ float: left;
 			<div align="center">
 			</div><br />
 			
-			<p id="chart" align="center" style="backgound-color:grey"/>
+			<p id="chart" align="center" style="backgound-color:grey" >
+					<script><!-- Script for the drawing of the navigation map-->
+						//<![CDATA[	
+						function goToAllfeatures(d){
+								window.location.href = "/diff_all_feature_assets_pp?from=pfpp";
+							}
+						//]]>
+					</script>
+					<img id="asterisk" onclick="goToAllFiles()" align="left" src="images/asterisk.png" alt="Drill-down to all features" height="42" width="42">
+					 Drill-down to all packages assets</img>
+					 </p>
+			</p>
 			<br /><br />
 			<p style="font-size:90%;" align="center"> 
 				Note: Streams' height denotes customization change-size per Feature-Product pair.

@@ -61,6 +61,36 @@ public class Alluvial_ParentFeatures_PackageAssets {
 		   return "alluvials/diff_parent_features_package_assets"; 
 	 	}
 
+	 @RequestMapping("diff_parent_features_all_assets")
+	   public String getAlluvialdiff_parent_features_all_assets(
+			   @RequestParam(value="idproductrelease", required=true) int idproductrelease, 
+			   @RequestParam(value="from", required=false) String from,
+			   Model model){
+		 
+		   System.out.println("The productrelease: "+idproductrelease);
+         
+		   ProductRelease pr = prDao.getProductReleaseByIdproductrelease(idproductrelease);
+		  // ComponentPackage comp_package =  packageDao.getComponentPackageByIdpackage(idpackage);
+         
+		   String csvheader="source,target,value,idparentfeature,idcoreasset,idproductrelease,idpackage";
+		   String csvContent  = computeForCustomizationsForPRassetsToFeaturesChurn(pr, null);
+		  
+		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvheader+csvContent);//path and test// + csvInitialPaths
+		  
+		   model.addAttribute("idproductrelease",idproductrelease);
+		//   model.addAttribute("idpackage",idpackage);
+		   model.addAttribute("from",from);
+		   
+		   model.addAttribute("maintitle", "Which  assets is "+pr.getName()+" customizing?");
+		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+pr.getName()+")");
+		  
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features","core-asset","Expression",pr.getName());
+		   
+		   return "alluvials/diff_parent_features_all_assets"; 
+	 	}
+	 
+	 
+	 
 	private String computeForCustomizationsForPRassetsToFeaturesChurn(ProductRelease pr,
 			ComponentPackage comp_package) {
 		  
@@ -72,18 +102,17 @@ public class Alluvial_ParentFeatures_PackageAssets {
 		   
 		   Churn_ParentFeatures_PackageAssets custo;
 		   ArrayList<Integer> listcustomizedAssets = new ArrayList<Integer>();
-
+		   int idpack = -1;
+		   if (comp_package!=null)
+			   comp_package.getIdpackage();
 		   while(it.hasNext()) {//getting lines for Customized assets in the component
 			   custo = it.next();
-			   if(custo.getIdpackage() == comp_package.getIdpackage() && custo.getIdproductrelease()==pr.getId_productrelease()) {
+			   if( (custo.getIdpackage()==idpack || idpack==-1) && custo.getIdproductrelease()==pr.getId_productrelease()) {
 				   listcustomizedAssets.add(custo.getIdcoreasset());//source,target,value,idparentfeature,idasset,idproductrelease,idpackage
 				   
 				   csvCustoms = csvCustoms.concat("\n"+custo.getParentfeaturename()+","+custo.getCaname()+","
 						   +custo.getChurn()+","+custo.getId_parentfeature()+","+custo.getIdcoreasset() 
 						   +","+custo.getIdproductrelease()+","+custo.getIdpackage()); 
-				   
-				    
-					 //  
 			   }
 		   }
 		   csvCustoms = addNotCustomizedComponentPackagesTotheCSV(listcustomizedAssets,csvCustoms,pr.getId_productrelease(),comp_package);
@@ -96,11 +125,17 @@ public class Alluvial_ParentFeatures_PackageAssets {
 		System.out.println(it.toString());
 		CoreAsset ca;
 		ArrayList<Integer> listaddedAssets = new ArrayList<Integer>();
+		int idpack=-1;
+		if (comp_package!=null)
+		 idpack=comp_package.getIdpackage();
 		while (it.hasNext()) {
 			ca = it.next();
-			if (!listcustomizedAssets.contains(ca.getIdcoreasset()) && ca.getIdpackage()==comp_package.getIdpackage()
-					&& (listaddedAssets.contains(ca.getIdcoreasset()))) {
-				csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+ca.getName()+",0.2,");
+			if (!listcustomizedAssets.contains(ca.getIdcoreasset()) 
+					
+					&& (ca.getIdpackage()==idpack || idpack==-1)
+					&& (listaddedAssets.contains(ca.getIdcoreasset()))
+				) {
+				csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+ca.getName()+",0.01,");
 				listaddedAssets.add(ca.getIdcoreasset());
 			}
 		}

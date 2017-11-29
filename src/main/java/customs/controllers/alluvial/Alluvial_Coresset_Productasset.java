@@ -104,7 +104,7 @@ public class Alluvial_Coresset_Productasset {
 			caf = it.next();
 			if(!listOfidcoreasset.contains(caf.getId_coreasset()) && (!listassets.contains(caf.getId_coreasset()))) {
 				listassets.add(caf.getId_coreasset());
-				csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED,0.2");
+				csvContent = csvContent.concat("\n"+caf.getCaname()+",NOT_CUSTOMIZED,0.01");
 			}
 				
 		}
