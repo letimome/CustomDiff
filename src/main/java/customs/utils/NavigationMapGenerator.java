@@ -668,5 +668,407 @@ public class NavigationMapGenerator {
 		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
 		
 	}
+
+
+	public static void generateNavigationMapForFeatureProductSideLevel1(String features, String productName) {
+		
+		String template = 
+				"	var simple_chart_config = { \n"+
+						"  chart: { \n"+
+						"   container: '#tree-simple', \n"+
+						
+			"		        	connectors: {\n"+
+			"			                type: 'step' \n"+
+			"			            },\n"+
+			"			            node: {"+"\n"+
+			"			                HTMLclass: 'nodeExample1'"+"\n"+
+			"			            }"+"\n"+
+			"			    },    "+"\n"+
+			"			    nodeStructure: {"+"\n"+
+			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
+			"			        children: ["+"\n"+
+			"			            {"+"\n"+
+			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"							 HTMLclass: 'white',"+"\n"+
+					"			               children: [{"+"\n"+
+							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                "	 HTMLclass: 'white',"+"\n"+
+							                	 "children: [{"+"\n"+
+								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
+								                	 "	 HTMLclass: 'white',"+"\n"+
+								                	 "children: [{"+"\n"+
+						 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+						 							"	 HTMLclass: 'white',"+"\n"+
+						"			                } ]"+"\n"+
+		"										} ]"+"\n"+
+	"										} ]"+"\n"+
+			"			            },"+"\n"+
+			
+			"						{"+"\n"+
+			"			                text: { name: 'diff("+features+", "+productName+")' },"+"\n"+
+									"   HTMLclass: 'orange',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+	       	 "								children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"			               				 } ]"+"\n"+
+	"									} ]"+"\n"+
+		
+			"			        		},"+"\n"+
+			
+			"			            {"+"\n"+
+			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+	       	 "									children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"			               					 } ]"+"\n"+
+	"									} ]"+"\n"+
+			"			            }"+"\n"+
+			"			        ]"+"\n"+
+			"			    }"+"\n"+
+			"			};";
+			
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
+		
+	}
+
+
+	public static void generateNavigationMapForFeatureProductSideLevel2(String features, String productName, String componentName) {
+		
+		String template = 
+				"	var simple_chart_config = { \n"+
+						"  chart: { \n"+
+						"   container: '#tree-simple', \n"+
+						
+			"		        	connectors: {\n"+
+			"			                type: 'step' \n"+
+			"			            },\n"+
+			"			            node: {"+"\n"+
+			"			                HTMLclass: 'nodeExample1'"+"\n"+
+			"			            }"+"\n"+
+			"			    },    "+"\n"+
+			"			    nodeStructure: {"+"\n"+
+			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
+			"			        children: ["+"\n"+
+			"			            {"+"\n"+
+			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"							 HTMLclass: 'white',"+"\n"+
+					"			               children: [{"+"\n"+
+							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                "	 HTMLclass: 'white',"+"\n"+
+							                	 "children: [{"+"\n"+
+								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
+								                	 "	 HTMLclass: 'white',"+"\n"+
+								                	 "children: [{"+"\n"+
+						 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+						 							"	 HTMLclass: 'white',"+"\n"+
+						"			                } ]"+"\n"+
+		"										} ]"+"\n"+
+	"										} ]"+"\n"+
+			"			            },"+"\n"+
+			
+			"						{"+"\n"+
+			"			                text: { name: 'diff("+features+", "+productName+")' },"+"\n"+
+									"   HTMLclass: 'blue',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+features+", "+productName+"."+componentName+")' },"+"\n"+
+	     	"								HTMLclass: 'orange',"+"\n"+
+	       	 "								children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"			               				 } ]"+"\n"+
+	"									} ]"+"\n"+
+		
+			"			        		},"+"\n"+
+			
+			"			            {"+"\n"+
+			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+	       	 "									children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"			               					 } ]"+"\n"+
+	"									} ]"+"\n"+
+			"			            }"+"\n"+
+			"			        ]"+"\n"+
+			"			    }"+"\n"+
+			"			};";
+			
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
+		
+	}
 	
+	public static void generateNavigationMapForFeatureProductSideLevel3(String features, String productName, String componentName, String filename, String expression) {
+		
+		String template = 
+				"	var simple_chart_config = { \n"+
+						"  chart: { \n"+
+						"   container: '#tree-simple', \n"+
+						
+			"		        	connectors: {\n"+
+			"			                type: 'step' \n"+
+			"			            },\n"+
+			"			            node: {"+"\n"+
+			"			                HTMLclass: 'nodeExample1'"+"\n"+
+			"			            }"+"\n"+
+			"			    },    "+"\n"+
+			"			    nodeStructure: {"+"\n"+
+			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
+			"			        children: ["+"\n"+
+			"			            {"+"\n"+
+			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"							 HTMLclass: 'white',"+"\n"+
+					"			               children: [{"+"\n"+
+							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                "	 HTMLclass: 'white',"+"\n"+
+							                	 "children: [{"+"\n"+
+								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
+								                	 "	 HTMLclass: 'white',"+"\n"+
+								                	 "children: [{"+"\n"+
+						 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+						 							"	 HTMLclass: 'white',"+"\n"+
+						"			                } ]"+"\n"+
+		"										} ]"+"\n"+
+	"										} ]"+"\n"+
+			"			            },"+"\n"+
+			
+			"						{"+"\n"+
+			"			                text: { name: 'diff("+features+", "+productName+")' },"+"\n"+
+									"   HTMLclass: 'blue',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+features+", "+productName+"."+componentName+")' },"+"\n"+
+	     	"								HTMLclass: 'blue',"+"\n"+
+	       	 "								children: [{"+"\n"+
+	"											text: { name: 'diff ("+filename+", "+productName+") ["+expression+"]' },"+"\n"+
+	"											HTMLclass: 'orange',"+"\n"+
+	"			               				 } ]"+"\n"+
+	"									} ]"+"\n"+
+		
+			"			        		},"+"\n"+
+			
+			"			            {"+"\n"+
+			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+	       	 "									children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"			               					 } ]"+"\n"+
+	"									} ]"+"\n"+
+			"			            }"+"\n"+
+			"			        ]"+"\n"+
+			"			    }"+"\n"+
+			"			};";
+			
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
+		
+	}
+	
+	public static void generateNavigationMapForProductSideLevel1(String productName) {
+		
+		String template = 
+				"	var simple_chart_config = { \n"+
+						"  chart: { \n"+
+						"   container: '#tree-simple', \n"+
+						
+			"		        	connectors: {\n"+
+			"			                type: 'step' \n"+
+			"			            },\n"+
+			"			            node: {"+"\n"+
+			"			                HTMLclass: 'nodeExample1'"+"\n"+
+			"			            }"+"\n"+
+			"			    },    "+"\n"+
+			"			    nodeStructure: {"+"\n"+
+			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
+			"			        children: ["+"\n"+
+			"			            {"+"\n"+
+			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"							 HTMLclass: 'white',"+"\n"+
+					"			               children: [{"+"\n"+
+							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                "	 HTMLclass: 'white',"+"\n"+
+							                	 "children: [{"+"\n"+
+								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
+								                	 "	 HTMLclass: 'white',"+"\n"+
+								                	 "children: [{"+"\n"+
+						 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+						 							"	 HTMLclass: 'white',"+"\n"+
+						"			                } ]"+"\n"+
+		"										} ]"+"\n"+
+	"										} ]"+"\n"+
+			"			            },"+"\n"+
+			
+			"						{"+"\n"+
+			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+									"   HTMLclass: 'white',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+featureToken+", "+componentToken+")' },"+"\n"+
+	     	"								HTMLclass: 'white',"+"\n"+
+	       	 "								children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetsToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"											HTMLclass: 'white',"+"\n"+
+	"			               				 } ]"+"\n"+
+	"									} ]"+"\n"+
+		
+			"			        		},"+"\n"+
+			
+			"			            {"+"\n"+
+			"			                text: { name: 'diff("+featuresToken+", "+productName+")' },"+"\n"+
+			"							HTMLclass: 'orange',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+featuresToken+", Variant assets)' },"+"\n"+
+	       	 "									children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"			               					 } ]"+"\n"+
+	"									} ]"+"\n"+
+			"			            }"+"\n"+
+			"			        ]"+"\n"+
+			"			    }"+"\n"+
+			"			};";
+			
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
+		
+	}
+	
+	public static void generateNavigationMapForProductSideLevel2(String productName, String componentName) {
+		
+		String template = 
+				"	var simple_chart_config = { \n"+
+						"  chart: { \n"+
+						"   container: '#tree-simple', \n"+
+						
+			"		        	connectors: {\n"+
+			"			                type: 'step' \n"+
+			"			            },\n"+
+			"			            node: {"+"\n"+
+			"			                HTMLclass: 'nodeExample1'"+"\n"+
+			"			            }"+"\n"+
+			"			    },    "+"\n"+
+			"			    nodeStructure: {"+"\n"+
+			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
+			"			        children: ["+"\n"+
+			"			            {"+"\n"+
+			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"							 HTMLclass: 'white',"+"\n"+
+					"			               children: [{"+"\n"+
+							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                "	 HTMLclass: 'white',"+"\n"+
+							                	 "children: [{"+"\n"+
+								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
+								                	 "	 HTMLclass: 'white',"+"\n"+
+								                	 "children: [{"+"\n"+
+						 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+						 							"	 HTMLclass: 'white',"+"\n"+
+						"			                } ]"+"\n"+
+		"										} ]"+"\n"+
+	"										} ]"+"\n"+
+			"			            },"+"\n"+
+			
+			"						{"+"\n"+
+			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+									"   HTMLclass: 'white',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+featureToken+", "+componentToken+")' },"+"\n"+
+	     	"								HTMLclass: 'white',"+"\n"+
+	       	 "								children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetsToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"											HTMLclass: 'white',"+"\n"+
+	"			               				 } ]"+"\n"+
+	"									} ]"+"\n"+
+		
+			"			        		},"+"\n"+
+			
+			"			            {"+"\n"+
+			"			                text: { name: 'diff("+featuresToken+", "+productName+")' },"+"\n"+
+			"							HTMLclass: 'blue',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+featuresToken+", "+componentName+")' },"+"\n"+
+	       	"							HTMLclass: 'orange',"+"\n"+
+	       	 "									children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"			               					 } ]"+"\n"+
+	"									} ]"+"\n"+
+			"			            }"+"\n"+
+			"			        ]"+"\n"+
+			"			    }"+"\n"+
+			"			};";
+			
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
+		
+	}
+	
+	
+public static void generateNavigationMapForProductSideLevel3(String productName, String componentName, String fileName, String expression) {
+		
+		String template = 
+				"	var simple_chart_config = { \n"+
+						"  chart: { \n"+
+						"   container: '#tree-simple', \n"+
+						
+			"		        	connectors: {\n"+
+			"			                type: 'step' \n"+
+			"			            },\n"+
+			"			            node: {"+"\n"+
+			"			                HTMLclass: 'nodeExample1'"+"\n"+
+			"			            }"+"\n"+
+			"			    },    "+"\n"+
+			"			    nodeStructure: {"+"\n"+
+			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
+			"			        children: ["+"\n"+
+			"			            {"+"\n"+
+			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"							 HTMLclass: 'white',"+"\n"+
+					"			               children: [{"+"\n"+
+							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                "	 HTMLclass: 'white',"+"\n"+
+							                	 "children: [{"+"\n"+
+								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
+								                	 "	 HTMLclass: 'white',"+"\n"+
+								                	 "children: [{"+"\n"+
+						 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+						 							"	 HTMLclass: 'white',"+"\n"+
+						"			                } ]"+"\n"+
+		"										} ]"+"\n"+
+	"										} ]"+"\n"+
+			"			            },"+"\n"+
+			
+			"						{"+"\n"+
+			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+									"   HTMLclass: 'white',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+featureToken+", "+componentToken+")' },"+"\n"+
+	     	"								HTMLclass: 'white',"+"\n"+
+	       	 "								children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetsToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"											HTMLclass: 'white',"+"\n"+
+	"			               				 } ]"+"\n"+
+	"									} ]"+"\n"+
+		
+			"			        		},"+"\n"+
+			
+			"			            {"+"\n"+
+			"			                text: { name: 'diff("+featuresToken+", "+productName+")' },"+"\n"+
+			"							HTMLclass: 'blue',"+"\n"+
+			"							children: [{"+"\n"+
+	       	 " 								text: { name: 'diff ("+featuresToken+", "+componentName+")' },"+"\n"+
+	       	"							HTMLclass: 'blue',"+"\n"+
+	       	 "									children: [{"+"\n"+
+	"											text: { name: 'diff ("+fileName+", "+fileName+") ["+expression+"]' },"+"\n"+
+	"											HTMLclass: 'orange',"+"\n"+
+	"			               					 } ]"+"\n"+
+	"									} ]"+"\n"+
+			"			            }"+"\n"+
+			"			        ]"+"\n"+
+			"			    }"+"\n"+
+			"			};";
+			
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
+		
+	}
+
 }

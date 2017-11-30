@@ -60,9 +60,12 @@ public class Alluvial_Features_PackageAssets {
 			model.addAttribute("from",from);
 			model.addAttribute("pr",pr);
 			model.addAttribute("fname",parentFeature.getName());
-			model.addAttribute("maintitle", "How is parent-feature '"+parentFeature.getName()+"' being customized in '"+pr.getName()+"'?");
+			//parent-feature '"+parentFeature.getName()+"' being customized in 
+			ComponentPackage pack = packageDao.getComponentPackageByIdpackage(idpackage);
+			model.addAttribute("maintitle", "Which files in component '"+pack.getName()+"' are customized by '"+pr.getName()+"'?");
 			
-			customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProduct(parentFeature.getName(),pr.getName(),"core-asset","Expression");
+			ParentFeature pf = parentFeatureDao.getParentFeatureByIdparentfeature(idparentfeature);
+			customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProductSideLevel2(pf.getName(),pr.getName(), pack.getName());
 					 	 
 			return "/alluvials/diff_features_package_assets";
 	 }

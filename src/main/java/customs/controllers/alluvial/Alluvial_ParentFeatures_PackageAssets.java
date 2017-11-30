@@ -56,7 +56,8 @@ public class Alluvial_ParentFeatures_PackageAssets {
 		   model.addAttribute("maintitle", "Which  assets from package '"+comp_package.getName()+"' is "+pr.getName()+" customizing?");
 		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+pr.getName()+")");
 		  
-		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features","core-asset","Expression",pr.getName());
+		   ComponentPackage pac = packageDao.getComponentPackageByIdpackage(idpackage);
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSideLevel2(pr.getName(), pac.getName()+".files");
 		   
 		   return "alluvials/diff_parent_features_package_assets"; 
 	 	}
@@ -84,7 +85,8 @@ public class Alluvial_ParentFeatures_PackageAssets {
 		   model.addAttribute("maintitle", "Which  assets is "+pr.getName()+" customizing?");
 		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+pr.getName()+")");
 		  
-		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSide("features","core-asset","Expression",pr.getName());
+		   
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSideLevel2(pr.getName(), pr.getName()+ ". all files");
 		   
 		   return "alluvials/diff_parent_features_all_assets"; 
 	 	}

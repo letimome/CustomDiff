@@ -63,8 +63,11 @@ public class Diff_Feature_CoreAsset {
 	   ComponentPackage component = packDao.getComponentPackageByIdpackage(ca.getIdpackage()); 
 	   if(from.equals("capp"))
 		     customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel4(idfeature, ca.getName(), idfeature, component.getName(), parent.getName(), "files", ca.getName(), pr.getName());
-	   
-	   model.addAttribute("maintitle", "How is '"+pr.getName()+"' modifying '"+ca.getName()+"' for feature '"+idfeature+"' ?");
+	   if(from.equals("fa"))
+		     customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureProductSideLevel3(parent.getName(), pr.getName(), component.getName(), ca.getName(), idfeature);
+	  
+	  
+		   model.addAttribute("maintitle", "How is '"+pr.getName()+"' modifying '"+ca.getName()+"' for feature '"+idfeature+"' ?");
 	   model.addAttribute("pr",pr.getName());
 	   model.addAttribute("idproductrelease",idproductrelease);
 	   model.addAttribute("idparentfeature",feature.getIdparent());
@@ -114,6 +117,11 @@ public class Diff_Feature_CoreAsset {
 	 //  model.addAttribute("from",from);
 	   model.addAttribute("fname",parentFeature.getName());
 	   model.addAttribute("difftitle", "diff(Parent Feature: '" +parentFeature.getName()+"', "+pr.getName()+")");
+	   
+	   ParentFeature parent = parentFeatureDao.getParentFeatureByIdparentfeature(idparentfeature);
+	   ComponentPackage component = packDao.getComponentPackageByIdpackage(ca.getIdpackage()); 
+	   
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSideLevel3(pr.getName(), component.getName(), ca.getName(), parent.getName()+" features");
 	   
 	   return "alluvials/diff_features_core_asset";
 	 
