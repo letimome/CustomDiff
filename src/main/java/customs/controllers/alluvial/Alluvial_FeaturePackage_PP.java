@@ -20,6 +20,8 @@ import customs.models.CoreassetsAndFeatures;
 import customs.models.CoreassetsAndFeaturesDao;
 import customs.models.Feature;
 import customs.models.FeatureDao;
+import customs.models.ParentFeature;
+import customs.models.ParentFeatureDao;
 import customs.models.ProductReleaseDao;
 
 @Controller
@@ -29,6 +31,7 @@ public class Alluvial_FeaturePackage_PP {
 	 @Autowired private ProductReleaseDao prDao;
 	 @Autowired private ComponentPackageDao packageDao;
 	 @Autowired private FeatureDao fDao;
+	 @Autowired private ParentFeatureDao parentDao;
 	 @Autowired private CoreassetsAndFeaturesDao coreassetsForFeature;
 	  @Autowired private Churn_CoreAssetsAndFeaturesByPRDao customsPRtoCA;
 	 @Autowired private CoreAssetDao caDao;
@@ -53,6 +56,8 @@ public class Alluvial_FeaturePackage_PP {
 		   model.addAttribute("idfeature",idfeature);
 		   model.addAttribute("idparentfeature",f.getIdparent());   
 		   model.addAttribute("maintitle", "Which packages from feature '"+idfeature+"' are customized by the products?");
+		   ParentFeature parent = parentDao.getParentFeatureByIdparentfeature(f.getIdparent());
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel2(idfeature,"core-asset","Expression", idfeature+".components",parent.getName());
 		   
 		   return "alluvials/diff_feature_packages_pp"; 
 	 	}
@@ -67,11 +72,14 @@ public class Alluvial_FeaturePackage_PP {
 		   customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvContent);//path and test		  
 		  
 		   model.addAttribute("idfeature",idfeature);
+		   Feature f = fDao.getFeatureByIdfeature(idfeature);
+		   ParentFeature parent = parentDao.getParentFeatureByIdparentfeature(f.getIdparent());
 		   model.addAttribute("idpackage",idpackage);
 		   ComponentPackage pa = packageDao.getComponentPackageByIdpackage(idpackage);
 		   model.addAttribute("maintitle", "How are feature '"+idfeature+"' assets, in '"+pa.getName()+"' package, customized by the product portfolio?");
 
-		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(idfeature, "core-asset","Expression","product", "Component"); 
+		   ComponentPackage pack = componentDao.getComponentPackageByIdpackage(idpackage);
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel3(idfeature, idfeature+"."+pa.getName(), pa.getName()+".files",parent.getName());
 		  
 		  return "alluvials/diff_feature_pp";
 	  }
@@ -85,7 +93,9 @@ public class Alluvial_FeaturePackage_PP {
 		  
 		   model.addAttribute("idfeature",idfeature);
 		   model.addAttribute("maintitle", "How are all feature '"+idfeature+"'s assets customized by the product portfolio?");
-
+		   Feature f = fDao.getFeatureByIdfeature(idfeature);
+		   ParentFeature parent = parentDao.getParentFeatureByIdparentfeature(f.getIdparent());
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel3(idfeature, idfeature," all files",parent.getName());
 		  return "alluvials/diff_feature_pp";
 	  }
 	 

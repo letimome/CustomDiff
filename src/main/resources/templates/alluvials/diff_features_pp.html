@@ -60,7 +60,7 @@
 .link {
   fill: none;
   stroke: #000;
-  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+  cursor: not-allowed;
   stroke-opacity: .2;
 }
 
@@ -382,11 +382,18 @@ float: left;
 	function myMouseoverFunction(d){
 	    window.console.log(this);
 	    window.console.log(d);
-		//d3.select(this).style("fill","white");
-		
-		d3.select(this)
+	    d3.select(this)
 		  .attr("height", function(d) { return d.dy + 20; })
 	      .attr("width", sankey.nodeWidth() +15);
+	    
+	    if(d.sourceLinks.length==0){
+	    		var color = d.color;
+			
+			d3.select(this).attr("style", "cursor: not-allowed;fill:"+color+";shape-rendering: crispEdges;fill-opacity: .9;");
+	    }
+	    		
+
+
 	}
   function myMouseoutFunction(d) {
 	  d3.select(this).style("fill", function(d) { 

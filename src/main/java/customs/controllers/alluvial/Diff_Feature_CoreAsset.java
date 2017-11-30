@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import customs.models.ComponentPackage;
+import customs.models.ComponentPackageDao;
 import customs.models.CoreAsset;
 import customs.models.CoreAssetDao;
 import customs.models.CustomsByFeatureAndCoreAsset;
@@ -24,6 +27,7 @@ import customs.utils.Formatting;
 public class Diff_Feature_CoreAsset {
 	  @Autowired private CustomsByFeatureAndCoreAssetDao customsToAssetsByproducts;
 	  @Autowired private CoreAssetDao caDao;
+	  @Autowired private ComponentPackageDao packDao;
 	  @Autowired private ProductReleaseDao prDao;
 	  @Autowired private FeatureDao fDao;
 	  @Autowired private ParentFeatureDao parentFeatureDao;
@@ -46,14 +50,20 @@ public class Diff_Feature_CoreAsset {
 	   addDiffViewForCoreAssetId(model,idcoreasset ,pr.getName(), idfeature);
 	 
 	   CoreAsset ca = caDao.getCoreAssetByIdcoreasset(idcoreasset);
-	  
-	   /*if(from.equals("fp"))
+	  /*
+	   if(from.equals("fp"))
 	     customs.utils.NavigationMapGenerator.generateNavigationMapForCodeDiffFP(idfeature,ca.getName(),"hasFeature ("+idfeature+")",pr.getName());
 	   if(from.equals("f"))
 		   customs.utils.NavigationMapGenerator.generateNavigationMapForCodeDiffF(idfeature,ca.getName(),"hasFeature ("+idfeature+")",pr.getName());
 	   if(from.equals("p"))
 		   customs.utils.NavigationMapGenerator.generateNavigationMapForCodeDiffP(idfeature,ca.getName(),"hasFeature ("+idfeature+")",pr.getName());
 	   */
+	   Feature f = fDao.getFeatureByIdfeature(idfeature);
+	   ParentFeature parent = parentFeatureDao.getParentFeatureByIdparentfeature(f.getIdparent());
+	   ComponentPackage component = packDao.getComponentPackageByIdpackage(ca.getIdpackage()); 
+	   if(from.equals("capp"))
+		     customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel4(idfeature, ca.getName(), idfeature, component.getName(), parent.getName(), "files", ca.getName(), pr.getName());
+	   
 	   model.addAttribute("maintitle", "How is '"+pr.getName()+"' modifying '"+ca.getName()+"' for feature '"+idfeature+"' ?");
 	   model.addAttribute("pr",pr.getName());
 	   model.addAttribute("idproductrelease",idproductrelease);
@@ -85,8 +95,8 @@ public class Diff_Feature_CoreAsset {
 		addDiffViewForCoreAssetIdAndParentFeature(model,idcoreasset ,pr, parentFeature);
 	 
 	   CoreAsset ca = caDao.getCoreAssetByIdcoreasset(idcoreasset);
-	  
-	   /*if(from.equals("fp"))
+	  /*
+	   if(from.equals("fp"))
 	     customs.utils.NavigationMapGenerator.generateNavigationMapForCodeDiffFP(idfeature,ca.getName(),"hasFeature ("+idfeature+")",pr.getName());
 	   if(from.equals("f"))
 		   customs.utils.NavigationMapGenerator.generateNavigationMapForCodeDiffF(idfeature,ca.getName(),"hasFeature ("+idfeature+")",pr.getName());
