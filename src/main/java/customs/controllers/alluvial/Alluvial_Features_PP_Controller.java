@@ -148,7 +148,7 @@ public class Alluvial_Features_PP_Controller {
 		  model.addAttribute("maintitle","How are all 'child features' being customized by the products?");
 		 
 		  addFilteredFeatureToTheModel(model,featuresToInclude);
-		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide("All features", "PL asset", "Filter", "Variant", "Component");
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel1("All features", "PL asset", "Filter", "Variant", "Component");
 		  
 		  System.out.println(csvCustoms);
 		  return "alluvials/diff_features_pp";

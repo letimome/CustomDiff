@@ -54,6 +54,10 @@
   stroke-opacity: .2;
 }
 
+.asterisk{
+cursor:  hand;
+}
+
 .link:hover {
   stroke-opacity: .5;
 }
@@ -85,6 +89,11 @@
     .select-all-wrapper {
         margin-top: 20px;
         margin-bottom: 20px;
+    }
+
+  .p-asterisk {
+        margin-top: 20px;
+        margin-left: 50px;
     }
 
     .selected-count {
@@ -195,7 +204,7 @@ float: left;
 			</td>
 			<!--Diagram view -->
 			<td colspan="20" align="center" valign="top" style="width:100%;">
-				<p style= "color:black; font-size: 150%;" align="center"> Which parent-features have been customized by the product-portfolio? </p>
+				<p style= "color:black; font-size: 150%;" align="center"> Which "parent" features have been customized by the product portfolio? </p>
 				 
 				<p style="font-size:100%;" align="center"> 
 					Note: Height denotes customization change-size, per each Feature (left) - Product release (right) pair.
@@ -215,9 +224,12 @@ float: left;
 							}
 						//]]>
 					</script>
-					<img id="asterisk" onclick="goToAllfeatures()" align="left" src="images/asterisk.png" alt="Drill-down to all features" height="42" width="42">
-					 Jump to all features</img>
-					 </p>
+					<p align="left" class="p-asterisk"> 
+					<br />
+					<button id="asterisk" class="asterisk" style="background-color:white">
+					<img onclick="goToAllfeatures()" src="images/asterisk.png" alt="Drill-down to all features" height="42" width="42"></img>
+					</button>  All child features
+					 </p></p>
 					
 				</p>
 				
