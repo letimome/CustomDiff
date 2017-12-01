@@ -13,6 +13,53 @@ public class NavigationMapGenerator {
 	static String featureToken = "Features";
 	static String componentToken = "Components";
 	
+	public static void generateNavigationMapForAlluvialSimple() {
+		String template = 
+				"	var simple_chart_config = { \n"+
+						"  chart: { \n"+
+						"   container: '#tree-simple', \n"+
+						
+			"		        	connectors: {\n"+
+			"			                type: 'step' \n"+
+			"			            },\n"+
+			"			            node: {"+"\n"+
+			"			                HTMLclass: 'nodeExample1'"+"\n"+
+			"			            }"+"\n"+
+			"			    },    "+"\n"+
+			"			    nodeStructure: {"+"\n"+
+			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        HTMLclass: 'orange',"+"\n"+
+			"			        children: ["+"\n"+
+			"			            {"+"\n"+
+			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+								                	 "children: [{"+"\n"+
+						 "								text: { name: 'diff ("+coreAssetsToken+", "+productToken+") ["+expressionToken+"]' },"+"\n"+
+						"			                } ]"
+						+ 			"},"+"\n"+
+			"						{"+"\n"+
+			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"							children: [{"+"\n"+
+	 							
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"									} ]"+"\n"+
+		
+			"			        		},"+"\n"+
+			"			            {"+"\n"+
+			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
+			"							children: [{"+"\n"+
+	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	"									} ]"+"\n"+
+			"			            }"+"\n"+
+			"			        ]"+"\n"+
+			"			    }"+"\n"+
+			"			};";
+			
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
+		
+		
+	}
+	
+	
 	
 	public static void generateNavigationMapForAlluvial() {
 		String template = 
@@ -111,23 +158,14 @@ public class NavigationMapGenerator {
 			"			                text: { name: 'diff ("+feature+", "+productPortfolioToken+")' },"+"\n"+
 			"							 HTMLclass: 'orange',"+"\n"+
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+component+", "+productPortfolioToken+")' },"+"\n"+
-							                	 "children: [{"+"\n"+
-								                	 "text: { name: 'diff (Files, "+productPortfolioToken+")' },"+"\n"+
-								                	 "children: [{"+"\n"+
 						 "								text: { name: 'diff ("+fileName+", "+pr+") ["+expression+"]' },"+"\n"+
 						"			                } ]"+"\n"+
-		"										} ]"+"\n"+
-	"										} ]"+"\n"+
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
 			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               				 } ]"+"\n"+
 	"									} ]"+"\n"+
 		
 			"			        		},"+"\n"+
@@ -135,10 +173,7 @@ public class NavigationMapGenerator {
 			"			            {"+"\n"+
 			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "									children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               					 } ]"+"\n"+
 	"									} ]"+"\n"+
 			"			            }"+"\n"+
 			"			        ]"+"\n"+
@@ -162,43 +197,35 @@ public class NavigationMapGenerator {
 			"			            }"+"\n"+
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
 			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
-			"			        HTMLclass: 'orange',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
 			"			                text: { name: 'diff ("+featureToken+", "+productPortfolioToken+")' },"+"\n"+
-				
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-							                	 "children: [{"+"\n"+
-					 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-					"			                } ]"+"\n"+
-		"									} ]"+"\n"+
-			"			            },"+"\n"+
+
+					 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+		            
+			"			            }]"
+			+ 						"},"+"\n"+
 			
 			"						{"+"\n"+
 			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               				 } ]"+"\n"+
 	"									} ]"+"\n"+
 		
 			"			        		},"+"\n"+
-			
 			"			            {"+"\n"+
-			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
-			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "									children: [{"+"\n"+
+			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"			 			       HTMLclass: 'orange',"+"\n"+
+			"								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               					 } ]"+"\n"+
 	"									} ]"+"\n"+
 			"			            }"+"\n"+
 			"			        ]"+"\n"+
 			"			    }"+"\n"+
 			"			};";
+		FileUtils.writeToFile(pathToResource+"NavigationMap.js", template);
 	}
 
 
@@ -219,26 +246,27 @@ public class NavigationMapGenerator {
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
 			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
-			"			        HTMLclass: 'orange',"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
 			"			                text: { name: 'diff ("+featureToken+", "+productPortfolioToken+")' },"+"\n"+
-				
+			
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-							                	 "children: [{"+"\n"+
+	//						                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+	//						                	 "children: [{"+"\n"+
 					 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-					"			                } ]"+"\n"+
+					 //			"			                } ]"+"\n"+
 		"									} ]"+"\n"+
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
 			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"			        HTMLclass: 'orange',"+"\n"+
 			"							children: [{"+"\n"+
 	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "								children: [{"+"\n"+
-	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               				 } ]"+"\n"+
+	       	//"								children: [{"+"\n"+
+	       	//"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	       	//"			               				 } ]"+"\n"+
 	"									} ]"+"\n"+
 		
 			"			        		},"+"\n"+
@@ -246,10 +274,10 @@ public class NavigationMapGenerator {
 			"			            {"+"\n"+
 			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "									children: [{"+"\n"+
+			//	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+			// 	 "									children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               					 } ]"+"\n"+
+	//"			               					 } ]"+"\n"+
 	"									} ]"+"\n"+
 			"			            }"+"\n"+
 			"			        ]"+"\n"+
@@ -275,26 +303,21 @@ public class NavigationMapGenerator {
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
 			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
-			"			        HTMLclass: 'orange',"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
 			"			                text: { name: 'diff ("+featureToken+", "+productPortfolioToken+")' },"+"\n"+
-				
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-							                	 "children: [{"+"\n"+
 					 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-					"			                } ]"+"\n"+
 		"									} ]"+"\n"+
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
 			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"			 	  	       HTMLclass: 'blue',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "								children: [{"+"\n"+
+	       	"			       				 HTMLclass: 'orange',"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               				 } ]"+"\n"+
 	"									} ]"+"\n"+
 		
 			"			        		},"+"\n"+
@@ -302,11 +325,9 @@ public class NavigationMapGenerator {
 			"			            {"+"\n"+
 			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "									children: [{"+"\n"+
+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
 	"			               					 } ]"+"\n"+
-	"									} ]"+"\n"+
 			"			            }"+"\n"+
 			"			        ]"+"\n"+
 			"			    }"+"\n"+
@@ -385,37 +406,36 @@ public class NavigationMapGenerator {
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
 			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
-			"			        HTMLclass: 'orange',"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
 			"			                text: { name: 'diff ("+featureToken+", "+productPortfolioToken+")' },"+"\n"+
 				
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-							                	 "children: [{"+"\n"+
+							              
+							              
 					 "								text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-					"			                } ]"+"\n"+
+					
 		"									} ]"+"\n"+
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
 			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "								children: [{"+"\n"+
+	       	 
+	       
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               				 } ]"+"\n"+
 	"									} ]"+"\n"+
 		
 			"			        		},"+"\n"+
 			
 			"			            {"+"\n"+
 			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
+			"			        HTMLclass: 'blue',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
-	       	 "									children: [{"+"\n"+
-	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
-	"			               					 } ]"+"\n"+
+	       	"							        HTMLclass: 'orange',"+"\n"+
+	       	 "									text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
+	
 	"									} ]"+"\n"+
 			"			            }"+"\n"+
 			"			        ]"+"\n"+

@@ -79,7 +79,7 @@ public class All_Features_PP_Controller {
 		  model.addAttribute("filterJson",filterJson);
 		 
 		  addFilteredFeatureToTheModel(model,featuresToInclude);
-		  customs.utils.NavigationMapGenerator.generateNavigationMapForAlluvial();
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForAlluvialSimple();
 		  
 		  System.out.println(csvCustoms);
 		  return "alluvials/simple_diff_features_pp";
