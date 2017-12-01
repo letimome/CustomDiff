@@ -81,7 +81,7 @@ public class Alluvial_ParentFeatures_PP_Controller {
 		  addFilteredFeatureToTheModel(model,featuresToInclude);
 		  
 		  customs.utils.NavigationMapGenerator.generateNavigationMapForAlluvial();
-		  
+		//  customs.utils.NavigationMapGenerator.generateNavigationMapMainRow(null,null,"root");
 		  System.out.println(csvCustoms);
 		  return "alluvials/diff_parent_features_pp";
 		  

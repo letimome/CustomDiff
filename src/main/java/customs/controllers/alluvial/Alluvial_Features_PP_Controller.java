@@ -87,7 +87,7 @@ public class Alluvial_Features_PP_Controller {
 		  
 		  model.addAttribute("filterJson",filterJson);
 		  
-		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSide(pf.getName(), "core-asset", "Filter", "Variant","Component");
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel1(pf.getName(), "core-asset", "Filter", "Variant","Component");
 		  
 		  System.out.println(csvCustoms);
 		  return "alluvials/diff_features_pp";
