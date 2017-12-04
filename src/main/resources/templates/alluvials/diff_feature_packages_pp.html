@@ -43,8 +43,13 @@
 .node rect {
   cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
   fill-opacity: .9;
-  shape-rendering: crispEdges;
+  
 }
+
+.asterisk {
+cursor: hand;
+}
+
 .node text {
   font-size:120%;
   pointer-events: none;
@@ -59,7 +64,7 @@
 }
 
 .link:hover {
-  stroke-opacity: .5;
+  stroke-opacity: .2;
 }
 #treeview .k-sprite {
             background-image: url("../content/web/treeview/coloricons-sprite.png");
@@ -126,6 +131,22 @@ li [nav-item]{
 }
 img { display: block;float: left;margin-right: 10px;}
 
+ .package
+ {
+    
+     top:0;
+     margin:10px;
+     z-index: 1;
+     right:0px;
+     position: relative;
+ }
+
+ svg,g
+  {
+ 
+      z-index: 0;
+      display: inline-block;
+  }
 
 .navbar-nav {
 flex-direction: row;
@@ -146,6 +167,14 @@ float: left;
   float: left;
   
 }
+
+ .p-asterisk {
+  	 	align: "center";
+        margin-top: 20px;
+        position: "relative";
+        margin-right: 500px;
+    }
+
 </style>
 </head>
 
@@ -212,6 +241,9 @@ float: left;
 				<br/>Rectangles area denotes customization change-size per Feature/Product.
 			</p>
 			<p id="chart" align="center" style="backgound-color:grey">
+					
+				
+					
 				<br />
 					<script><!-- Script for the drawing of the navigation map-->
 						//<![CDATA[	
@@ -226,15 +258,13 @@ float: left;
 								}
 						//]]>
 					</script>
-				<p align="left "><img id="asterisk" onclick="goToAllFiles()" align="left" src="images/asterisk.png" alt="Drill-down to all features" height="42" width="42">
-						 Drill-down to all packages' files</img>
+				<p class="p-asterisk">
+				<button id="asterisk" class="k-primary asterisk" style="background-color: white">
+					<img onclick="goToAllFiles()" src="images/asterisk.png" alt="Drill-down to all files" height="42" width="42"></img>
+					</button>  Drill-down to all packages' files
 				</p>
 			</p>
-			
 			<br /><br />
-			
-			
-		
 		</td>
 	</tr>
 </table>
@@ -352,13 +382,17 @@ float: left;
         } 
     		});
 	
-		
+	
+	
+	
 	// add the rectangles for the nodes
 	  node.append("rect")
 	  .attr("height", function(d) { return d.dy; })
 	      .attr("width", sankey.nodeWidth())
 	      .style("fill", function(d) { 
-			  return d.color = color(d.name.replace(/ .*/, "")); })
+			    		if(d.sourceLinks.length==0) return "grey";
+			    	  	else  return d.color = color(d.name.replace(/ .*/, "")); 
+			})
 	      .style("stroke", function(d) { return d3.rgb(d.color).darker(2); })
 		  .on("mouseover", myMouseoverFunction)
 		.on("mouseout", myMouseoutFunction)
@@ -371,11 +405,15 @@ float: left;
 			  return show;*/
 			  });
 	
+	//append packages
+	node.append("img").
+	attr("src","http://localhost:8080/images/java-package.png")
+	.attr("class","package")
+	.attr("height","60px")
+	.attr("width","50px")
+	;
 	        
-	      // add in the title for the nodes
-	
-	
-	
+	      // add in the title for the node
 	node.append("text")
 	      .attr("x", -6)
 	      .attr("y", function(d) { return d.dy / 2; })
@@ -388,7 +426,16 @@ float: left;
 	   	    .filter(function(d) { return d.x < width / 2; })
 	      .attr("x", 6 + sankey.nodeWidth())
 	      .attr("text-anchor", "start");
-
+	
+	      node.append("img")
+	.attr("x", -6)
+	      .attr("y", function(d) { return d.dy / 2; })
+	      .attr("dy", ".35em")
+	      .attr("img-anchor", "end")
+	      . attr("src","http://localhost:8080/images/java-package.png")
+	      	.attr("height","60px")
+			.attr("width","50px")
+	      ;
 	// the function for moving the nodes
 	  function dragmove(d) {
 	    d3.select(this).attr("transform", 
@@ -417,20 +464,19 @@ float: left;
 	function myMouseoverFunction(d){
 	    window.console.log(this);
 	    window.console.log(d);
-		//d3.select(this).style("fill","white");
-		
-		d3.select(this)
-		  .attr("height", function(d) { return d.dy + 20; })
-	      .attr("width", sankey.nodeWidth() +15);
-		 if(d.sourceLinks.length==0){
-	    		var color = d.color;
-
-			d3.select(this).attr("style", "cursor: not-allowed;fill:"+color+";shape-rendering: crispEdges;fill-opacity: .9;");
+	   
+	    if(d.sourceLinks.length==0){
+	    		var color =  "grey"; //d.color;//
+			d3.select(this).attr("style", "cursor: not-allowed;fill:"+color+";fill-opacity: .9;");
 	    }
-	    	
-		
+	    else {
+	    		 d3.select(this)
+			  .attr("height", function(d) { return d.dy + 20; })
+		      .attr("width", sankey.nodeWidth() +15);
+	    }
 	}
   function myMouseoutFunction(d) {
+	  if(d.sourceLinks.length==0) return;	    	
 	  d3.select(this).style("fill", function(d) { 
 		  return d.color = color(d.name.replace(/ .*/, "")); })
       .style("stroke", function(d) { 
@@ -463,6 +509,7 @@ float: left;
 		
 		
 	}
+ 
 $(document).ready(function () {
 			
 	/*	var node = document.getElementsByClassName("node nodeExample1 orange");
@@ -477,7 +524,6 @@ $(document).ready(function () {
 		
 		node[0].appendChild(dialogdiv);
 		node[0].appendChild(button);*/
-		
 		
 			 var tempSelectList = [];
 		     var dialog = $("#dialog").kendoDialog({
@@ -503,8 +549,6 @@ $(document).ready(function () {
 		        });
 		       
 
-
-      
         var featuremodel = [{
             id: "WeatherStation", FullName: "WeatherStation", expanded: true,hasChildren:true, spriteCssClass: "rootfolder", items: [
                 {
@@ -556,15 +600,20 @@ $(document).ready(function () {
     	span.append(image);
     	node[0].append(span);
     
-    	/*Adding image for rect nodes you are here location
+    
+    	
+    //	Adding image for rect nodes you are here location
     	var node = document.getElementsByTagName("rect");
     	console.log(node);
+    console.log(node.lenght);
     	console.log(node[0]);
+    	console.log(node[1]);
     	var image = document.createElement("img");
-    	image.setAttribute("src","http://localhost:8080/images/drill-down.png");
-    	image.setAttribute("heigh","60px");
+    	image.setAttribute("src","http://localhost:8080/images/java-package.png");
+    	image.setAttribute("height","60px");
     	image.setAttribute("width","50px");
-    	node[0].append(image);*/
+     	image.setAttribute("style","z-index:1");
+    	node[0].append(image);
         
     });//end of on document load
 
@@ -818,8 +867,7 @@ $(document).ready(function () {
       <div class="container">
         <span class="text-muted"> 
         <img src="images/onekinLogo.png" alt="Logo" style="width:150px;height:70px;">
-        Contact:      oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </img> </span>
-		 
+   		</img> </span>	 
       </div>
  </footer>   
     

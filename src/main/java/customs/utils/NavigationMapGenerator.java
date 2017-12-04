@@ -5,13 +5,18 @@ public class NavigationMapGenerator {
 	
 	static String productPortfolioToken = "Product Portfolio";
 	static String productToken = "Product Variant";
-	static String productAssetToken = "Variant asset";
+	static String productAssetToken = "variant asset";
+	static String productAssetsToken = "variant assets";
 	static String coreAssetToken = "PL asset";
-	static String coreAssetsToken = "Platform assets";
+	static String coreAssetsToken = "PL assets";
 	static String expressionToken= "Filter";
-	static String featuresToken = "Parent Features";
-	static String featureToken = "Features";
-	static String componentToken = "Components";
+	static String parentFeaturesToken = "Parent features";
+	static String childFeaturesToken = "Child features";
+	static String featuresToken = "Features";
+	static String featureToken = "Feature";
+	static String parentFeatureToken = "Parent feature";
+	static String componentToken = "Component";
+	static String componentsToken = "Components";
 	
 	public static void generateNavigationMapForAlluvialSimple() {
 		String template = 
@@ -75,14 +80,14 @@ public class NavigationMapGenerator {
 			"			            }"+"\n"+
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
-			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        text: { name: 'diff("+parentFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			"			        HTMLclass: 'orange',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
-			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			                text: { name: 'diff ("+childFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                	 " text: { name: 'diff ("+componentsToken+", "+productPortfolioToken+")' },"+"\n"+
 							                	 "children: [{"+"\n"+
 								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
 								                	 "children: [{"+"\n"+
@@ -93,9 +98,9 @@ public class NavigationMapGenerator {
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
-			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"			                text: { name: 'diff("+childFeaturesToken+", "+productToken+" "+componentsToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+componentToken+", "+productToken+")' },"+"\n"+
 	       	 "								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
 	"			               				 } ]"+"\n"+
@@ -104,9 +109,9 @@ public class NavigationMapGenerator {
 			"			        		},"+"\n"+
 			
 			"			            {"+"\n"+
-			"			                text: { name: 'diff("+featuresToken+", "+productToken+")' },"+"\n"+
+			"			                text: { name: 'diff("+parentFeaturesToken+", "+productToken+" "+componentsToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+parentFeaturesToken+", "+componentToken+" "+productAssetToken+")' },"+"\n"+
 	       	 "									children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
 	"			               					 } ]"+"\n"+
@@ -901,14 +906,14 @@ public class NavigationMapGenerator {
 			"			            }"+"\n"+
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
-			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        text: { name: 'diff("+parentFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			"			        HTMLclass: 'blue',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
-			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			                text: { name: 'diff ("+childFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			"							 HTMLclass: 'white',"+"\n"+
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                	 " text: { name: 'diff ("+componentsToken+", "+productPortfolioToken+")' },"+"\n"+
 							                "	 HTMLclass: 'white',"+"\n"+
 							                	 "children: [{"+"\n"+
 								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
@@ -922,10 +927,10 @@ public class NavigationMapGenerator {
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
-			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"			                text: { name: 'diff("+childFeaturesToken+", "+componentsToken+")' },"+"\n"+
 									"   HTMLclass: 'white',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+featureToken+", "+componentToken+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+featureToken+", "+productAssetsToken+")' },"+"\n"+
 	     	"								HTMLclass: 'white',"+"\n"+
 	       	 "								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetsToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
@@ -936,10 +941,10 @@ public class NavigationMapGenerator {
 			"			        		},"+"\n"+
 			
 			"			            {"+"\n"+
-			"			                text: { name: 'diff("+featuresToken+", "+productName+")' },"+"\n"+
+			"			                text: { name: 'diff("+parentFeaturesToken+", "+productName+")' },"+"\n"+
 			"							HTMLclass: 'orange',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+featuresToken+", Variant assets)' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+parentFeaturesToken+", Variant assets)' },"+"\n"+
 	       	 "									children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
 	"			               					 } ]"+"\n"+
@@ -968,14 +973,14 @@ public class NavigationMapGenerator {
 			"			            }"+"\n"+
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
-			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        text: { name: 'diff("+parentFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			"			        HTMLclass: 'blue',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
-			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			                text: { name: 'diff ("+childFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			"							 HTMLclass: 'white',"+"\n"+
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                	 " text: { name: 'diff ("+componentsToken+", "+productPortfolioToken+")' },"+"\n"+
 							                "	 HTMLclass: 'white',"+"\n"+
 							                	 "children: [{"+"\n"+
 								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
@@ -989,10 +994,10 @@ public class NavigationMapGenerator {
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
-			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"			                text: { name: 'diff("+childFeaturesToken+", "+componentToken+")' },"+"\n"+
 									"   HTMLclass: 'white',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+featureToken+", "+componentToken+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+childFeaturesToken+", "+componentToken+")' },"+"\n"+
 	     	"								HTMLclass: 'white',"+"\n"+
 	       	 "								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetsToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
@@ -1003,10 +1008,10 @@ public class NavigationMapGenerator {
 			"			        		},"+"\n"+
 			
 			"			            {"+"\n"+
-			"			                text: { name: 'diff("+featuresToken+", "+productName+")' },"+"\n"+
+			"			                text: { name: 'diff("+parentFeaturesToken+", "+productName+")' },"+"\n"+
 			"							HTMLclass: 'blue',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+featuresToken+", "+componentName+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+parentFeaturesToken+", "+componentName+")' },"+"\n"+
 	       	"							HTMLclass: 'orange',"+"\n"+
 	       	 "									children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
@@ -1037,14 +1042,14 @@ public static void generateNavigationMapForProductSideLevel3(String productName,
 			"			            }"+"\n"+
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
-			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        text: { name: 'diff("+parentFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			"			        HTMLclass: 'blue',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
-			"			                text: { name: 'diff ("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			                text: { name: 'diff ("+childFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			"							 HTMLclass: 'white',"+"\n"+
 					"			               children: [{"+"\n"+
-							                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+							                	 " text: { name: 'diff ("+componentsToken+", "+productPortfolioToken+")' },"+"\n"+
 							                "	 HTMLclass: 'white',"+"\n"+
 							                	 "children: [{"+"\n"+
 								                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
@@ -1058,10 +1063,10 @@ public static void generateNavigationMapForProductSideLevel3(String productName,
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
-			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"			                text: { name: 'diff("+childFeaturesToken+", "+componentsToken+")' },"+"\n"+
 									"   HTMLclass: 'white',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+featureToken+", "+componentToken+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+childFeaturesToken+", "+productAssetsToken+")' },"+"\n"+
 	     	"								HTMLclass: 'white',"+"\n"+
 	       	 "								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetsToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
@@ -1072,10 +1077,10 @@ public static void generateNavigationMapForProductSideLevel3(String productName,
 			"			        		},"+"\n"+
 			
 			"			            {"+"\n"+
-			"			                text: { name: 'diff("+featuresToken+", "+productName+")' },"+"\n"+
+			"			                text: { name: 'diff("+parentFeaturesToken+", "+productName+")' },"+"\n"+
 			"							HTMLclass: 'blue',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+featuresToken+", "+componentName+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+parentFeaturesToken+", "+componentName+")' },"+"\n"+
 	       	"							HTMLclass: 'blue',"+"\n"+
 	       	 "									children: [{"+"\n"+
 	"											text: { name: 'diff ("+fileName+", "+fileName+") ["+expression+"]' },"+"\n"+
@@ -1172,7 +1177,7 @@ public static void generateNavigationMapForFeatureSideLevel1(String parentfeatur
 		"			                text: { name: 'diff ("+parentfeature+", "+productPortfolioToken+")' },"+"\n"+
 		"							 HTMLclass: 'orange',"+"\n"+
 				"			               children: [{"+"\n"+
-						                	 " text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+						                	 " text: { name: 'diff ("+featureToken+" "+componentToken+", "+productPortfolioToken+")' },"+"\n"+
 						                "	 HTMLclass: 'white',"+"\n"+
 						                	 "children: [{"+"\n"+
 							                	 "text: { name: 'diff ("+coreAssetsToken+", "+productPortfolioToken+")' },"+"\n"+
