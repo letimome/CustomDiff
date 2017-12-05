@@ -36,7 +36,7 @@
 
 <style>
 .node rect {
-  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+  cursor: url('http://158.227.178.168/customDiff/images/drill-down-icon.png'), pointer;
   fill-opacity: .9;
   shape-rendering: crispEdges;
 }
@@ -170,13 +170,13 @@ float: left;
       <ul class="nav navbar-nav ">
         <li class="">
         </li>
-         	<li class="nav-item"><a href="http://localhost:8080/index"><img src="http://localhost:8080/images/home.png" alt="Home" 
+         	<li class="nav-item"><a href="/index"><img src="http://158.227.178.168/customDiff/images/home.png" alt="Home" 
 	      style="width:30px;height:30px;"/></a></li>
-	     <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://localhost:8080/images/hierarchy.png" alt="Customization analysis" 
+	     <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://158.227.178.168/customDiff/images/hierarchy.png" alt="Customization analysis" 
 	      style="width:38px;height:38px;"/></a></li>
-	      <li class="nav-item" align="center"><a href="http://localhost:8080/search"><img src="http://localhost:8080/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
-	      <li class="nav-item" align="center"><a href="http://localhost:8080/config"><img src="http://localhost:8080/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
-	       <li class="nav-item" align="center"><a href="http://localhost:8080/documentation"><img src="http://localhost:8080/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="/search"><img src="http://158.227.178.168/customDiff/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="/config"><img src="http://158.227.178.168/customDiff/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item" align="center"><a href="/documentation"><img src="http://158.227.178.168/customDiff/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
       </ul>
   </nav>
 </header>
@@ -205,7 +205,7 @@ float: left;
 		<!--Diagram view -->
 		<td colspan="20" align="center" valign="top" style="width:80%;background-color:">
 			<p align="left"><a href="diff_parent_features_products">Roll-up</a></p>
-			  <p><a href="http://localhost:8080/diff_parent_features_products">
+			  <p><a href="/diff_parent_features_products">
 				<img class="roll-up" align="center" src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
 			</a>
 			</p>
@@ -408,16 +408,16 @@ float: left;
 	  }
 	function drillDownByIdpackageId(d){//click on products
 		console.log(d);
-		window.location.href = "http://localhost:8080/diff_parent_features_package_assets?idproductrelease=" + d.targetLinks[0].idproductrelease+"&idpackage="+d.targetLinks[0].idpackage+"&from=pfp";
+		window.location.href = "/diff_parent_features_package_assets?idproductrelease=" + d.targetLinks[0].idproductrelease+"&idpackage="+d.targetLinks[0].idpackage+"&from=pfp";
 	}
 
 	function drillDownByIdparentFeature(d){//click on feature - either provide alluvial with children, or go to feature core assets.
 		console.log(d); 
-		window.location.href = "http://localhost:8080/diff_features_product_packages?idproductrelease="+d.sourceLinks[0].idproductrelease+"&idparentfeature="+ d.sourceLinks[0].idparentfeature+"&from=pfp";;
+		window.location.href = "/diff_features_product_packages?idproductrelease="+d.sourceLinks[0].idproductrelease+"&idparentfeature="+ d.sourceLinks[0].idparentfeature+"&from=pfp";;
 	}
 	function drillDownByIdparentFeatureAndIdpackage(d){//click on the links between Feature&product
 		console.log(d);
-		//window.location.href = "http://localhost:8080/diff_features_package_assets?idproductrelease="+d.idproductrelease+"&idparentfeature="+ d.idparentfeature+"&idpackage="+d.idpackage+"&from=pfp";
+		//window.location.href = "/diff_features_package_assets?idproductrelease="+d.idproductrelease+"&idparentfeature="+ d.idparentfeature+"&idpackage="+d.idpackage+"&from=pfp";
 	}
 		
 	function myMouseoverFunction(d){
@@ -537,7 +537,7 @@ $(document).ready(function () {
     	var node = document.getElementsByClassName("node nodeExample1 orange");
     	var span = document.createElement("p");
     	var image = document.createElement("img");
-    	image.setAttribute("src","http://localhost:8080/images/here.png");
+    	image.setAttribute("src","http://158.227.178.168/customDiff/images/here.png");
     	image.setAttribute("heigh","60px");
     	image.setAttribute("width","50px");
     	image.append(document.createElement("br"))
@@ -549,7 +549,7 @@ $(document).ready(function () {
     	console.log(node);
     	console.log(node[0]);
     	var image = document.createElement("img");
-    	image.setAttribute("src","http://localhost:8080/images/drill-down.png");
+    	image.setAttribute("src","http://158.227.178.168/customDiff/images/drill-down.png");
     	image.setAttribute("heigh","60px");
     	image.setAttribute("width","50px");
     	node[0].append(image);*/
@@ -588,11 +588,11 @@ $(document).ready(function () {
         var checkedNodes = getCheckedItems(treeView);
         updateResult(checkedNodes);
         var filter = getCheckedItemsList(treeView); 
-        window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+filter;//" + d.source.name+"-v1.0";
+        window.location.href = "/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+filter;//" + d.source.name+"-v1.0";
     }
     
 	  function removeFeatureFilter(){//removeFilter()
-		  window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0";//" + d.source.name+"-v1.0";
+		  window.location.href = "/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0";//" + d.source.name+"-v1.0";
 	    }
     
     
@@ -775,7 +775,7 @@ $(document).ready(function () {
 	             message = checkedNodes.join(",");
 	         } 
 	         //go and filter by feature Name
-	         window.location.href = "http://localhost:8080/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+message;//" + d.source.name+"-v1.0";
+	         window.location.href = "/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="+message;//" + d.source.name+"-v1.0";
 	        
          }
 
@@ -796,7 +796,7 @@ $(document).ready(function () {
             $("#result").html(message);
            
             //go and filter by feature Name
-           // window.location.href = "http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter"+message;//" + d.source.name+"-v1.0";
+           // window.location.href = "/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter"+message;//" + d.source.name+"-v1.0";
         }
  
 //]]>
@@ -806,7 +806,7 @@ $(document).ready(function () {
       <div class="container">
         <span class="text-muted"> 
         <img src="images/onekinLogo.png" alt="Logo" style="width:150px;height:70px;">
-        Contact:      oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </img> </span>
+     </img> </span>
 		 
       </div>
  </footer>   

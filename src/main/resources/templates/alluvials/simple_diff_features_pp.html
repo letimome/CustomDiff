@@ -53,7 +53,7 @@
 
 <style>
 .node rect {
-  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+  cursor: url('http://158.227.178.168/customDiff/images/drill-down-icon.png'), pointer;
   fill-opacity: .9;
   shape-rendering: crispEdges;
 }
@@ -66,7 +66,7 @@
 .link {
   fill: none;
   stroke: #000;
-  cursor: url('http://localhost:8080/images/drill-down-icon.png'), pointer;
+  cursor: url('http://158.227.178.168/customDiff/images/drill-down-icon.png'), pointer;
   stroke-opacity: .2;
 }
 
@@ -167,13 +167,13 @@ float: left;
       <ul class="nav navbar-nav ">
         <li class="">
         </li>
-         	<li class="nav-item"><a href="http://localhost:8080/index"><img src="http://localhost:8080/images/home.png" alt="Home" 
+         	<li class="nav-item"><a href="/index"><img src="http://158.227.178.168/customDiff/images/home.png" alt="Home" 
 	      style="width:30px;height:30px;"/></a></li>
-	       <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://localhost:8080/images/hierarchy.png" alt="Customization analysis" 
+	       <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://158.227.178.168/customDiff/images/hierarchy.png" alt="Customization analysis" 
 	      style="width:38px;height:38px;"/></a></li>
-	      <li class="nav-item" align="center"><a href="http://localhost:8080/search"><img src="http://localhost:8080/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
-	      <li class="nav-item" align="center"><a href="http://localhost:8080/config"><img src="http://localhost:8080/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
-	       <li class="nav-item" align="center"><a href="http://localhost:8080/documentation"><img src="http://localhost:8080/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="/search"><img src="http://158.227.178.168/customDiff/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="/config"><img src="http://158.227.178.168/customDiff/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item" align="center"><a href="/documentation"><img src="http://158.227.178.168/customDiff/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
       </ul>
   </nav>
 </header>
@@ -427,7 +427,7 @@ $(document).ready(function () {
     	var span = document.createElement("div");
     	var image = document.createElement("img");
     	
-    	image.setAttribute("src","http://localhost:8080/images/here.png");
+    	image.setAttribute("src","http://158.227.178.168/customDiff/images/here.png");
     image.setAttribute("align","center");
     	image.setAttribute("heigh","60px");
     	image.setAttribute("width","50px");
@@ -530,7 +530,7 @@ $(document).ready(function () {
     	var span = document.createElement("div");
     	var image = document.createElement("img");
     	
-    	image.setAttribute("src","http://localhost:8080/images/here.png");
+    	image.setAttribute("src","http://158.227.178.168/customDiff/images/here.png");
     image.setAttribute("align","center");
     	image.setAttribute("heigh","60px");
     	image.setAttribute("width","50px");
@@ -580,7 +580,7 @@ $(document).ready(function () {
     }
     
 	  function removeFeatureFilter(){//removeFilter()
-		 // window.location.href = "http://localhost:8080/diff_parent_features_products";
+		 // window.location.href = "/diff_parent_features_products";
 	    }
     
     
@@ -743,7 +743,7 @@ $(document).ready(function () {
             $("#result").html(message);
            
             //go and filter by feature Name
-           // window.location.href = "http://localhost:8080/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter"+message;//" + d.source.name+"-v1.0";
+           // window.location.href = "/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter"+message;//" + d.source.name+"-v1.0";
         }
   //]]>
 </script>
@@ -755,7 +755,7 @@ $(document).ready(function () {
 <footer class="footer">
       <div class="container">
         <span class="text-muted"> <img src="images/onekinLogo.png" alt="Logo" style="width:150px;height:70px;">
-        </img> Contact:      oscar.diaz@ehu.eus, leticia.montalvillo@ehu.eus </span>
+        </img> </span>
 		 
       </div>
  </footer>  
