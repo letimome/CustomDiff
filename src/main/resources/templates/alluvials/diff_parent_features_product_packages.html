@@ -52,6 +52,15 @@
   cursor: not-allowed;
   stroke-opacity: .2;
 }
+.asterisk {
+	cursor: hand;
+}
+.p-asterisk {
+	align: "center";
+	margin-top: 20px;
+	position: "relative";
+	margin-left: 800px;
+}
 
 .link:hover {
   stroke-opacity: .2;
@@ -122,6 +131,8 @@ li [nav-item]{
 .roll-up { display: block; float: left;margin-right: 10px;}
 
 . asterisk-right { display: block;float: right; margin-right: 10px;}
+
+
 
 .navbar-nav {
 flex-direction: row;
@@ -223,8 +234,17 @@ float: left;
 						}
 					//]]>
 					</script>
-					<span align="right"><img class="asterisk-right" id="asterisk" onclick="goToAllFiles()" src="images/asterisk.png" alt="Drill-down to all files" height="42" width="42"></img></span>
-			Drill-down to all packages' files </p>
+					<p class="p-asterisk">
+						<br />
+						<button id="asterisk" class="k-primary asterisk"
+							style="background-color: white">
+							<img onclick="goToAllFiles()" src="images/asterisk.png"
+								alt="Drill-down to all files" height="42" width="42"></img>
+						</button>
+						Drill-down to all packages assets
+					</p>
+			
+			</p>
 			<br /><br />
 		
 		</p>
@@ -240,8 +260,8 @@ float: left;
 //<![CDATA[
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 10},
-	    width = 800 - margin.left - margin.right,
-	    height = 800 - margin.top - margin.bottom;
+	    width = 600 - margin.left - margin.right,
+	    height = 500 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();

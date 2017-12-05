@@ -521,7 +521,7 @@ public class NavigationMapGenerator {
 			"			            }"+"\n"+
 			"			    },    "+"\n"+
 			"			    nodeStructure: {"+"\n"+
-			"			        text: { name: 'diff("+featuresToken+", "+productPortfolioToken+")' },"+"\n"+
+			"			        text: { name: 'diff("+parentFeaturesToken+", "+productPortfolioToken+")' },"+"\n"+
 			"			        HTMLclass: 'blue',"+"\n"+
 			"			        children: ["+"\n"+
 			"			            {"+"\n"+
@@ -540,9 +540,9 @@ public class NavigationMapGenerator {
 			"			            },"+"\n"+
 			
 			"						{"+"\n"+
-			"			                text: { name: 'diff("+featureToken+", "+productToken+")' },"+"\n"+
+			"			                text: { name: 'diff("+parentFeaturesToken+", "+componentsToken+")' },"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+componentToken+", "+productPortfolioToken+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+parentFeaturesToken+", "+productAssetsToken+")' },"+"\n"+
 	       	 "								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
 	"			               				 } ]"+"\n"+
@@ -1066,7 +1066,7 @@ public static void generateNavigationMapForProductSideLevel3(String productName,
 			"			                text: { name: 'diff("+childFeaturesToken+", "+componentsToken+")' },"+"\n"+
 									"   HTMLclass: 'white',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+childFeaturesToken+", "+productAssetsToken+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+childFeaturesToken+", "+componentToken+")' },"+"\n"+
 	     	"								HTMLclass: 'white',"+"\n"+
 	       	 "								children: [{"+"\n"+
 	"											text: { name: 'diff ("+coreAssetsToken+", "+productAssetToken+") ["+expressionToken+"]' },"+"\n"+
@@ -1077,10 +1077,10 @@ public static void generateNavigationMapForProductSideLevel3(String productName,
 			"			        		},"+"\n"+
 			
 			"			            {"+"\n"+
-			"			                text: { name: 'diff("+parentFeaturesToken+", "+productName+")' },"+"\n"+
+			"			                text: { name: 'diff("+featuresToken+", "+productName+")' },"+"\n"+
 			"							HTMLclass: 'blue',"+"\n"+
 			"							children: [{"+"\n"+
-	       	 " 								text: { name: 'diff ("+parentFeaturesToken+", "+componentName+")' },"+"\n"+
+	       	 " 								text: { name: 'diff ("+featuresToken+", "+componentName+")' },"+"\n"+
 	       	"							HTMLclass: 'blue',"+"\n"+
 	       	 "									children: [{"+"\n"+
 	"											text: { name: 'diff ("+fileName+", "+fileName+") ["+expression+"]' },"+"\n"+
