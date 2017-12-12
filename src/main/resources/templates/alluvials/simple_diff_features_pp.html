@@ -53,7 +53,7 @@
 
 <style>
 .node rect {
-  cursor: url('http://158.227.178.168/customDiff/images/drill-down-icon.png'), pointer;
+  cursor: url('images/drill-down-icon.png'), pointer;
   fill-opacity: .9;
   shape-rendering: crispEdges;
 }
@@ -64,10 +64,10 @@
 }
 
 .link {
-  fill: none;
-  stroke: #000;
-  cursor: url('http://158.227.178.168/customDiff/images/drill-down-icon.png'), pointer;
-  stroke-opacity: .2;
+fill: none;
+	stroke: green;
+	cursor: url('images/drill-down-icon.png'), pointer;
+	stroke-opacity: .15;
 }
 
 .link:hover {
@@ -167,13 +167,13 @@ float: left;
       <ul class="nav navbar-nav ">
         <li class="">
         </li>
-         	<li class="nav-item"><a href="/index"><img src="http://158.227.178.168/customDiff/images/home.png" alt="Home" 
+         	<li class="nav-item"><a href="/index"><img src="images/home.png" alt="Home" 
 	      style="width:30px;height:30px;"/></a></li>
-	       <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://158.227.178.168/customDiff/images/hierarchy.png" alt="Customization analysis" 
+	       <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="images/hierarchy.png" alt="Customization analysis" 
 	      style="width:38px;height:38px;"/></a></li>
-	      <li class="nav-item" align="center"><a href="/search"><img src="http://158.227.178.168/customDiff/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
-	      <li class="nav-item" align="center"><a href="/config"><img src="http://158.227.178.168/customDiff/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
-	       <li class="nav-item" align="center"><a href="/documentation"><img src="http://158.227.178.168/customDiff/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="/search"><img src="images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="/config"><img src="images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item" align="center"><a href="/documentation"><img src="images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
       </ul>
   </nav>
 </header>
@@ -209,7 +209,7 @@ float: left;
 				<img align="center"  src="images/roll-up.png" alt="Roll-up" style="width:50px;height:50px;"/>
 			</a>
 			</p>-->
-				<p style= "color:black; font-size: 150%;" align="center" th:text="${maintitle}"> What features have been customized? </p>
+				<p style= "color:black; font-size: 150%;" align="center" > What features have been customized by the product portfolio? </p>
 				  <div id="dialog" align="left"></div>
 				 <button  align="left" id="pickEmployeesButton" class="btn btn-primary">Click to filter by feature
 				 <img align="left" src="images/filter.png"></img>
@@ -235,7 +235,7 @@ float: left;
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 60},
 	    width = 900 - margin.left - margin.right,
-	    height = 1000 - margin.top - margin.bottom;
+	    height = 950 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();
@@ -427,7 +427,7 @@ $(document).ready(function () {
     	var span = document.createElement("div");
     	var image = document.createElement("img");
     	
-    	image.setAttribute("src","http://158.227.178.168/customDiff/images/here.png");
+    	image.setAttribute("src","images/here.png");
     image.setAttribute("align","center");
     	image.setAttribute("heigh","60px");
     	image.setAttribute("width","50px");
@@ -530,7 +530,7 @@ $(document).ready(function () {
     	var span = document.createElement("div");
     	var image = document.createElement("img");
     	
-    	image.setAttribute("src","http://158.227.178.168/customDiff/images/here.png");
+    	image.setAttribute("src","images/here.png");
     image.setAttribute("align","center");
     	image.setAttribute("heigh","60px");
     	image.setAttribute("width","50px");

@@ -38,7 +38,7 @@
 .node rect {
   cursor: not-allowed;
   fill-opacity: .9;
-  shape-rendering: crispEdges;
+
 }
 .node text {
   font-size:120%;
@@ -48,9 +48,13 @@
 
 .link {
   fill: none;
-  stroke: #000;
-  cursor: url('http://158.227.178.168/customDiff/images/drill-down-icon.png'), pointer;
-  stroke-opacity: .2;
+  stroke: green;
+  cursor: url('images/drill-down-icon.png'), pointer;
+  stroke-opacity: .4;
+}
+
+.link:hover {
+  stroke-opacity: .8;
 }
 
 .link:hover {
@@ -223,7 +227,7 @@ float: left;
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 10},
 	    width = 600 - margin.left - margin.right,
-	    height = 400 - margin.top - margin.bottom;
+	    height = 700 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();
@@ -327,7 +331,8 @@ float: left;
 	      .attr("width", sankey.nodeWidth())
 	      .attr("text", "asdasdadaa")
 	      .style("fill", function(d) { 
-			  return d.color = color(d.name.replace(/ .*/, "")); })
+			  return d.color ="grey"// color(d.name.replace(/ .*/, ""));
+			  })
 	      .style("stroke", function(d) { return d3.rgb(d.color).darker(2); })
 		  .on("mouseover", myMouseoverFunction)
 		.on("mouseout", myMouseoutFunction)
@@ -385,23 +390,23 @@ float: left;
 	}
 		
 	function myMouseoverFunction(d){
-	    window.console.log(this);
+	   /* window.console.log(this);
 	    window.console.log(d);
 		//d3.select(this).style("fill","white");
 		
 		d3.select(this)
 		  .attr("height", function(d) { return d.dy + 20; })
-	      .attr("width", sankey.nodeWidth() +15);
+	      .attr("width", sankey.nodeWidth() +15);*/
 	}
   function myMouseoutFunction(d) {
-	  d3.select(this).style("fill", function(d) { 
-		  return d.color = color(d.name.replace(/ .*/, "")); })
-      .style("stroke", function(d) { 
+	/* */// d3.select(this).style("fill", function(d) { 
+	//	  return d.color = color(d.name.replace(/ .*/, "")); })
+      /*.style("stroke", function(d) { 
 		  return d3.rgb(d.color).darker(5); });
 	  
 	  d3.select(this)
 	  .attr("height", function(d) { return d.dy; })
-      .attr("width", sankey.nodeWidth());
+      .attr("width", sankey.nodeWidth());*/
   
   }
         

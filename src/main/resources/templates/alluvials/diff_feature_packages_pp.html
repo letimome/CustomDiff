@@ -41,7 +41,7 @@
 
 <style>
 .node rect {
-  cursor: url('http://158.227.178.168/customDiff/images/drill-down-icon.png'), pointer;
+  cursor: url('images/drill-down-icon.png'), pointer;
   fill-opacity: .9;
   
 }
@@ -192,13 +192,13 @@ float: left;
       <ul class="nav navbar-nav ">
         <li class="">
         </li>
-         	<li class="nav-item"><a href="/index"><img src="http://158.227.178.168/customDiff/images/home.png" alt="Home" 
+         	<li class="nav-item"><a href="/index"><img src="images/home.png" alt="Home" 
 	      style="width:30px;height:30px;"/></a></li>
-	     <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="http://158.227.178.168/customDiff/images/hierarchy.png" alt="Customization analysis" 
+	     <li class="nav-item active"  align="center" valign="middle"><a href="/analysis"><img src="images/hierarchy.png" alt="Customization analysis" 
 	      style="width:38px;height:38px;"/></a></li>
-	      <li class="nav-item" align="center"><a href="/search"><img src="http://158.227.178.168/customDiff/images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
-	      <li class="nav-item" align="center"><a href="/config"><img src="http://158.227.178.168/customDiff/images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
-	       <li class="nav-item" align="center"><a href="/documentation"><img src="http://158.227.178.168/customDiff/images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="/search"><img src="images/search.png" alt="Search diff" style="width:30px;height:30px;"/></a></li>
+	      <li class="nav-item" align="center"><a href="/config"><img src="images/config.png" alt="Configuration" style="width:30px;height:30px;"/></a></li>
+	       <li class="nav-item" align="center"><a href="/documentation"><img src="images/document.png" alt="Documentation" style="width:30px;height:30px;"/></a></li>
       </ul>
   </nav>
 </header>
@@ -277,8 +277,8 @@ float: left;
 //<![CDATA[
   var units = "Widgets";
 	var margin = {top: 10, right: 10, bottom: 10, left: 10},
-	    width = 600 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
+	    width = 800 - margin.left - margin.right,
+	    height = 1450 - margin.top - margin.bottom;
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();
@@ -407,7 +407,7 @@ float: left;
 	
 	//append packages
 	node.append("img").
-	attr("src","http://158.227.178.168/customDiff/images/java-package.png")
+	attr("src","images/java-package.png")
 	.attr("class","package")
 	.attr("height","60px")
 	.attr("width","50px")
@@ -432,7 +432,7 @@ float: left;
 	      .attr("y", function(d) { return d.dy / 2; })
 	      .attr("dy", ".35em")
 	      .attr("img-anchor", "end")
-	      . attr("src","http://158.227.178.168/customDiff/images/java-package.png")
+	      . attr("src","images/java-package.png")
 	      	.attr("height","60px")
 			.attr("width","50px")
 	      ;
@@ -593,7 +593,7 @@ $(document).ready(function () {
     	var node = document.getElementsByClassName("node nodeExample1 orange");
     	var span = document.createElement("p");
     	var image = document.createElement("img");
-    	image.setAttribute("src","http://158.227.178.168/customDiff/images/here.png");
+    	image.setAttribute("src","images/here.png");
     	image.setAttribute("heigh","60px");
     	image.setAttribute("width","50px");
     	image.append(document.createElement("br"))
@@ -609,7 +609,7 @@ $(document).ready(function () {
     	console.log(node[0]);
     	console.log(node[1]);
     	var image = document.createElement("img");
-    	image.setAttribute("src","http://158.227.178.168/customDiff/images/java-package.png");
+    	image.setAttribute("src","images/java-package.png");
     	image.setAttribute("height","60px");
     	image.setAttribute("width","50px");
      	image.setAttribute("style","z-index:1");
