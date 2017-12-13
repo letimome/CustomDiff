@@ -136,9 +136,9 @@ public class Alluvial_Features_PP_Controller {
 			   }
 		   }
 		  //if there is a filter, then do not show products which has not been customized.
-		   if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(customizedproductreleases));
+		  // if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(customizedproductreleases));
 		  
-		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(customizedfeatures, featuresToInclude));
+		 //  csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(customizedfeatures, featuresToInclude));
 		 
 		  customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		  String filterJson = customs.utils.FeaturesToJason.getJsonForFeatures(fDao.findAll());
@@ -151,7 +151,7 @@ public class Alluvial_Features_PP_Controller {
 		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel1("All features", "PL asset", "Filter", "Variant", "Component");
 		  
 		  System.out.println(csvCustoms);
-		  return "alluvials/diff_features_pp";
+		  return "alluvials/diff_all_features_pp";
 		  
 	 	}
 	

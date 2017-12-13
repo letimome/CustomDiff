@@ -68,9 +68,9 @@ public class Alluvial_ParentFeatures_PP_Controller {
 			   }
 		   }
 		  //if there is a filter, then do not show products which has not been customized.
-		   if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(customizedproductreleases));
+		   //if(filter==null) csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedProducts(customizedproductreleases));
 		  
-		   csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(customizedfeatures, featuresToInclude));
+		  // csvCustoms = csvCustoms.concat(extractCSVForNotCustomizedFeatures(customizedfeatures, featuresToInclude));
 		 
 		  customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		  String filterJson = customs.utils.FeaturesToJason.getJsonForParentFeatures(parentFeatureDao.findAll());

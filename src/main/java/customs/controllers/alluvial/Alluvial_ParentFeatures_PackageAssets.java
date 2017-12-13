@@ -117,8 +117,8 @@ public class Alluvial_ParentFeatures_PackageAssets {
 						   +","+custo.getIdproductrelease()+","+custo.getIdpackage()); 
 			   }
 		   }
-		   csvCustoms = addNotCustomizedComponentPackagesTotheCSV(listcustomizedAssets,csvCustoms,pr.getId_productrelease(),comp_package);
-		  //csvCustoms= 	addNewAssetsTotheCSV(csvCustoms,pr.getName());
+		  // csvCustoms = addNotCustomizedComponentPackagesTotheCSV(listcustomizedAssets,csvCustoms,pr.getId_productrelease(),comp_package);
+	//	  csvCustoms= 	addNewAssetsTotheCSV(csvCustoms,pr.getName());
 		return csvCustoms;
 	}
 
@@ -140,8 +140,7 @@ public class Alluvial_ParentFeatures_PackageAssets {
 				csvContent = csvContent.concat("\nNOT_CUSTOMIZED,"+ca.getName()+",0.01,");
 				listaddedAssets.add(ca.getIdcoreasset());
 			}
-		}
-		
+		}		
 		return csvContent;
 }
 

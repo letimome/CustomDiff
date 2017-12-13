@@ -275,10 +275,23 @@ float: left;
 <script src="draw.js"></script>
  <script> <!-- Script for drawing the alluvial diagram -->
 //<![CDATA[
+	
+		function getMetaContentByName(name,content){
+		   var content = (content==null)?'content':content;
+		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+		}
+		
   var units = "Widgets";
-	var margin = {top: 10, right: 10, bottom: 10, left: 10},
+  var margin;
+  if (getMetaContentByName('idfeature') =="No Feature")
+	 margin = {top: 10, right: 10, bottom: 10, left: 10},
 	    width = 800 - margin.left - margin.right,
-	    height = 1450 - margin.top - margin.bottom;
+	    height = 500 - margin.top - margin.bottom;
+  else 
+	   margin = {top: 10, right: 10, bottom: 10, left: 10},
+	    width = 800 - margin.left - margin.right,
+	    height = 300 - margin.top - margin.bottom;
+	  
 	var formatNumber = d3.format(",.0f"),    // zero decimal places
 	    format = function(d) { return formatNumber(d) + " " + units; },
 	    color = d3.scale.category20();
