@@ -80,14 +80,14 @@ public class Alluvial_Features_PP_Controller {
 		  ParentFeature pf = parentFeatureDao.getParentFeatureByIdparentfeature(idparentfeature);
 		  if (pf == null)
 		  addFilteredFeatureToTheModel(model,featuresToInclude);
-		  model.addAttribute("maintitle","How are "+pf.getName()+"'s features being customized by the products?");
+		  model.addAttribute("maintitle","Which "+pf.getName()+" \"child features\" have been customized by the product portfolio?");
 		  model.addAttribute("from",from);
 		  model.addAttribute("idparentfeature",idparentfeature);
 		  String filterJson = customs.utils.FeaturesToJason.getJsonForFeatures(fDao.getFeaturesByIdparent(idparentfeature));
 		  
 		  model.addAttribute("filterJson",filterJson);
 		  
-		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel1(pf.getName(), "core-asset", "Filter", "Variant","Component");
+		  customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel1(pf.getName() + " children", "core-asset", "Filter", "Variant","Component");
 		  
 		  System.out.println(csvCustoms);
 		  return "alluvials/diff_features_pp";

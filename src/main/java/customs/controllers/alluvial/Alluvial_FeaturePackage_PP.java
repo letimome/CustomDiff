@@ -57,7 +57,7 @@ public class Alluvial_FeaturePackage_PP {
 		   model.addAttribute("idparentfeature",f.getIdparent());   
 		   model.addAttribute("maintitle", "Which packages from feature '"+idfeature+"' are customized by the products?");
 		   ParentFeature parent = parentDao.getParentFeatureByIdparentfeature(f.getIdparent());
-		   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel2(idfeature,"core-asset","Expression", idfeature+".components",parent.getName());
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForFeatureSideLevel2(idfeature,"core-asset","Expression", idfeature+" packages",parent.getName());
 		   
 		   return "alluvials/diff_feature_packages_pp"; 
 	 	}
@@ -143,7 +143,7 @@ public class Alluvial_FeaturePackage_PP {
 			csvContent = csvContent.concat("\n"+custom.getCa_name()+","+custom.getPr_name()+","+custom.getChurn()
 			+","+custom.getId_coreasset()+","+idpackage+","+idfeature+","+custom.getIdproductrelease());
 		}
-		csvContent=	addNotCustomizedComponentPackagesTotheCSV(listcustomizedComps,csvContent,idfeature);
+	//	csvContent=	addNotCustomizedComponentPackagesTotheCSV(listcustomizedComps,csvContent,idfeature);
 		return csvheader+csvContent;
 		}
 	 

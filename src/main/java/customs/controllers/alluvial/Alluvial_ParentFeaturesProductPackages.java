@@ -57,7 +57,7 @@ public class Alluvial_ParentFeaturesProductPackages {
 		   model.addAttribute("maintitle", "Which packages is '"+pr.getName()+"' customizing?");
 		   model.addAttribute("difftitle", "diff(Baseline-v1.0, "+pr.getName()+")");
 		  
-		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSideLevel1(pr.getName()+".components");
+		   customs.utils.NavigationMapGenerator.generateNavigationMapForProductSideLevel1(pr.getName()+" components");
 		   
 		   return "alluvials/diff_parent_features_product_packages"; 
 	 	}
