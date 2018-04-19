@@ -21,7 +21,7 @@ import customs.models.Churn_PoductPortfolioAndFeatures;
 public class CustomizationsRestController {
 	@Autowired private Churn_PoductPortfolioAndFeaturesDao customsDao;
 	
-	@RequestMapping(value="/customizations", method = RequestMethod.GET, produces = "Accept=application/json")
+	@RequestMapping(value="/customizations", method = RequestMethod.GET)// produces = "Accept=application/json"
 	Iterable<Churn_PoductPortfolioAndFeatures> readAllCustomizations() {
 		return customsDao.findAll();
 	}
