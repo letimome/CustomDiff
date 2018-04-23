@@ -58,10 +58,10 @@ public class MainProductEngController {
 		Iterator<Churn_PoductPortfolioAndFeatures> it = pp_by_feature.findAll().iterator();		
 		Churn_PoductPortfolioAndFeatures observer; // Know which features is the product customizing !!
 		String pname = p.getName();
-		/*if(p.getName().contains("-"))
+		if(p.getName().contains("-"))
 			 pname=(p.getName()).split("-")[0];
 		else
-		  pname=p.getName();*/
+		  pname=p.getName();
 		
 		String csvCustoms="source,target,value";
 		int churn = 0;
@@ -86,7 +86,7 @@ public class MainProductEngController {
 			while(iterator.hasNext()) {	
 				peers = iterator.next();//observer.getId_pr()!=p.getId_productrelease() &&
 				
-				if( featuresReusedByProduct.contains(peers.getFeaturemodified()) ){//
+				if( featuresReusedByProduct.contains(peers.getFeaturemodified()) && (peers.getId_pr()==p.getId_productrelease())){//
 					featuremodified = peers.getFeaturemodified();
 					churn = peers.getChurn() ;
 					pr_name = peers.getPr_name();
