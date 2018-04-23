@@ -1,4 +1,8 @@
+#certificates
+
 keystore.jks
+keystore.p12
+
 # directories
 .settings/
 .target/
