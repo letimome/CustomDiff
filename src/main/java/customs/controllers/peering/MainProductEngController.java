@@ -63,7 +63,7 @@ public class MainProductEngController {
 			if(observer.getId_pr()==p.getId_productrelease()) {
 				if(! observer.getId_feature().equals("No Feature")) {
 					featuresReusedByProduct.add(observer.getId_feature());
-					csvCustoms = csvCustoms.concat ("\n"+ p.getName()+","+observer.getFeaturemodified()+","+observer.getChurn());
+					csvCustoms = csvCustoms.concat ("\n"+ p.getName().split("-")[0])+","+observer.getFeaturemodified()+","+observer.getChurn());
 					/****for each feature know which products are customizing it****/
 				}
 			}
@@ -77,18 +77,16 @@ public class MainProductEngController {
 			while(iterator.hasNext()) {	
 				peers = iterator.next();//observer.getId_pr()!=p.getId_productrelease() &&
 				if( fname.equals(peers.getFeaturemodified())){//
-					csvCustoms = csvCustoms.concat ("\n"+peers.getFeaturemodified()+ "," + peers.getPr_name()+","+ peers.getChurn());
+					csvCustoms = csvCustoms.concat ("\n"+peers.getFeaturemodified()+ "," + peers.getPr_name().split("-")[0]+","+ peers.getChurn());
 				}
 			}
 		}
 			
 		System.out.println(csvCustoms);
 		
-		
-		
 		customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		System.out.println("Before returning the HTML");
-		return "alluvial-for-AE/peering";
+		return "alluvial-for-AE/peering-alluvial";
 	} 		
 	//draw products that reuse the features although not customized
 	
