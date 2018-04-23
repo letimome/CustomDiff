@@ -40,7 +40,7 @@ public class MainProductEngController {
 		if (p ==null) return null;
 		//ProductRelease mainProduct = prDao.getProductReleaseByIdproductrelease(idproductRelease);
 		System.out.println("The peering product is: "+p.getName());
-		String csvCustoms= "source,target,value";
+		
 		//get_features_for product_A
 		//Which features is the product reusing
 		//csvCustoms = csvCustoms.concat ("\nproductDenmark,WindSpeed,0.1");
@@ -49,62 +49,77 @@ public class MainProductEngController {
 		//csvCustoms = csvCustoms.concat ("\nproductDenmark,Temperature,0.1" );
 		//csvCustoms = csvCustoms.concat ("\nproductDenmark,Gale,5" );
 
-		Iterator<Churn_PoductPortfolioAndFeatures> it = pp_by_feature.findAll().iterator();
-		
 		//featuresReusedByProduct.add("WindSpeed");
 		//featuresReusedByProduct.add("AirPressure");
 		//featuresReusedByProduct.add("Temperature");
 		//featuresReusedByProduct.add("English");
 		//featuresReusedByProduct.add("Gale");
 		
+		Iterator<Churn_PoductPortfolioAndFeatures> it = pp_by_feature.findAll().iterator();		
 		Churn_PoductPortfolioAndFeatures observer; // Know which features is the product customizing !!
+		String pname = p.getName();
+		/*if(p.getName().contains("-"))
+			 pname=(p.getName()).split("-")[0];
+		else
+		  pname=p.getName();*/
+		
+		String csvCustoms="source,target,value";
+		int churn = 0;
+		String featuremodified ="";
 		while(it.hasNext()) {
 			observer = it.next();
-			if(observer.getId_pr()==p.getId_productrelease()) {
+			if(observer.getId_pr() == p.getId_productrelease()) {
 				if(! observer.getId_feature().equals("No Feature")) {
 					featuresReusedByProduct.add(observer.getId_feature());
-					csvCustoms = csvCustoms.concat ("\n"+ p.getName().split("-")[0])+","+observer.getFeaturemodified()+","+observer.getChurn());
-					/****for each feature know which products are customizing it****/
+					System.out.println(observer.toString());
+					featuremodified = observer.getFeaturemodified();
+					churn = observer.getChurn() ;
+					csvCustoms=csvCustoms.concat( "\n" +pname+ ","+featuremodified + "," +churn);
 				}
 			}
 		}
-		Iterator<String> iter = featuresReusedByProduct.iterator();
-		String fname;
-		while(iter.hasNext()) {
-			fname = iter.next();
+		 //end while**/
+		
+		String pr_name="";
 			Iterator<Churn_PoductPortfolioAndFeatures> iterator = pp_by_feature.findAll().iterator();
 			Churn_PoductPortfolioAndFeatures peers;
 			while(iterator.hasNext()) {	
 				peers = iterator.next();//observer.getId_pr()!=p.getId_productrelease() &&
-				if( fname.equals(peers.getFeaturemodified())){//
-					csvCustoms = csvCustoms.concat ("\n"+peers.getFeaturemodified()+ "," + peers.getPr_name().split("-")[0]+","+ peers.getChurn());
+				
+				if( featuresReusedByProduct.contains(peers.getFeaturemodified()) ){//
+					featuremodified = peers.getFeaturemodified();
+					churn = peers.getChurn() ;
+					pr_name = peers.getPr_name();
+					if (pr_name.contains("-"))
+						pr_name = (pr_name.split("-"))[0];
+					csvCustoms=csvCustoms.concat("\n"+ featuremodified + "," + pr_name + ","+ churn);
 				}
 			}
-		}
+		//}
 			
-		System.out.println(csvCustoms);
+		/*
+		csvCustoms = csvCustoms.concat ("\nproductDenmark,English,2");
+		csvCustoms = csvCustoms.concat ("\nproductDenmark,AirPressure,2" );
+		csvCustoms = csvCustoms.concat ("\nproductDenmark,WindSpeed,8");
+		csvCustoms = csvCustoms.concat ("\nproductDenmark,Temperature,2");
+		csvCustoms = csvCustoms.concat ("\nproductDenmark,Heat,0.1");
+		
+		
+		csvCustoms = csvCustoms.concat ("\nEnglish,productNewYork,4");
+		csvCustoms = csvCustoms.concat ("\nWindSpeed,productNewYork,1");
+		csvCustoms = csvCustoms.concat ("\nAirPressure,productDonosti,4");
+		csvCustoms = csvCustoms.concat ("\nEnglish,productLondon,6");
+		
+		csvCustoms = csvCustoms.concat ("\nAirPressure,productLondon,3");
+		csvCustoms = csvCustoms.concat ("\nTemperature,productLondon,5");
+		csvCustoms = csvCustoms.concat ("\nHeat,no_change,0.1" );*/
 		
 		customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
+		
+		System.out.println(csvCustoms);
 		System.out.println("Before returning the HTML");
-		return "alluvial-for-AE/peering-alluvial";
+		return "alluvials/peering-alluvial";
 	} 		
 	//draw products that reuse the features although not customized
-	
-			/*
-			csvCustoms = csvCustoms.concat ("\nproductDenmark,English,2");
-			csvCustoms = csvCustoms.concat ("\nproductDenmark,AirPressure,2" );
-			csvCustoms = csvCustoms.concat ("\nproductDenmark,WindSpeed,8");
-			csvCustoms = csvCustoms.concat ("\nproductDenmark,Temperature,2");
-			csvCustoms = csvCustoms.concat ("\nproductDenmark,Heat,0.1");
-			
-			
-			csvCustoms = csvCustoms.concat ("\nEnglish,productNewYork,4");
-			csvCustoms = csvCustoms.concat ("\nWindSpeed,productNewYork,1");
-			csvCustoms = csvCustoms.concat ("\nAirPressure,productDonosti,4");
-			csvCustoms = csvCustoms.concat ("\nEnglish,productLondon,6");
-			csvCustoms = csvCustoms.concat ("\nGale,productNewYork,6");
-			csvCustoms = csvCustoms.concat ("\nAirPressure,productLondon,3");
-			csvCustoms = csvCustoms.concat ("\nTemperature,productLondon,5");
-			csvCustoms = csvCustoms.concat ("\nHeat,no_change,0.1" );*/
-			
+		
 }

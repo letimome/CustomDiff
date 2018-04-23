@@ -92,6 +92,10 @@ public class Churn_PoductPortfolioAndFeatures{
 		this.churn = churn;
 	}
 
+	public String toString() {
+		return "Customization for product "+this.pr_name+" and feature "+this.featuremodified+ " and churn "+this.churn;
+	}
+
 	
 	
 }

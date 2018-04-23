@@ -1,3 +1,6 @@
+
+
+
 <!-- HTML5 document type -->
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
@@ -5,10 +8,6 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="utf-8" />
-
-<meta name="idproductrelease" th:content="${idproductrelease}"></meta>
-<meta name="idpackage" th:content="${idpackage}"></meta>
-<meta name="filterJson" th:content="${filterJson}"></meta>
 
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -18,11 +17,6 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css" />
 <link rel="stylesheet" href="Treant.css" type="text/css" />
 <link rel="stylesheet" href="custom-colored.css" type="text/css" />
-<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
-<link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
-<link rel="stylesheet" href="styles/kendo.common.min.css" />
-<link rel="stylesheet" href="styles/kendo.default.min.css" />
-<link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Raleway" />
@@ -34,20 +28,12 @@
 	crossorigin="anonymous" />
 
 
-<script src="NavigationMap.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/kendo.all.min.js"></script>
-<script type="text/javascript" src="dist/diff2html.js"></script>
-<script type="text/javascript" src="dist/diff2html-ui.js"></script>
-<script src="vendor/raphael.js"></script>
-<script src="Treant.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
 	integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 	crossorigin="anonymous"></script>
 <style>
 .node rect {
-	cursor:  pointer, url('http://158.227.178.168/customDiff/images/drill-down-icon.png');
+	cursor:  pointer;
 	fill-opacity: 2;
 }
 
@@ -60,7 +46,7 @@
 .link {
 	fill: none;
 	stroke: green;
-	cursor: pointer, url('http://158.227.178.168/customDiff/images/drill-down-icon.png');
+	cursor: pointer;
 	stroke-opacity: .15;
 }
 
@@ -76,9 +62,6 @@
 	fill-opacity: 10;
 }
 
-#treeview .k-sprite {
-	background-image: url("../content/web/treeview/coloricons-sprite.png");
-}
 
 .rootfolder {
 	background-position: 0 0;
@@ -194,7 +177,7 @@ img {
 
 
 <body align="center">
-	<!-- Header -->
+	
 	<header class="navbar navbar-light bg-faded">
 		<nav class="container w-100" style="background-color: white;">
 			<div class="d-flex justify-content-between hidden-lg-up">
@@ -229,60 +212,25 @@ img {
 	</header>
 
 
-
-
-	<!-- Table -->
 	<div class="container-fluid">
 		<table class="table table-bordered table-striped table-responsive "
 			cellpadding="20px" cellspacing="20px"
 			style="background-color:; width: 98%">
 			<tr>
-				<!-- Navigation map on left hand-side 
-				<td align="left" valign="top" style="background-color: white">
-					<div class="row d-flex d-md-block flex-nowrap wrapper">
-						<div
-							class="col-md-3 float-left col-1 pl-0 pr-0 collapse width show"
-							id="sidebar">
-							<p valign="top" id="tree-simple"
-								style="width: 420px; height: 600px"></p>
-							<script>
-	
-								//var my_chart = new Treant(simple_chart_config); //loaded from Navigation map js
-							</script>
 
-						</div>
-						<main align="right"
-							class="col-md-9 float-left col px-3 pl-md-2 pt-2 main">
-						<span align=""><p
-								style="color: black; align: right; font-size: 120%;">
-								Position map</p></span> <a href="#" data-target="#sidebar"
-							data-toggle="collapse"><i
-							class="fa fa-navicon fa-2x py-2 p-1"></i></a> </main>
-					</div>
-				</td>-->
-				<!--Diagram view -->
+
 				<td colspan="20" align="center" valign="top" style="width: 100%;">
 					<p style="color: black; font-size: 150%;" align="center">Which features are other products working on?</p>
 
 					<p style="font-size: 100%;" align="center">Note: The height of the links denotes
 						customization effort (in LOCs), per each Feature (center) - Product
 						variant (right) pair.</p>
-					<div id="dialog" align="left"></div>
-					<button id="pickEmployeesButton" class="btn btn-primary">
-						Filter features! <img align="left" src="images/filter.png"></img>
-					</button> <br />
+
 				<br />
 
 					<p align="" id="chart">
 					<p align="left">
-						<script>
-						<!-- Script for the drawing of the navigation map-->
-							//<![CDATA[	
-							function goToAllfeatures(d) {
-								window.location.href = "/diff_all_features_pp?from=pfpp";
-							}
-							//]]>
-						</script>
+
 					
 					</p>
 
@@ -298,8 +246,9 @@ img {
 		<script src="sankey.js"></script>
 		<script src="draw.js"></script>
 		<script>
-		<!-- Script for drawing the alluvial diagram -->
+		
 			//<![CDATA[
+			
 			var units = "Widgets";
 			var margin = {
 				top : 10,
@@ -334,19 +283,17 @@ img {
 								};
 								data.forEach(function(d) {
 									graph.nodes.push({
-										"name" : d.source,
-										"idparentfeature" : d.idparentfeature
+										"name" : d.source
 									});
 									graph.nodes.push({
-										"name" : d.target,
-										"pr" : d.pr
+										"name" : d.target
 									});
 									graph.links.push({
 										"source" : d.source,
 										"target" : d.target,
-										"value" : d.value,
-										"idparentfeature" : d.idparentfeature,
-										"idproductrelease" : d.idproductrelease
+										"value" : d.value
+										
+										
 									});
 								});
 								// return only the distinct / unique nodes
@@ -385,12 +332,6 @@ img {
 										.sort(function(a, b) {
 											return b.dy - a.dy;
 										})
-										.on("mouseover", function(d, a, b, link) {
-											//alert(d.source.name); WindSpeed
-											//alert(d.target.name); productDonosti
-											
-											
-										})
 										.on("click",
 												function(d, a, b, link) {
 													if (d3.event.defaultPrevented)
@@ -400,8 +341,9 @@ img {
 								// add the link titles
 								link.append("title").text(
 										function(d) {
-											var show;
 											/*
+											var show;
+											
 											if (d.target.name.includes("NewYork") && d.source.name.includes("English"))
 												show = "Bug-3: Pressure gauge error texts in German ";
 											
@@ -530,29 +472,6 @@ img {
 									link.attr("d", path);
 								}
 
-								function drillDownByProductRelease(d) {//click on products
-									console.log(d);
-									window.location.href = "/diff_parent_features_product_packages?idproductrelease="
-											+ d.targetLinks[0].idproductrelease
-											+ "&from=pfpp";
-								}
-
-								function drillDownByParentFeature(d) {//click on feature - either provide alluvial with children, or go to feature core assets.
-									console
-											.log(d.sourceLinks[0].idparentfeature);
-									window.location.href = "/diff_features_pp?idparentfeature="
-											+ d.sourceLinks[0].idparentfeature
-											+ "&from=pfpp";
-								}
-								function drillDownByParentFeatureAndProductRelease(
-										d) {//click on the links between Feature&product
-									console.log(d);
-									window.location.href = "/diff_features_product_packages?idparentfeature="
-											+ d.idparentfeature
-											+ "&idproductrelease="
-											+ d.idproductrelease + "&from=pfpp";
-								}
-
 								
 								function clickOnLinkKdiff3(d){
 									alert("Kdiff will be launched to compare:\n\n 3-DIFF (baseline-v1.0, productDonosti, productDenmak) w.r.t [Feature = WindSpeed]");
@@ -586,310 +505,14 @@ img {
 								}
 
 							});//end
-			//]]>
-		</script>
 
-
-		<script>
-			//<![CDATA[
 
 			function getMetaContentByName(name, content) {
 				var content = (content == null) ? 'content' : content;
 				return document.querySelector("meta[name='" + name + "']")
 						.getAttribute(content);
 			}
-			$(document)
-					.ready(
-							function() {
-
-								var tempSelectList = [];
-								var dialog = $("#dialog")
-										.kendoDialog(
-												{
-													width : "400px",
-													height : "500px",
-													visible : false,
-													title : "Select features",
-													closable : true,
-													modal : false,
-													content : "<div class='k-textbox k-space-right search-wrapper'><input id='employees-search' type='text'  placeholder='Search feature'/><span class='k-icon k-i-search'></span></div>"
-															+ "<div class='select-all-wrapper'><input data-role='checkbox' onchange='selectAll(this)' type='checkbox' class='k-checkbox' id='_selectAllEmployees'/><label class='k-checkbox-label' for='_selectAllEmployees'>Select all features</label><span class='selected-count'></span></div>"
-															+ "<div id='treeview'></div>",
-													actions : [ {
-														text : 'Cancel'
-													}, {
-														text : 'OK',
-														primary : false,
-														action : actionOK
-													} ],
-													initOpen : initOpen,
-													open : dialogOpen
-												});
-
-								$("#pickEmployeesButton").kendoButton({
-									click : openDialog
-								});
-
-								var featuremodel = getMetaContentByName("filterJson");
-								console.log(featuremodel);
-
-								var featuremodeljson = jQuery
-										.parseJSON(featuremodel);
-								console.log(featuremodeljson);
-
-								$("#treeview").kendoTreeView({
-									dataSource : featuremodeljson,
-									autoScroll : false,
-									dataTextField : "FullName",
-									checkboxes : true,
-									checkboxes : {
-										checkChildren : true
-									},
-									loadOnDemand : true,
-									expandAll : true,
-									dataBound : treeViewDataBound,
-									check : treeViewCheck
-								});
-
-								//Add you are here location
-								var node = document
-										.getElementsByClassName("node nodeExample1 orange");
-								var span = document.createElement("div");
-								var image = document.createElement("img");
-
-								image
-										.setAttribute("src",
-												"http://158.227.178.168/customDiff/images/here.png");
-								image.setAttribute("align", "center");
-								image.setAttribute("heigh", "60px");
-								image.setAttribute("width", "50px");
-								image.append(document.createElement("br"));
-								span.setAttribute("align", "center");
-								span.append(image);
-								node[0].append(span);
-
-							});//end of on document load
-
-			function treeViewDataBound(e) {
-				e.sender.expand(e.node);
-			}
-
-			function initOpen(e) {
-				$("#employees-search").on(
-						"input",
-						function() {
-							var query = this.value.toLowerCase();
-							var dataSource = $("#treeview").data(
-									"kendoTreeView").dataSource;
-							filter(dataSource, query);
-							matchColors(query);
-						});
-			}
-
-			function dialogOpen(e) {
-				var treeView = $("#treeview").data("kendoTreeView");
-				tempSelectList = getCheckedItems(treeView);
-				setTimeout(function() {
-					$("#employees-search").focus().select();
-				})
-			}
-			function openDialog() {
-				console.log($("#dialog"));
-				console.log($("#dialog").data("kendoDialog"));
-
-				$("#dialog").data("kendoDialog").open();
-			}
-
-			function actionOK(e) {
-				var treeView = $("#treeview").data("kendoTreeView");
-				var checkedNodes = getCheckedItems(treeView);
-				updateResult(checkedNodes);
-				var filter = getCheckedItemsList(treeView);
-				window.location.href = "/diff_parent_features_products?filter="
-						+ filter;//" + d.source.name+"-v1.0";
-			}
-
-			function removeFeatureFilter() {//removeFilter()
-				window.location.href = "/diff_parent_features_products";
-			}
-
-			function updateResult(checkedNodes) {
-				if (checkedNodes.length > 0) {
-					var result = "";
-					for (var i = 0; i < checkedNodes.length; i++) {
-						result += "<span class='selectedName'>"
-								+ checkedNodes[i].FullName + "</span>";
-					}
-				} else {
-					result = "No feature selected.";
-				}
-
-				$("#result").html(result);
-
-			}
-			function treeViewCheck(e) {
-				setTimeout(function() {
-					updateSelectedCount(e.sender);
-				})
-			}
-
-			function selectAll(sender) {
-				$("#treeview .k-checkbox").removeAttr("checked").prop(
-						"checked", sender.checked);
-				$("#treeview .k-checkbox").trigger("change");
-			}
-
-			function updateSelectedCount(treeView) {
-				$(".selected-count")
-						.html(
-								getCheckedItems(treeView).length
-										+ " Features selected");
-			}
-
-			function getCheckedItems(treeview) {
-				var nodes = treeview.dataSource.view();
-				return getCheckedNodes(nodes);
-			}
-
-			function getCheckedItemsList(treeview) {
-				var nodes = treeview.dataSource.view();
-				var checkedNodes = [], message = "null";
-
-				checkedNodeIds(treeview.dataSource.view(), checkedNodes);
-				if (checkedNodes.length > 0) {
-					message = checkedNodes.join(",");
-				}
-				console.log("Message:" + message);
-				return message;
-			}
-
-			function getCheckedNodes(nodes) {
-				var node, childCheckedNodes;
-				var checkedNodes = [];
-
-				for (var i = 0; i < nodes.length; i++) {
-					node = nodes[i];
-					if (node.checked) {
-						checkedNodes.push(node);
-					}
-
-					if (node.hasChildren) {
-						childCheckedNodes = getCheckedNodes(node.children
-								.view());
-						if (childCheckedNodes.length > 0) {
-							checkedNodes = checkedNodes
-									.concat(childCheckedNodes);
-						}
-					}
-				}
-
-				return checkedNodes;
-			}
-
-			function filter(dataSource, query) {
-				var hasVisibleChildren = false;
-				var data = dataSource instanceof kendo.data.HierarchicalDataSource
-						&& dataSource.data();
-
-				for (var i = 0; i < data.length; i++) {
-					var item = data[i];
-					var text = item.FullName.toLowerCase();
-					var itemVisible = query === true // parent already matches
-							|| query === "" // query is empty
-							|| text.indexOf(query) >= 0; // item text matches query
-
-					var anyVisibleChildren = filter(item.children, itemVisible
-							|| query); // pass true if parent matches
-
-					hasVisibleChildren = hasVisibleChildren
-							|| anyVisibleChildren || itemVisible;
-
-					item.hidden = !itemVisible && !anyVisibleChildren;
-				}
-
-				if (data) {
-					// re-apply filter on children
-					dataSource.filter({
-						field : "hidden",
-						operator : "neq",
-						value : true
-					});
-				}
-
-				return hasVisibleChildren;
-			}
-
-			function matchColors(query, element) {
-				$("#treeview .k-in:containsIgnoreCase('" + query + "')")
-						.each(
-								function() {
-									var index = $(this).html().toLowerCase()
-											.indexOf(query.toLowerCase());
-									var length = query.length;
-									var original = $(this).html().substr(index,
-											length);
-									var newText = $(this).html().replace(
-											original,
-											"<span class='query-match'>"
-													+ original + "</span>");
-									$(this).html(newText);
-								});
-			}
-
-			$.expr[':'].containsIgnoreCase = function(n, i, m) {
-				return jQuery(n).text().toUpperCase().indexOf(
-						m[3].toUpperCase()) >= 0;
-			};
-
-			//Add you are drill-down icons
-
-			// function that gathers IDs of checked nodes
-			function checkedNodeIds(nodes, checkedNodes) {
-				for (var i = 0; i < nodes.length; i++) {
-					if (nodes[i].checked) {
-						checkedNodes.push(nodes[i].id);
-					}
-
-					if (nodes[i].hasChildren) {
-						checkedNodeIds(nodes[i].children.view(), checkedNodes);
-					}
-				}
-			}
-
-			// show checked node IDs on datasource change
-
-			function filterByFeature() {
-				var checkedNodes = [], treeView = $("#treeview").data(
-						"kendoTreeView"), message = "null";
-
-				checkedNodeIds(treeView.dataSource.view(), checkedNodes);
-
-				if (checkedNodes.length > 0) {
-					message = checkedNodes.join(",");
-				}
-				//go and filter by feature Name
-				window.location.href = "/diff_features_pp?idbaseline=Baseline-v1.0&id_product_asset=0&filter="
-						+ message;//" + d.source.name+"-v1.0";
-
-			}
-
-			function onCheck() {
-				var checkedNodes = [], treeView = $("#treeview").data(
-						"kendoTreeView"), message;
-
-				checkedNodeIds(treeView.dataSource.view(), checkedNodes);
-
-				if (checkedNodes.length > 0) {
-					message = "Selected features: " + checkedNodes.join(",");
-				} else {
-					message = "No feature selected.";
-				}
-
-				$("#result").html(message);
-
-				//go and filter by feature Name
-				// window.location.href = "/alluvialView?idbaseline=Baseline-v1.0&id_product_asset=0&filter"+message;//" + d.source.name+"-v1.0";
-			}
+			
 			//]]>
 		</script>
 
