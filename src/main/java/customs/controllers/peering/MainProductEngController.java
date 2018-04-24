@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import customs.models.Churn_PoductPortfolioAndFeatures;
 import customs.models.Churn_PoductPortfolioAndFeaturesDao;
+import customs.models.Feature;
 import customs.models.FeatureDao;
+import customs.models.ParentFeature;
+import customs.models.ParentFeatureDao;
 import customs.models.ProductReleaseDao;
 import customs.models.ProductRelease;
 
@@ -19,15 +22,23 @@ public class MainProductEngController {
 	@Autowired private ProductReleaseDao prDao;
 	@Autowired private FeatureDao fDao;
 	@Autowired private Churn_PoductPortfolioAndFeaturesDao pp_by_feature;
+	@Autowired private ParentFeatureDao parentFeatureDao;
 	private String pathToResource = "./src/main/resources/static/";
 	
 	@RequestMapping("/peering")
-	public String getPeeringForProduct(
-			 @RequestParam(value="productbranch", required=true) String branchName, Model model) {
-		//source, target, value
+	public String getPeeringForProduct( @RequestParam(value="productbranch", required=true) String branchName,   
+			@RequestParam(value="filter", required=false) String filter, Model model) {
+		
+		 ArrayList<String> featuresToInclude = new ArrayList<String>() ;
+		   if (filter.equals("all") || filter.equals("null"))   featuresToInclude.add("all");
+		   else {
+			   featuresToInclude = customs.utils.Formatting.stringToArrayList(filter, ",");
+			   System.out.println(featuresToInclude.toString());
+		   }
+		
 		ArrayList<String> featuresReusedByProduct = new ArrayList<String>();
 		
-		System.out.println("HA ENTRADO!!");
+		
 		Iterable<ProductRelease> products = prDao.findAll();
 		Iterator<ProductRelease> ite = products.iterator();
 		ProductRelease p = null;
@@ -38,7 +49,7 @@ public class MainProductEngController {
 			else p = null;
 		}
 		if (p ==null) return null;
-		//ProductRelease mainProduct = prDao.getProductReleaseByIdproductrelease(idproductRelease);
+		
 		System.out.println("The peering product is: "+p.getName());
 		
 
@@ -55,38 +66,77 @@ public class MainProductEngController {
 		String featuremodified ="";
 		while(it.hasNext()) {
 			observer = it.next();
-			if(observer.getId_pr() == p.getId_productrelease()) {
-				if(! observer.getId_feature().equals("No Feature")) {
+			if(observer.getId_pr() == p.getId_productrelease() && (featuresToInclude.contains(observer.getId_feature()) || featuresToInclude.contains("all") )) {
+				//if(! observer.getId_feature().equals("No Feature")) {
 					featuresReusedByProduct.add(observer.getId_feature());
 					System.out.println(observer.toString());
 					featuremodified = observer.getFeaturemodified();
 					churn = observer.getChurn() ;
 					csvCustoms=csvCustoms.concat( "\n" +pname+ ","+featuremodified + "," +churn);
-				}
+				//}
 			}
 		}
-			
+		ArrayList<String> listCustomizedFeaturesByPeers = new ArrayList<String>();
 		String pr_name="";
-			Iterator<Churn_PoductPortfolioAndFeatures> iterator = pp_by_feature.findAll().iterator();
-			Churn_PoductPortfolioAndFeatures peers;
-			while(iterator.hasNext()) {	
-				peers = iterator.next();//observer.getId_pr()!=p.getId_productrelease() &&
-				
-				if( featuresReusedByProduct.contains(peers.getFeaturemodified()) && (peers.getId_pr()!=p.getId_productrelease())){//
-					featuremodified = peers.getFeaturemodified();
-					churn = peers.getChurn() ;
-					pr_name = peers.getPr_name();
-					if (pr_name.contains("-"))
-						pr_name = (pr_name.split("-"))[0];
-					csvCustoms=csvCustoms.concat("\n"+ featuremodified + "," + pr_name + ","+ churn);
-				}
-			}		
-
+		Iterator<Churn_PoductPortfolioAndFeatures> iterator = pp_by_feature.findAll().iterator();
+		Churn_PoductPortfolioAndFeatures peers;
+		while(iterator.hasNext()) {	
+		peers = iterator.next();
+			
+		
+		
+		if(featuresReusedByProduct.contains(peers.getFeaturemodified()) && (peers.getId_pr()!=p.getId_productrelease()) && (featuresToInclude.contains(peers.getFeaturemodified())  || featuresToInclude.contains("all"))){
+			listCustomizedFeaturesByPeers.add(peers.getFeaturemodified());
+			featuremodified = peers.getFeaturemodified();
+			churn = peers.getChurn() ;
+			pr_name = peers.getPr_name();
+			if (pr_name.contains("-"))
+				pr_name = (pr_name.split("-"))[0];
+			csvCustoms=csvCustoms.concat("\n"+ featuremodified + "," + pr_name + ","+ churn);
+			}
+		}		
+		//for those features not in listCustomizedFeaturesByPeers add the "no_other_product" node, so that features are always placed in the middle
+		Iterator<Feature> allFeatures = fDao.findAll().iterator();
+		Feature f;
+		while(allFeatures.hasNext()) {
+			f = allFeatures.next();
+			if( (!listCustomizedFeaturesByPeers.contains(f.getIdfeature())) && ((featuresToInclude.contains(f.getIdfeature()))  || featuresToInclude.contains("all")) ) {
+				if (!featuresReusedByProduct.contains(f.getIdfeature()))
+					csvCustoms=csvCustoms.concat("\n"+ pname + "," + f.getIdfeature() + ",0.2" ); 
+				csvCustoms=csvCustoms.concat("\n"+ f.getIdfeature() + "," + "no_other_peer" + ",0.2" ); 
+			}
+		 }
 		customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		
 		System.out.println(csvCustoms);
+		String filterJson = customs.utils.FeaturesToJason.getJsonForParentAndChildFeature(parentFeatureDao.findAll(), fDao); //getJsonForFeatures(fDao.findAll()); o //getJsonForParentAndChildFeature(parentFeatureDao.findAll());
+		System.out.println("filterJson");
+	    System.out.println(filterJson);
+		model.addAttribute("filterJson",filterJson);
+		model.addAttribute("productbranch",pname);
+		addFilteredFeatureToTheModel(model,featuresToInclude);
+		  
 		System.out.println("Before returning the HTML");
 		return "alluvials/peering-alluvial";
 	} 		
+	  private void addFilteredFeatureToTheModel(Model model, ArrayList<String> featuresToInclude) {
+			if (featuresToInclude==null) return;
+
+			System.out.println("seguidooo");
+			String result="";
+			Iterator<String> it = featuresToInclude.iterator();
+			ArrayList<ParentFeature> features=new ArrayList<ParentFeature>();
+			String f; ParentFeature fe;
+			while(it.hasNext()) {
+				f= it.next();
+				fe=parentFeatureDao.getFeaturePArentByName(f);
+				if (fe!=null) features.add(fe);
+			}
+			
+			model.addAttribute("features", features);
+			System.out.println(features.toString());
+		}
+	  
+	  
 		
 }

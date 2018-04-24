@@ -1,6 +1,17 @@
 source,target,value
-productNewYork,English,2
-productNewYork,German,2
-English,productNewYork,2
-German,productDonosti,2
+productDonosti,AirPressure,3
+productDonosti,German,2
+productDonosti,No Feature,7
+productDonosti,WindSpeed,15
 German,productNewYork,2
+No Feature,productNewYork,2
+AirPressure,no_other_peer,0.2
+productDonosti,English,0.2
+English,no_other_peer,0.2
+productDonosti,Gale,0.2
+Gale,no_other_peer,0.2
+productDonosti,Heat,0.2
+Heat,no_other_peer,0.2
+productDonosti,Temperature,0.2
+Temperature,no_other_peer,0.2
+WindSpeed,no_other_peer,0.2

@@ -31,12 +31,24 @@ public class CustomizationsRestController {
 		Iterable<Churn_PoductPortfolioAndFeatures> customs = customsDao.findAll();
 		
 		ArrayList<Churn_PoductPortfolioAndFeatures> list = new ArrayList<Churn_PoductPortfolioAndFeatures>();
-
+		String pname = productName;
+		System.out.println("p name: " +pname);
+		
+		if (productName.contains("-")) {
+			pname = (productName.split("-"))[0];
+		}
+		System.out.println("p name 2: " +pname);
 		Iterator<Churn_PoductPortfolioAndFeatures> it = customs.iterator();
 		Churn_PoductPortfolioAndFeatures c;
+		String aux;
 		while (it.hasNext()) {
 			c = it.next();
-			if(c.getPr_name().equals(productName))
+			aux = c.getPr_name();
+			if (aux.contains("-")) {
+				aux = (aux.split("-"))[0];
+			}
+			System.out.println("aux : " +aux);
+			if(aux.equals(pname))
 				list.add(c);
 		}
 		System.out.println(list.size());

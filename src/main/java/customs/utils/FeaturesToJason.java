@@ -2,11 +2,15 @@ package customs.utils;
 
 import java.util.Iterator;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import customs.models.Feature;
+import customs.models.FeatureDao;
 import customs.models.ParentFeature;
 
 public class FeaturesToJason {
-
+	
+	
 	public static String getJsonForParentFeatures(Iterable<ParentFeature> findAll) {
 		String json = "[ ";
 		Iterator<ParentFeature> it = findAll.iterator();
@@ -51,6 +55,35 @@ public class FeaturesToJason {
 			i++;
 		}
 		json+= "]";
+		System.out.println(" IN getJsonForParentChildrenFeature");
+		System.out.println(json);
+		return json; 
+	}
+	
+	public static String getJsonForParentAndChildFeature(Iterable<ParentFeature> findAll, FeatureDao fDao) {
+		String json =  "[ ";//{ \"id\": \"WeatherStation\", \"FullName\": \"Features\", \"expanded\": \"true\",\"hasChildren\":\"true\", \"items\": [";
+		Iterator<ParentFeature> it = findAll.iterator();
+		ParentFeature parent;
+		int i=0;
+		Feature f;
+		Iterator<Feature> features ;
+		while (it.hasNext()){
+			parent = it.next();
+			if(!parent.getName().equals("No Feature")){
+				json+="{ \"id\":\""+parent.getName()+ "\", \"FullName\":\""+parent.getName()+"\", \"expanded\": true, \"hasChildren\": true, \"items\": [";
+				features = fDao.getFeaturesByIdparent(parent.getIdparentFeature()).iterator();
+				while(features.hasNext()) {
+					f = features.next();
+					json+=" { \"id\" :\""+f.getIdfeature()+"\", \"FullName\": \""+f.getIdfeature()+"\", \"expanded\": true, \"hasChildren\": false}";
+					if(features.hasNext()) json+=",";
+				}	
+				json+="]}";
+				if(it.hasNext()) json+=",";
+			}
+			
+		}
+		json+= "]\n";
+	//	json+= "}]";
 		System.out.println(" IN getJsonForParentChildrenFeature");
 		System.out.println(json);
 		return json; 
