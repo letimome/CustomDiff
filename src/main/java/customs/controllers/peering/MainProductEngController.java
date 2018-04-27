@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import customs.models.Churn_PoductPortfolioAndFeatures;
 import customs.models.Churn_PoductPortfolioAndFeaturesDao;
+import customs.models.CoreAssetDao;
+import customs.models.CoreassetsAndFeaturesDao;
+import customs.models.CustomsByFeatureAndCoreAssetDao;
 import customs.models.Feature;
 import customs.models.FeatureDao;
+import customs.models.FeaturesInVariationpointsDao;
 import customs.models.ParentFeature;
 import customs.models.ParentFeatureDao;
 import customs.models.ProductReleaseDao;
+import customs.peering.FeaturePatcher;
 import customs.models.ProductRelease;
 
 @Controller
@@ -23,14 +28,22 @@ public class MainProductEngController {
 	@Autowired private FeatureDao fDao;
 	@Autowired private Churn_PoductPortfolioAndFeaturesDao pp_by_feature;
 	@Autowired private ParentFeatureDao parentFeatureDao;
+	@Autowired private CustomsByFeatureAndCoreAssetDao customsDao;
+	@Autowired private CoreassetsAndFeaturesDao coreAssetsAndFeatures; 
+	@Autowired private CoreAssetDao caDao; 
 	private String pathToResource = "./src/main/resources/static/";
 	
 	@RequestMapping("/peering")
 	public String getPeeringForProduct( @RequestParam(value="productbranch", required=true) String branchName,   
-			@RequestParam(value="filter", required=false) String filter, Model model) {
+			@RequestParam(value="filter", required=false) String filter,
+			@RequestParam(value="featurename", required=false) String featurename,
+			@RequestParam(value="observed", required=false) String observed,
+			Model model) {
+		
 		
 		 ArrayList<String> featuresToInclude = new ArrayList<String>() ;
-		   if (filter.equals("all") || filter.equals("null"))   featuresToInclude.add("all");
+		   if (filter.equals("all") || filter.equals("null"))   
+			   featuresToInclude.add("all");
 		   else {
 			   featuresToInclude = customs.utils.Formatting.stringToArrayList(filter, ",");
 			   System.out.println(featuresToInclude.toString());
@@ -39,15 +52,8 @@ public class MainProductEngController {
 		ArrayList<String> featuresReusedByProduct = new ArrayList<String>();
 		
 		
-		Iterable<ProductRelease> products = prDao.findAll();
-		Iterator<ProductRelease> ite = products.iterator();
-		ProductRelease p = null;
-		while (ite.hasNext()) {
-			p = ite.next();
-			if ((p.getName().split("-")[0]).equals(branchName))
-				break;
-			else p = null;
-		}
+
+		ProductRelease p = findProductByname(branchName,"-");
 		if (p ==null) return null;
 		
 		System.out.println("The peering product is: "+p.getName());
@@ -108,18 +114,38 @@ public class MainProductEngController {
 		 }
 		customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		
-		System.out.println(csvCustoms);
+		//call to the patcher function!! /**** NEW ****/
+		if( (!featurename.equals("none")) && (!observed.equals("none"))) {
+			
+			FeaturePatcher fp = new FeaturePatcher();
+			ProductRelease yours = findProductByname(observed,"-");  
+			Feature featurepatch = fDao.getFeatureByIdfeature(featurename);
+			fp.patchFilesForFeatureAndProduct(yours, p, featurepatch, customsDao, coreAssetsAndFeatures, caDao);
+		}
+		
+		//System.out.println(csvCustoms);
 		String filterJson = customs.utils.FeaturesToJason.getJsonForParentAndChildFeature(parentFeatureDao.findAll(), fDao); //getJsonForFeatures(fDao.findAll()); o //getJsonForParentAndChildFeature(parentFeatureDao.findAll());
-		System.out.println("filterJson");
-	    System.out.println(filterJson);
+
 		model.addAttribute("filterJson",filterJson);
+		model.addAttribute("filter",filter);
 		model.addAttribute("productbranch",pname);
 		addFilteredFeatureToTheModel(model,featuresToInclude);
 		  
 		System.out.println("Before returning the HTML");
 		return "alluvials/peering-alluvial";
 	} 		
-	  private void addFilteredFeatureToTheModel(Model model, ArrayList<String> featuresToInclude) {
+	  private ProductRelease findProductByname(String observed, String spliter) {
+		  
+		  Iterator<ProductRelease> ite = prDao.findAll().iterator();
+		  ProductRelease  p = null;
+		  while (ite.hasNext()) {
+				p = ite.next();
+				if ((p.getName().split(spliter)[0]).equals(observed))
+					return p;
+			}
+		  return null;
+	}
+	private void addFilteredFeatureToTheModel(Model model, ArrayList<String> featuresToInclude) {
 			if (featuresToInclude==null) return;
 
 			System.out.println("seguidooo");
@@ -136,7 +162,6 @@ public class MainProductEngController {
 			model.addAttribute("features", features);
 			System.out.println(features.toString());
 		}
-	  
-	  
-		
+
+	
 }

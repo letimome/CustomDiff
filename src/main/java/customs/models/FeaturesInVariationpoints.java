@@ -7,37 +7,38 @@ import javax.persistence.Table;
 @Entity
 @Table (name="features_in_variationpoints")
 public class FeaturesInVariationpoints {
-	@Id int id;
-	int id_feature;
-	int id_variationpoint;
+	@Id String id;
+	String idfeature;
+	int idvariationpoint;
 	String expression;
-	String feature_name;
-	int id_coreasset;
+	String featurename;
+	int idcoreasset;
+	String caname;
 	
 	public FeaturesInVariationpoints() {}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public int getId_feature() {
-		return id_feature;
+	public String getId_feature() {
+		return idfeature;
 	}
 
-	public void setId_feature(int id_feature) {
-		this.id_feature = id_feature;
+	public void setId_feature(String id_feature) {
+		this.idfeature = id_feature;
 	}
 
 	public int getId_variationpoint() {
-		return id_variationpoint;
+		return idvariationpoint;
 	}
 
 	public void setId_variationpoint(int id_variationpoint) {
-		this.id_variationpoint = id_variationpoint;
+		this.idvariationpoint = id_variationpoint;
 	}
 
 	public String getExpression() {
@@ -49,19 +50,19 @@ public class FeaturesInVariationpoints {
 	}
 
 	public String getFeature_name() {
-		return feature_name;
+		return featurename;
 	}
 
 	public void setFeature_name(String feature_name) {
-		this.feature_name = feature_name;
+		this.featurename = feature_name;
 	}
 
 	public int getId_coreasset() {
-		return id_coreasset;
+		return idcoreasset;
 	}
 
 	public void setId_coreasset(int id_coreasset) {
-		this.id_coreasset = id_coreasset;
+		this.idcoreasset = id_coreasset;
 	}
 
 }

@@ -118,4 +118,17 @@ public class  Formatting {
 		return list;
 	}
 	
+	
+	public static String fromArrayListToString(ArrayList<String> list) {
+		
+		
+		String text =""; 
+		Iterator<String> it = list.iterator();
+		while (it.hasNext()) {
+			text += it.next();
+		}
+
+		return text;
+	}
+	
 }

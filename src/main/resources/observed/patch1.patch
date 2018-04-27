@@ -1,0 +1,16 @@
+diff --git a/input/js/scale.js b/input/js/scale.js
+index c279eaa..3ff9a99 100644
+--- a/input/js/scale.js
++++ b/input/js/scale.js
+@@ -103,4 +99,8 @@ Expression:  (pv:hasFeature('WindSpeed'))Change Type: CHANGE_IN_VARIATION_POINT_BODY
+     		    window.location.href = "http://localhost:8080/file_vp_structure?pr=" +d.data.pr+"&file="+ d.data.p_asset_id;
+     		    /*]]>*/	
+     	    }  });
++//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes
+
++	var color = d3.scaleLinear()//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes
+
++		.domain([1, 6])//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes
+
++		.range(['#00b700','#ff9a00','#E84646"']); 	//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes
+

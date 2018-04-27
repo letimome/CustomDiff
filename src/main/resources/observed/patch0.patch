@@ -1,0 +1,44 @@
+diff --git a/input/js/scale.js b/input/js/scale.js
+index c279eaa..db0f29f 100644
+--- a/input/js/scale.js
++++ b/input/js/scale.js
+@@ -103,4 +103,22 @@ Expression:  (pv:hasFeature('WindSpeed'))Change Type: CHANGE_IN_VARIATION_POINT_BODY
+     		    window.location.href = "http://localhost:8080/file_vp_structure?pr=" +d.data.pr+"&file="+ d.data.p_asset_id;
+     		    /*]]>*/	
+     	    }  });
++	oldString = this.castInput(oldString);//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    newString = this.castInput(newString);//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    oldString = this.removeEmpty(this.tokenize(oldString));//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    newString = this.removeEmpty(this.tokenize(newString));//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    var newLen = newString.length,//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++        oldLen = oldString.length;//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    var editLength = 1;//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    var maxEditLength = newLen + oldLen;//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    var bestPath = [{ newPos: -1, components: [] }];//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    // Seed editLength = 0, i.e. the content starts with the same values//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    var oldPos = this.extractCommon(bestPath[0], newString, oldString, 0);//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    if (bestPath[0].newPos + 1 >= newLen && oldPos + 1 >= oldLen) {//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++      // Identity per the equality and tokenizer//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++    }//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+
++//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville
+

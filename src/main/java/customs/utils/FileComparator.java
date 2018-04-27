@@ -1,10 +1,11 @@
 package customs.utils;
 
-import difflib.Chunk;
-import difflib.Delta;
-import difflib.DiffUtils;
-import difflib.Patch;
+import com.github.difflib.*;
+import com.github.difflib.UnifiedDiffUtils;
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.Patch;
 
+import com.github.difflib.patch.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -24,7 +25,7 @@ public class FileComparator {
         this.original = original;
         this.revised = revised;
     }
-
+/*
     public List<Chunk> getChangesFromOriginal() throws IOException {
         return getChunksByType(Delta.TYPE.CHANGE);
     }
@@ -56,6 +57,33 @@ public class FileComparator {
         final Patch patch = DiffUtils.diff(originalFileLines, revisedFileLines);
 
         return patch.getDeltas();
+    }
+    */
+    public static List<String> patchFile(ArrayList<String> patch, ArrayList<String> originalLines) throws IOException, PatchFailedException{
+	    Patch<String> parsed = UnifiedDiffUtils.parseUnifiedDiff (patch);
+	    
+	    System.out.println("The patch:"+patch);
+	    System.out.println("Pased content. Size:"+parsed.getDeltas().size()+" . fist element: "+parsed.getDeltas().get(0).toString());
+	    System.out.println("Original: "+ parsed.getDeltas().get(0).getOriginal().getLines());
+	    System.out.println("Revised: "+ parsed.getDeltas().get(0).getRevised().getLines());
+	  
+	    List<String> patching = DiffUtils.patch(originalLines, parsed);
+	    	System.out.println("After patching: "+patching.toString());
+	    	return patching;
+	    	
+    }
+    public static List<String> patchFile2(ArrayList<String> patch, ArrayList<String> originalLines) throws IOException, PatchFailedException{
+	    Patch<String> parsed = UnifiedDiffUtils.parseUnifiedDiff(patch);
+	    
+	    System.out.println("The patch:"+patch);
+	    System.out.println("Pased content. Size:"+parsed.getDeltas().size()+" . fist element: "+parsed.getDeltas().get(0).toString());
+	    System.out.println("Original: "+ parsed.getDeltas().get(0).getOriginal().getLines());
+	    System.out.println("Revised: "+ parsed.getDeltas().get(0).getRevised().getLines());
+	  
+	    List<String> patching = parsed.applyTo(originalLines);
+	    	System.out.println("After patching: "+patching.toString());
+	    	return patching;
+	    	
     }
 
     private List<String> fileToLines(File file) throws IOException {
