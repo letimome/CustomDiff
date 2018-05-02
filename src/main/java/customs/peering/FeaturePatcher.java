@@ -2,16 +2,11 @@ package customs.peering;
 
 import customs.models.ProductRelease;
 import customs.utils.Formatting;
-import com.github.difflib.*;
-import com.github.difflib.UnifiedDiffUtils;
-import com.github.difflib.algorithm.DiffException;
-import com.github.difflib.DiffUtils;
-import com.github.difflib.patch.Patch;
-import com.github.difflib.patch.PatchFailedException;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -44,29 +39,127 @@ import customs.models.FeaturesInVariationpointsDao;
 
 public class FeaturePatcher {
 	ThreeWayDiffWorkspace workspace;
-	private String pathToResource = "./src/main/resources/";
+	private String pathToResource = "./src/main/resources/kdiff-workspace/";
 	
 	public void patchFilesForFeatureAndProduct(ProductRelease yours, ProductRelease mine , Feature feature, CustomsByFeatureAndCoreAssetDao customsDao,
 			CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
 		//Step 1: get all the files in which the "feature" is present
-		ArrayList<CoreAsset> baselineFiles = getBaselineCoreAssets4Feature(feature, featuresInCoreassetsDao, caDao);
+		ArrayList<CoreAsset> baselineFiles = getBaselineCoreAssets4Feature(feature, featuresInCoreassetsDao, caDao, yours.getName(), mine.getName());
 		try {
-			//pruebaJavaDiffUtils(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
-			pruebaJgit(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+			
+			ArrayList<CoreAsset> yoursFiles = patchingCustomizationsForProduct(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+			ArrayList<CoreAsset> myFiles = patchingCustomizationsForProduct(mine,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+			//Create workspace
+		
+			//ThreeWayDiffWorkspace kdiff3 = new ThreeWayDiffWorkspace(workspacePath, commonAncestor, mine, theirs, featurename, baselineFolderName, myFolderName, theirFolderName)
+		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//Step 2: for "my" product, get all the customizations that happen to that files, and for the feature at hand
-		// UNCOMENT line below
-	//	ArrayList<CoreAsset> yoursFiles = patchingCustomizationsForProduct(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
 		
-		//step 3: repeat process of step 2, but for the "yours" pr
-		//singlePatchPrueba(yours,mine,feature,customsDao, featuresInCoreassetsDao,  caDao);
 	}
 
 	@Autowired
+	private ArrayList<CoreAsset> patchingCustomizationsForProduct(ProductRelease product, Feature feature,ArrayList<CoreAsset> baselineFiles, CustomsByFeatureAndCoreAssetDao customsDao, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
+		
+		
+		Iterator<CustomsByFeatureAndCoreAsset> customs = customsDao.getCustomsByIdproductreleaseAndIdfeature(product.getId_productrelease(),feature.getIdfeature()).iterator();
+		CustomsByFeatureAndCoreAsset custom;
+		String patch;
+		CoreAsset ca;
+		int i=0;
+		ArrayList<CoreAsset> patchedFiles = new ArrayList<CoreAsset>();
+		patchedFiles.addAll(baselineFiles);//copy all the files
+		
+		while(customs.hasNext()) {
+			custom = customs.next();
+			patch = Formatting.decodeFromBase64(custom.getCustom_diff());
+			ca = caDao.getCoreAssetByIdcoreasset(custom.getIdcoreasset());
+			System.out.println("PATCHING FOR "+custom.getPrname()+ ": asset "+custom.getCaname()+ ", changed by  for feature "+custom.getIdfeature()+", with patch: "+Formatting.decodeFromBase64(custom.getCustom_diff()));
+
+			//try to patch the files
+			try {
+				
+				FileUtils.writeToFile(this.pathToResource+"/patches/"+product.getName()+"/patch"+i+".patch", patch.replace("\t", " "));
+				File initialFile = new File (this.pathToResource+"/patches/"+product.getName()+"/patch"+i+".patch");
+				
+				InputStream targetStream = new FileInputStream(initialFile);
+				System.out.println("targetStream:"+targetStream.read());
+				
+				ApplyPatchCommand applyPatch = new ApplyPatchCommand(null);
+				applyPatch.setPatch(targetStream);//the patch to apply
+				
+				File  f = new File(pathToResource+product.getName()+"/"+ca.getPath());
+				System.out.println("BEFORE calling call path");
+				ApplyResult result = applyPatch.call(f,product.getName()); 
+				
+				System.out.println("result: "+result.getUpdatedFiles().size());
+				File arc = result.getUpdatedFiles().get(0);
+				CoreAsset patchedCA = getCoreAssetByPath(patchedFiles, ca.getPath());//.setContent();
+				
+				//update the content of the files
+				patchedCA.setContent(FileUtils.readFromFile(this.pathToResource+product.getName()+"/"+ca.getPath()));
+			
+				
+			} catch (PatchFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (GitAPIException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return null;
+	}
+
+	
+
+	private CoreAsset getCoreAssetByPath(ArrayList<CoreAsset> patchedFiles, String path) {
+		Iterator<CoreAsset> it = patchedFiles.iterator();
+		CoreAsset ca;
+		while(it.hasNext()) {
+			ca = it.next();
+			if(ca.getPath().equals(path))
+				return ca;
+		}
+		return null;
+	}
+
+	public ArrayList<CoreAsset> getBaselineCoreAssets4Feature(Feature feature, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao, String observed,String observer){
+		//find all the assets that belong to a feature
+		Iterator<CoreassetsAndFeatures> res = featuresInCoreassetsDao.getFeatureCoreAssetsByIdfeature(feature.getIdfeature()).iterator();
+		CoreassetsAndFeatures caFeature;
+		ArrayList<CoreAsset> baselineCoreAssets = new ArrayList<CoreAsset>();
+		CoreAsset ca;
+		while(res.hasNext()) {
+			caFeature = res.next();
+			ca = caDao.getCoreAssetByIdcoreasset(caFeature.getId_coreasset());
+			if (!baselineCoreAssets.contains(ca)) {
+				baselineCoreAssets.add(ca);
+				System.out.println("CA path getBaselineCoreAssets4Feature: "+ca.getPath());
+				//write to all the folders: baseline, observed & observer
+				FileUtils.writeToFile(pathToResource+"baseline/"+ca.getPath(),Formatting.decodeFromBase64(ca.getContent()));
+				FileUtils.writeToFile(pathToResource+observed+"/"+ca.getPath(),Formatting.decodeFromBase64(ca.getContent()));
+				FileUtils.writeToFile(pathToResource+observer+"/"+ca.getPath(),Formatting.decodeFromBase64(ca.getContent()));
+			}	
+		}
+		return baselineCoreAssets;
+	}
+	
+	
+	
+	
+	/*************************************************************//*************************************************************/
+	/*************************************************************//*************************************************************/
+	/***Non used functions ***/
 	private void pruebaJgit(ProductRelease yours, Feature feature, ArrayList<CoreAsset> baselineFiles,
 			CustomsByFeatureAndCoreAssetDao customsDao, CoreassetsAndFeaturesDao featuresInCoreassetsDao,
 			CoreAssetDao caDao) {
@@ -100,28 +193,19 @@ public class FeaturePatcher {
 		
 		//2: parse with JGit library
 		try {
-			/*org.eclipse.jgit.patch.Patch jGitPatch = new org.eclipse.jgit.patch.Patch();
-			InputStream is = new ByteArrayInputStream( text.getBytes());
-			jGitPatch.parse(is);
-			System.out.println("PRINT:"+text.getBytes().length );
-			System.out.println("IS:"+is.available());
-			System.out.println("IS:"+is.read())
-		*/
-			
-			 File initialFile = new File(pathToResource+"observed/patch2.patch");
-		    InputStream targetStream = new FileInputStream(initialFile);
-		    System.out.println("targetStream:"+targetStream.read());
-			
-			
-		
 
 			/**Lo que vale**/
-			ApplyPatchCommand applyPatch = new ApplyPatchCommand(null);
-			applyPatch.setPatch(targetStream);//the patch to apply
+		
 		
 			
-			File  f = new File(pathToResource+"kdiff-workspace/baseline/input/js/sensors.js");
+			
 			try {
+				File initialFile = new File(pathToResource+"observed/patch0.patch");
+			    InputStream targetStream = new FileInputStream(initialFile);
+			    System.out.println("targetStream:"+targetStream.read());
+				ApplyPatchCommand applyPatch = new ApplyPatchCommand(null);
+				applyPatch.setPatch(targetStream);//the patch to apply
+				File  f = new File(pathToResource+"kdiff-workspace/baseline/input/js/sensors.js");
 				System.out.println("BEFORE calling call path");
 				ApplyResult result = applyPatch.call(f,"baseline"); //!!!!
 				System.out.println("result: "+result.getUpdatedFiles().size());
@@ -140,93 +224,6 @@ public class FeaturePatcher {
 			e.printStackTrace();
 		} //parse the patch file
 		 
-	
-
-		
 	}
 
-	
-
-	private ArrayList<CoreAsset> patchingCustomizationsForProduct(ProductRelease yours, Feature feature,ArrayList<CoreAsset> baselineFiles, CustomsByFeatureAndCoreAssetDao customsDao, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
-		
-		ArrayList<CoreAsset> yourFiles = new ArrayList<CoreAsset>();
-		yourFiles.addAll(baselineFiles);
-		Iterator<CustomsByFeatureAndCoreAsset> customs = customsDao.getCustomsByIdproductreleaseAndIdfeature(yours.getId_productrelease(),feature.getIdfeature()).iterator();
-		CustomsByFeatureAndCoreAsset custom;
-		String patch;
-		CoreAsset ca;
-		int i=0;
-		while(customs.hasNext()) {
-			custom = customs.next();
-			patch = Formatting.decodeFromBase64(custom.getCustom_diff());
-			ca = caDao.getCoreAssetByIdcoreasset(custom.getIdcoreasset());
-			System.out.println("PATCHING asset "+custom.getCaname()+ ", changed by "+custom.getPrname()+ " for feature "+custom.getIdfeature()+", with patch: "+Formatting.decodeFromBase64(custom.getCustom_diff()));
-			
-			//try to patch the files
-		//	try {
-				FileUtils.writeToFile(this.pathToResource+"/observed/patch"+i+".patch", patch);
-			//	List<String> patchedFile = FileComparator.patchFile(Formatting.stringToArrayList(patch, "\n"), Formatting.stringToArrayList(ca.getContent(), "\n") );
-				i++;
-		//	} 
-				/* catch (IOException e) {
-				System.out.println("ERROR IO for patching file ");
-				e.printStackTrace();
-			} catch (com.github.difflib.patch.PatchFailedException e) {
-				System.out.println("ERROR PatchFailedException");
-				e.printStackTrace();
-			}*/
-		}
-		return null;
-	}
-
-	
-
-	public ArrayList<CoreAsset> getBaselineCoreAssets4Feature(Feature feature, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao){
-		//find all the assets that belong to a feature
-		Iterator<CoreassetsAndFeatures> res = featuresInCoreassetsDao.getFeatureCoreAssetsByIdfeature(feature.getIdfeature()).iterator();
-		CoreassetsAndFeatures caFeature;
-		ArrayList<CoreAsset> baselineCoreAssets = new ArrayList<CoreAsset>();
-		CoreAsset ca;
-		while(res.hasNext()) {
-			caFeature = res.next();
-			ca = caDao.getCoreAssetByIdcoreasset(caFeature.getId_coreasset());
-			if (!baselineCoreAssets.contains(ca)) {
-				baselineCoreAssets.add(ca);
-				System.out.println("The path: "+ca.getPath());
-				FileUtils.writeToFile(pathToResource+"/kdiff-workspace/baseline/"+ca.getPath(),Formatting.decodeFromBase64(ca.getContent()));
-			}	
-		}
-		return baselineCoreAssets;
-	}
-	
-	
-	
-	
-	/*************************************************************//*************************************************************/
-	/*************************************************************//*************************************************************/
-	/***Non used functions ***/
-	private void singlePatchPrueba(ProductRelease theirs, ProductRelease mine , Feature feature, CustomsByFeatureAndCoreAssetDao customsDao, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
-		//Changes for THEIRS
-		Iterator<CustomsByFeatureAndCoreAsset> customs = customsDao.getCustomsByIdproductreleaseAndIdfeature(theirs.getId_productrelease(),feature.getIdfeature()).iterator();
-		CustomsByFeatureAndCoreAsset custom;
-		
-		System.out.println("THEIR CHANGES:");
-		while(customs.hasNext()) {
-			custom = customs.next();
-			System.out.println("Asset "+custom.getCaname()+ " changed by "+custom.getPrname()+ " for feature "+custom.getIdfeature()+"with patch: "+Formatting.decodeFromBase64(custom.getCustom_diff()));
-		}
-		
-		System.out.println("OUR CHANGES:");
-		Iterator<CustomsByFeatureAndCoreAsset> ours = customsDao.getCustomsByIdproductreleaseAndIdfeature(theirs.getId_productrelease(),feature.getIdfeature()).iterator();
-		CustomsByFeatureAndCoreAsset our;
-		while(ours.hasNext()) {
-			our = ours.next();
-			System.out.println("Asset "+our.getCaname()+ " changed by " +our.getPrname()+ " for feature "+our.getIdfeature()+"with patch: "+Formatting.decodeFromBase64(our.getCustom_diff()));
-		}
-		
-	
-		
-		
-	}
-	
 }

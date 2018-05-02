@@ -13,7 +13,9 @@ var windMeasure = 0;
 function applyWindSpeed() {
 	var measureText = document.getElementById("w_measure");
 	windMeasure = measureText.value;
-	var pointer = document.getElementById("w_point");
+ var intValue = checkMeasure(min, max, w_Measure);//Authored by: letimome in commit:99335588a771276208b98a291062aa6b00e26dd3, with message:adjust windspeed gauge for the new sensor #9 
+ if (isNaN(intValue)) return false;//Authored by: letimome in commit:99335588a771276208b98a291062aa6b00e26dd3, with message:adjust windspeed gauge for the new sensor #9 
+ intValue = (intValue - min)*(pxRange / (max - min));//Authored by: letimome in commit:99335588a771276208b98a291062aa6b00e26dd3, with message:adjust windspeed gauge for the new sensor #9 
 	
 	applyTachoValue(minWind, maxWind, measureText, pointer);
 	setWarnings();

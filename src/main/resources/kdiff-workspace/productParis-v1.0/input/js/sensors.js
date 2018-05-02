@@ -2,7 +2,10 @@
 function applyPressure() {
 	var measureText = document.getElementById("p_measure");
 	var pointer = document.getElementById("p_point");
-	
+ var letiprueba = true;//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
+ if(letiprieba){//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
+  console.log("True");//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
+ }//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
 	applyTachoValue(minPres, maxPres, measureText, pointer);
 	return false;
 }

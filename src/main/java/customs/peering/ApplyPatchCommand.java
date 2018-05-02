@@ -245,11 +245,13 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 				hunkLines.add(hrt.getString(i));
 			int pos = 0;
 			for (int j = 1; j < hunkLines.size(); j++) {
-				String hunkLine = hunkLines.get(j);
+				String hunkLine = hunkLines.get(j);//.replaceAll("\t", " ");
 				switch (hunkLine.charAt(0)) {
 				case ' ':
-					if (!newLines.get(hh.getNewStartLine() - 1 + pos).equals(
-							hunkLine.substring(1))) {
+					if (! ((newLines.get(hh.getNewStartLine() - 1 + pos)).trim()).equals((hunkLine.substring(1).trim()))) {
+						System.out.println("newLines at pos: "+ (hh.getNewStartLine() - 1 + pos)+":"+newLines.get(hh.getNewStartLine() - 1 + pos).trim());
+						System.out.println("Hunk line:"+hunkLine.substring(1).trim());
+						
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().patchApplyException, hh));
 					}
@@ -259,8 +261,8 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 					if (hh.getNewStartLine() == 0) {
 						newLines.clear();
 					} else {
-						if (!newLines.get(hh.getNewStartLine() - 1 + pos)
-								.equals(hunkLine.substring(1))) {
+						if (!newLines.get(hh.getNewStartLine() - 1 + pos).trim()
+								.equals(hunkLine.substring(1).trim())) {
 							throw new PatchApplyException(MessageFormat.format(
 									JGitText.get().patchApplyException, hh));
 						}

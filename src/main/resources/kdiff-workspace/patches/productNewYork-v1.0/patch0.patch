@@ -1,0 +1,9 @@
+diff --git a/input/js/sensors.js b/input/js/sensors.js
+index 8a7711e..fc0c53e 100644
+--- a/input/js/sensors.js
++++ b/input/js/sensors.js
+@@ -71,5 +71,4 @@ Expression: No ExpressionChange Type: CHANGE_OUTSIDE_VARIATION_POINT
+  if (isNaN(parseInt(measure)) ||
+   parseInt(measure) < min ||
+   parseInt(measure) > max) {
+-  alert("Bitte eine Zahl zwischen " + min + " und " + max + " eingeben!");

@@ -42,23 +42,17 @@ public class MainProductEngController {
 		
 		
 		 ArrayList<String> featuresToInclude = new ArrayList<String>() ;
-		   if (filter.equals("all") || filter.equals("null"))   
-			   featuresToInclude.add("all");
-		   else {
-			   featuresToInclude = customs.utils.Formatting.stringToArrayList(filter, ",");
-			   System.out.println(featuresToInclude.toString());
-		   }
+		 if (filter.equals("all") || filter.equals("null"))    featuresToInclude.add("all");
+		 else  featuresToInclude = customs.utils.Formatting.stringToArrayList(filter, ",");
+		   
 		
 		ArrayList<String> featuresReusedByProduct = new ArrayList<String>();
 		
-		
-
 		ProductRelease p = findProductByname(branchName,"-");
 		if (p ==null) return null;
 		
 		System.out.println("The peering product is: "+p.getName());
 		
-
 		Iterator<Churn_PoductPortfolioAndFeatures> it = pp_by_feature.findAll().iterator();		
 		Churn_PoductPortfolioAndFeatures observer; // Know which features is the product customizing !!
 		String pname = p.getName();

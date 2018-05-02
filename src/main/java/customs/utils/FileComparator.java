@@ -1,11 +1,6 @@
 package customs.utils;
 
-import com.github.difflib.*;
-import com.github.difflib.UnifiedDiffUtils;
-import com.github.difflib.DiffUtils;
-import com.github.difflib.patch.Patch;
 
-import com.github.difflib.patch.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -58,7 +53,7 @@ public class FileComparator {
 
         return patch.getDeltas();
     }
-    */
+   
     public static List<String> patchFile(ArrayList<String> patch, ArrayList<String> originalLines) throws IOException, PatchFailedException{
 	    Patch<String> parsed = UnifiedDiffUtils.parseUnifiedDiff (patch);
 	    
@@ -84,7 +79,7 @@ public class FileComparator {
 	    	System.out.println("After patching: "+patching.toString());
 	    	return patching;
 	    	
-    }
+    } */
 
     private List<String> fileToLines(File file) throws IOException {
         final List<String> lines = new ArrayList<String>();
