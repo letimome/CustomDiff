@@ -4,6 +4,9 @@ keystore.jks
 keystore.p12
 
 # directories
+src/main/resources/kdiff-workspace
+src/main/resources/static/kdiff.zip
+
 .settings/
 .target/
 .idea/
