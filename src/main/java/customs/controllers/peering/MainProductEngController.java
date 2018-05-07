@@ -1,5 +1,6 @@
 package customs.controllers.peering;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import customs.models.ParentFeature;
 import customs.models.ParentFeatureDao;
 import customs.models.ProductReleaseDao;
 import customs.peering.FeaturePatcher;
+import customs.peering.ThreeWayDiffWorkspace;
 import customs.models.ProductRelease;
 
 @Controller
@@ -109,13 +111,14 @@ public class MainProductEngController {
 		customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		
 		//call to the patcher function!! /**** NEW ****/
-		if( (!featurename.equals("none")) && (!observed.equals("none"))) {
-			
+		/*if( (!featurename.equals("none")) && (!observed.equals("none"))) {
+			System.out.println("INSIDE IF!");
 			FeaturePatcher fp = new FeaturePatcher();
 			ProductRelease yours = findProductByname(observed,"-");  
 			Feature featurepatch = fDao.getFeatureByIdfeature(featurename);
 			fp.patchFilesForFeatureAndProduct(yours, p, featurepatch, customsDao, coreAssetsAndFeatures, caDao);
-		}
+	
+		}*/
 		
 		//System.out.println(csvCustoms);
 		String filterJson = customs.utils.FeaturesToJason.getJsonForParentAndChildFeature(parentFeatureDao.findAll(), fDao); //getJsonForFeatures(fDao.findAll()); o //getJsonForParentAndChildFeature(parentFeatureDao.findAll());
@@ -156,6 +159,35 @@ public class MainProductEngController {
 			model.addAttribute("features", features);
 			System.out.println(features.toString());
 		}
+	
+	
+	@RequestMapping("/download")
+	public String getKdiffDownload( @RequestParam(value="productbranch", required=true) String branchName,   
+			@RequestParam(value="featurename", required=false) String featurename,
+			@RequestParam(value="observed", required=false) String observed,
+			Model model) {
+		
+		ProductRelease p = findProductByname(branchName,"-");
+		if (p ==null) return null;
+		
+		System.out.println("The peering product is: "+p.getName());
+		
+		//call to the patcher function!! /**** NEW ****/
+		if( (!featurename.equals("none")) && (!observed.equals("none"))) {
+			System.out.println("INSIDE IF!");
+			FeaturePatcher fp = new FeaturePatcher();
+			ProductRelease yours = findProductByname(observed,"-");  
+			Feature featurepatch = fDao.getFeatureByIdfeature(featurename);
+			ThreeWayDiffWorkspace files = fp.patchFilesForFeatureAndProduct(yours, p, featurepatch, customsDao, coreAssetsAndFeatures, caDao);
+			
+		
+			
+		}
+		return "alluvials/downloading";
+		//return "<html><title>Downloading ...<title><body></body></html>";
+	} 		
+	
+	
 
 	
 }

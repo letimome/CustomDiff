@@ -11,7 +11,8 @@ var tempLimit = 45;
 //PV:IFCOND(pv:hasFeature('AirPressure'))
 var minPres = 910;
 var maxPres = 1040;
-var presScale = 'hPa';
+var presScale = 'kPa';//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville 
+var scaleName ='kilopascal';//Authored by: letimome in commit:72fdd155cbb0ea62e75b7dd1ffe8238821843ff3, with message:product seville 
 //PV:ENDCOND
 
 //PV:IFCOND(pv:hasFeature('WindSpeed'))

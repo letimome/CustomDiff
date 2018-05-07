@@ -24,17 +24,19 @@ public class FileUtils {
 	public static  void writeToFile(String path, String text){
 		
 		try {
-			
+			//System.out.println("File path:"+path);
+			//System.out.println("File text:"+text);
 			File file = new File(path);
+			
 			file.getParentFile().mkdirs(); // Will create parent directories if not exists
 			file.createNewFile();
 			FileOutputStream s = new FileOutputStream(file,false);
 			s.write(text.getBytes());
-		
 			s.close();
-
+			System.out.println("Wrote a file in path:"+path);
 			
 		} catch (Exception e) {
+			System.out.println("Could not find file with:"+path);
 			e.printStackTrace();
 		}
 		

@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import customs.utils.Formatting;
+
 
 @Entity
 @Table (name="core_asset")
@@ -44,7 +46,12 @@ public class CoreAsset {
 		}
 
 		public String getContent() {
-			return content;
+			try {
+				return Formatting.decodeFromBase64(content);
+			}catch(Exception e) {
+				return content;
+			}
+		
 		}
 
 		public void setContent(String content) {

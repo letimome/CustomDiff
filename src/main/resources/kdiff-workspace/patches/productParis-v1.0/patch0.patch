@@ -1,16 +1,42 @@
-diff --git a/input/js/sensors.js b/input/js/sensors.js
-index 8a7711e..6e741fb 100644
---- a/input/js/sensors.js
-+++ b/input/js/sensors.js
-@@ -2,7 +2,10 @@ Expression:  (pv:hasFeature('AirPressure'))Change Type: CHANGE_IN_VARIATION_POINT_BODY
- function applyPressure() {
-  var measureText = document.getElementById("p_measure");
-  var pointer = document.getElementById("p_point");
-- 
-+ var letiprueba = true;//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
-+ if(letiprieba){//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
-+  console.log("True");//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
-+ }//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
-  applyTachoValue(minPres, maxPres, measureText, pointer);
-  return false;
- }
+diff --git a/input/js/scale.js b/input/js/scale.js
+index c279eaa..c09dba6 100644
+--- a/input/js/scale.js
++++ b/input/js/scale.js
+@@ -12,21 +12,28 @@ Expression:  (pv:hasFeature('AirPressure'))Change Type: CHANGE_IN_VARIATION_POINT_BODY
+      d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
+          .classed("node--hover", hover)
+        . select("rect")
+-       .style("boder-color","black")
+-        .style("stroke","black")
+          .attr("width", function(d) { return d.x1 - d.x0 - hover; })
+          .attr("height", function(d) { return d.y1 - d.y0 - hover; });
+-     
++     var cell = svg//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++     .selectAll(".node")//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++     .data(root.descendants())//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++     .enter().append("g")//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++        .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++       .attr("class", "node")//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++       .each(function(d) { d.node = this; })//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++       .on("mouseover", hovered(true))//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++       .on("mouseout", hovered(false))//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++       .on("click", function(d){//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++      console.log("clicked id_core_asset"+d.data.id_core_asset);//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++      /*<![CDATA[*///Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++      window.location.href = "http://localhost:8080/treemapfeatureproductview?base=Baseline-v1.0&fname="+d.data.fname+"&idfile="+ d.data.id_core_asset+"&pr="+d.data.product_release+"#diffview";//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++      /*]]>*///Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
++     });//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
+      if(hover==false)
+       d3.selectAll(d.ancestors().map(function(d) { return d.node; }))
+             .classed("node--hover", hover).select("rect").
+             style("fill", function(d) { 
+-              var operation = d.data.operation;
+-          if ( (operation =="undefined") || (d.data.operation==null)) return "#cccccc";
+-            else if (operation==("add")) return "#3fac54";
+-            else if (operation==("delete")) return "#e6323d";
+-            else if (operation=="churn") return "#FF8100";
+-             });
++              return   d.data.operation;});//Authored by: letimome in commit:becc99f69808270a833d650f97baf2f42acdaf32, with message:changes for Paris WS 
+      else d3.select(d.node).classed("node--hover", hover).
+      select("rect").style("fill","#6495ed");
+    };

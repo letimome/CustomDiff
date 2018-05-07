@@ -506,7 +506,9 @@ img {
 									//window.location.href .... to download files for the three parties
 									//window.location.href = "kdiff:///Users/leticia/Downloads/Baseline-v1.0-WindSpeed /Users/leticia/Downloads/productDonosti-WindSpeed /Users/leticia/Downloads/productDenmark-WindSpeed /Users/leticia/Downloads/merge-windspeed";
 									console.log(d);
-									window.location.href ="/peering?productbranch="+getMetaContentByName("productbranch")+"&filter="+getMetaContentByName("filter")+"&featurename="+d.source.name+"&observed="+d.target.name; 
+									var win = window.open("/download?productbranch="+getMetaContentByName("productbranch")+"&featurename="+d.source.name+"&observed="+d.target.name,'blank' );
+									  //win.focus();
+									//window.location.href = 
 								}
 								function myMouseoverFunction(d) {
 									window.console.log(this);

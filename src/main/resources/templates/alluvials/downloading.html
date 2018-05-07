@@ -1,0 +1,244 @@
+
+<!-- HTML5 document type -->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8" />
+<meta name="filterJson" th:content="${filterJson}"></meta>
+<meta name="idparentfeature" th:content="${idparentfeature}"></meta>
+<meta name="productbranch" th:content="${productbranch}"></meta>
+<meta name="filter" th:content="${filter}"></meta>
+
+
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+ 
+<title>Peering into Peers(MyProduct, Other Products)</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+<title>Downloading </title>
+<link rel="stylesheet" href="Treant.css" type="text/css"/>
+<link rel="stylesheet" href="custom-colored.css" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="dist/diff2html.css" />
+<link rel="stylesheet" type="text/css" href="/dist/diff2html.css" />
+<link rel="stylesheet" href="styles/kendo.common.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.min.css" />
+<link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
+
+    <link rel="stylesheet" href="styles/kendo.common.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.min.css" />
+    <link rel="stylesheet" href="styles/kendo.default.mobile.min.css" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/kendo.all.min.js"></script>
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+
+
+
+<script src="NavigationMap.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/kendo.all.min.js"></script>
+<script type="text/javascript" src="dist/diff2html.js"></script>
+<script type="text/javascript" src="dist/diff2html-ui.js"></script>
+<script src="vendor/raphael.js"></script>
+<script src="Treant.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<script src="http://marvl.infotech.monash.edu/webcola/cola.v3.min.js"></script>
+
+<style>
+.node rect {
+	cursor:  pointer;
+	fill-opacity: 2;
+}
+
+.node text {
+	font-size: 120%;
+	pointer-events: none;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.link {
+	fill: none;
+	stroke: green;
+	cursor: pointer;
+	stroke-opacity: .15;
+}
+
+.asterisk {
+	cursor: hand;
+}
+
+.link:hover {
+	stroke-opacity: .5;
+}
+
+.node rect:hover {
+	fill-opacity: 10;
+}
+
+
+.rootfolder {
+	background-position: 0 0;
+}
+
+.folder {
+	background-position: 0 -16px;
+}
+
+.pdf {
+	background-position: 0 -32px;
+}
+
+.html {
+	background-position: 0 -48px;
+}
+
+.image {
+	background-position: 0 -64px;
+}
+
+#example {
+	min-height: 200px;
+}
+
+#example .title {
+	font-weight: bold;
+	margin-bottom: 25px;
+}
+
+.search-wrapper {
+	width: 100%;
+}
+
+.query-match {
+	color: red;
+}
+
+.select-all-wrapper {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.p-asterisk {
+	align: "center";
+	margin-top: 20px;
+	position: "relative";
+	margin-right: 400px;
+}
+
+.selected-count {
+	float: right;
+	color: #aaa;
+}
+
+.k-treeview {
+	border-width: 1px !important;
+	padding: 5px;
+}
+
+.selectedName {
+	padding: 5px 10px;
+	background: #aaa;
+	color: white;
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	border-radius: 10px;
+}
+
+.navbar-light {
+	border-bottom: 1px solid grey;
+	float: left;
+}
+
+html, body, h1, h2, h3, h4, h5 {
+	font-family: "Raleway", sans-serif
+}
+
+li [nav-item] {
+	display: block;
+	float: left;
+	margin-right: 5px;
+}
+
+img {
+	display: block;
+	float: left;
+	margin-right: 10px;
+}
+
+.navbar-nav {
+	flex-direction: row;
+	float: right;
+}
+
+.navbar-header {
+	align: left;
+	float: left;
+}
+
+.container-fluid {
+	float: center;
+}
+
+.navbar-light {
+	border-bottom: 0px solid grey;
+	float: left;
+}
+</style>
+</head>
+
+<body align="center">
+	
+	<header class="navbar navbar-light bg-faded">
+		<nav class="container w-100" style="background-color: white;">
+			<div class="d-flex justify-content-between hidden-lg-up">
+				<a class="navbar-brand " href="/index"> <img id="Home"
+					align="left " src="customDiffLargo.png" alt="Home"
+					style="width: 180px; height: 50px;"></img>
+				</a>
+			</div>
+			<ul class="nav navbar-nav ">
+				<li class=""></li>
+				<li class="nav-item"><a href="/index"><img
+						src="http://158.227.178.168/customDiff/images/home.png" alt="Home"
+						style="width: 30px; height: 30px;" /></a></li>
+				<li class="nav-item active" align="center" valign="middle"><a
+					href="/analysis"><img
+						src="http://158.227.178.168/customDiff/images/hierarchy.png"
+						alt="Customization analysis" style="width: 38px; height: 38px;" /></a></li>
+				<li class="nav-item" align="center"><a
+					href="/search"><img
+						src="http://158.227.178.168/customDiff/images/search.png" alt="Search diff"
+						style="width: 30px; height: 30px;" /></a></li>
+				<li class="nav-item" align="center"><a
+					href="/config"><img
+						src="http://158.227.178.168/customDiff/images/config.png" alt="Configuration"
+						style="width: 30px; height: 30px;" /></a></li>
+				<li class="nav-item" align="center"><a
+					href="/documentation"><img
+						src="http://158.227.178.168/customDiff/images/document.png"
+						alt="Documentation" style="width: 30px; height: 30px;" /></a></li>
+			</ul>
+		</nav>
+	</header>
+
+
+	<div class="container-fluid">
+		
+</div>
+<div>
+<p>Downloading files ...
+		</p></div>
+</body>
+
+
+</html>

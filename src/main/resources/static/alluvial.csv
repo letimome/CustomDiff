@@ -1,19 +1,19 @@
 source,target,value
-productDonosti,AirPressure,5
-productDonosti,German,2
-productDonosti,No Feature,7
-productDonosti,WindSpeed,13
-AirPressure,productLondon,7
-AirPressure,productParis,5
-No Feature,productNewYork,1
-WindSpeed,productDenmark,6
-WindSpeed,productLondon,7
-productDonosti,English,0.2
+productSeville,AirPressure,3
+productSeville,Gale,15
+productSeville,WindSpeed,18
+AirPressure,productBerlin,5
+AirPressure,productParis,25
+WindSpeed,productBerlin,13
+WindSpeed,productParis,6
+productSeville,English,0.2
 English,no_other_peer,0.2
-productDonosti,Gale,0.2
 Gale,no_other_peer,0.2
+productSeville,German,0.2
 German,no_other_peer,0.2
-productDonosti,Heat,0.2
+productSeville,Heat,0.2
 Heat,no_other_peer,0.2
-productDonosti,Temperature,0.2
+productSeville,No Feature,0.2
+No Feature,no_other_peer,0.2
+productSeville,Temperature,0.2
 Temperature,no_other_peer,0.2

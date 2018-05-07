@@ -34,30 +34,62 @@ import customs.models.CustomsByFeatureAndCoreAssetDao;
 import customs.models.Feature;
 import customs.models.FeaturesInVariationpoints;
 import customs.models.FeaturesInVariationpointsDao;
+
 //import org.eclipse.jgit.patch.*;
 
 
 public class FeaturePatcher {
 	ThreeWayDiffWorkspace workspace;
 	private String pathToResource = "./src/main/resources/kdiff-workspace/";
+	//private String workspacePath = "/Users/Onekin/Download";
 	
-	public void patchFilesForFeatureAndProduct(ProductRelease yours, ProductRelease mine , Feature feature, CustomsByFeatureAndCoreAssetDao customsDao,
+	public ThreeWayDiffWorkspace patchFilesForFeatureAndProduct(ProductRelease yours, ProductRelease mine , Feature feature, CustomsByFeatureAndCoreAssetDao customsDao,
 			CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
+		//step 0 : delete directory
+		
+		
+		deleteDir(new File(pathToResource));
+		
 		//Step 1: get all the files in which the "feature" is present
+		System.out.println("Getting the baseline files for "+yours.getName()+"  mine:"+mine.getName()+ "  feature"+feature.getName());
 		ArrayList<CoreAsset> baselineFiles = getBaselineCoreAssets4Feature(feature, featuresInCoreassetsDao, caDao, yours.getName(), mine.getName());
-		try {
+		
 			
-			ArrayList<CoreAsset> yoursFiles = patchingCustomizationsForProduct(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
-			ArrayList<CoreAsset> myFiles = patchingCustomizationsForProduct(mine,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
-			//Create workspace
+		ArrayList<CoreAsset> yoursFiles = patchingCustomizationsForProduct(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+		ArrayList<CoreAsset> myFiles = patchingCustomizationsForProduct(mine,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+		//Create workspace
 		
-			//ThreeWayDiffWorkspace kdiff3 = new ThreeWayDiffWorkspace(workspacePath, commonAncestor, mine, theirs, featurename, baselineFolderName, myFolderName, theirFolderName)
-		
-		} catch (Exception e) {
+		ThreeWayDiffWorkspace kdiff3 = new ThreeWayDiffWorkspace( baselineFiles, myFiles, yoursFiles, feature.getIdfeature(), 
+				"baseline", mine.getName(), yours.getName());
+		try {
+			customs.utils.ZipUtils zip = new customs.utils.ZipUtils();
+			zip.pack(pathToResource, pathToResource+"kdiff.zip");
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return kdiff3;
 		
+		
+	}
+
+
+
+	private void deleteDir(File file)  {
+		try {
+			System.out.println("Deleting folder "+pathToResource);
+			 File[] contents = file.listFiles();
+			    if (contents != null) {
+			        for (File f : contents) {
+			            deleteDir(f);
+			        }
+			    }
+			    file.delete();
+				System.out.println("delete "+file.getName());
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -78,12 +110,11 @@ public class FeaturePatcher {
 			patch = Formatting.decodeFromBase64(custom.getCustom_diff());
 			ca = caDao.getCoreAssetByIdcoreasset(custom.getIdcoreasset());
 			System.out.println("PATCHING FOR "+custom.getPrname()+ ": asset "+custom.getCaname()+ ", changed by  for feature "+custom.getIdfeature()+", with patch: "+Formatting.decodeFromBase64(custom.getCustom_diff()));
-
 			//try to patch the files
 			try {
 				
-				FileUtils.writeToFile(this.pathToResource+"/patches/"+product.getName()+"/patch"+i+".patch", patch.replace("\t", " "));
-				File initialFile = new File (this.pathToResource+"/patches/"+product.getName()+"/patch"+i+".patch");
+				FileUtils.writeToFile(this.pathToResource+"patches/"+product.getName()+"/patch"+i+".patch", patch.replace("\t", " "));
+				File initialFile = new File (this.pathToResource+"patches/"+product.getName()+"/patch"+i+".patch");
 				
 				InputStream targetStream = new FileInputStream(initialFile);
 				System.out.println("targetStream:"+targetStream.read());
@@ -102,7 +133,7 @@ public class FeaturePatcher {
 				//update the content of the files
 				patchedCA.setContent(FileUtils.readFromFile(this.pathToResource+product.getName()+"/"+ca.getPath()));
 			
-				
+				return patchedFiles;
 			} catch (PatchFormatException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -117,7 +148,8 @@ public class FeaturePatcher {
 					e.printStackTrace();
 				}
 		}
-		return null;
+		return patchedFiles;
+		
 	}
 
 	
@@ -133,97 +165,32 @@ public class FeaturePatcher {
 		return null;
 	}
 
-	public ArrayList<CoreAsset> getBaselineCoreAssets4Feature(Feature feature, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao, String observed,String observer){
+	public ArrayList<CoreAsset> getBaselineCoreAssets4Feature(Feature feature, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao, 
+			String observed,String observer){
 		//find all the assets that belong to a feature
-		Iterator<CoreassetsAndFeatures> res = featuresInCoreassetsDao.getFeatureCoreAssetsByIdfeature(feature.getIdfeature()).iterator();
+		Iterator<CoreassetsAndFeatures> res =featuresInCoreassetsDao.findAll().iterator(); //featuresInCoreassetsDao.getFeatureCoreAssetsByIdfeature(feature.getIdfeature()).iterator();
 		CoreassetsAndFeatures caFeature;
 		ArrayList<CoreAsset> baselineCoreAssets = new ArrayList<CoreAsset>();
 		CoreAsset ca;
+	//	System.out.println("RES has next:"+res.hasNext());
 		while(res.hasNext()) {
 			caFeature = res.next();
+			//System.out.println("CA: "+caFeature.getCa_name());
 			ca = caDao.getCoreAssetByIdcoreasset(caFeature.getId_coreasset());
-			if (!baselineCoreAssets.contains(ca)) {
+			if ( caFeature.getId_feature().equals(feature.getIdfeature()) && (!baselineCoreAssets.contains(ca))) {
 				baselineCoreAssets.add(ca);
 				System.out.println("CA path getBaselineCoreAssets4Feature: "+ca.getPath());
+			//	System.out.println(" & ca content: "+ca.getContent());
 				//write to all the folders: baseline, observed & observer
-				FileUtils.writeToFile(pathToResource+"baseline/"+ca.getPath(),Formatting.decodeFromBase64(ca.getContent()));
-				FileUtils.writeToFile(pathToResource+observed+"/"+ca.getPath(),Formatting.decodeFromBase64(ca.getContent()));
-				FileUtils.writeToFile(pathToResource+observer+"/"+ca.getPath(),Formatting.decodeFromBase64(ca.getContent()));
+				FileUtils.writeToFile(pathToResource+"baseline/"+ca.getPath(), ca.getContent());
+				FileUtils.writeToFile(pathToResource+observed+"/"+ca.getPath(),ca.getContent());
+				FileUtils.writeToFile(pathToResource+observer+"/"+ca.getPath(),ca.getContent());
 			}	
-		}
+		}	
 		return baselineCoreAssets;
 	}
 	
 	
 	
 	
-	/*************************************************************//*************************************************************/
-	/*************************************************************//*************************************************************/
-	/***Non used functions ***/
-	private void pruebaJgit(ProductRelease yours, Feature feature, ArrayList<CoreAsset> baselineFiles,
-			CustomsByFeatureAndCoreAssetDao customsDao, CoreassetsAndFeaturesDao featuresInCoreassetsDao,
-			CoreAssetDao caDao) {
-		
-		System.out.println("PRUEBA WITH JGIT :-)");
-		//1: get the patch text
-		String text=
-				"diff --git a/input/js/sensors.js b/input/js/sensors.js\n" + 
-				"index 58d4441..e86007f 100644\n" + 
-				"--- a/input/js/sensors.js\n" + 
-				"+++ b/input/js/sensors.js\n" + 
-				"@@ -40,14 +40,16 @@ Expression:(pv:hasFeature('WindSpeed') or pv:hasFeature('AirPressure'))Change Type: CHANGE_IN_VARIATION_POINT_BODY\n" + 
-				" 		var measure = measureText.value;\n" + 
-				" 		var intValue = checkMeasure(min, max, measure);\n" + 
-				" 		if (isNaN(intValue)) return false;\n" + 
-				"+		var root = stratify(data) \n" + 
-				"+	      .sum(function(d) { return d.value; })\n" + 
-				"+	      .sort(function(a, b) { return b.height - a.height || b.value - a.value; });\n" + 
-				"+ \n" + 
-				" 		function getMetaContentByName(name,content){\n" + 
-				" 			   var content = (content==null)?'content':content;\n" + 
-				" 			   return document.querySelector(\"meta[name='\"+name+\"']\").getAttribute(content);\n" + 
-				" 			}\n" + 
-				" 			\n" + 
-				" 			$(document).ready(function(){\n" + 
-				"-				//console.log(diffString); //diffString should be the value of diffview value\n" + 
-				"-				//get select(\"#diffvalue\"). metadata\n" + 
-				" 				var diffvalue = getMetaContentByName(\"diffvalue\");\n" + 
-				" 				if (diffvalue==null) return null;\n" + 
-				" 			});"; 
-		
-		//2: parse with JGit library
-		try {
-
-			/**Lo que vale**/
-		
-		
-			
-			
-			try {
-				File initialFile = new File(pathToResource+"observed/patch0.patch");
-			    InputStream targetStream = new FileInputStream(initialFile);
-			    System.out.println("targetStream:"+targetStream.read());
-				ApplyPatchCommand applyPatch = new ApplyPatchCommand(null);
-				applyPatch.setPatch(targetStream);//the patch to apply
-				File  f = new File(pathToResource+"kdiff-workspace/baseline/input/js/sensors.js");
-				System.out.println("BEFORE calling call path");
-				ApplyResult result = applyPatch.call(f,"baseline"); //!!!!
-				System.out.println("result: "+result.getUpdatedFiles().size());
-				File arc = result.getUpdatedFiles().get(0);
-				
-			} catch (PatchFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (GitAPIException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} //parse the patch file
-		 
-	}
-
 }

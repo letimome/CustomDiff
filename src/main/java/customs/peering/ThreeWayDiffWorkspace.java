@@ -3,12 +3,14 @@ package customs.peering;
 import java.io.File;
 import java.util.ArrayList;
 
+import customs.models.CoreAsset;
+
 public class ThreeWayDiffWorkspace {
 	
-	String workspacePath;
-	ArrayList<File> commonAncestor;
-	ArrayList<File> mine;
-	ArrayList<File> theirs;
+//	String workspacePath;
+	ArrayList<CoreAsset> commonAncestor;
+	ArrayList<CoreAsset> mine;
+	ArrayList<CoreAsset> theirs;
 	String featurename;
 	String baselineFolderName;
 	String myFolderName;
@@ -16,12 +18,12 @@ public class ThreeWayDiffWorkspace {
 	
 	
 	
-	public ThreeWayDiffWorkspace(String workspacePath, ArrayList<File> commonAncestor, ArrayList<File> mine,
-			ArrayList<File> theirs, String featurename, String baselineFolderName, String myFolderName,
+	public ThreeWayDiffWorkspace( ArrayList<CoreAsset> commonAncestor, ArrayList<CoreAsset> mine,
+			ArrayList<CoreAsset> theirs, String featurename, String baselineFolderName, String myFolderName,
 			String theirFolderName) {
 		super();
 	
-		this.workspacePath = workspacePath;
+		//this.workspacePath = workspacePath;
 		this.commonAncestor = commonAncestor;
 		this.mine = mine;
 		this.theirs = theirs;
@@ -31,35 +33,35 @@ public class ThreeWayDiffWorkspace {
 		this.theirFolderName = theirFolderName;
 	}
 
-	public String getWorkspacePath() {
+	/*public String getWorkspacePath() {
 		return workspacePath;
 	}
 
 	public void setWorkspacePath(String workspacePath) {
 		this.workspacePath = workspacePath;
-	}
+	}*/
 
-	public ArrayList<File> getCommonAncestor() {
+	public ArrayList<CoreAsset> getCommonAncestor() {
 		return commonAncestor;
 	}
 
-	public void setCommonAncestor(ArrayList<File> commonAncestor) {
+	public void setCommonAncestor(ArrayList<CoreAsset> commonAncestor) {
 		this.commonAncestor = commonAncestor;
 	}
 
-	public ArrayList<File> getMine() {
+	public ArrayList<CoreAsset> getMine() {
 		return mine;
 	}
 
-	public void setMine(ArrayList<File> mine) {
+	public void setMine(ArrayList<CoreAsset> mine) {
 		this.mine = mine;
 	}
 
-	public ArrayList<File> getTheirs() {
+	public ArrayList<CoreAsset> getTheirs() {
 		return theirs;
 	}
 
-	public void setTheirs(ArrayList<File> theirs) {
+	public void setTheirs(ArrayList<CoreAsset> theirs) {
 		this.theirs = theirs;
 	}
 
