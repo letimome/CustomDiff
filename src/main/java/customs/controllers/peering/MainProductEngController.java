@@ -179,9 +179,7 @@ public class MainProductEngController {
 			ProductRelease yours = findProductByname(observed,"-");  
 			Feature featurepatch = fDao.getFeatureByIdfeature(featurename);
 			ThreeWayDiffWorkspace files = fp.patchFilesForFeatureAndProduct(yours, p, featurepatch, customsDao, coreAssetsAndFeatures, caDao);
-			
-		
-			
+
 		}
 		return "alluvials/downloading";
 		//return "<html><title>Downloading ...<title><body></body></html>";

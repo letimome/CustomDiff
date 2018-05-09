@@ -40,7 +40,8 @@ public class StreamingResponseBodyController {
 	
 	 @RequestMapping(value="/downlod3waydiff/{baseline}/{yours}/{mine}/{featurename}", method = RequestMethod.GET)
 	 public StreamingResponseBody generate3wayDIFF(HttpServletResponse response,
-			 @PathVariable String baseline, @PathVariable String yours,@PathVariable String mine, @PathVariable String featurename) throws IOException {
+			 @PathVariable String baseline, @PathVariable String yours,@PathVariable String mine, 
+			 @PathVariable String featurename) throws IOException {
 		 
 		 ProductRelease p = findProductByname(mine,"-");
 			if (p ==null) return null;
@@ -57,12 +58,13 @@ public class StreamingResponseBodyController {
 		}
 		 
 		/**download to client**/
-        return download(response);
+        return download(response, featurename);
     }
 
-	private StreamingResponseBody download(HttpServletResponse response) throws FileNotFoundException {
+	 
+	private StreamingResponseBody download(HttpServletResponse response, String featurename) throws FileNotFoundException {
 		response.setContentType("application/zip");
-        response.setHeader("Content-Disposition", "attachment; filename=\"kdiff.zip\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"kdiff"+featurename+".zip\"");
         InputStream inputStream = new FileInputStream(new File("./src/main/resources/kdiff-workspace/kdiff.zip"));//
         return outputStream -> {
             int nRead;

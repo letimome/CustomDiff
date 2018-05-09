@@ -502,13 +502,18 @@ img {
 
 								
 								function clickOnLinkKdiff3(d){
-									//alert("Kdiff will be launched to compare:\n\n 3-DIFF (baseline-v1.0, productDonosti, productDenmak) w.r.t [Feature = WindSpeed]");
+									alert("Kdiff will be launched to compare:\n\n 3-DIFF (baseline,"+d.target.name+","+getMetaContentByName("productbranch")+ ") \nw.r.t [Feature ="+d.source.name+"]");
 									//window.location.href .... to download files for the three parties
-									//window.location.href = "kdiff:///Users/leticia/Downloads/Baseline-v1.0-WindSpeed /Users/leticia/Downloads/productDonosti-WindSpeed /Users/leticia/Downloads/productDenmark-WindSpeed /Users/leticia/Downloads/merge-windspeed";
-									console.log(d);
-									var win = window.open("/download?productbranch="+getMetaContentByName("productbranch")+"&featurename="+d.source.name+"&observed="+d.target.name,'blank' );
-									  //win.focus();
-									//window.location.href = 
+								//	window.location.href = "kdiff:///Users/Onekin/Downloads/Baseline /Users/Onekin/Downloads/productBerlin /Users/Onekin/Downloads/productDenmark-WindSpeed /Users/leticia/Downloads/merge-windspeed";
+									
+									//var win = window.open ("/downlod3waydiff/{baseline}/"+d.target.name+"/"+getMetaContentByName("productbranch")+"/"+d.source.name)
+
+									window.location.href ="kdiff:///Users/Onekin/Downloads/kdiffWindSpeed/baseline /Users/Onekin/Downloads/kdiffWindSpeed/productBerlin /Users/Onekin/Downloads/kdiffWindSpeed/productSeville"; 
+									
+									//var win = window.open("/download?productbranch="+getMetaContentByName("productbranch")+"&featurename="+d.source.name+"&observed="+d.target.name,'blank' );  
+								
+									
+									console.log(" kdiff download ");
 								}
 								function myMouseoverFunction(d) {
 									window.console.log(this);
