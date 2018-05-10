@@ -110,17 +110,7 @@ public class MainProductEngController {
 		 }
 		customs.utils.FileUtils.writeToFile(pathToResource+"alluvial.csv",csvCustoms);//path and test
 		
-		//call to the patcher function!! /**** NEW ****/
-		/*if( (!featurename.equals("none")) && (!observed.equals("none"))) {
-			System.out.println("INSIDE IF!");
-			FeaturePatcher fp = new FeaturePatcher();
-			ProductRelease yours = findProductByname(observed,"-");  
-			Feature featurepatch = fDao.getFeatureByIdfeature(featurename);
-			fp.patchFilesForFeatureAndProduct(yours, p, featurepatch, customsDao, coreAssetsAndFeatures, caDao);
 	
-		}*/
-		
-		//System.out.println(csvCustoms);
 		String filterJson = customs.utils.FeaturesToJason.getJsonForParentAndChildFeature(parentFeatureDao.findAll(), fDao); //getJsonForFeatures(fDao.findAll()); o //getJsonForParentAndChildFeature(parentFeatureDao.findAll());
 
 		model.addAttribute("filterJson",filterJson);
@@ -161,7 +151,7 @@ public class MainProductEngController {
 		}
 	
 	
-	@RequestMapping("/download")
+	/*@RequestMapping("/download")
 	public String getKdiffDownload( @RequestParam(value="productbranch", required=true) String branchName,   
 			@RequestParam(value="featurename", required=false) String featurename,
 			@RequestParam(value="observed", required=false) String observed,
@@ -172,7 +162,7 @@ public class MainProductEngController {
 		
 		System.out.println("The peering product is: "+p.getName());
 		
-		//call to the patcher function!! /**** NEW ****/
+		//call to the patcher function!! 
 		if( (!featurename.equals("none")) && (!observed.equals("none"))) {
 			System.out.println("INSIDE IF!");
 			FeaturePatcher fp = new FeaturePatcher();
@@ -183,9 +173,6 @@ public class MainProductEngController {
 		}
 		return "alluvials/downloading";
 		//return "<html><title>Downloading ...<title><body></body></html>";
-	} 		
-	
-	
+	} 		*/
 
-	
 }

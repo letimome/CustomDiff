@@ -47,24 +47,24 @@ public class StreamingResponseBodyController {
 			if (p ==null) return null;
 			
 		System.out.println("The peering product is: "+p.getName());
-			
+		ProductRelease yourp = null;
 		//call to the patcher function!! /**** NEW ****/
 		if( (!featurename.equals("none")) && (!yours.equals("none"))) {
 			System.out.println("INSIDE IF!");
 			FeaturePatcher fp = new FeaturePatcher();
-			ProductRelease yourp = findProductByname(yours,"-");  
+			 yourp = findProductByname(yours,"-");  
 			Feature featurepatch = fDao.getFeatureByIdfeature(featurename);
 			ThreeWayDiffWorkspace files = fp.patchFilesForFeatureAndProduct(yourp, p, featurepatch, customsDao, coreAssetsAndFeatures, caDao);
 		}
-		 
+		 String filename ="kdiff-"+p.getNameFormated("-")+"-"+yourp.getNameFormated("-")+"-"+featurename+".zip";
 		/**download to client**/
-        return download(response, featurename);
+        return download(response , filename);
     }
 
 	 
-	private StreamingResponseBody download(HttpServletResponse response, String featurename) throws FileNotFoundException {
+	private StreamingResponseBody download(HttpServletResponse response,  String filename) throws FileNotFoundException {
 		response.setContentType("application/zip");
-        response.setHeader("Content-Disposition", "attachment; filename=\"kdiff"+featurename+".zip\"");
+        response.setHeader("Content-Disposition", "attachment; filename='"+filename+"'");
         InputStream inputStream = new FileInputStream(new File("./src/main/resources/kdiff-workspace/kdiff.zip"));//
         return outputStream -> {
             int nRead;

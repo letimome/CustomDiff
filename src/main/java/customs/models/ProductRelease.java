@@ -41,6 +41,14 @@ public class ProductRelease {
 	public String getName() {
 		return name;
 	}
+	
+	public String getNameFormated(String split) {
+		String pname = this.name;
+		if(this.name.contains(split))
+			 pname=this.name.split(split)[0];
+		
+		 return pname;
+	}
 
 	public void setName(String name) {
 		this.name = name;

@@ -502,18 +502,32 @@ img {
 
 								
 								function clickOnLinkKdiff3(d){
-									alert("Kdiff will be launched to compare:\n\n 3-DIFF (baseline,"+d.target.name+","+getMetaContentByName("productbranch")+ ") \nw.r.t [Feature ="+d.source.name+"]");
+									
+									var result = prompt("Enter the path to the download path, (e.g. /Users/username/Downloads)", 
+											"/Users/leticia/Downloads");
+									
 									//window.location.href .... to download files for the three parties
 								//	window.location.href = "kdiff:///Users/Onekin/Downloads/Baseline /Users/Onekin/Downloads/productBerlin /Users/Onekin/Downloads/productDenmark-WindSpeed /Users/leticia/Downloads/merge-windspeed";
 									
-									//var win = window.open ("/downlod3waydiff/{baseline}/"+d.target.name+"/"+getMetaContentByName("productbranch")+"/"+d.source.name)
-
-									window.location.href ="kdiff:///Users/Onekin/Downloads/kdiffWindSpeed/baseline /Users/Onekin/Downloads/kdiffWindSpeed/productBerlin /Users/Onekin/Downloads/kdiffWindSpeed/productSeville"; 
+									var win = window.open ("/downlod3waydiff/{baseline}/"+d.target.name+"/"+getMetaContentByName("productbranch")+"/"+d.source.name);
+									//Call unzip
+									//window.console.log("fileunzip://"+result+"/kdiff"+d.source.name+".zip -d "+result);
+									window.location.href = "fileunzip://"+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+".zip -d "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name;
+										
+									setTimeout(function(){
+										
+										alert("Kdiff will be launched to compare:\n\n 3-DIFF (baseline,"+d.target.name+","+getMetaContentByName("productbranch")+ ") \nw.r.t [Feature ="+d.source.name+"]");
+										
+										//call kdiff 3
+										window.location.href="kdiff://"+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/baseline " +result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/"+d.target.name+" "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/"+getMetaContentByName("productbranch"); 
+										
+									}, 4000);
 									
-									//var win = window.open("/download?productbranch="+getMetaContentByName("productbranch")+"&featurename="+d.source.name+"&observed="+d.target.name,'blank' );  
+									
+									  
 								
 									
-									console.log(" kdiff download ");
+									
 								}
 								function myMouseoverFunction(d) {
 									window.console.log(this);

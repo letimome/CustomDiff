@@ -51,8 +51,8 @@ public class FeaturePatcher {
 		deleteDir(new File(pathToResource));
 		
 		//Step 1: get all the files in which the "feature" is present
-		System.out.println("Getting the baseline files for "+yours.getName()+"  mine:"+mine.getName()+ "  feature"+feature.getName());
-		ArrayList<CoreAsset> baselineFiles = getBaselineCoreAssets4Feature(feature, featuresInCoreassetsDao, caDao, yours.getName(), mine.getName());
+		System.out.println("Getting the baseline files for "+yours.getNameFormated("-")+"  mine:"+mine.getNameFormated("-")+ "  feature"+feature.getName());
+		ArrayList<CoreAsset> baselineFiles = getBaselineCoreAssets4Feature(feature, featuresInCoreassetsDao, caDao, yours.getNameFormated("-"), mine.getNameFormated("-"));
 		
 			
 		ArrayList<CoreAsset> yoursFiles = patchingCustomizationsForProduct(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
@@ -60,7 +60,7 @@ public class FeaturePatcher {
 		//Create workspace
 		
 		ThreeWayDiffWorkspace kdiff3 = new ThreeWayDiffWorkspace( baselineFiles, myFiles, yoursFiles, feature.getIdfeature(), 
-				"baseline", mine.getName(), yours.getName());
+				"baseline", mine.getNameFormated("-"), yours.getNameFormated("-"));
 		try {
 			customs.utils.ZipUtils zip = new customs.utils.ZipUtils();
 			zip.pack(pathToResource, pathToResource+"kdiff.zip");
@@ -113,8 +113,8 @@ public class FeaturePatcher {
 			//try to patch the files
 			try {
 				
-				FileUtils.writeToFile(this.pathToResource+"patches/"+product.getName()+"/patch"+i+".patch", patch.replace("\t", " "));
-				File initialFile = new File (this.pathToResource+"patches/"+product.getName()+"/patch"+i+".patch");
+				FileUtils.writeToFile(this.pathToResource+"patches/"+product.getNameFormated("-")+"/patch"+i+".patch", patch.replace("\t", " "));
+				File initialFile = new File (this.pathToResource+"patches/"+product.getNameFormated("-")+"/patch"+i+".patch");
 				
 				InputStream targetStream = new FileInputStream(initialFile);
 				System.out.println("targetStream:"+targetStream.read());
@@ -122,16 +122,16 @@ public class FeaturePatcher {
 				ApplyPatchCommand applyPatch = new ApplyPatchCommand(null);
 				applyPatch.setPatch(targetStream);//the patch to apply
 				
-				File  f = new File(pathToResource+product.getName()+"/"+ca.getPath());
+				File  f = new File(pathToResource+product.getNameFormated("-")+"/"+ca.getPath());
 				System.out.println("BEFORE calling call path");
-				ApplyResult result = applyPatch.call(f,product.getName()); 
+				ApplyResult result = applyPatch.call(f,product.getNameFormated("-")); 
 				
 				System.out.println("result: "+result.getUpdatedFiles().size());
 				File arc = result.getUpdatedFiles().get(0);
 				CoreAsset patchedCA = getCoreAssetByPath(patchedFiles, ca.getPath());//.setContent();
 				
 				//update the content of the files
-				patchedCA.setContent(FileUtils.readFromFile(this.pathToResource+product.getName()+"/"+ca.getPath()));
+				patchedCA.setContent(FileUtils.readFromFile(this.pathToResource+product.getNameFormated("-")+"/"+ca.getPath()));
 			
 				return patchedFiles;
 			} catch (PatchFormatException e) {
