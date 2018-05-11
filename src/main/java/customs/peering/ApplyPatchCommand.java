@@ -130,7 +130,7 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 			PatchApplyException {
 		
 		checkCallable();
-		System.out.println("Calling to patch call ");
+		System.out.println("BEFORE calling call path:"+fileToPatch.getAbsolutePath());
 		ApplyResult r = new ApplyResult();
 		try {
 			final Patch p = new Patch();
@@ -222,8 +222,7 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 	 * @throws IOException
 	 * @throws PatchApplyException
 	 */
-	public  void apply(File f, FileHeader fh)
-			throws IOException, PatchApplyException {
+	public  void apply(File f, FileHeader fh) throws IOException, PatchApplyException {
 		RawText rt = new RawText(f);
 		List<String> oldLines = new ArrayList<>(rt.size());
 		for (int i = 0; i < rt.size(); i++)
@@ -247,7 +246,6 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 					if (! ((newLines.get(hh.getNewStartLine() - 1 + pos)).trim()).equals((hunkLine.substring(1).trim()))) {
 						System.out.println("newLines at pos: "+ (hh.getNewStartLine() - 1 + pos)+":"+newLines.get(hh.getNewStartLine() - 1 + pos).trim());
 						System.out.println("Hunk line:"+hunkLine.substring(1).trim());
-						
 						throw new PatchApplyException(MessageFormat.format(
 								JGitText.get().patchApplyException, hh));
 					}
@@ -289,6 +287,7 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 			sb.deleteCharAt(sb.length() - 1);
 		}
 		try (FileWriter fw = new FileWriter(f)) {
+			System.out.println("Write patch for file: "+f.getAbsolutePath());
 			fw.write(sb.toString());
 		}
 
@@ -311,7 +310,4 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 				"\\ No newline at end of file"); //$NON-NLS-1$
 	}
 
-
-
-	
 }

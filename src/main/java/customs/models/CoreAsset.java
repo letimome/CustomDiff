@@ -21,6 +21,17 @@ public class CoreAsset {
 		
 		public CoreAsset() {}
 
+		
+		
+		public CoreAsset(String name, String path, String content) {
+			super();
+			this.name = name;
+			this.path = path;
+			this.content = content;
+		}
+
+
+
 		public int getIdcoreasset() {
 			return idcoreasset;
 		}

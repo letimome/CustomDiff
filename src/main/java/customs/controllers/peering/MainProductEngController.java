@@ -151,29 +151,6 @@ public class MainProductEngController {
 			System.out.println(features.toString());
 		}
 	
-	
-	/*@RequestMapping("/download")
-	public String getKdiffDownload( @RequestParam(value="productbranch", required=true) String branchName,   
-			@RequestParam(value="featurename", required=false) String featurename,
-			@RequestParam(value="observed", required=false) String observed,
-			Model model) {
-		
-		ProductRelease p = findProductByname(branchName,"-");
-		if (p ==null) return null;
-		
-		System.out.println("The peering product is: "+p.getName());
-		
-		//call to the patcher function!! 
-		if( (!featurename.equals("none")) && (!observed.equals("none"))) {
-			System.out.println("INSIDE IF!");
-			FeaturePatcher fp = new FeaturePatcher();
-			ProductRelease yours = findProductByname(observed,"-");  
-			Feature featurepatch = fDao.getFeatureByIdfeature(featurename);
-			ThreeWayDiffWorkspace files = fp.patchFilesForFeatureAndProduct(yours, p, featurepatch, customsDao, coreAssetsAndFeatures, caDao);
 
-		}
-		return "alluvials/downloading";
-		//return "<html><title>Downloading ...<title><body></body></html>";
-	} 		*/
 
 }

@@ -45,20 +45,22 @@ public class FeaturePatcher {
 	
 	public ThreeWayDiffWorkspace patchFilesForFeatureAndProduct(ProductRelease yours, ProductRelease mine , Feature feature, CustomsByFeatureAndCoreAssetDao customsDao,
 			CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
-		//step 0 : delete directory
-		
-		
+		//step 0 : delete directory the whole dir.
 		deleteDir(new File(pathToResource));
 		
 		//Step 1: get all the files in which the "feature" is present
 		System.out.println("Getting the baseline files for "+yours.getNameFormated("-")+"  mine:"+mine.getNameFormated("-")+ "  feature"+feature.getName());
-		ArrayList<CoreAsset> baselineFiles = getBaselineCoreAssets4Feature(feature, featuresInCoreassetsDao, caDao, yours.getNameFormated("-"), mine.getNameFormated("-"));
 		
+		ArrayList<CoreAsset> baselineFiles = getBaselineCoreAssets4FeatureAndParty(yours.getNameFormated("-"), feature, featuresInCoreassetsDao, caDao, yours.getNameFormated("-"), mine.getNameFormated("-"));
 			
 		ArrayList<CoreAsset> yoursFiles = patchingCustomizationsForProduct(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
-		ArrayList<CoreAsset> myFiles = patchingCustomizationsForProduct(mine,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
-		//Create workspace
 		
+		getBaselineCoreAssets4FeatureAndParty(mine.getNameFormated("-"), feature, featuresInCoreassetsDao, caDao, yours.getNameFormated("-"), mine.getNameFormated("-"));
+		ArrayList<CoreAsset> myFiles = patchingCustomizationsForProduct(mine,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+		getBaselineCoreAssets4FeatureAndParty("baseline", feature, featuresInCoreassetsDao, caDao, yours.getNameFormated("-"), mine.getNameFormated("-"));
+		
+		
+		//Create workspace
 		ThreeWayDiffWorkspace kdiff3 = new ThreeWayDiffWorkspace( baselineFiles, myFiles, yoursFiles, feature.getIdfeature(), 
 				"baseline", mine.getNameFormated("-"), yours.getNameFormated("-"));
 		try {
@@ -72,8 +74,6 @@ public class FeaturePatcher {
 		
 		
 	}
-
-
 
 	private void deleteDir(File file)  {
 		try {
@@ -90,12 +90,10 @@ public class FeaturePatcher {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Autowired
 	private ArrayList<CoreAsset> patchingCustomizationsForProduct(ProductRelease product, Feature feature,ArrayList<CoreAsset> baselineFiles, CustomsByFeatureAndCoreAssetDao customsDao, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
-		
 		
 		Iterator<CustomsByFeatureAndCoreAsset> customs = customsDao.getCustomsByIdproductreleaseAndIdfeature(product.getId_productrelease(),feature.getIdfeature()).iterator();
 		CustomsByFeatureAndCoreAsset custom;
@@ -103,9 +101,18 @@ public class FeaturePatcher {
 		CoreAsset ca;
 		int i=0;
 		ArrayList<CoreAsset> patchedFiles = new ArrayList<CoreAsset>();
-		patchedFiles.addAll(baselineFiles);//copy all the files
+		Iterator<CoreAsset> it = baselineFiles.iterator();
+		CoreAsset asset, ba;
+		
+		while(it.hasNext()) {
+			ba=it.next();
+			asset=new CoreAsset(ba.getName() , ba.getPath(), ba.getContent());
+			patchedFiles.add(asset);//copy all the files
+		}
+		
 		
 		while(customs.hasNext()) {
+			i++;
 			custom = customs.next();
 			patch = Formatting.decodeFromBase64(custom.getCustom_diff());
 			ca = caDao.getCoreAssetByIdcoreasset(custom.getIdcoreasset());
@@ -123,16 +130,19 @@ public class FeaturePatcher {
 				applyPatch.setPatch(targetStream);//the patch to apply
 				
 				File  f = new File(pathToResource+product.getNameFormated("-")+"/"+ca.getPath());
-				System.out.println("BEFORE calling call path");
+				System.out.println("BEFORE calling call path:"+f.getAbsolutePath());
+				System.out.println("BEFORE calling call path:"+f.getPath());
 				ApplyResult result = applyPatch.call(f,product.getNameFormated("-")); 
 				
 				System.out.println("result: "+result.getUpdatedFiles().size());
 				File arc = result.getUpdatedFiles().get(0);
-				CoreAsset patchedCA = getCoreAssetByPath(patchedFiles, ca.getPath());//.setContent();
 				
+				
+				CoreAsset patchedCA = getCoreAssetByPath(patchedFiles, ca.getPath());//.setContent();
 				//update the content of the files
 				patchedCA.setContent(FileUtils.readFromFile(this.pathToResource+product.getNameFormated("-")+"/"+ca.getPath()));
-			
+				System.out.println(""+product.getName()+" "+ca.getPath()+" content is:"+ca.getContent());
+				System.out.println(" Baseline content:"+getCoreAssetByPath(baselineFiles, ca.getContent()));
 				return patchedFiles;
 			} catch (PatchFormatException e) {
 					// TODO Auto-generated catch block
@@ -165,7 +175,7 @@ public class FeaturePatcher {
 		return null;
 	}
 
-	public ArrayList<CoreAsset> getBaselineCoreAssets4Feature(Feature feature, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao, 
+	public ArrayList<CoreAsset> getBaselineCoreAssets4FeatureAndParty(String who, Feature feature, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao, 
 			String observed,String observer){
 		//find all the assets that belong to a feature
 		Iterator<CoreassetsAndFeatures> res =featuresInCoreassetsDao.findAll().iterator(); //featuresInCoreassetsDao.getFeatureCoreAssetsByIdfeature(feature.getIdfeature()).iterator();
@@ -179,12 +189,12 @@ public class FeaturePatcher {
 			ca = caDao.getCoreAssetByIdcoreasset(caFeature.getId_coreasset());
 			if ( caFeature.getId_feature().equals(feature.getIdfeature()) && (!baselineCoreAssets.contains(ca))) {
 				baselineCoreAssets.add(ca);
-				System.out.println("CA path getBaselineCoreAssets4Feature: "+ca.getPath());
-			//	System.out.println(" & ca content: "+ca.getContent());
-				//write to all the folders: baseline, observed & observer
-				FileUtils.writeToFile(pathToResource+"baseline/"+ca.getPath(), ca.getContent());
-				FileUtils.writeToFile(pathToResource+observed+"/"+ca.getPath(),ca.getContent());
-				FileUtils.writeToFile(pathToResource+observer+"/"+ca.getPath(),ca.getContent());
+				System.out.println("Writing in folder "+who+" :"+ca.getPath());
+			
+				FileUtils.writeToFile(pathToResource+who+"/"+ca.getPath(), ca.getContent());
+			//	FileUtils.writeToFile(pathToResource+"baseline/"+ca.getPath(), ca.getContent());
+			//	FileUtils.writeToFile(pathToResource+observed+"/"+ca.getPath(),ca.getContent());
+			//	FileUtils.writeToFile(pathToResource+observer+"/"+ca.getPath(),ca.getContent());
 			}	
 		}	
 		return baselineCoreAssets;

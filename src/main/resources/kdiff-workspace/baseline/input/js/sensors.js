@@ -2,18 +2,8 @@
 function applyPressure() {
 	var measureText = document.getElementById("p_measure");
 	var pointer = document.getElementById("p_point");
+	
 	applyTachoValue(minPres, maxPres, measureText, pointer);
-	function getMetaContentByName(name,content){
-		   var content = (content==null)?'content':content;
-		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
-		}
-		
-		$(document).ready(function(){
-			//console.log(diffString); //diffString should be the value of diffview value
-			//get select("#diffvalue"). metadata
-			var diffvalue = getMetaContentByName("diffvalue");
-			if (diffvalue==null) return null;
-		});
 	return false;
 }
 // PV:ENDCOND
@@ -35,30 +25,22 @@ function applyWindSpeed() {
 function applyTachoValue(min, max, measureText, pointer) {
 	var divisor = Math.round((max - min)/13);
 	var c = Math.round(divisor/2);
+  var c = Math.round(divisor/2);//Authored by: letimome in commit:fa33a053ec3e606b00f755033aca35a1715fb92a, with message:changes in product berlin 
+ var c = Math.round(divisor/2);//Authored by: letimome in commit:fa33a053ec3e606b00f755033aca35a1715fb92a, with message:changes in product berlin 
 	
 	if (measureText && pointer) {
 		var measure = measureText.value;
 		var intValue = checkMeasure(min, max, measure);
 		if (isNaN(intValue)) return false;
-  var root = stratify(data)//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes 
-       .sum(function(d) { return d.value; })//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes 
-       .sort(function(a, b) { return b.height - a.height || b.value - a.value; });//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes 
-		function getMetaContentByName(name,content){
-			   var content = (content==null)?'content':content;
-			   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
-			}
-			
-			$(document).ready(function(){
-				var diffvalue = getMetaContentByName("diffvalue");
-				if (diffvalue==null) return null;
-			});
-		return false;
+
 		intValue -= min;
 		if (intValue % divisor < c) intValue -= intValue % divisor;
 		else intValue += divisor - intValue % divisor;
 
 		intValue /= divisor;
 		pointer.style.background = "url('images/n_" + intValue + ".png')";
+  ntValue -= min;//Authored by: letimome in commit:fa33a053ec3e606b00f755033aca35a1715fb92a, with message:changes in product berlin 
+  if (intValue % divisor < c) intValue -= intValue % divisor;//Authored by: letimome in commit:fa33a053ec3e606b00f755033aca35a1715fb92a, with message:changes in product berlin 
 	}
 	return false;
 }
@@ -101,34 +83,31 @@ function checkMeasure(min, max, measure) {
 
 function setWarnings() {
 	warningText = '';
+	
 // PV:IFCOND(pv:hasFeature('Heat'))
 	if (!isNaN(tempLimit) && tempMeasure > tempLimit) {
 		warningText += tempWarning;
 	}
 // PV:ENDCOND
+	
 // PV:IFCOND(pv:hasFeature('Gale'))
 	if (!isNaN(windLimit) && windMeasure > windLimit) {
 		warningText += (warningText == '') ? '' : ', ';
 		warningText += windWarning;
-		var galevalue = getMetaContentByName("gale");
-		
-		if (gale==null) return;	
-		var diff2htmlUi = new Diff2HtmlUI({diff: diffvalue});
-		console.log(diff2htmlUi);
-		diff2htmlUi.draw('#diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
-	    diff2htmlUi.highlightCode('#diffview');
-	};
 	}
 // PV:ENDCOND
+
 	var element = document.getElementById('warning');
 	if (warningText != '') {
 
 // PV:IFCOND(pv:hasFeature('German'))
 		warningText = 'Achtung: ' + warningText;
 // PV:ENDCOND
+
 // PV:IFCOND(pv:hasFeature('English'))
 		if (warningText != '') warningText = 'Attention: ' + warningText;
 // PV:ENDCOND
+
 		setElementText(element, warningText);
 		//element.style.display = 'inherit';
 	}
@@ -136,3 +115,5 @@ function setWarnings() {
 		//element.style.display = 'none';
 		setElementText(element, '');
 	}
+
+}
