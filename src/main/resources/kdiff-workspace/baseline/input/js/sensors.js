@@ -2,11 +2,18 @@
 function applyPressure() {
 	var measureText = document.getElementById("p_measure");
 	var pointer = document.getElementById("p_point");
- var letiprueba = true;//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
- if(letiprieba){//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
-  console.log("True");//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
- }//Authored by: letimome in commit:e98ac3f64ad23ed1371bc2f291edc6b252717eb9, with message:changes 
 	applyTachoValue(minPres, maxPres, measureText, pointer);
+	function getMetaContentByName(name,content){
+		   var content = (content==null)?'content':content;
+		   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+		}
+		
+		$(document).ready(function(){
+			//console.log(diffString); //diffString should be the value of diffview value
+			//get select("#diffvalue"). metadata
+			var diffvalue = getMetaContentByName("diffvalue");
+			if (diffvalue==null) return null;
+		});
 	return false;
 }
 // PV:ENDCOND
@@ -16,9 +23,7 @@ var windMeasure = 0;
 function applyWindSpeed() {
 	var measureText = document.getElementById("w_measure");
 	windMeasure = measureText.value;
- var intValue = checkMeasure(min, max, w_Measure);//Authored by: letimome in commit:99335588a771276208b98a291062aa6b00e26dd3, with message:adjust windspeed gauge for the new sensor #9 
- if (isNaN(intValue)) return false;//Authored by: letimome in commit:99335588a771276208b98a291062aa6b00e26dd3, with message:adjust windspeed gauge for the new sensor #9 
- intValue = (intValue - min)*(pxRange / (max - min));//Authored by: letimome in commit:99335588a771276208b98a291062aa6b00e26dd3, with message:adjust windspeed gauge for the new sensor #9 
+	var pointer = document.getElementById("w_point");
 	
 	applyTachoValue(minWind, maxWind, measureText, pointer);
 	setWarnings();
@@ -35,7 +40,19 @@ function applyTachoValue(min, max, measureText, pointer) {
 		var measure = measureText.value;
 		var intValue = checkMeasure(min, max, measure);
 		if (isNaN(intValue)) return false;
-
+  var root = stratify(data)//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes 
+       .sum(function(d) { return d.value; })//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes 
+       .sort(function(a, b) { return b.height - a.height || b.value - a.value; });//Authored by: letimome in commit:e818ef7e0421a6c0659ffaf5b898907afa34b6ee, with message:product berlin changes 
+		function getMetaContentByName(name,content){
+			   var content = (content==null)?'content':content;
+			   return document.querySelector("meta[name='"+name+"']").getAttribute(content);
+			}
+			
+			$(document).ready(function(){
+				var diffvalue = getMetaContentByName("diffvalue");
+				if (diffvalue==null) return null;
+			});
+		return false;
 		intValue -= min;
 		if (intValue % divisor < c) intValue -= intValue % divisor;
 		else intValue += divisor - intValue % divisor;
@@ -84,31 +101,34 @@ function checkMeasure(min, max, measure) {
 
 function setWarnings() {
 	warningText = '';
-	
 // PV:IFCOND(pv:hasFeature('Heat'))
 	if (!isNaN(tempLimit) && tempMeasure > tempLimit) {
 		warningText += tempWarning;
 	}
 // PV:ENDCOND
-	
 // PV:IFCOND(pv:hasFeature('Gale'))
 	if (!isNaN(windLimit) && windMeasure > windLimit) {
 		warningText += (warningText == '') ? '' : ', ';
 		warningText += windWarning;
+		var galevalue = getMetaContentByName("gale");
+		
+		if (gale==null) return;	
+		var diff2htmlUi = new Diff2HtmlUI({diff: diffvalue});
+		console.log(diff2htmlUi);
+		diff2htmlUi.draw('#diffview', {inputFormat: 'json', showFiles: true, matching: 'lines'});
+	    diff2htmlUi.highlightCode('#diffview');
+	};
 	}
 // PV:ENDCOND
-
 	var element = document.getElementById('warning');
 	if (warningText != '') {
 
 // PV:IFCOND(pv:hasFeature('German'))
 		warningText = 'Achtung: ' + warningText;
 // PV:ENDCOND
-
 // PV:IFCOND(pv:hasFeature('English'))
 		if (warningText != '') warningText = 'Attention: ' + warningText;
 // PV:ENDCOND
-
 		setElementText(element, warningText);
 		//element.style.display = 'inherit';
 	}
@@ -116,5 +136,3 @@ function setWarnings() {
 		//element.style.display = 'none';
 		setElementText(element, '');
 	}
-
-}

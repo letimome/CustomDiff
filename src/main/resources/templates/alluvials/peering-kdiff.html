@@ -1,6 +1,3 @@
-
-
-
 <!-- HTML5 document type -->
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
@@ -512,16 +509,17 @@ img {
 									var win = window.open ("/downlod3waydiff/{baseline}/"+d.target.name+"/"+getMetaContentByName("productbranch")+"/"+d.source.name);
 									//Call unzip
 									//window.console.log("fileunzip://"+result+"/kdiff"+d.source.name+".zip -d "+result);
-									window.location.href = "fileunzip://"+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+".zip -d "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name;
+									
 										
 									setTimeout(function(){
-										
+										window.location.href = "fileunzip://"+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+".zip -d "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name;
 										alert("Kdiff will be launched to compare:\n\n 3-DIFF (baseline,"+d.target.name+","+getMetaContentByName("productbranch")+ ") \nw.r.t [Feature ="+d.source.name+"]");
 										
 										//call kdiff 3
+										
 										window.location.href="kdiff://"+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/baseline " +result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/"+d.target.name+" "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/"+getMetaContentByName("productbranch"); 
 										
-									}, 4000);
+									}, 3000);
 									
 									
 									  

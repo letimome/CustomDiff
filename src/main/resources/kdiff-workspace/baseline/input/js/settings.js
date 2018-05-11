@@ -1,7 +1,7 @@
 
 // PV:IFCOND(pv:hasFeature('Temperature'))
-var minTemp = -30;//Authored by: letimome in commit:27baca19643dfa22917427ec2f031992e387edfc, with message:multiple issues: #13 #14 #15 
-var maxTemp = 80;//Authored by: letimome in commit:27baca19643dfa22917427ec2f031992e387edfc, with message:multiple issues: #13 #14 #15 
+var minTemp = -40;
+var maxTemp = 60;
 var tempScale = '°C';
 //PV:ENDCOND
 //PV:IFCOND(pv:hasFeature('Heat'))
@@ -16,7 +16,7 @@ var presScale = 'hPa';
 
 //PV:IFCOND(pv:hasFeature('WindSpeed'))
 var minWind = 0;
-var maxWind = 160;//Authored by: letimome in commit:27baca19643dfa22917427ec2f031992e387edfc, with message:multiple issues: #13 #14 #15 
+var maxWind = 130;
 var windScale = 'km/h';
 //PV:ENDCOND
 //PV:IFCOND(pv:hasFeature('Gale'))

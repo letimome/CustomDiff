@@ -119,7 +119,8 @@ public class MainProductEngController {
 		addFilteredFeatureToTheModel(model,featuresToInclude);
 		  
 		System.out.println("Before returning the HTML");
-		return "alluvials/peering-alluvial";
+		return "alluvials/peering-kdiff";
+		//return "downloading";
 	} 		
 	  private ProductRelease findProductByname(String observed, String spliter) {
 		  
