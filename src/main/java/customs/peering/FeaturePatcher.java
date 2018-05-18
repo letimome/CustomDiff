@@ -51,18 +51,21 @@ public class FeaturePatcher {
 		//Step 1: get all the files in which the "feature" is present
 		System.out.println("Getting the baseline files for "+yours.getNameFormated("-")+"  mine:"+mine.getNameFormated("-")+ "  feature"+feature.getName());
 		
+		/*Patching for yours*/
 		ArrayList<CoreAsset> baselineFiles = getBaselineCoreAssets4FeatureAndParty(yours.getNameFormated("-"), feature, featuresInCoreassetsDao, caDao, yours.getNameFormated("-"), mine.getNameFormated("-"));
-			
-		ArrayList<CoreAsset> yoursFiles = patchingCustomizationsForProduct(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+		ArrayList<File> yoursFiles = patchingCustomizationsForProduct(yours,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
 		
+		/*Patching for mine*/
 		getBaselineCoreAssets4FeatureAndParty(mine.getNameFormated("-"), feature, featuresInCoreassetsDao, caDao, yours.getNameFormated("-"), mine.getNameFormated("-"));
-		ArrayList<CoreAsset> myFiles = patchingCustomizationsForProduct(mine,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+		ArrayList<File> myFiles = patchingCustomizationsForProduct(mine,feature, baselineFiles,customsDao,featuresInCoreassetsDao, caDao);
+		
+		/*Putting baseline File*/
 		getBaselineCoreAssets4FeatureAndParty("baseline", feature, featuresInCoreassetsDao, caDao, yours.getNameFormated("-"), mine.getNameFormated("-"));
 		
 		
 		//Create workspace
-		ThreeWayDiffWorkspace kdiff3 = new ThreeWayDiffWorkspace( baselineFiles, myFiles, yoursFiles, feature.getIdfeature(), 
-				"baseline", mine.getNameFormated("-"), yours.getNameFormated("-"));
+	//	ThreeWayDiffWorkspace kdiff3 = new ThreeWayDiffWorkspace( baselineFiles, myFiles, yoursFiles, feature.getIdfeature(), 
+	//			"baseline", mine.getNameFormated("-"), yours.getNameFormated("-"));
 		try {
 			customs.utils.ZipUtils zip = new customs.utils.ZipUtils();
 			zip.pack(pathToResource, pathToResource+"kdiff.zip");
@@ -70,14 +73,15 @@ public class FeaturePatcher {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return kdiff3;
+	//	return kdiff3;
+		return null;
 		
 		
 	}
 
 	private void deleteDir(File file)  {
 		try {
-			System.out.println("Deleting folder "+pathToResource);
+			//System.out.println("Deleting folder "+pathToResource);
 			 File[] contents = file.listFiles();
 			    if (contents != null) {
 			        for (File f : contents) {
@@ -85,7 +89,7 @@ public class FeaturePatcher {
 			        }
 			    }
 			    file.delete();
-				System.out.println("delete "+file.getName());
+				//System.out.println("delete "+file.getName());
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -93,22 +97,14 @@ public class FeaturePatcher {
 	}
 
 	@Autowired
-	private ArrayList<CoreAsset> patchingCustomizationsForProduct(ProductRelease product, Feature feature,ArrayList<CoreAsset> baselineFiles, CustomsByFeatureAndCoreAssetDao customsDao, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
+	private ArrayList<File> patchingCustomizationsForProduct(ProductRelease product, Feature feature, ArrayList<CoreAsset> baselineFiles, CustomsByFeatureAndCoreAssetDao customsDao, CoreassetsAndFeaturesDao featuresInCoreassetsDao, CoreAssetDao caDao) {
 		
 		Iterator<CustomsByFeatureAndCoreAsset> customs = customsDao.getCustomsByIdproductreleaseAndIdfeature(product.getId_productrelease(),feature.getIdfeature()).iterator();
 		CustomsByFeatureAndCoreAsset custom;
 		String patch;
 		CoreAsset ca;
 		int i=0;
-		ArrayList<CoreAsset> patchedFiles = new ArrayList<CoreAsset>();
-		Iterator<CoreAsset> it = baselineFiles.iterator();
-		CoreAsset asset, ba;
-		
-		while(it.hasNext()) {
-			ba=it.next();
-			asset=new CoreAsset(ba.getName() , ba.getPath(), ba.getContent());
-			patchedFiles.add(asset);//copy all the files
-		}
+		ArrayList<File> patchedFiles = new ArrayList<File>();
 		
 		
 		while(customs.hasNext()) {
@@ -116,7 +112,7 @@ public class FeaturePatcher {
 			custom = customs.next();
 			patch = Formatting.decodeFromBase64(custom.getCustom_diff());
 			ca = caDao.getCoreAssetByIdcoreasset(custom.getIdcoreasset());
-			System.out.println("PATCHING FOR "+custom.getPrname()+ ": asset "+custom.getCaname()+ ", changed by  for feature "+custom.getIdfeature()+", with patch: "+Formatting.decodeFromBase64(custom.getCustom_diff()));
+			System.out.println("PATCHING FOR "+custom.getPrname()+ ": asset "+custom.getCaname()+ ", changed by  for feature "+custom.getIdfeature()+", with patch\n: "+Formatting.decodeFromBase64(custom.getCustom_diff()));
 			//try to patch the files
 			try {
 				
@@ -130,22 +126,18 @@ public class FeaturePatcher {
 				applyPatch.setPatch(targetStream);//the patch to apply
 				
 				File  f = new File(pathToResource+product.getNameFormated("-")+"/"+ca.getPath());
-				System.out.println("BEFORE calling call path:"+f.getAbsolutePath());
-				System.out.println("BEFORE calling call path:"+f.getPath());
-				ApplyResult result = applyPatch.call(f,product.getNameFormated("-")); 
+				patchedFiles.add(  applyPatch.call(f,product.getNameFormated("-")) ); 
 				
-				System.out.println("result: "+result.getUpdatedFiles().size());
-				File arc = result.getUpdatedFiles().get(0);
-				
-				
-				CoreAsset patchedCA = getCoreAssetByPath(patchedFiles, ca.getPath());//.setContent();
+				//System.out.println("result: "+result.getUpdatedFiles().size());
+				//File arc = result.getUpdatedFiles().get(0);
+			//	System.out.println("Arc: "+arc.getPath());
+			
+			//	CoreAsset patchedCA = getCoreAssetByPath(patchedFiles, ca.getPath());//.setContent();
 				//update the content of the files
-				patchedCA.setContent(FileUtils.readFromFile(this.pathToResource+product.getNameFormated("-")+"/"+ca.getPath()));
-				System.out.println(""+product.getName()+" "+ca.getPath()+" content is:"+ca.getContent());
-				System.out.println(" Baseline content:"+getCoreAssetByPath(baselineFiles, ca.getContent()));
-				return patchedFiles;
+			//	patchedCA.setContent(FileUtils.readFromFile(this.pathToResource+product.getNameFormated("-")+"/"+ca.getPath()));
+			//	return patchedFiles;
+				
 			} catch (PatchFormatException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (GitAPIException e) {
 					// TODO Auto-generated catch block

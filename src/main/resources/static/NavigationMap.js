@@ -10,16 +10,19 @@
 			    },    
 			    nodeStructure: {
 			        text: { name: 'diff(Features, Product Portfolio)' },
-			        HTMLclass: 'orange',
+			        HTMLclass: 'blue',
 			        children: [
 			            {
-			                text: { name: 'diff (Features, Product Portfolio)' },
-children: [{
-								text: { name: 'diff (PL assets, Product Variant) [Filter]' },
-			                } ]},
+			                text: { name: 'diff (Feature, Product Portfolio)' },
+			               children: [{
+								text: { name: 'diff (PL asset, variant asset) [Filter]' },
+									} ]
+			            },
 						{
 			                text: { name: 'diff(Feature, Product Variant)' },
+			 	  	       HTMLclass: 'blue',
 							children: [{
+			       				 HTMLclass: 'orange',
 											text: { name: 'diff (PL asset, variant asset) [Filter]' },
 									} ]
 			        		},
@@ -27,7 +30,7 @@ children: [{
 			                text: { name: 'diff(Features, Product Variant)' },
 							children: [{
 											text: { name: 'diff (PL asset, variant asset) [Filter]' },
-									} ]
+			               					 } ]
 			            }
 			        ]
 			    }

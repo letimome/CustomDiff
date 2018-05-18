@@ -67,6 +67,8 @@ import org.eclipse.jgit.patch.Patch;
 import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.IO;
 
+import customs.models.CoreAsset;
+
 /**
  * Apply a patch to files and/or to the index.
  *
@@ -126,19 +128,20 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 		return null;
 	}
 	
-	public ApplyResult call(File fileToPatch, String forwhich3way) throws GitAPIException, PatchFormatException,
+	public File call(File fileToPatch, String forwhich3way) throws GitAPIException, PatchFormatException,
 			PatchApplyException {
 		
 		checkCallable();
 		System.out.println("BEFORE calling call path:"+fileToPatch.getAbsolutePath());
-		ApplyResult r = new ApplyResult();
+		ApplyResult r = new ApplyResult(); //ANTES DEVUELVE ESTO
+		ArrayList<CoreAsset> resultingFiles;
 		try {
 			final Patch p = new Patch();
 			try {
 				
 				p.parse(in); //needs first to call set patch
-				System.out.println("PARSED IN\n:"+in);
-				System.out.println("Patch \n:"+p.getFiles());
+//				System.out.println("PARSED IN\n:"+in);
+				//System.out.println("Patch \n:"+p.getFiles());
 			} finally {
 				in.close();
 			}
@@ -193,11 +196,12 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 				r.addUpdatedFile(f);
 			}
 		} catch (IOException e) {
+			System.out.println("IOException in CALL");
 			throw new PatchApplyException(MessageFormat.format(
 					JGitText.get().patchApplyException, e.getMessage()), e);
 		}
 		setCallable(false);
-		return r;
+		return fileToPatch;
 	}
 
 	private File getFile(String path, boolean create)
@@ -219,10 +223,11 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 	/**
 	 * @param f
 	 * @param fh
+	 * @return 
 	 * @throws IOException
 	 * @throws PatchApplyException
 	 */
-	public  void apply(File f, FileHeader fh) throws IOException, PatchApplyException {
+	public String apply(File f, FileHeader fh) throws IOException, PatchApplyException {
 		RawText rt = new RawText(f);
 		List<String> oldLines = new ArrayList<>(rt.size());
 		for (int i = 0; i < rt.size(); i++)
@@ -270,14 +275,16 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 					break;
 				}
 			}
-		}
+		}//end for each hunk
 		if (!isNoNewlineAtEndOfFile(fh))
 			newLines.add(""); //$NON-NLS-1$
 		if (!rt.isMissingNewlineAtEnd())
 			oldLines.add(""); //$NON-NLS-1$
+		
 		if (!isChanged(oldLines, newLines))
-			return; // don't touch the file
+			return""; // don't touch the file //LETI CUIDADO
 		StringBuilder sb = new StringBuilder();
+		
 		for (String l : newLines) {
 			// don't bother handling line endings - if it was windows, the \r is
 			// still there!
@@ -290,7 +297,7 @@ public class ApplyPatchCommand extends GitCommand<ApplyResult> {
 			System.out.println("Write patch for file: "+f.getAbsolutePath());
 			fw.write(sb.toString());
 		}
-
+		return sb.toString();
 		//leti commented getRepository().getFS().setExecute(f, fh.getNewMode() == FileMode.EXECUTABLE_FILE);
 	}
 

@@ -512,12 +512,12 @@ img {
 									
 										
 									setTimeout(function(){
-										window.location.href = "fileunzip://"+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+".zip -d "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name;
+									//	window.location.href = "fileunzip://"+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+".zip -d "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name;
 										alert("Kdiff will be launched to compare:\n\n 3-DIFF (baseline,"+d.target.name+","+getMetaContentByName("productbranch")+ ") \nw.r.t [Feature ="+d.source.name+"]");
 										
 										//call kdiff 3
-										
-										window.location.href="kdiff://"+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/baseline " +result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/"+d.target.name+" "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/"+getMetaContentByName("productbranch"); 
+										var zipFilePath = result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+".zip";// -d "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name;
+										window.location.href="kdiff://"+zipFilePath+" "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/baseline " +result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/"+d.target.name+" "+result+"/kdiff-"+getMetaContentByName("productbranch")+"-"+d.target.name+"-"+d.source.name+"/"+getMetaContentByName("productbranch"); 
 										
 									}, 3000);
 									
