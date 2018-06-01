@@ -9,28 +9,38 @@
 			            }
 			    },    
 			    nodeStructure: {
-			        text: { name: 'diff(Features, Product Portfolio)' },
-			        HTMLclass: 'blue',
+			        text: { name: 'diff(Parent features, Product Portfolio)' },
+			        HTMLclass: 'orange',
 			        children: [
 			            {
-			                text: { name: 'diff (Feature, Product Portfolio)' },
+			                text: { name: 'diff (Child features, Product Portfolio)' },
 			               children: [{
-								text: { name: 'diff (PL asset, variant asset) [Filter]' },
-									} ]
+ text: { name: 'diff (Components, Product Portfolio)' },
+children: [{
+text: { name: 'diff (PL assets, Product Portfolio)' },
+children: [{
+								text: { name: 'diff (PL assets, Product Variant) [Filter]' },
+			                } ]
+										} ]
+										} ]
 			            },
 						{
-			                text: { name: 'diff(Feature, Product Variant)' },
-			 	  	       HTMLclass: 'blue',
+			                text: { name: 'diff(Child features, Product Variant Components)' },
 							children: [{
-			       				 HTMLclass: 'orange',
+ 								text: { name: 'diff (Component, Product Variant)' },
+								children: [{
 											text: { name: 'diff (PL asset, variant asset) [Filter]' },
+			               				 } ]
 									} ]
 			        		},
 			            {
-			                text: { name: 'diff(Features, Product Variant)' },
+			                text: { name: 'diff(Parent features, Product Variant Components)' },
 							children: [{
+ 								text: { name: 'diff (Parent features, Component variant asset)' },
+									children: [{
 											text: { name: 'diff (PL asset, variant asset) [Filter]' },
 			               					 } ]
+									} ]
 			            }
 			        ]
 			    }

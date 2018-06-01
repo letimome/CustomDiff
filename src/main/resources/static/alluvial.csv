@@ -1,19 +1,19 @@
 source,target,value
-productBerlin,AirPressure,5
-productBerlin,German,3
-productBerlin,WindSpeed,13
-productBerlin,English,0.1
-productBerlin,Gale,0.1
-productBerlin,Heat,0.1
-productBerlin,No Feature,0.1
-productBerlin,Temperature,0.1
-AirPressure,productParis,25
+productParis,AirPressure,25
+productParis,Temperature,18
+productParis,WindSpeed,6
+productParis,English,0.1
+productParis,Gale,0.1
+productParis,German,0.1
+productParis,Heat,0.1
+productParis,No Feature,0.1
+AirPressure,productBerlin,5
 AirPressure,productSeville,3
 Gale,productSeville,15
-Temperature,productParis,18
-WindSpeed,productParis,6
+German,productBerlin,3
+No Feature,productBerlin,10
+WindSpeed,productBerlin,13
 WindSpeed,productSeville,18
 English,no_other_peer,0.1
-German,no_other_peer,0.1
 Heat,no_other_peer,0.1
-No Feature,no_other_peer,0.1
+Temperature,no_other_peer,0.1
