@@ -5,7 +5,7 @@ CustomDIFF is a Web Application that visualizes product customizations in SPLs. 
 
 It querys the multi-dimensional (mysql) dabatase where the product customizations are stored, and visualizes them by leveraging Alluvial diagrams.
 
-Git2SPLdb is implemented in Spring Boots.  This repository holds the entire project, so clone it and directly import it to Eclipse or SpringBoot distribution. Note that Git2SPLdb need you to have the multidimensional database in place.  Hence, Git2SPLdb is required: https://github.com/letimome/Git2SPLdb
+CustomDiff is implemented in Spring Boots.  This repository holds the entire project, so clone it and directly import it to Eclipse or SpringBoot distribution. Note that CustomDiff requires you to have the multidimensional database in place.  Hence, Git2SPLdb is required: https://github.com/letimome/Git2SPLdb Download it and run it so you have a database filled with your SPL's customizations.
 
 Modify the application.properties file for your own setting.
 
