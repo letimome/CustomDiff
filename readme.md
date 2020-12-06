@@ -1,5 +1,5 @@
 
-#CustomDIFF 
+# CustomDIFF 
 
 CustomDIFF is a Web Application that visualizes product customizations in SPLs. Watch this video for a short motivation on the problem:  HAve a look at it https://www.youtube.com/watch?v=HF7ZdebMAI
 
